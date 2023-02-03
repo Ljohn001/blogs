@@ -1,4 +1,2 @@
-# ljohn001.github.io
-个人Github Pages
-
-theme: minima
+# ljohn_blog
+b.ljohn.cn
