@@ -3,15 +3,14 @@
 # --------------------------------------
 
 menu:
-  # Home: / || fas fa-home
-  # Archives: /archives/ || fas fa-archive
-  # Tags: /tags/ || fas fa-tags
-  # Categories: /categories/ || fas fa-folder-open
-  # List||fas fa-list:
-  #   Music: /music/ || fas fa-music
-  #   Movie: /movies/ || fas fa-video
-  # Link: /link/ || fas fa-link
-  # About: /about/ || fas fa-heart
+  首页: / || fas fa-home
+  文章||fas fa-book:
+    归档: /archives/ || fas fa-archive
+    标签: /tags/ || fas fa-tags
+    分类: /categories/ || fas fa-folder-open
+    ToDo: /todo/ || fas fa-list-alt
+  留言板: /contact/ || fas fa-comments
+  关于: /about/ || fas fa-heart
 
 nav:
   logo: # image
@@ -48,16 +47,18 @@ social:
 # --------------------------------------
 
 # Algolia search
-algolia_search:
-  enable: false
-  hits:
-    per_page: 6
+#algolia_search:
+#  enable: true
+#  hits:
+#    per_page: 6
 
 # Local search
 local_search:
-  enable: false
-  preload: false
-  CDN:
+  enable: true
+  labels:
+    input_placeholder: Search for Posts
+    hits_empty: "We didn't find any results for the search: ${query}" # 如果没有查到内容相关内容显示
+
 
 # Math (數學)
 # --------------------------------------
@@ -92,17 +93,17 @@ avatar:
 disable_top_img: false
 
 # The banner image of home page
-index_img:
+index_img: https://pic-go-img.oss-cn-hangzhou.aliyuncs.com/202202230023824.jpg
 
 # If the banner of page not setting, it will show the top_img
-default_top_img:
+default_top_img: https://pic-go-img.oss-cn-hangzhou.aliyuncs.com/202202230023069.jpg
 
 # The banner image of archive page
-archive_img:
+archive_img: https://pic-go-img.oss-cn-hangzhou.aliyuncs.com/202202230023069.jpg
 
 # If the banner of tag page not setting, it will show the top_img
 # note: tag page, not tags page (子標籤頁面的 top_img)
-tag_img:
+tag_img: https://pic-go-img.oss-cn-hangzhou.aliyuncs.com/202202230023069.jp
 
 # The banner image of tag page
 # format:
@@ -384,10 +385,10 @@ artalk:
 
 # Chat Button [recommend]
 # It will create a button in the bottom right corner of website, and hide the origin button
-chat_btn: false
+chat_btn: true
 
 # The origin chat button is displayed when scrolling up, and the button is hidden when scrolling down
-chat_hide_show: false
+chat_hide_show: true
 
 # chatra
 # https://chatra.io/
@@ -620,23 +621,31 @@ hr_icon:
   icon: # the unicode value of Font Awesome icon, such as '\3423'
   icon-top:
 
-# the subtitle on homepage (主頁subtitle)
 subtitle:
-  enable: false
+  enable: true
   # Typewriter Effect (打字效果)
   effect: true
-  # Customize typed.js (配置typed.js)
-  # https://github.com/mattboldt/typed.js/#customization
-  typed_option:
-  # source 調用第三方服務
+  # loop (循環打字)
+  loop: true
+  # source調用第三方服務
   # source: false 關閉調用
-  # source: 1  調用一言網的一句話（簡體） https://hitokoto.cn/
-  # source: 2  調用一句網（簡體） https://yijuzhan.com/
-  # source: 3  調用今日詩詞（簡體） https://www.jinrishici.com/
+  # source: 1  調用搏天api的隨機語錄（簡體） https://api.btstu.cn/
+  # source: 2  調用一言網的一句話（簡體） https://hitokoto.cn/
+  # source: 3  調用一句網（簡體） http://yijuzhan.com/
+  # source: 4  調用今日詩詞（簡體） https://www.jinrishici.com/
   # subtitle 會先顯示 source , 再顯示 sub 的內容
   source: false
-  # 如果關閉打字效果，subtitle 只會顯示 sub 的第一行文字
-  sub:
+  # 如果有英文逗號' , ',請使用轉義字元 &#44;
+  # 如果有英文雙引號' " ',請使用轉義字元 &quot;
+  # 開頭不允許轉義字元，如需要，請把整個句子用雙引號包住
+  # 如果關閉打字效果，subtitle只會顯示sub的第一行文字
+  sub: 
+    - 今日事&#44;今日毕
+    - Never put off till tomorrow what you can do today
+    - 折腾就是快乐
+    - Suffering is happiness
+    - 人之忌&#44;在好为人师
+    - The taboo of a person is liking to be others teacher
 
 # Loading Animation (加載動畫)
 preloader:
