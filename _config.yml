@@ -107,6 +107,9 @@ symbols_count_time:
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repo: https://github.com/Ljohn001/blogs.git
+  branch: main
+  message: Update Hexo Static Content
 
 
