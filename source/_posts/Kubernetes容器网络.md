@@ -387,7 +387,7 @@ spec:
     spec:
       containers:
         - name: nettools-deploy
-          image: registry.ztosys.com/base/network-multitool:lastet
+          image: registry.XXX.com/base/network-multitool:lastet
           imagePullPolicy: IfNotPresent     
           ports:
             - containerPort: 80
