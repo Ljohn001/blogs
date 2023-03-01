@@ -8,9 +8,10 @@ menu:
     归档: /archives/ || fas fa-archive
     标签: /tags/ || fas fa-tags
     分类: /categories/ || fas fa-folder-open
-    ToDo: /todo/ || fas fa-list-alt
-  留言板: /contact/ || fas fa-comments
-  关于: /about/ || fas fa-heart
+    # ToDo: /todo/ || fas fa-list-alt
+    #留言板: /contact/ || fas fa-comments
+    留言板: /messageboard/ || fa fa-paper-plane
+    关于: /about/ || fas fa-heart
 
 nav:
   logo: # image
@@ -272,12 +273,25 @@ comments:
   # Up to two comments system, the first will be shown as default
   # Choose: Disqus/Disqusjs/Livere/Gitalk/Valine/Waline/Utterances/Facebook Comments/Twikoo/Giscus/Remark42/Artalk
   use: # Valine,Disqus
+    - Gitalk
   text: true # Display the comment name next to the button
   # lazyload: The comment system will be load when comment element enters the browser's viewport.
   # If you set it to true, the comment count will be invalid
   lazyload: false
   count: false # Display comment count in post's top_img
   card_post_count: false # Display comment count in Home Page
+
+# 评论
+gitalk:
+  client_id: 09095629e7d96304805d
+  client_secret: f7e635330c322cdc1478de533f9aa89c4f89d0d7
+  repo: blogs
+  owner: Ljohn001 # github用户名
+  admin: Ljohn001 # github用户名
+  labels: 'gitalk' # 对应的issue标签
+  language: zh-CN
+  perPage: 10
+  distractionFreeMode: true  # 无干扰模式，不需要更改
 
 # disqus
 # https://disqus.com/
@@ -298,15 +312,6 @@ disqusjs:
 livere:
   uid:
 
-# gitalk
-# https://github.com/gitalk/gitalk
-gitalk:
-  client_id:
-  client_secret:
-  repo:
-  owner:
-  admin:
-  option:
 
 # valine
 # https://valine.js.org
@@ -344,7 +349,7 @@ facebook_comments:
   user_id: # optional
   pageSize: 10 # The number of comments to show
   order_by: social # social/time/reverse_time
-  lang: zh_TW # Language en_US/zh_CN/zh_TW and so on
+  lang: zh_CN # Language en_US/zh_CN/zh_TW and so on
 
 # Twikoo
 # https://github.com/imaegoo/twikoo
