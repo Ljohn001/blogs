@@ -3,10 +3,19 @@ title: CentOS7安装基于BPF的bcc-tools系统性能工具库
 categories: [linux]
 tags: [linux,bcc,bpf,系统]
 ---
-# 环境信息
+# 准备
 
 * OS版本：CentOS7.6.1810
 * Kernel：5.4.207-1.el7.elrepo.x86_64
+* ```
+  # 内核依赖包
+  rpm -qa | grep kernel-lt
+  kernel-lt-tools-5.4.207-1.el7.elrepo.x86_64
+  kernel-lt-tools-libs-5.4.207-1.el7.elrepo.x86_64
+  kernel-lt-devel-5.4.207-1.el7.elrepo.x86_64
+  kernel-lt-5.4.207-1.el7.elrepo.x86_64
+  kernel-lt-headers-5.4.207-1.el7.elrepo.x86_64
+  ```
 
 # 安装
 
@@ -44,12 +53,12 @@ Traceback (most recent call last):
 Exception: Failed to compile BPF text
 ```
 
-原因是由于kernel-devel 版本一致导致的，建议下载跟操作系统内核版本对齐。
+原因是由于kernel-devel 版本不一致导致的，建议下载跟操作系统内核版本对齐。
 
 ```
-# yum安装
+# 可以yum安装
 yum install "kernel-devel-$(uname -r)"
-# rpm 下载对应内核版本安装
+# 或者下载对应内核版本rpm包安装
 # 下载地址：http://mirrors.coreix.net/elrepo-archive-archive/kernel/el7/x86_64/RPMS/
 rpm -ivh kernel-lt-devel-5.4.207-1.el7.elrepo.x86_64.rpm
 ```
