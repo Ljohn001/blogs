@@ -1,6 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CentOS7安装基于BPF的bcc-tools系统性能工具库</title>
+    <url>/2023/03/03/CentOS7%E5%AE%89%E8%A3%85%E5%9F%BA%E4%BA%8EBPF%E7%9A%84bcc-tools%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD%E5%B7%A5%E5%85%B7%E5%BA%93/</url>
+    <content><![CDATA[<h1 id="环境信息"><a href="#环境信息" class="headerlink" title="环境信息"></a>环境信息</h1><ul>
+<li>OS版本：CentOS7.6.1810</li>
+<li>Kernel：5.4.207-1.el7.elrepo.x86_64</li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>内核必须升级到4.x版本以上，才可以使用。我的内核版本已经升级过，具体升级内核过程这里不展开，建议使用<a href="http://elrepo.org/tiki/HomePage">elrepo</a> 安装高版本内核。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 安装bcc-tools</span><br><span class="line">yum install -y bcc-tools</span><br><span class="line"># 添加环境变量</span><br><span class="line">export PATH=$PATH:/usr/share/bcc/tools</span><br><span class="line"># 测试</span><br><span class="line"># cachestat</span><br><span class="line">    HITS   MISSES  DIRTIES HITRATIO   BUFFERS_MB  CACHED_MB</span><br><span class="line">   11224        0        0  100.00%            1      61258</span><br><span class="line">   10865        0        0  100.00%            1      61259</span><br><span class="line">    5021        0        0  100.00%            1      61259</span><br><span class="line">    4403        0        0  100.00%            1      61259</span><br><span class="line">   12214        0        0  100.00%            1      61259</span><br><span class="line">   26951        0        0  100.00%            1      61259</span><br></pre></td></tr></table></figure>
+
+<h1 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h1><p>1、安装后执行命令报错</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># cachestat</span><br><span class="line">modprobe: FATAL: Module kheaders not found.</span><br><span class="line">chdir(/lib/modules/5.4.207-1.el7.elrepo.x86_64/build): No such file or directory</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;/usr/share/bcc/tools/cachestat&quot;, line 96, in &lt;module&gt;</span><br><span class="line">    b = BPF(text=bpf_text)</span><br><span class="line">  File &quot;/usr/lib/python2.7/site-packages/bcc/__init__.py&quot;, line 325, in __init__</span><br><span class="line">    raise Exception(&quot;Failed to compile BPF text&quot;)</span><br><span class="line">Exception: Failed to compile BPF text</span><br></pre></td></tr></table></figure>
+
+<p>原因是由于kernel-devel 版本一致导致的，建议下载跟操作系统内核版本对齐。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># yum安装</span><br><span class="line">yum install &quot;kernel-devel-$(uname -r)&quot;</span><br><span class="line"># rpm 下载对应内核版本安装</span><br><span class="line"># 下载地址：http://mirrors.coreix.net/elrepo-archive-archive/kernel/el7/x86_64/RPMS/</span><br><span class="line">rpm -ivh kernel-lt-devel-5.4.207-1.el7.elrepo.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<p>2、执行命令报错</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">In file included from /virtual/main.c:2:</span><br><span class="line">In file included from /lib/modules/5.4.207-1.el7.elrepo.x86_64/build/include/uapi/linux/ptrace.h:143:</span><br><span class="line">In file included from /lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/ptrace.h:5:</span><br><span class="line">/lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/segment.h:266:2: error: expected &#x27;(&#x27; after &#x27;asm&#x27;</span><br><span class="line">        alternative_io (&quot;lsl %[seg],%[p]&quot;,</span><br><span class="line">        ^</span><br><span class="line">/lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/alternative.h:240:2: note: expanded from macro &#x27;alternative_io&#x27;</span><br><span class="line">        asm_inline volatile (ALTERNATIVE(oldinstr, newinstr, feature)   \</span><br><span class="line">        ^</span><br><span class="line">/lib/modules/5.4.207-1.el7.elrepo.x86_64/build/include/linux/compiler_types.h:214:24: note: expanded from macro &#x27;asm_inline&#x27;</span><br><span class="line">#define asm_inline asm __inline</span><br><span class="line">                       ^</span><br><span class="line">1 error generated.</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File &quot;/usr/share/bcc/tools/cachestat&quot;, line 96, in &lt;module&gt;</span><br><span class="line">    b = BPF(text=bpf_text)</span><br><span class="line">  File &quot;/usr/lib/python2.7/site-packages/bcc/__init__.py&quot;, line 325, in __init__</span><br><span class="line">    raise Exception(&quot;Failed to compile BPF text&quot;)</span><br><span class="line">Exception: Failed to compile BPF text</span><br></pre></td></tr></table></figure>
+
+<p>这个是由于内核版本的原因，kernel-5.4.X之后才会出现该问题。内核头文件中用 asm 替换 asm_inline即可，具体参考BCC官方<a href="https://github.com/iovisor/bcc/issues/2546">issues</a></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> vim /lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/segment.h 在最上新增如下内核，保存并退出</span><br><span class="line"></span><br><span class="line">#ifdef asm_inline</span><br><span class="line">#undef asm_inline</span><br><span class="line">#define asm_inline asm</span><br><span class="line">#endif</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>bcc</tag>
+        <tag>bpf</tag>
+        <tag>系统</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Go语言基础之map</title>
+    <url>/2021/06/25/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8Bmap/</url>
+    <content><![CDATA[<p>Go语言中提供的映射关系容器为<code>map</code>，其内部使用<code>散列表（hash）</code>实现。</p>
+<h1 id="map"><a href="#map" class="headerlink" title="map"></a>map</h1><p>map是一种无序的基于<code>key-value</code>的数据结构，Go语言中的map是引用类型，必须初始化才能使用。</p>
+<h2 id="map定义"><a href="#map定义" class="headerlink" title="map定义"></a>map定义</h2><p>Go语言中 <code>map</code>的定义语法如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">map</span>[KeyType]ValueType</span><br></pre></td></tr></table></figure>
+
+<p>其中，</p>
+<ul>
+<li>KeyType:表示键的类型。</li>
+<li>ValueType:表示键对应的值的类型。</li>
+</ul>
+<p>map类型的变量默认初始值为nil，需要使用make()函数来分配内存。语法为：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="built_in">make</span>(<span class="keyword">map</span>[KeyType]ValueType, [<span class="built_in">cap</span>])</span><br></pre></td></tr></table></figure>
+
+<p>其中cap表示map的容量，该参数虽然不是必须的，但是我们应该在初始化map的时候就为其指定一个合适的容量。</p>
+<h2 id="map基本使用"><a href="#map基本使用" class="headerlink" title="map基本使用"></a>map基本使用</h2><p>map中的数据都是成对出现的，map的基本使用示例代码如下：</p>
+<span id="more"></span>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>, <span class="number">8</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	fmt.Println(scoreMap)</span><br><span class="line">	fmt.Println(scoreMap[<span class="string">&quot;小明&quot;</span>])</span><br><span class="line">	fmt.Printf(<span class="string">&quot;type of a:%T\n&quot;</span>, scoreMap)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">map[小明:100 张三:90]</span><br><span class="line">100</span><br><span class="line"><span class="built_in">type</span> of a:map[string]int</span><br></pre></td></tr></table></figure>
+
+<p>map也支持在声明的时候填充元素，例如：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	userInfo := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>&#123;</span><br><span class="line">		<span class="string">&quot;username&quot;</span>: <span class="string">&quot;沙河小王子&quot;</span>,</span><br><span class="line">		<span class="string">&quot;password&quot;</span>: <span class="string">&quot;123456&quot;</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(userInfo) <span class="comment">//</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="判断某个键是否存在"><a href="#判断某个键是否存在" class="headerlink" title="判断某个键是否存在"></a>判断某个键是否存在</h2><p>Go语言中有个判断map中键是否存在的特殊写法，格式如下:</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">value, ok := <span class="keyword">map</span>[key]</span><br></pre></td></tr></table></figure>
+
+<p>举个例子：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	<span class="comment">// 如果key存在ok为true,v为对应的值；不存在ok为false,v为值类型的零值</span></span><br><span class="line">	v, ok := scoreMap[<span class="string">&quot;张三&quot;</span>]</span><br><span class="line">	<span class="keyword">if</span> ok &#123;</span><br><span class="line">		fmt.Println(v)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;查无此人&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="map的遍历"><a href="#map的遍历" class="headerlink" title="map的遍历"></a>map的遍历</h2><p>Go语言中使用<code>for range</code>遍历map。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	scoreMap[<span class="string">&quot;娜扎&quot;</span>] = <span class="number">60</span></span><br><span class="line">	<span class="keyword">for</span> k, v := <span class="keyword">range</span> scoreMap &#123;</span><br><span class="line">		fmt.Println(k, v)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但我们只想遍历key的时候，可以按下面的写法：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	scoreMap[<span class="string">&quot;娜扎&quot;</span>] = <span class="number">60</span></span><br><span class="line">	<span class="keyword">for</span> k := <span class="keyword">range</span> scoreMap &#123;</span><br><span class="line">		fmt.Println(k)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 遍历map时的元素顺序与添加键值对的顺序无关。</p>
+<h2 id="使用delete-函数删除键值对"><a href="#使用delete-函数删除键值对" class="headerlink" title="使用delete()函数删除键值对"></a>使用delete()函数删除键值对</h2><p>使用<code>delete()</code>内建函数从map中删除一组键值对，<code>delete()</code>函数的格式如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="built_in">delete</span>(<span class="keyword">map</span>, key)</span><br></pre></td></tr></table></figure>
+
+<p>其中，</p>
+<ul>
+<li>map:表示要删除键值对的map</li>
+<li>key:表示要删除的键值对的键</li>
+</ul>
+<p>示例代码如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	scoreMap[<span class="string">&quot;娜扎&quot;</span>] = <span class="number">60</span></span><br><span class="line">	<span class="built_in">delete</span>(scoreMap, <span class="string">&quot;小明&quot;</span>)<span class="comment">//将小明:100从map中删除</span></span><br><span class="line">	<span class="keyword">for</span> k,v := <span class="keyword">range</span> scoreMap&#123;</span><br><span class="line">		fmt.Println(k, v)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="按照指定顺序遍历map"><a href="#按照指定顺序遍历map" class="headerlink" title="按照指定顺序遍历map"></a>按照指定顺序遍历map</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	rand.Seed(time.Now().UnixNano()) <span class="comment">//初始化随机数种子</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> scoreMap = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>, <span class="number">200</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">100</span>; i++ &#123;</span><br><span class="line">		key := fmt.Sprintf(<span class="string">&quot;stu%02d&quot;</span>, i) <span class="comment">//生成stu开头的字符串</span></span><br><span class="line">		value := rand.Intn(<span class="number">100</span>)          <span class="comment">//生成0~99的随机整数</span></span><br><span class="line">		scoreMap[key] = value</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//取出map中的所有key存入切片keys</span></span><br><span class="line">	<span class="keyword">var</span> keys = <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">0</span>, <span class="number">200</span>)</span><br><span class="line">	<span class="keyword">for</span> key := <span class="keyword">range</span> scoreMap &#123;</span><br><span class="line">		keys = <span class="built_in">append</span>(keys, key)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//对切片进行排序</span></span><br><span class="line">	sort.Strings(keys)</span><br><span class="line">	<span class="comment">//按照排序后的key遍历map</span></span><br><span class="line">	<span class="keyword">for</span> _, key := <span class="keyword">range</span> keys &#123;</span><br><span class="line">		fmt.Println(key, scoreMap[key])</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="元素为map类型的切片"><a href="#元素为map类型的切片" class="headerlink" title="元素为map类型的切片"></a>元素为map类型的切片</h2><p>下面的代码演示了切片中的元素为map类型时的操作：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> mapSlice = <span class="built_in">make</span>([]<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>, <span class="number">3</span>)</span><br><span class="line">	<span class="keyword">for</span> index, value := <span class="keyword">range</span> mapSlice &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;index:%d value:%v\n&quot;</span>, index, value)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(<span class="string">&quot;after init&quot;</span>)</span><br><span class="line">	<span class="comment">// 对切片中的map元素进行初始化</span></span><br><span class="line">	mapSlice[<span class="number">0</span>] = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>, <span class="number">10</span>)</span><br><span class="line">	mapSlice[<span class="number">0</span>][<span class="string">&quot;name&quot;</span>] = <span class="string">&quot;小王子&quot;</span></span><br><span class="line">	mapSlice[<span class="number">0</span>][<span class="string">&quot;password&quot;</span>] = <span class="string">&quot;123456&quot;</span></span><br><span class="line">	mapSlice[<span class="number">0</span>][<span class="string">&quot;address&quot;</span>] = <span class="string">&quot;沙河&quot;</span></span><br><span class="line">	<span class="keyword">for</span> index, value := <span class="keyword">range</span> mapSlice &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;index:%d value:%v\n&quot;</span>, index, value)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="值为切片类型的map"><a href="#值为切片类型的map" class="headerlink" title="值为切片类型的map"></a>值为切片类型的map</h2><p>下面的代码演示了map中值为切片类型的操作：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> sliceMap = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>][]<span class="keyword">string</span>, <span class="number">3</span>)</span><br><span class="line">	fmt.Println(sliceMap)</span><br><span class="line">	fmt.Println(<span class="string">&quot;after init&quot;</span>)</span><br><span class="line">	key := <span class="string">&quot;中国&quot;</span></span><br><span class="line">	value, ok := sliceMap[key]</span><br><span class="line">	<span class="keyword">if</span> !ok &#123;</span><br><span class="line">		value = <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">0</span>, <span class="number">2</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	value = <span class="built_in">append</span>(value, <span class="string">&quot;北京&quot;</span>, <span class="string">&quot;上海&quot;</span>)</span><br><span class="line">	sliceMap[key] = value</span><br><span class="line">	fmt.Println(sliceMap)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h1><ol>
+<li>写一个程序，统计一个字符串中每个单词出现的次数。比如：”how do you do”中how=1 do=2 you=1。</li>
+<li>观察下面代码，写出最终的打印结果。</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">type</span> Map <span class="keyword">map</span>[<span class="keyword">string</span>][]<span class="keyword">int</span></span><br><span class="line">	m := <span class="built_in">make</span>(Map)</span><br><span class="line">	s := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br><span class="line">	s = <span class="built_in">append</span>(s, <span class="number">3</span>)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%+v\n&quot;</span>, s)</span><br><span class="line">	m[<span class="string">&quot;q1mi&quot;</span>] = s</span><br><span class="line">	s = <span class="built_in">append</span>(s[:<span class="number">1</span>], s[<span class="number">2</span>:]...)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%+v\n&quot;</span>, s)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%+v\n&quot;</span>, m[<span class="string">&quot;q1mi&quot;</span>])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Go</tag>
+        <tag>Golang</tag>
+        <tag>Go学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Go语言基础之接口</title>
     <url>/2021/07/02/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%8E%A5%E5%8F%A3/</url>
     <content><![CDATA[<p>接口（interface）定义了一个对象的行为规范，只定义规范不实现，由具体的对象来实现规范的细节。</p>
@@ -135,74 +238,28 @@
       </tags>
   </entry>
   <entry>
-    <title>Go语言基础之map</title>
-    <url>/2021/06/25/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8Bmap/</url>
-    <content><![CDATA[<p>Go语言中提供的映射关系容器为<code>map</code>，其内部使用<code>散列表（hash）</code>实现。</p>
-<h1 id="map"><a href="#map" class="headerlink" title="map"></a>map</h1><p>map是一种无序的基于<code>key-value</code>的数据结构，Go语言中的map是引用类型，必须初始化才能使用。</p>
-<h2 id="map定义"><a href="#map定义" class="headerlink" title="map定义"></a>map定义</h2><p>Go语言中 <code>map</code>的定义语法如下：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">map</span>[KeyType]ValueType</span><br></pre></td></tr></table></figure>
+    <title>Hexo 分类和标签</title>
+    <url>/2021/11/08/Hexo-%E5%88%86%E7%B1%BB%E5%92%8C%E6%A0%87%E7%AD%BE/</url>
+    <content><![CDATA[<h3 id="一、主题配置打开"><a href="#一、主题配置打开" class="headerlink" title="一、主题配置打开"></a><strong>一、主题配置打开</strong></h3><p>打开 <code>themes/next/_config.yml</code> <strong>主题配置文件</strong> 找到 <code>Menu Settings</code> ，把 <code>categories</code> 和 <code>tags</code> 取消注释。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tags: /tags/ || fa fa-tags</span><br><span class="line">categories: /categories/ || fa fa-th</span><br></pre></td></tr></table></figure>
 
-<p>其中，</p>
-<ul>
-<li>KeyType:表示键的类型。</li>
-<li>ValueType:表示键对应的值的类型。</li>
-</ul>
-<p>map类型的变量默认初始值为nil，需要使用make()函数来分配内存。语法为：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="built_in">make</span>(<span class="keyword">map</span>[KeyType]ValueType, [<span class="built_in">cap</span>])</span><br></pre></td></tr></table></figure>
-
-<p>其中cap表示map的容量，该参数虽然不是必须的，但是我们应该在初始化map的时候就为其指定一个合适的容量。</p>
-<h2 id="map基本使用"><a href="#map基本使用" class="headerlink" title="map基本使用"></a>map基本使用</h2><p>map中的数据都是成对出现的，map的基本使用示例代码如下：</p>
 <span id="more"></span>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>, <span class="number">8</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	fmt.Println(scoreMap)</span><br><span class="line">	fmt.Println(scoreMap[<span class="string">&quot;小明&quot;</span>])</span><br><span class="line">	fmt.Printf(<span class="string">&quot;type of a:%T\n&quot;</span>, scoreMap)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>输出：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">map[小明:100 张三:90]</span><br><span class="line">100</span><br><span class="line"><span class="built_in">type</span> of a:map[string]int</span><br></pre></td></tr></table></figure>
+<h2 id="二、添加分类模块"><a href="#二、添加分类模块" class="headerlink" title="二、添加分类模块"></a>二、添加分类模块</h2><p>新建一个分类页面。<br><code>$ hexo new page categories</code><br>你会发现你的source文件夹下有了categories[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 分类</p>
+<p>把文章归入分类只需在文章的顶部标题下方添加categories字段，即可自动创建分类名并加入对应的分类中</p>
+<h2 id="三、添加标签模块"><a href="#三、添加标签模块" class="headerlink" title="三、添加标签模块"></a>三、添加标签模块</h2><p>新建一个标签页面 。<br><code>$ hexo new page tags</code><br>你会发现你的source文件夹下有了tags[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 标签<br>把文章添加标签只需在文章的顶部标题下方添加tags字段，即可自动创建标签名并归入对应的标签中</p>
+<h2 id="四、修改-index-md-文件"><a href="#四、修改-index-md-文件" class="headerlink" title="四、修改 index.md 文件"></a><strong>四、修改 <a href="http://index.md/">index.md</a> 文件</strong></h2><p>打开 <code>categories</code> 文件夹下的 <code>index.md</code> ，在最下面一行加一行文字就行，注意中间有空格。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2021-11-08 10:47:33</span><br><span class="line"><span class="built_in">type</span>: categories</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
 
-<p>map也支持在声明的时候填充元素，例如：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	userInfo := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>&#123;</span><br><span class="line">		<span class="string">&quot;username&quot;</span>: <span class="string">&quot;沙河小王子&quot;</span>,</span><br><span class="line">		<span class="string">&quot;password&quot;</span>: <span class="string">&quot;123456&quot;</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(userInfo) <span class="comment">//</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="判断某个键是否存在"><a href="#判断某个键是否存在" class="headerlink" title="判断某个键是否存在"></a>判断某个键是否存在</h2><p>Go语言中有个判断map中键是否存在的特殊写法，格式如下:</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">value, ok := <span class="keyword">map</span>[key]</span><br></pre></td></tr></table></figure>
-
-<p>举个例子：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	<span class="comment">// 如果key存在ok为true,v为对应的值；不存在ok为false,v为值类型的零值</span></span><br><span class="line">	v, ok := scoreMap[<span class="string">&quot;张三&quot;</span>]</span><br><span class="line">	<span class="keyword">if</span> ok &#123;</span><br><span class="line">		fmt.Println(v)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;查无此人&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="map的遍历"><a href="#map的遍历" class="headerlink" title="map的遍历"></a>map的遍历</h2><p>Go语言中使用<code>for range</code>遍历map。</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	scoreMap[<span class="string">&quot;娜扎&quot;</span>] = <span class="number">60</span></span><br><span class="line">	<span class="keyword">for</span> k, v := <span class="keyword">range</span> scoreMap &#123;</span><br><span class="line">		fmt.Println(k, v)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>但我们只想遍历key的时候，可以按下面的写法：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	scoreMap[<span class="string">&quot;娜扎&quot;</span>] = <span class="number">60</span></span><br><span class="line">	<span class="keyword">for</span> k := <span class="keyword">range</span> scoreMap &#123;</span><br><span class="line">		fmt.Println(k)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>注意：</strong> 遍历map时的元素顺序与添加键值对的顺序无关。</p>
-<h2 id="使用delete-函数删除键值对"><a href="#使用delete-函数删除键值对" class="headerlink" title="使用delete()函数删除键值对"></a>使用delete()函数删除键值对</h2><p>使用<code>delete()</code>内建函数从map中删除一组键值对，<code>delete()</code>函数的格式如下：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="built_in">delete</span>(<span class="keyword">map</span>, key)</span><br></pre></td></tr></table></figure>
-
-<p>其中，</p>
-<ul>
-<li>map:表示要删除键值对的map</li>
-<li>key:表示要删除的键值对的键</li>
-</ul>
-<p>示例代码如下：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	scoreMap[<span class="string">&quot;娜扎&quot;</span>] = <span class="number">60</span></span><br><span class="line">	<span class="built_in">delete</span>(scoreMap, <span class="string">&quot;小明&quot;</span>)<span class="comment">//将小明:100从map中删除</span></span><br><span class="line">	<span class="keyword">for</span> k,v := <span class="keyword">range</span> scoreMap&#123;</span><br><span class="line">		fmt.Println(k, v)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="按照指定顺序遍历map"><a href="#按照指定顺序遍历map" class="headerlink" title="按照指定顺序遍历map"></a>按照指定顺序遍历map</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	rand.Seed(time.Now().UnixNano()) <span class="comment">//初始化随机数种子</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> scoreMap = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>, <span class="number">200</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">100</span>; i++ &#123;</span><br><span class="line">		key := fmt.Sprintf(<span class="string">&quot;stu%02d&quot;</span>, i) <span class="comment">//生成stu开头的字符串</span></span><br><span class="line">		value := rand.Intn(<span class="number">100</span>)          <span class="comment">//生成0~99的随机整数</span></span><br><span class="line">		scoreMap[key] = value</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//取出map中的所有key存入切片keys</span></span><br><span class="line">	<span class="keyword">var</span> keys = <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">0</span>, <span class="number">200</span>)</span><br><span class="line">	<span class="keyword">for</span> key := <span class="keyword">range</span> scoreMap &#123;</span><br><span class="line">		keys = <span class="built_in">append</span>(keys, key)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//对切片进行排序</span></span><br><span class="line">	sort.Strings(keys)</span><br><span class="line">	<span class="comment">//按照排序后的key遍历map</span></span><br><span class="line">	<span class="keyword">for</span> _, key := <span class="keyword">range</span> keys &#123;</span><br><span class="line">		fmt.Println(key, scoreMap[key])</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="元素为map类型的切片"><a href="#元素为map类型的切片" class="headerlink" title="元素为map类型的切片"></a>元素为map类型的切片</h2><p>下面的代码演示了切片中的元素为map类型时的操作：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> mapSlice = <span class="built_in">make</span>([]<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>, <span class="number">3</span>)</span><br><span class="line">	<span class="keyword">for</span> index, value := <span class="keyword">range</span> mapSlice &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;index:%d value:%v\n&quot;</span>, index, value)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(<span class="string">&quot;after init&quot;</span>)</span><br><span class="line">	<span class="comment">// 对切片中的map元素进行初始化</span></span><br><span class="line">	mapSlice[<span class="number">0</span>] = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>, <span class="number">10</span>)</span><br><span class="line">	mapSlice[<span class="number">0</span>][<span class="string">&quot;name&quot;</span>] = <span class="string">&quot;小王子&quot;</span></span><br><span class="line">	mapSlice[<span class="number">0</span>][<span class="string">&quot;password&quot;</span>] = <span class="string">&quot;123456&quot;</span></span><br><span class="line">	mapSlice[<span class="number">0</span>][<span class="string">&quot;address&quot;</span>] = <span class="string">&quot;沙河&quot;</span></span><br><span class="line">	<span class="keyword">for</span> index, value := <span class="keyword">range</span> mapSlice &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;index:%d value:%v\n&quot;</span>, index, value)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="值为切片类型的map"><a href="#值为切片类型的map" class="headerlink" title="值为切片类型的map"></a>值为切片类型的map</h2><p>下面的代码演示了map中值为切片类型的操作：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> sliceMap = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>][]<span class="keyword">string</span>, <span class="number">3</span>)</span><br><span class="line">	fmt.Println(sliceMap)</span><br><span class="line">	fmt.Println(<span class="string">&quot;after init&quot;</span>)</span><br><span class="line">	key := <span class="string">&quot;中国&quot;</span></span><br><span class="line">	value, ok := sliceMap[key]</span><br><span class="line">	<span class="keyword">if</span> !ok &#123;</span><br><span class="line">		value = <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">0</span>, <span class="number">2</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	value = <span class="built_in">append</span>(value, <span class="string">&quot;北京&quot;</span>, <span class="string">&quot;上海&quot;</span>)</span><br><span class="line">	sliceMap[key] = value</span><br><span class="line">	fmt.Println(sliceMap)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h1><ol>
-<li>写一个程序，统计一个字符串中每个单词出现的次数。比如：”how do you do”中how=1 do=2 you=1。</li>
-<li>观察下面代码，写出最终的打印结果。</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">type</span> Map <span class="keyword">map</span>[<span class="keyword">string</span>][]<span class="keyword">int</span></span><br><span class="line">	m := <span class="built_in">make</span>(Map)</span><br><span class="line">	s := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br><span class="line">	s = <span class="built_in">append</span>(s, <span class="number">3</span>)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%+v\n&quot;</span>, s)</span><br><span class="line">	m[<span class="string">&quot;q1mi&quot;</span>] = s</span><br><span class="line">	s = <span class="built_in">append</span>(s[:<span class="number">1</span>], s[<span class="number">2</span>:]...)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%+v\n&quot;</span>, s)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%+v\n&quot;</span>, m[<span class="string">&quot;q1mi&quot;</span>])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同理，<code>tags</code> 也是如此。</p>
+<h2 id="五、效果展示"><a href="#五、效果展示" class="headerlink" title="五、效果展示"></a><strong>五、效果展示</strong></h2><p><img src="/2021/11/08/Hexo-%E5%88%86%E7%B1%BB%E5%92%8C%E6%A0%87%E7%AD%BE/1677584124277.png" alt="1677584124277"></p>
 ]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
       <tags>
-        <tag>Go</tag>
-        <tag>Golang</tag>
-        <tag>Go学习</tag>
+        <tag>hexo</tag>
+        <tag>blog</tag>
       </tags>
   </entry>
   <entry>
@@ -393,31 +450,6 @@
         <tag>Go</tag>
         <tag>Golang</tag>
         <tag>Go学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo 分类和标签</title>
-    <url>/2021/11/08/Hexo-%E5%88%86%E7%B1%BB%E5%92%8C%E6%A0%87%E7%AD%BE/</url>
-    <content><![CDATA[<h3 id="一、主题配置打开"><a href="#一、主题配置打开" class="headerlink" title="一、主题配置打开"></a><strong>一、主题配置打开</strong></h3><p>打开 <code>themes/next/_config.yml</code> <strong>主题配置文件</strong> 找到 <code>Menu Settings</code> ，把 <code>categories</code> 和 <code>tags</code> 取消注释。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tags: /tags/ || fa fa-tags</span><br><span class="line">categories: /categories/ || fa fa-th</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<h2 id="二、添加分类模块"><a href="#二、添加分类模块" class="headerlink" title="二、添加分类模块"></a>二、添加分类模块</h2><p>新建一个分类页面。<br><code>$ hexo new page categories</code><br>你会发现你的source文件夹下有了categories[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 分类</p>
-<p>把文章归入分类只需在文章的顶部标题下方添加categories字段，即可自动创建分类名并加入对应的分类中</p>
-<h2 id="三、添加标签模块"><a href="#三、添加标签模块" class="headerlink" title="三、添加标签模块"></a>三、添加标签模块</h2><p>新建一个标签页面 。<br><code>$ hexo new page tags</code><br>你会发现你的source文件夹下有了tags[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 标签<br>把文章添加标签只需在文章的顶部标题下方添加tags字段，即可自动创建标签名并归入对应的标签中</p>
-<h2 id="四、修改-index-md-文件"><a href="#四、修改-index-md-文件" class="headerlink" title="四、修改 index.md 文件"></a><strong>四、修改 <a href="http://index.md/">index.md</a> 文件</strong></h2><p>打开 <code>categories</code> 文件夹下的 <code>index.md</code> ，在最下面一行加一行文字就行，注意中间有空格。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2021-11-08 10:47:33</span><br><span class="line"><span class="built_in">type</span>: categories</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>同理，<code>tags</code> 也是如此。</p>
-<h2 id="五、效果展示"><a href="#五、效果展示" class="headerlink" title="五、效果展示"></a><strong>五、效果展示</strong></h2><p><img src="/2021/11/08/Hexo-%E5%88%86%E7%B1%BB%E5%92%8C%E6%A0%87%E7%AD%BE/1677584124277.png" alt="1677584124277"></p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>blog</tag>
       </tags>
   </entry>
   <entry>
@@ -673,8 +705,8 @@
         <category>linux</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>内核</tag>
+        <tag>linux</tag>
         <tag>vmcore</tag>
         <tag>crash</tag>
       </tags>
