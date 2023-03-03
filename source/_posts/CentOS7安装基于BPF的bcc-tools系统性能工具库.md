@@ -7,7 +7,8 @@ tags: [linux,bcc,bpf,系统]
 
 * OS版本：CentOS7.6.1810
 * 内核版本：5.4.207-1.el7.elrepo.x86_64
-* ```bash
+* 依赖包：
+  ```bash
   #内核依赖包
   rpm -qa | grep kernel-lt
   kernel-lt-tools-5.4.207-1.el7.elrepo.x86_64
