@@ -17,6 +17,8 @@ vmcore文件通常是在系统遇到严重故障、例如操作系统崩溃或Pa
 
 ### 安装kexec-tools和kernel-debuginfo包
 
+这里系统采用的CentOS7.9
+
 ```
 # yum install yum-utils kexec-tools
 # debuginfo-install kernel

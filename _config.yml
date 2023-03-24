@@ -106,18 +106,6 @@ symbols_count_time:
   total_symbols: true  
   total_time: true
 
-# 评论
-gitalk:
-  client_id: 09095629e7d96304805d
-  client_secret: f7e635330c322cdc1478de533f9aa89c4f89d0d7
-  repo: 'blogs'
-  owner: 'Ljohn001' # github用户名
-  admin: Ljohn001 # github用户名
-  labels: 'gitalk' # 对应的issue标签
-  language: zh-CN
-  perPage: 10
-  distractionFreeMode: true  # 无干扰模式，不需要更改
-
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
@@ -126,4 +114,7 @@ deploy:
   branch: main
   message: Update Hexo Static Content
 
-
+# 中文链接转拼音：https://github.com/viko16/hexo-permalink-pinyin
+permalink_pinyin:
+  enable: true
+  separator: '-'   # default: '-'

@@ -92,7 +92,7 @@ Exception: Failed to compile BPF text
 这个是由于内核版本的原因，kernel-5.4.X之后才会出现该问题。内核头文件中用 asm 替换 asm_inline即可，具体参考BCC官方[issues](https://github.com/iovisor/bcc/issues/2546)
 
 ```bash
- vim /lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/segment.h 在最上新增如下内核，保存并退出
+ vim /lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/segment.h 在最上新增如下配置
 
 #ifdef asm_inline
 #undef asm_inline
