@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>CentOS7安装基于BPF的bcc-tools系统性能工具库</title>
-    <url>/2023/03/03/CentOS7%E5%AE%89%E8%A3%85%E5%9F%BA%E4%BA%8EBPF%E7%9A%84bcc-tools%E7%B3%BB%E7%BB%9F%E6%80%A7%E8%83%BD%E5%B7%A5%E5%85%B7%E5%BA%93/</url>
+    <url>/2023/03/03/centos7-an-zhuang-ji-yu-bpf-de-bcc-tools-xi-tong-xing-neng-gong-ju-ku/</url>
     <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><ul>
 <li>OS版本：CentOS7.6.1810</li>
 <li>内核版本：5.4.207-1.el7.elrepo.x86_64</li>
@@ -21,7 +21,7 @@
 <figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">In file included from /virtual/main.c:2:</span><br><span class="line">In file included from /lib/modules/5.4.207-1.el7.elrepo.x86_64/build/include/uapi/linux/ptrace.h:143:</span><br><span class="line">In file included from /lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/ptrace.h:5:</span><br><span class="line">/lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/segment.h:266:2: error: expected <span class="string">&#x27;(&#x27;</span> after <span class="string">&#x27;asm&#x27;</span></span><br><span class="line">        alternative_io (<span class="string">&quot;lsl %[seg],%[p]&quot;</span>,</span><br><span class="line">        ^</span><br><span class="line">/lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/alternative.h:240:2: note: expanded from macro <span class="string">&#x27;alternative_io&#x27;</span></span><br><span class="line">        asm_inline volatile (ALTERNATIVE(oldinstr, newinstr, feature)   \</span><br><span class="line">        ^</span><br><span class="line">/lib/modules/5.4.207-1.el7.elrepo.x86_64/build/include/linux/compiler_types.h:214:24: note: expanded from macro <span class="string">&#x27;asm_inline&#x27;</span></span><br><span class="line"><span class="comment">#define asm_inline asm __inline</span></span><br><span class="line">                       ^</span><br><span class="line">1 error generated.</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">&quot;/usr/share/bcc/tools/cachestat&quot;</span>, line 96, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    b = BPF(text=bpf_text)</span><br><span class="line">  File <span class="string">&quot;/usr/lib/python2.7/site-packages/bcc/__init__.py&quot;</span>, line 325, <span class="keyword">in</span> __init__</span><br><span class="line">    raise Exception(<span class="string">&quot;Failed to compile BPF text&quot;</span>)</span><br><span class="line">Exception: Failed to compile BPF text</span><br></pre></td></tr></table></figure>
 
 <p>这个是由于内核版本的原因，kernel-5.4.X之后才会出现该问题。内核头文件中用 asm 替换 asm_inline即可，具体参考BCC官方<a href="https://github.com/iovisor/bcc/issues/2546">issues</a></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"> vim /lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/segment.h 在最上新增如下内核，保存并退出</span><br><span class="line"></span><br><span class="line"><span class="comment">#ifdef asm_inline</span></span><br><span class="line"><span class="comment">#undef asm_inline</span></span><br><span class="line"><span class="comment">#define asm_inline asm</span></span><br><span class="line"><span class="comment">#endif</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"> vim /lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/segment.h 在最上新增如下配置</span><br><span class="line"></span><br><span class="line"><span class="comment">#ifdef asm_inline</span></span><br><span class="line"><span class="comment">#undef asm_inline</span></span><br><span class="line"><span class="comment">#define asm_inline asm</span></span><br><span class="line"><span class="comment">#endif</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>linux</category>
@@ -35,7 +35,7 @@
   </entry>
   <entry>
     <title>Go语言基础之map</title>
-    <url>/2021/06/25/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8Bmap/</url>
+    <url>/2021/06/25/go-yu-yan-ji-chu-zhi-map/</url>
     <content><![CDATA[<p>Go语言中提供的映射关系容器为<code>map</code>，其内部使用<code>散列表（hash）</code>实现。</p>
 <h1 id="map"><a href="#map" class="headerlink" title="map"></a>map</h1><p>map是一种无序的基于<code>key-value</code>的数据结构，Go语言中的map是引用类型，必须初始化才能使用。</p>
 <h2 id="map定义"><a href="#map定义" class="headerlink" title="map定义"></a>map定义</h2><p>Go语言中 <code>map</code>的定义语法如下：</p>
@@ -106,7 +106,7 @@
   </entry>
   <entry>
     <title>Go语言基础之接口</title>
-    <url>/2021/07/02/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E6%8E%A5%E5%8F%A3/</url>
+    <url>/2021/07/02/go-yu-yan-ji-chu-zhi-jie-kou/</url>
     <content><![CDATA[<p>接口（interface）定义了一个对象的行为规范，只定义规范不实现，由具体的对象来实现规范的细节。</p>
 <h1 id="接口"><a href="#接口" class="headerlink" title="接口"></a>接口</h1><h2 id="接口类型"><a href="#接口类型" class="headerlink" title="接口类型"></a>接口类型</h2><p>在Go语言中接口（interface）是一种类型，一种抽象的类型。</p>
 <p><code>interface</code>是一组<code>method</code>的集合，是<code>duck-type programming</code>的一种体现。接口做的事情就像是定义一个协议（规则），只要一台机器有洗衣服和甩干的功能，我就称它为洗衣机。不关心属性（数据），只关心行为（方法）。</p>
@@ -239,8 +239,389 @@
       </tags>
   </entry>
   <entry>
+    <title>Hexo 分类和标签</title>
+    <url>/2021/11/08/hexo-fen-lei-he-biao-qian/</url>
+    <content><![CDATA[<h3 id="一、主题配置打开"><a href="#一、主题配置打开" class="headerlink" title="一、主题配置打开"></a><strong>一、主题配置打开</strong></h3><p>打开 <code>themes/next/_config.yml</code> <strong>主题配置文件</strong> 找到 <code>Menu Settings</code> ，把 <code>categories</code> 和 <code>tags</code> 取消注释。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tags: /tags/ || fa fa-tags</span><br><span class="line">categories: /categories/ || fa fa-th</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h2 id="二、添加分类模块"><a href="#二、添加分类模块" class="headerlink" title="二、添加分类模块"></a>二、添加分类模块</h2><p>新建一个分类页面。<br><code>$ hexo new page categories</code><br>你会发现你的source文件夹下有了categories[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 分类</p>
+<p>把文章归入分类只需在文章的顶部标题下方添加categories字段，即可自动创建分类名并加入对应的分类中</p>
+<h2 id="三、添加标签模块"><a href="#三、添加标签模块" class="headerlink" title="三、添加标签模块"></a>三、添加标签模块</h2><p>新建一个标签页面 。<br><code>$ hexo new page tags</code><br>你会发现你的source文件夹下有了tags[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 标签<br>把文章添加标签只需在文章的顶部标题下方添加tags字段，即可自动创建标签名并归入对应的标签中</p>
+<h2 id="四、修改-index-md-文件"><a href="#四、修改-index-md-文件" class="headerlink" title="四、修改 index.md 文件"></a><strong>四、修改 <a href="http://index.md/">index.md</a> 文件</strong></h2><p>打开 <code>categories</code> 文件夹下的 <code>index.md</code> ，在最下面一行加一行文字就行，注意中间有空格。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2021-11-08 10:47:33</span><br><span class="line"><span class="built_in">type</span>: categories</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>同理，<code>tags</code> 也是如此。</p>
+<h2 id="五、效果展示"><a href="#五、效果展示" class="headerlink" title="五、效果展示"></a><strong>五、效果展示</strong></h2><p><img src="/2021/11/08/hexo-fen-lei-he-biao-qian/1677584124277.png" alt="1677584124277"></p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>blog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kubernetes容器网络</title>
+    <url>/2021/07/15/kubernetes-rong-qi-wang-luo/</url>
+    <content><![CDATA[<h2 id="容器是什么"><a href="#容器是什么" class="headerlink" title="容器是什么"></a>容器是什么</h2><p>容器其实是一种沙盒技术。顾名思义，沙盒就是能够像一个集装箱一样，把你的应用“装”起来的技术。这样，应用与应用之间，就因为有了边界而不至于相互干扰；而被装进集装箱的应用，也可以被方便地搬到任何地方运行。对于大多数如Docker、RKT，等Linux容器，其实就是利用Linux Namespace技术创建隔离的进程空间、文件系统、网络命名空间、用户空间、主机名的一组进程。</p>
+<p>所以说，容器，其实是一种特殊的进程而已。</p>
+<p>一个“容器”，实际上是一个由 Linux Namespace、Linux Cgroups 和 rootfs 三种技术构建出来的进程的隔离环境。</p>
+<h3 id="容器优势"><a href="#容器优势" class="headerlink" title="容器优势"></a>容器优势</h3><ul>
+<li>开销更少，无需像虚拟化一样虚拟完整的内核以及初始化环境，和启动一些多余的系统进程。</li>
+<li>可移植性强，容器可以轻松在不同平台移植，如直接运行<code>docker run -d --name nginx -p 80:80 nginx</code></li>
+<li>高效率，开发打完包构建容器后，可以更快部署，发布</li>
+<li>敏捷开发，更快的移植，无需担心依赖的环境不一致的问题</li>
+<li>….</li>
+</ul>
+<h3 id="Kebernetes"><a href="#Kebernetes" class="headerlink" title="Kebernetes"></a>Kebernetes</h3><p>k8s 是什么？为什么要引入 k8s，kubernetes 其实是google公司开源，和Redhat公司一起开发的一个容器编排项目。</p>
+<ul>
+<li><p>k8s 是什么，为什么要引入k8s：<a href="https://kubernetes.io/zh/docs/concepts/overview/what-is-kubernetes/">https://kubernetes.io/zh/docs/concepts/overview/what-is-kubernetes/</a></p>
+</li>
+<li><p>k8s 组件有哪些：<a href="https://kubernetes.io/zh/docs/concepts/overview/components/">https://kubernetes.io/zh/docs/concepts/overview/components/</a> </p>
+</li>
+</ul>
+<h2 id="容器网络模型"><a href="#容器网络模型" class="headerlink" title="容器网络模型"></a>容器网络模型</h2><h3 id="docker-的三种网络模式"><a href="#docker-的三种网络模式" class="headerlink" title="docker 的三种网络模式"></a>docker 的三种网络模式</h3><p>在将容器网络之前先讲一下docker 的网络模式，<code>docker network ls</code>  可以看到</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> NETWORK ID          NAME                DRIVER              SCOPE</span><br><span class="line">7152832275d0        bridge              bridge              local</span><br><span class="line">bfc2647e9b0b        host                host                local</span><br><span class="line">00ed57db3efb        none                null                local</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>bridge 借助虚拟网桥设备为容器建立网络连接</p>
+</li>
+<li><p>host 设置容器直接共享当前节点主机的网络名称空间</p>
+</li>
+<li><p>none 对于此容器，禁用所有网络。通常与自定义网络驱动程序结合使用</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 每个容器都有自己的独立的&#x27;网络栈&#x27;，如果你想要实现两台主机之间的通信，最直接的办法，就是把它们用一根网线连接起来；而如果你想要实现多台主机之间的通信，那就需要用网线，把它们连接在一台交换机上，即网桥（Bridge）。它是一个工作在数据链路层（Data Link）的设备，主要功能是根据 MAC 地址学习来将数据包转发到网桥的不同端口（Port）上</span></span><br><span class="line"><span class="comment"># 在容器中，Docker安装完成时会创建一个名为docker0的linux bridge，不指定网络时，创建的网络默认为桥接网络，都会桥接到docker0上。</span></span><br><span class="line"><span class="comment"># 如何把容器连接到这个docker0 网桥上呢？这个时候就需要 Veth Pair 的虚拟设备了，该设备一般是成对的出现，并且，从其中一个“网卡”发出的数据包，可以直接出现在与它对应的另一张“网卡”上，哪怕这两个“网卡”在不同的 Network Namespace 里</span></span><br><span class="line">$ brctl show</span><br><span class="line">bridge name     bridge id               STP enabled     interfaces</span><br><span class="line">docker0         8000.0242f2caa77e       no</span><br><span class="line">pan1            8000.000000000000       no</span><br><span class="line">$ docker run -d -u daemon  --name <span class="string">&#x27;net-bridge&#x27;</span> busybox top </span><br><span class="line">$ docker <span class="built_in">exec</span> -ti net-bridge  /bin/sh</span><br><span class="line"><span class="comment"># Veth Pair虚拟网卡设备eth0@if62</span></span><br><span class="line">/ $ ip a</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">61: eth0@if62: &lt;BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN&gt; mtu 1500 qdisc noqueue</span><br><span class="line">    link/ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 172.17.0.2/16 brd 172.17.255.255 scope global eth0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">/ $ route -n</span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags Metric Ref    Use Iface</span><br><span class="line">0.0.0.0         172.17.0.1      0.0.0.0         UG    0      0        0 eth0</span><br><span class="line">172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 eth0</span><br><span class="line"><span class="comment"># 宿主机上查看接口信息,启动了一个虚拟网卡设备 vethaf3497b@if61</span></span><br><span class="line">$ ip a | tail -4</span><br><span class="line">62: vethaf3497b@if61: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP group default</span><br><span class="line">    link/ether ca:2f:b0:6a:a1:28 brd ff:ff:ff:ff:ff:ff link-netnsid 0</span><br><span class="line">    inet6 fe80::c82f:b0ff:fe6a:a128/64 scope link</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line"></span><br><span class="line"><span class="comment"># brctl show 可以看到docker0 设备上多了一个接口 vethf29b81e 即刚才启动容器的虚拟网卡</span></span><br><span class="line">$ brctl show</span><br><span class="line">bridge name     bridge id               STP enabled     interfaces</span><br><span class="line">docker0         8000.0242f2caa77e       no              vethaf3497b</span><br><span class="line">pan1            8000.000000000000       no</span><br><span class="line"></span><br><span class="line"><span class="comment"># host网络，就是和host主机共享网络，会和host使用一样的网络，host网络的性能比较高，但也会不可避免地引入共享网络资源的问题，比如端口冲突，比如隔离性问题。</span></span><br><span class="line"></span><br><span class="line">$ docker run --net=host busybox ifconfig</span><br><span class="line">docker0   Link encap:Ethernet  HWaddr 02:42:F2:CA:A7:7E</span><br><span class="line">          inet addr:172.17.0.1  Bcast:172.17.255.255  Mask:255.255.0.0</span><br><span class="line">          inet6 addr: fe80::42:f2ff:feca:a77e/64 Scope:Link</span><br><span class="line">          UP BROADCAST MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:274096 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:323190 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:0</span><br><span class="line">          RX bytes:13525456 (12.8 MiB)  TX bytes:1664281006 (1.5 GiB)</span><br><span class="line"></span><br><span class="line">enp0s31f6 Link encap:Ethernet  HWaddr 54:E1:AD:08:B4:21</span><br><span class="line">          UP BROADCAST MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:0 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1000</span><br><span class="line">          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)</span><br><span class="line">          Interrupt:16 Memory:f2200000-f2220000</span><br><span class="line"></span><br><span class="line">lo        Link encap:Local Loopback</span><br><span class="line">          inet addr:127.0.0.1  Mask:255.0.0.0</span><br><span class="line">          inet6 addr: ::1/128 Scope:Host</span><br><span class="line">          UP LOOPBACK RUNNING  MTU:65536  Metric:1</span><br><span class="line">          RX packets:1850471 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:1850471 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1000</span><br><span class="line">          RX bytes:1186483790 (1.1 GiB)  TX bytes:1186483790 (1.1 GiB)</span><br><span class="line"></span><br><span class="line">pan1      Link encap:Ethernet  HWaddr 12:AA:30:13:D7:A4</span><br><span class="line">          inet addr:10.6.207.1  Bcast:10.6.207.255  Mask:255.255.255.0</span><br><span class="line">          inet6 addr: fe80::10aa:30ff:fe13:d7a4/64 Scope:Link</span><br><span class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:0 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:14194 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1000</span><br><span class="line">          RX bytes:0 (0.0 B)  TX bytes:2916067 (2.7 MiB)</span><br><span class="line">wlp3s0    Link encap:Ethernet  HWaddr F8:59:71:8E:3F:55</span><br><span class="line">          inet addr:10.10.134.147  Bcast:10.10.143.255  Mask:255.255.240.0</span><br><span class="line">          inet6 addr: fe80::54ce:44cc:368:d288/64 Scope:Link</span><br><span class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:16914279 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:4101535 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1000</span><br><span class="line">          RX bytes:7919534294 (7.3 GiB)  TX bytes:2673781183 (2.4 GiB)          </span><br><span class="line">....</span><br><span class="line"></span><br><span class="line"><span class="comment"># none网络，在该网络下的容器仅有lo网卡，属于封闭式网络，通常用于对安全性要求较高并且不需要联网的应用</span></span><br><span class="line">docker run --rm -it --network=none busybox ip a</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line"> </span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>接下来以docker 两种通信方式来介绍容器通信模式：</p>
+<h3 id="单机容器通信"><a href="#单机容器通信" class="headerlink" title="单机容器通信"></a>单机容器通信</h3><p>同一个宿主机上的不同容器通过 docker0 网桥进行通信的流程如图：</p>
+<p><img src="https://i.loli.net/2021/07/14/VutyxR1TczBPSpv.png" alt="image-20210713104524840"></p>
+<p>如图说所示，在容器中，通过docker0网桥，凡是连接到docker0的容器，就可以通过它来进行通信。要想容器能够连接到docker0网桥，我们需要类似网线的虚拟设备Veth Pair来把容器连接到网桥上。 </p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 启动一个container1 </span></span><br><span class="line">$ docker run -d --name <span class="string">&#x27;container1&#x27;</span> nginx</span><br><span class="line">$ dockrer <span class="built_in">exec</span> -ti container1  /bin/sh</span><br><span class="line">$ ip a</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">65: eth0@if66: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</span><br><span class="line">    link/ether 02:42:ac:11:00:03 brd ff:ff:ff:ff:ff:ff link-netnsid 0</span><br><span class="line">    inet 172.17.0.3/16 brd 172.17.255.255 scope global eth0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">$ route -n</span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags Metric Ref    Use Iface</span><br><span class="line">0.0.0.0         172.17.0.1      0.0.0.0         UG    0      0        0 eth0</span><br><span class="line">172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 eth0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动一个container2</span></span><br><span class="line">$ docker run -d --name <span class="string">&#x27;container2&#x27;</span> nginx</span><br><span class="line">$ dockrer <span class="built_in">exec</span> -ti container2  /bin/sh</span><br><span class="line">$ ip a</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">63: eth0@if64: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</span><br><span class="line">    link/ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0</span><br><span class="line">    inet 172.17.0.2/16 brd 172.17.255.255 scope global eth0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line"><span class="comment"># route -n</span></span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags Metric Ref    Use Iface</span><br><span class="line">0.0.0.0         172.17.0.1      0.0.0.0         UG    0      0        0 eth0</span><br><span class="line">172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 eth0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看宿主机上的虚拟设备Veth Pair, veth182b3a5@if63 和 container2 的eth0@if64 是一对，container1 同理。</span></span><br><span class="line">$ ip a | tail -8</span><br><span class="line">64: veth182b3a5@if63: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP group default</span><br><span class="line">    link/ether 76:97:8e:fe:a9:c7 brd ff:ff:ff:ff:ff:ff link-netnsid 0</span><br><span class="line">    inet6 fe80::7497:8eff:fefe:a9c7/64 scope link</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">66: veth877c7d8@if65: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP group default</span><br><span class="line">    link/ether 12:7e:d0:0f:ae:99 brd ff:ff:ff:ff:ff:ff link-netnsid 1</span><br><span class="line">    inet6 fe80::107e:d0ff:fe0f:ae99/64 scope link</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line"></span><br><span class="line"><span class="comment"># container1 ping container2 测试</span></span><br><span class="line"><span class="comment"># ping 172.17.0.3</span></span><br><span class="line">PING 172.17.0.3 (172.17.0.3) 56(84) bytes of data.</span><br><span class="line">64 bytes from 172.17.0.3: icmp_seq=1 ttl=64 time=0.091 ms</span><br><span class="line">64 bytes from 172.17.0.3: icmp_seq=2 ttl=64 time=0.059 ms</span><br><span class="line">64 bytes from 172.17.0.3: icmp_seq=3 ttl=64 time=0.034 ms</span><br><span class="line"><span class="comment"># 可以看到同一宿主机容器默认都是通的，是因为他们默认网关都是docker0 这块网卡。 </span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="跨主机容器通信"><a href="#跨主机容器通信" class="headerlink" title="跨主机容器通信"></a>跨主机容器通信</h3><p>跨主机通信方案有以下几种方案：</p>
+<ul>
+<li>NAT方式<br>NAT就是传统的docker网络，利用宿主机的IP和Iptables来达到容器，主机之间的通信。容器对外IP都是宿主机的IP，NAT的性能损耗比较大。但只要宿主机之间三层IP可达，容器之间就可以通信，比较普适。</li>
+<li>Tunnel（overlay）方式，VPN，ipip，VXLAN等都是tunnel技术，简单讲就是在容器的数据包间封装一层或多层其他的数据协议头，达到连通的效果。这种方式一般也是只需要三层可达，容器就能互通，比较普适。</li>
+<li>Routing方式<br>路由方案主要是通过路由设置的方式让容器对容器，容器对宿主机之间相通信。例如：calico的BGP路由方案（非IPIP）。这种方式一般适用于单个数据中心，最常见的是同一个vlan中使用，如果不是，需要设置路由规则。路由方案性能损耗少，和主机网络性能比较接近。</li>
+</ul>
+<p>先介绍下NAT方式，所有接入到该桥接设备上的容器都会被NAT隐藏，它们发往Docker主机外部的所有流量都会经过源地址转换后发出(SNAT)，并且默认是无法直接接受节点之外的其他主机发来的请求。当需要接入Docker主机外部流量，就需要进行目标地址转换(DNAT)甚至端口转换将其暴露在外部网络当中。大致的流程图：</p>
+<p><img src="https://i.loli.net/2021/07/14/scPfALv6ibqEMWI.png" alt="image-20210713111835432"></p>
+<p>容器内的属于私有地址，需要在左侧的主机上的eth0上进行源地址转换，而右侧的地址需要被访问，就需要将eth0的地址进行NAT转换。SNAT—-&gt;DNAT。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#具体方案在2个主机上通过主机路由和iptables 地址伪装来实现跨主机容器的互通，这里就不做过多解释</span><br></pre></td></tr></table></figure>
+
+<h2 id="Kubernetes-容器网络CNI插件"><a href="#Kubernetes-容器网络CNI插件" class="headerlink" title="Kubernetes 容器网络CNI插件"></a>Kubernetes 容器网络CNI插件</h2><p>这里介绍完docker的网络方案之后，我们来聊聊kubernetes的容器间网络的通信方案。</p>
+<p>官网中文doc：<a href="https://kubernetes.io/zh/docs/concepts/cluster-administration/networking/">https://kubernetes.io/zh/docs/concepts/cluster-administration/networking/</a></p>
+<p>那么什么是CNI（container network interface）容器网络接口，k8s为了更好的控制网络的接入，推出了CNI即容器网络的API接口。CNI维护了一个单独的网桥来代替 docker0。这个网桥的名字就叫作：CNI 网桥，它在宿主机上的设备名称默认是：cni0。</p>
+<p>CNI主要解决Pod间的通信，目前流行的CNI插件如：calico, cilium, flannel, kube-ovn, kube-router</p>
+<h2 id="Flannel-插件跨主机通信原理"><a href="#Flannel-插件跨主机通信原理" class="headerlink" title="Flannel 插件跨主机通信原理"></a>Flannel 插件跨主机通信原理</h2><p>Flannel 项目是 CoreOS 公司主推的容器网络方案。事实上，Flannel 项目本身只是一个框架，真正为我们提供容器网络功能的，是 Flannel 的后端实现。目前，Flannel 支持三种后端实现，分别是：</p>
+<ul>
+<li>UDP</li>
+<li>VXLAN</li>
+<li>host-gw</li>
+</ul>
+<h3 id="udp模式"><a href="#udp模式" class="headerlink" title="udp模式"></a>udp模式</h3><p><img src="https://i.loli.net/2021/07/14/zSH467pZwVF1LBg.png" alt="image-20210713190907679"></p>
+<p>可以看到，Flannel UDP 模式提供的其实是一个三层的 Overlay 网络，即：它首先对发出端的 IP 包进行 UDP 封装，然后在接收端进行解封装拿到原始的 IP 包，进而把这个 IP 包转发给目标容器。这就好比，Flannel 在不同宿主机上的两个容器之间打通了一条“隧道”，使得这两个容器可以直接使用 IP 地址进行通信，而无需关心容器和宿主机的分布情况。</p>
+<p>但是UDP 模式有严重的性能问题，基本已经上被废弃了。</p>
+<p>基于 Flannel UDP 模式的容器通信多了一个额外的步骤，即 flanneld 的处理过程。而这个过程，由于使用到了 flannel0 这个 TUN 设备，仅在发出 IP 包的过程中，就需要经过三次用户态与内核态之间的数据拷贝，其性能可想而知。</p>
+<h3 id="VXLAN模式"><a href="#VXLAN模式" class="headerlink" title="VXLAN模式"></a>VXLAN模式</h3><p>VXLAN，即 Virtual Extensible LAN（虚拟可扩展局域网），是 Linux 内核本身就支持的一种网络虚似化技术。所以说，VXLAN 可以完全在内核态实现上述封装和解封装的工作，从而通过与前面相似的“隧道”机制，构建出覆盖网络（Overlay Network）</p>
+<p><img src="https://i.loli.net/2021/07/14/Kqv7ULZscznIGFC.png" alt="image-20210713191114467"></p>
+<p>VXLAN 模式组建的覆盖网络，其实就是一个由不同宿主机上的 VTEP 设备，也就是 flannel.1 设备组成的虚拟二层网络。对于 VTEP 设备来说，它发出的“内部数据帧”就仿佛是一直在这个虚拟的二层网络上流动。这，也正是覆盖网络的含义,具体就不展开了。</p>
+<h2 id="Kubernetes-三层网络方案"><a href="#Kubernetes-三层网络方案" class="headerlink" title="Kubernetes 三层网络方案"></a>Kubernetes 三层网络方案</h2><p>讲了以上flannel 的以上2种方案，我们接下来讲一下纯三层的网络方案，如于 Flannel 的 host-gw 模式和 Calico BGP</p>
+<h3 id="Flannel-的-host-gw-模式"><a href="#Flannel-的-host-gw-模式" class="headerlink" title="Flannel 的 host-gw 模式"></a>Flannel 的 host-gw 模式</h3><p><img src="https://i.loli.net/2021/07/14/xp64BmUif5PMXsl.png" alt="image-20210714221235728"></p>
+<p>假设现在，Node 1 上的 Infra-container-1，要访问 Node 2 上的 Infra-container-2。</p>
+<p>当你设置 Flannel 使用 host-gw 模式之后，flanneld 会在宿主机上创建这样一条规则，以 Node 1 为例：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ip route</span><br><span class="line">...</span><br><span class="line">10.244.1.0/24 via 10.168.0.3 dev eth0</span><br></pre></td></tr></table></figure>
+
+<p>这条路由规则的含义是：目的 IP 地址属于 10.244.1.0/24 网段的 IP 包，应该经过本机的 eth0 设备发出去（即：dev eth0）；并且，它下一跳地址（next-hop）是 10.168.0.3（即：via 10.168.0.3）。</p>
+<p>如图所示这个下一跳地址对应的，正是我们的目的宿主机 Node 2。</p>
+<p>一旦配置了下一跳地址，那么接下来，当 IP 包从网络层进入链路层封装成帧的时候，eth0 设备就会使用下一跳地址对应的 MAC 地址，作为该数据帧的目的 MAC 地址。显然，这个 MAC 地址，正是 Node 2 的 MAC 地址。这样，这个数据帧就会从 Node 1 通过宿主机的二层网络顺利到达 Node 2 上。</p>
+<p>而 Node 2 的内核网络栈从二层数据帧里拿到 IP 包后，会“看到”这个 IP 包的目的 IP 地址是 10.244.1.3，即 Infra-container-2 的 IP 地址。这时候，根据 Node 2 上的路由表，该目的地址会匹配到第二条路由规则（也就是 10.244.1.0 对应的路由规则），从而进入 cni0 网桥，进而进入到 Infra-container-2 当中。</p>
+<p>host-gw 模式的工作原理，其实就是将每个 Flannel 子网（Flannel Subnet，比如：10.244.1.0/24）的“下一跳”，设置成了该子网对应的宿主机的 IP 地址。所以宿主机充当了“网关”的角色，即顾名思义“host-gw”</p>
+<h3 id="Calico"><a href="#Calico" class="headerlink" title="Calico"></a>Calico</h3><p>Calico 是一套开源的网络和网络安全方案，用于容器、虚拟机、宿主机之前的网络连接，可以用在kubernetes、OpenShift、DockerEE、OpenStrack等PaaS或IaaS平台上。</p>
+<p>首先看下calico 架构图</p>
+<p><img src="https://i.loli.net/2021/07/14/t4dhz5sQkFiPWcl.png" alt="image-20210713170229021"></p>
+<ul>
+<li><code>Felix</code>：<code>calico</code>的核心组件，运行在每个节点上。主要的功能有接口管理、路由规则、ACL规则和状态报告</li>
+<li><code>Etcd</code>：保证数据一致性的数据库，存储集群中节点的所有路由信息。为保证数据的可靠和容错建议至少三个以上etcd节点。</li>
+<li><code>Bird</code>：BGP客户端，<code>Calico</code>在每个节点上的都会部署一个BGP客户端（利用Daemonset方式部署），它的作用是将Felix的路由信息读入内核，并通过BGP协议在集群中分发。当Felix将路由插入到Linux内核FIB中时，BGP客户端将获取这些路由并将它们分发到部署中的其他节点。这可以确保在部署时有效地路由流量。</li>
+<li><code>BGP Router Reflector</code>：使用 BGP client 形成 mesh 全网互联的方案就会导致规模限制，所有节点需要 N^2 个连接，为了解决这个规模问题，BGP 的 <code>Router Reflector</code>的方法，使所有 BGP Client 仅与特定 RR 节点互联并做路由同步，从而大大减少连接数。</li>
+</ul>
+<h4 id="Calico-网络模式"><a href="#Calico-网络模式" class="headerlink" title="Calico 网络模式"></a>Calico 网络模式</h4><ul>
+<li> IPIP模式，把 IP 层封装到 IP 层的一个 tunnel。作用其实基本上就相当于一个基于IP层的网桥！一般来说，普通的网桥是基于mac层的，根本不需 IP，而这个 ipip 则是通过两端的路由做一个 tunnel，把两个本来不通的网络通过点对点连接起来。</li>
+<li>Router Reflector 模式（RR），Calico 维护的网络在默认是（Node-to-Node Mesh）全互联模式，Calico集群中的节点之间都会相互建立连接，用于路由交换。但是随着集群规模的扩大，mesh模式将形成一个巨大服务网格，连接数成倍增加。这时就需要使用 Route Reflector（路由器反射）模式解决这个问题。</li>
+</ul>
+<h4 id="BGP-协议"><a href="#BGP-协议" class="headerlink" title="BGP 协议"></a>BGP 协议</h4><p><code>BGP（border gateway protocol）是外部路由协议（边界网关路由协议）</code>，用来在AS之间传递路由信息是一种增强的距离矢量路由协议（应用场景），基本功能是在自治系统间自动交换无环路的路由信息，通过交换带有自治系统号序列属性的路径可达信息，来构造自治系统的拓扑图，从而消除路由环路并实施用户配置的路由策略。<strong>只要记住BGP简单理解其实就是实现大规模网络中节点路由信息同步共享的一种协议</strong>。</p>
+<blockquote>
+<p>实际上，Calico 项目提供的 <code>BGP</code> 网络解决方案，与 <code>Flannel</code> 的 <code>host-gw</code> 模式几乎一样。也就是说，Calico也是基于路由表实现容器数据包转发，但不同于Flannel使用flanneld进程来维护路由信息的做法，而Calico项目使用BGP协议来自动维护整个集群的路由信息。</p>
+</blockquote>
+<p>BGP模式</p>
+<ul>
+<li><code>全互联模式</code>（node-to-node mesh） 每一个BGP Speaker都需要和其他BGP Speaker建立BGP连接，这样BGP连接总数就是N^2，如果数量过大会消耗大量连接。如果集群数量超过100台官方不建议使用此种模式。</li>
+<li>RR模式（Router Reflection），会指定一个或多个BGP Speaker为RouterReflection，它与网络中其他Speaker建立连接，每个Speaker只要与Router Reflection建立BGP就可以获得全网的路由信息。在calico中可以通过<code>Global Peer</code>实现RR模式。</li>
+</ul>
+<h4 id="Calico-IPIP"><a href="#Calico-IPIP" class="headerlink" title="Calico IPIP"></a>Calico IPIP</h4><p><img src="https://i.loli.net/2021/07/14/dtF9w1YTnsIZ4Ek.png" alt="image-20210714210320203"></p>
+<p>IPIP 是linux内核的驱动程序，可以对数据包进行隧道，上图可以看到两个不同的网络 vlan1 和 vlan2。基于现有的以太网将原始包中的原始IP进行一次封装，通过tunl0解包，这个tunl0类似于ipip模块，和Flannel vxlan的veth很类似。</p>
+<p>Pod1 访问 Pod2 流程如下：</p>
+<ol>
+<li><p>数据包从 Pod1 出到达Veth Pair另一端（宿主机上，以cali前缀开头）。</p>
+</li>
+<li><p>进入IP隧道设备（tunl0），由Linux内核IPIP驱动封装，把源容器ip换成源宿主机ip，目的容器ip换成目的主机ip，这样就封装成 Node1 到 Node2 的数据包。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">此时包的类型：</span><br><span class="line">  原始IP包：</span><br><span class="line">  源IP：10.244.1.10</span><br><span class="line">  目的IP：10.244.2.10</span><br><span class="line"></span><br><span class="line">   TCP：</span><br><span class="line">   源IP: 192.168.31.62</span><br><span class="line">   目的iP：192.168.32.63</span><br></pre></td></tr></table></figure></li>
+<li><p>数据包经过路由器三层转发到 Node2</p>
+</li>
+<li><p>Node2 收到数据包后，网络协议栈会使用IPIP驱动进行解包，从中拿到原始IP包。</p>
+</li>
+<li><p>然后根据路由规则，将数据包转发给cali设备，从而到达 Pod2。</p>
+</li>
+</ol>
+<p>通过如上步骤可以看出，当 Calico 使用 IPIP 模式的时候，集群的网络性能会因为额外的封包和解包工作而下降。所以建议你将所有宿主机节点放在一个子网里，避免使用 IPIP。<strong>不过这里可以利用IPIP模式的CrossSubnet来突破node不能跨VALN的问题，这个目前已经测试通过。</strong></p>
+<h4 id="Calico-BGP-RR"><a href="#Calico-BGP-RR" class="headerlink" title="Calico BGP RR"></a>Calico BGP RR</h4><p>calico还和flannel host-gw不同之处在于，它不会创建网桥设备，而是通过路由表来维护每个pod的通信，如下图：</p>
+<p><img src="https://i.loli.net/2021/07/14/2nKSBwmRChpUqgD.png" alt="image-20210714200920896"></p>
+<p>Pod1 访问 Pod2大致流程如下：</p>
+<ul>
+<li>数据包从Pod1出到达Veth Pair另一端（宿主机上，以cali前缀开头）</li>
+<li>宿主机根据路由规则，将数据包转发给下一跳（网关）</li>
+<li>到达Node2，根据路由规则将数据包转发给cali设备，从而到达Pod2</li>
+</ul>
+<p>实际例子：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">1.启动2个容器</span><br><span class="line">kubectl create -f -&lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">apiVersion: apps/v1</span></span><br><span class="line"><span class="string">kind: Deployment</span></span><br><span class="line"><span class="string">metadata:</span></span><br><span class="line"><span class="string">  name: nettools-deploy</span></span><br><span class="line"><span class="string">spec:</span></span><br><span class="line"><span class="string">  replicas: 2</span></span><br><span class="line"><span class="string">  selector:</span></span><br><span class="line"><span class="string">    matchLabels:</span></span><br><span class="line"><span class="string">      app: nettools-deploy</span></span><br><span class="line"><span class="string">  template:</span></span><br><span class="line"><span class="string">    metadata:</span></span><br><span class="line"><span class="string">      labels:</span></span><br><span class="line"><span class="string">        app: nettools-deploy</span></span><br><span class="line"><span class="string">    spec:</span></span><br><span class="line"><span class="string">      containers:</span></span><br><span class="line"><span class="string">        - name: nettools-deploy</span></span><br><span class="line"><span class="string">          image: registry.XXX.com/base/network-multitool:lastet</span></span><br><span class="line"><span class="string">          imagePullPolicy: IfNotPresent     </span></span><br><span class="line"><span class="string">          ports:</span></span><br><span class="line"><span class="string">            - containerPort: 80</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line">2.查看2个pod 目前所在的node节点</span><br><span class="line">kubectl get pod -owide</span><br><span class="line">NAME                               READY   STATUS    RESTARTS   AGE    IP             NODE         NOMINATED NODE   READINESS GATES</span><br><span class="line">nettools-deploy-68b646bdfb-2ckgt   1/1     Running   0          113s   10.5.231.54    10.4.83.14   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">nettools-deploy-68b646bdfb-xbpwd   1/1     Running   0          113s   10.5.228.128   10.4.83.11   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">3.查看pod中的路由和网卡信息，可以看到路由指向的是一个不存在的网关地址169.254.1.1，这个主要利用了ARP代理欺骗的技术来把pod 所有数据流导到宿主机的 cali70d877f367d@if3 网卡上</span><br><span class="line">kubectl <span class="built_in">exec</span> -ti nettools-deploy-68b646bdfb-2ckgt  /bin/sh</span><br><span class="line">ip r</span><br><span class="line">default via 169.254.1.1 dev eth0</span><br><span class="line">169.254.1.1 dev eth0 scope link</span><br><span class="line">/ <span class="comment"># ip a</span></span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">3: eth0@if9431: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</span><br><span class="line">    link/ether be:11:81:9a:9b:d4 brd ff:ff:ff:ff:ff:ff link-netnsid 0</span><br><span class="line">    inet 10.5.231.54/32 scope global eth0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">4.可以登录node 查看Veth Pair 设备和路由信息，这里可以看到网卡的编号和pod 中的网卡名是一样的。所以称之为虚拟网卡对(Veth Pair)，有了这个cali70d877f367d@if3 设备那么容器发出的IP包就会通过veth pair设备到达宿主机</span><br><span class="line">ip r  | grep 10.5.231.54</span><br><span class="line">10.5.231.54 dev cali70d877f367d scope link</span><br><span class="line"></span><br><span class="line">ip a | grep -A 4  9431</span><br><span class="line">9431: cali70d877f367d@if3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</span><br><span class="line">    link/ether ee:ee:ee:ee:ee:ee brd ff:ff:ff:ff:ff:ff link-netnsid 7</span><br><span class="line">    inet6 fe80::ecee:eeff:feee:eeee/64 scope link</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">5.pod1要想跟其他主机pod2通信那么检查node上是否存在相应的路由，然后到达目标宿主机，再到达目标容器</span><br><span class="line">ip r | grep 10.5.228.128</span><br><span class="line">10.5.228.128/26 via 10.4.83.11 dev bond0 proto bird</span><br></pre></td></tr></table></figure>
+
+<p>其中，这里最核心的 下一跳 路由规则，就是由 Calico 的 Felix 进程负责维护的。这些路由规则信息，则是通过 BGP Client 中 BIRD 组件，使用 BGP 协议来传输。</p>
+<p>不难发现，Calico 项目实际上将集群里的所有节点，都当作是边界路由器来处理，它们一起组成了一个全连通的网络，互相之间通过 BGP 协议交换路由规则。这些节点，我们称为 BGP Peer。</p>
+<p>需要注意的是calico 维护网络的默认模式是 node-to-node mesh ,这种模式下，每台宿主机的BGP client都会跟集群所有的节点BGP client进行通信交换路由。这样一来，随着节点规模数量N的增加，连接会以N的2次方增长，会集群网络本身带来巨大压力，在集群规模比较大时，官方建议是使用BGP-RR 如下是我们使用网络硬件设备作为RR</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">calicoctl node status</span><br><span class="line">Calico process is running.</span><br><span class="line"></span><br><span class="line">IPv4 BGP status</span><br><span class="line">+--------------+-----------+-------+------------+-------------+</span><br><span class="line">| PEER ADDRESS | PEER TYPE | STATE |   SINCE    |    INFO     |</span><br><span class="line">+--------------+-----------+-------+------------+-------------+</span><br><span class="line">| 10.4.36.250  | global    | up    | 2021-05-11 | Established |</span><br><span class="line">| 10.4.36.251  | global    | up    | 2021-05-11 | Established |</span><br><span class="line">+--------------+-----------+-------+------------+-------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="目前calico架构图"><a href="#目前calico架构图" class="headerlink" title="目前calico架构图"></a>目前calico架构图</h4><p><img src="https://i.loli.net/2021/07/14/cOREUpCYqS5omPI.png" alt="image-20210714205042267"></p>
+<p>现在的架构考虑到了冗余，隔离，性能</p>
+<ul>
+<li>网络隔离，所有的bgp 学习在一组交换机内，不向上通报，避免容器的bgp 影响到我们sdn 的bgp，带来的排障的麻烦，这是隔离。</li>
+<li>性能方面，现在集群 bgp 关闭full mesh，改为global，降低因容器集群规模变大，导致路由过多的问题。</li>
+<li>冗余方面，现在每台机器2条线，接2个交换机，bgp 跟2个交换机互联，实现了冗余，所有流量通过 交换机交换，满足了性能跟冗余的要求。</li>
+</ul>
+<h4 id="Calico-优劣势"><a href="#Calico-优劣势" class="headerlink" title="Calico 优劣势"></a>Calico 优劣势</h4><p>优势</p>
+<ul>
+<li>BGP RR没有封包和解包过程，完全基于两端宿主机的路由表进行转发</li>
+<li>可以配合使用 <code>Network Policy</code> 做 pod 和 pod 之前的访问控制</li>
+</ul>
+<p>劣势</p>
+<ul>
+<li>要求宿主机处于同一个2层网络下，也就是连在一台交换机上，但也可以突破</li>
+<li>每个node上会设置大量（大量)的iptables规则、路由，运维、排障难度大</li>
+<li>安全策略隔离上也略显不足</li>
+</ul>
+<h3 id="CNI插件性能比较"><a href="#CNI插件性能比较" class="headerlink" title="CNI插件性能比较"></a>CNI插件性能比较</h3><p>基于flannel解包包的路由和转发的操作都是在CPU上进行的，这样就造成了计算资源的浪费。下图是从网上找的各种开源网络组件的性能对比。可以看出，无论是带宽还是网络延迟，性能都和calico主机差不多。</p>
+<p><img src="https://i.loli.net/2021/07/14/5r1QBLDSUpcR7Hk.png" alt="image-20210714212457115"></p>
+<h2 id="Kubernetes-Service-NodePort-和Ingress"><a href="#Kubernetes-Service-NodePort-和Ingress" class="headerlink" title="Kubernetes Service NodePort 和Ingress"></a>Kubernetes Service NodePort 和Ingress</h2><h4 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h4><p>Service 这个 Kubernetes 里重要的服务对象。而 Kubernetes 之所以需要 Service，</p>
+<ul>
+<li><p>一方面是因为 Pod 的 IP 不是固定的</p>
+</li>
+<li><p>另一方面则是因为一组 Pod 实例之间总会有负载均衡的需求</p>
+</li>
+</ul>
+<p>实际上，Service 是由 kube-proxy 组件，加上 iptables 来共同实现的。</p>
+<blockquote>
+<p>并且现在还支持IPVS的模式，kube-proxy 通过 iptables 处理 Service 的过程，其实需要在宿主机上设置相当多的 iptables 规则。而且，kube-proxy 还需要在控制循环里不断地刷新这些规则来确保它们始终是正确的。当pod数量巨大时，成百上千条 iptables 规则不断地被刷新，会大量占用该宿主机的 CPU 资源，甚至会让宿主机“卡”在这个过程中。所以说，一直以来，基于 iptables 的 Service 实现，都是制约 Kubernetes 项目承载更多量级的 Pod 的主要障碍。我们知道IPVS跟IPtables都是工作基于内核的Netfilter 的 NAT 模式工作的，IPVS 并不需要在宿主机上为每个 Pod 设置 iptables 规则，而是把对这些“规则”的处理放到了内核态，从而极大地降低了维护这些规则的代价。所以当集群规模比较大的时候，可以使用ipvs 来提高性能。</p>
+</blockquote>
+<p>ClusterIP 服务是默认的 Kubernetes Service。它为您提供集群内的服务，集群内的其他应用程序可以访问该服务,默认外部无法访问改地址。如图所示</p>
+<p><img src="https://i.loli.net/2021/07/14/5VXtAYkF86OxiNH.png" alt="image-20210714223846542"></p>
+<h4 id="NodePort"><a href="#NodePort" class="headerlink" title="NodePort"></a>NodePort</h4><p> NodePort服务是将外部流量直接发送到您的服务的最原始方式。NodePort，顾名思义，在所有节点（VM）上打开一个特定的端口，发送到这个端口的任何流量都会转发到服务，如图所示。</p>
+<p><img src="https://i.loli.net/2021/07/14/w8H4RvuPsiJnDzN.png" alt="image-20210714224044599"></p>
+<h4 id="Ingress"><a href="#Ingress" class="headerlink" title="Ingress"></a>Ingress</h4><p>Ingress 实际上不是一种服务。相反，它位于多个服务的前面，充当“智能路由器”或集群的入口点。</p>
+<p>Ingress 的功能其实很容易理解：所谓 Ingress，就是 Service 的“Service”，如图所示：</p>
+<p><img src="https://i.loli.net/2021/07/14/hgznYwIPp87KHJF.png" alt="image-20210714224239095"></p>
+<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><ol>
+<li>为什么要用calico </li>
+<li>cilium 取代calico</li>
+<li>….</li>
+</ol>
+]]></content>
+  </entry>
+  <entry>
+    <title>Linux 使用crash分析vmcore dump文件</title>
+    <url>/2023/02/28/linux-shi-yong-crash-fen-xi-vmcore-dump-wen-jian/</url>
+    <content><![CDATA[<h2 id="vmcore是什么？"><a href="#vmcore是什么？" class="headerlink" title="vmcore是什么？"></a>vmcore是什么？</h2><p>vmcore是指操作系统在遇到致命错误（比如内核崩溃）时所生成的内存转储文件。这个文件包含了操作系统在崩溃前的内存状态，因此可以用于诊断崩溃的原因。</p>
+<p>在 Linux 系统中，当内核崩溃时，通常会生成一个称为vmcore的文件。该文件位于/var/crash目录下，其命名类似于vmcore.&lt;时间戳&gt;。vmcore文件通常是非常大的，因为它包含了操作系统在崩溃前的全部内存内容。</p>
+<p>一般情况下，vmcore文件可以通过分析工具进行分析，以确定崩溃的原因。例如，可以使用GNU Debugger（GDB）或crash工具来分析vmcore文件。</p>
+<h2 id="手动触发vmcore的文件"><a href="#手动触发vmcore的文件" class="headerlink" title="手动触发vmcore的文件"></a>手动触发vmcore的文件</h2><p>vmcore文件通常是在系统遇到严重故障、例如操作系统崩溃或Panic时自动生成的，而无法手动触发。在一些情况下，我们可能需要手动触发一个vmcore文件的生成，例如在进行内核调试时。这时，可以使用kdump工具来手动触发vmcore文件的生成。</p>
+<h3 id="安装kexec-tools和kernel-debuginfo包"><a href="#安装kexec-tools和kernel-debuginfo包" class="headerlink" title="安装kexec-tools和kernel-debuginfo包"></a>安装kexec-tools和kernel-debuginfo包</h3><p>这里系统采用的CentOS7.9</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># yum install yum-utils kexec-tools</span><br><span class="line"># debuginfo-install kernel</span><br></pre></td></tr></table></figure>
+
+<p>如果 <code>kernel-debuginfo</code>安装不成功，直接下载CentOS官方下载：<a href="http://debuginfo.centos.org/7/x86_64/">http://debuginfo.centos.org/7/x86_64/</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -o kernel-debuginfo-$(uname -r).rpm http://debuginfo.centos.org/7/x86_64/kernel-debuginfo-$(uname -r).rpm</span><br><span class="line">curl -o kernel-debuginfo-common-x86_64-$(uname -r).rpm http://debuginfo.centos.org/7/x86_64/kernel-debuginfo-common-x86_64-$(uname -r).rpm</span><br><span class="line">rpm -ivh kernel-debuginfo-common-x86_64-$(uname -r).rpm</span><br><span class="line">rpm -ivh kernel-debuginfo-$(uname -r).rpm</span><br></pre></td></tr></table></figure>
+
+<p>在使用kdump之前，需要先安装kexec-tools和kernel-debuginfokernel-debuginf包，它们可以通过Linux发行版的软件包管理器来安装。</p>
+<h3 id="配置kdump"><a href="#配置kdump" class="headerlink" title="配置kdump"></a>配置kdump</h3><p>可以使用命令 <code>systemctl status kdump</code>来检查kdump是否已经安装并启用。</p>
+<p>如果没有启用，需要编辑/etc/default/grub文件并添加以下行：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">RUB_CMDLINE_LINUX_DEFAULT=<span class="string">&quot;crashkernel=auto rd.lvm.lv=&lt;rootvg&gt;/&lt;rootlv&gt;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>&lt;rootvg&gt;</code>和 <code>&lt;rootlv&gt;</code>是根分区的名称。</p>
+<p>保存并关闭文件后，执行以下命令以重新生成grub.cfg文件：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># grub2-mkconfig -o /boot/grub2/grub.cfg</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="启用kdump服务"><a href="#启用kdump服务" class="headerlink" title="启用kdump服务"></a>启用kdump服务</h3><p>执行以下命令以启用kdump服务：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># systemctl enable kdump</span></span><br><span class="line"><span class="comment"># systemctl start kdump</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="手动生成vmcore文件"><a href="#手动生成vmcore文件" class="headerlink" title="手动生成vmcore文件"></a>手动生成vmcore文件</h3><p>要手动生成vmcore文件，可以使用以下命令：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># echo 1 &gt; /proc/sys/kernel/sysrq</span></span><br><span class="line"><span class="comment"># echo c &gt; /proc/sysrq-trigger</span></span><br></pre></td></tr></table></figure>
+
+<p>这将触发系统崩溃，并在/var/crash目录下生成一个vmcore文件。可以使用crash工具或其他工具来分析vmcore文件以诊断问题。</p>
+<p>需要注意的是，生成vmcore文件需要一定的时间和系统资源，因此建议在空闲时段进行操作，并确保系统有足够的磁盘空间来存储生成的vmcore文件。</p>
+<h3 id="配置core-dump大小限制"><a href="#配置core-dump大小限制" class="headerlink" title="配置core dump大小限制"></a>配置core dump大小限制</h3><p><code>ulimit -c unlimited</code> 命令用于设置当前用户在发生崩溃或者程序异常退出时所产生的 core dump 文件的最大大小限制。如果将其设置为 <code>unlimited</code>，则表示没有限制，即允许生成任意大小的 core dump 文件。</p>
+<p>需要注意的是，<code>ulimit</code> 命令只会在当前的 shell 会话中生效。如果要在整个系统中永久性地修改 core dump 文件大小限制，可以将相应的配置写入 <code>/etc/security/limits.conf</code> 文件中。例如：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">* soft core unlimited</span><br><span class="line">* hard core unlimited</span><br></pre></td></tr></table></figure>
+
+<h2 id="调试vmcore-dump文件"><a href="#调试vmcore-dump文件" class="headerlink" title="调试vmcore dump文件"></a>调试vmcore dump文件</h2><h3 id="使用crash工具分析vmcore文件"><a href="#使用crash工具分析vmcore文件" class="headerlink" title="使用crash工具分析vmcore文件"></a>使用crash工具分析vmcore文件</h3><p>crash是一个用于分析vmcore文件的强大工具，可以用来诊断操作系统故障和性能问题。可以使用以下命令安装crash：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># yum install crash</span></span><br></pre></td></tr></table></figure>
+
+<p>然后可以使用以下命令来打开vmcore文件并启动crash工具：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crash /path/to/vmcore /usr/lib/debug/lib/modules/$(uname -r)/vmlinux</span><br></pre></td></tr></table></figure>
+
+<p>其中 <code>/path/to/vmcore</code>是vmcore文件的路径，<code>/usr/lib/debug/lib/modules/$(uname -r)/vmlinux</code>是当前正在运行的内核镜像的路径。</p>
+<p>一旦打开了crash工具，就可以使用各种命令来分析vmcore文件，例如 <code>bt</code>命令可以显示进程的调用堆栈，<code>ps</code>命令可以显示进程列表，<code>mem</code>命令可以显示内存使用情况等等。</p>
+<h3 id="使用gdb工具分析vmcore文件"><a href="#使用gdb工具分析vmcore文件" class="headerlink" title="使用gdb工具分析vmcore文件"></a>使用gdb工具分析vmcore文件</h3><p>除了crash工具外，还可以使用gdb工具来分析vmcore文件。gdb是一个用于调试和分析程序的强大工具，可以用于分析操作系统崩溃的原因和调用堆栈等信息。可以使用以下命令安装gdb：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum install gdb</span><br></pre></td></tr></table></figure>
+
+<p>然后可以使用以下命令来打开vmcore文件并启动gdb工具：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gdb /usr/lib/debug/lib/modules/$(uname -r)/vmlinux /path/to/vmcore</span><br></pre></td></tr></table></figure>
+
+<p>一旦打开了gdb工具，就可以使用各种命令来分析vmcore文件，例如 <code>bt</code>命令可以显示进程的调用堆栈，<code>info proc</code>命令可以显示进程列表，<code>info mem</code>命令可以显示内存使用情况等等。</p>
+<h3 id="crash常用的命令"><a href="#crash常用的命令" class="headerlink" title="crash常用的命令"></a>crash常用的命令</h3><p>1、bt命令</p>
+<p>backtrace打印内核栈回溯信息，bt pid 打印指定进程栈信息</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crash&gt; bt 832</span><br><span class="line">PID: 832    TASK: ffff974f77b63150  CPU: 0   COMMAND: <span class="string">&quot;vector&quot;</span></span><br><span class="line"> <span class="comment">#0 [ffff974f7367fc28] __schedule at ffffffffaad8057a</span></span><br><span class="line"> <span class="comment">#1 [ffff974f7367fcb0] schedule at ffffffffaad80a29</span></span><br><span class="line"> <span class="comment">#2 [ffff974f7367fcc0] futex_wait_queue_me at ffffffffaa712086</span></span><br><span class="line"> <span class="comment">#3 [ffff974f7367fd00] futex_wait at ffffffffaa712e2b</span></span><br><span class="line"> <span class="comment">#4 [ffff974f7367fe48] do_futex at ffffffffaa714b76</span></span><br><span class="line"> <span class="comment">#5 [ffff974f7367fed8] sys_futex at ffffffffaa715090</span></span><br><span class="line"> <span class="comment">#6 [ffff974f7367ff50] system_call_fastpath at ffffffffaad8dede</span></span><br><span class="line">    RIP: 00007fbc3d51cb43  RSP: 00007ffe3cede1f0  RFLAGS: 00010246</span><br><span class="line">    RAX: 00000000000000ca  RBX: 00007fbc3d51caa5  RCX: 0000000000000000</span><br><span class="line">    RDX: 0000000000000001  RSI: 0000000000000080  RDI: 00007fbc3df64930</span><br><span class="line">    RBP: 0000000000000080   R8: 0000000000000070   R9: 00007fbc3df64910</span><br><span class="line">    R10: 0000000000000000  R11: 0000000000000212  R12: 0000000000000001</span><br><span class="line">    R13: 00007fbc3df64930  R14: 00007fbc38002080  R15: 00007fbc38002000</span><br><span class="line">    ORIG_RAX: 00000000000000ca  CS: 0033  SS: 002b</span><br></pre></td></tr></table></figure>
+
+<p>2、log命令</p>
+<p>打印vmcore所在的系统内核dmesg日志信息</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crash&gt; <span class="built_in">log</span></span><br><span class="line">[    0.000000] Initializing cgroup subsys cpuset</span><br><span class="line">[    0.000000] Initializing cgroup subsys cpu</span><br><span class="line">[    0.000000] Initializing cgroup subsys cpuacct</span><br><span class="line">[    0.000000] Linux version 3.10.0-1062.12.1.el7.x86_64 (mockbuild@kbuilder.bsys.centos.org) (gcc version 4.8.5 20150623 (Red Hat 4.8.5-39) (GCC) ) <span class="comment">#1 SMP Tue Feb 4 23:02:59 UTC 2020</span></span><br><span class="line">[    0.000000] Command line: BOOT_IMAGE=/vmlinuz-3.10.0-1062.12.1.el7.x86_64 root=/dev/mapper/centos-root ro crashkernel=auto rd.lvm.lv=centos/root rd.lvm.lv=centos/swap rhgb quiet LANG=en_US.UTF-8</span><br><span class="line">[    0.000000] Disabled fast string operations</span><br><span class="line">[    0.000000] e820: BIOS-provided physical RAM map:</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x0000000000000000-0x000000000009ebff] usable</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x000000000009ec00-0x000000000009ffff] reserved</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x00000000000dc000-0x00000000000fffff] reserved</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x0000000000100000-0x000000007fedffff] usable</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x000000007fee0000-0x000000007fefefff] ACPI data</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x000000007feff000-0x000000007fefffff] ACPI NVS</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x000000007ff00000-0x000000007fffffff] usable</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x00000000f0000000-0x00000000f7ffffff] reserved</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x00000000fec00000-0x00000000fec0ffff] reserved</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x00000000fee00000-0x00000000fee00fff] reserved</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x00000000fffe0000-0x00000000ffffffff] reserved</span><br><span class="line">[    0.000000] NX (Execute Disable) protection: active</span><br><span class="line">[    0.000000] SMBIOS 2.4 present.</span><br><span class="line">[    0.000000] DMI: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 12/12/2018</span><br><span class="line">[    0.000000] Hypervisor detected: VMware</span><br></pre></td></tr></table></figure>
+
+<p>3、ps命令</p>
+<p>ps 打印内核崩溃时，正常的进程信息，带 &gt; 标识代表是活跃的进程，ps pid打印某指定进程的状态信息</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crash&gt; bt 832</span><br><span class="line">PID: 832    TASK: ffff974f77b63150  CPU: 0   COMMAND: <span class="string">&quot;vector&quot;</span></span><br><span class="line"> <span class="comment">#0 [ffff974f7367fc28] __schedule at ffffffffaad8057a</span></span><br><span class="line"> <span class="comment">#1 [ffff974f7367fcb0] schedule at ffffffffaad80a29</span></span><br><span class="line"> <span class="comment">#2 [ffff974f7367fcc0] futex_wait_queue_me at ffffffffaa712086</span></span><br><span class="line"> <span class="comment">#3 [ffff974f7367fd00] futex_wait at ffffffffaa712e2b</span></span><br><span class="line"> <span class="comment">#4 [ffff974f7367fe48] do_futex at ffffffffaa714b76</span></span><br><span class="line"> <span class="comment">#5 [ffff974f7367fed8] sys_futex at ffffffffaa715090</span></span><br><span class="line"> <span class="comment">#6 [ffff974f7367ff50] system_call_fastpath at ffffffffaad8dede</span></span><br><span class="line">    RIP: 00007fbc3d51cb43  RSP: 00007ffe3cede1f0  RFLAGS: 00010246</span><br><span class="line">    RAX: 00000000000000ca  RBX: 00007fbc3d51caa5  RCX: 0000000000000000</span><br><span class="line">    RDX: 0000000000000001  RSI: 0000000000000080  RDI: 00007fbc3df64930</span><br><span class="line">    RBP: 0000000000000080   R8: 0000000000000070   R9: 00007fbc3df64910</span><br><span class="line">    R10: 0000000000000000  R11: 0000000000000212  R12: 0000000000000001</span><br><span class="line">    R13: 00007fbc3df64930  R14: 00007fbc38002080  R15: 00007fbc38002000</span><br><span class="line">    ORIG_RAX: 00000000000000ca  CS: 0033  SS: 002b</span><br></pre></td></tr></table></figure>
+
+<p>4、file命令</p>
+<p>files pid 打印指定进程所打开的文件信息</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crash&gt; files 832</span><br><span class="line">PID: 832    TASK: ffff974f77b63150  CPU: 0   COMMAND: <span class="string">&quot;vector&quot;</span></span><br><span class="line">ROOT: /    CWD: /</span><br><span class="line"> FD       FILE            DENTRY           INODE       TYPE PATH</span><br><span class="line">  0 ffff974f7761b300 ffff974f7950db00 ffff974f7a3b0850 CHR  /dev/null</span><br><span class="line">  1 ffff974f7761b100 ffff974f7957f740 ffff974f7954ad30 SOCK UNIX</span><br><span class="line">  2 ffff974f7761b100 ffff974f7957f740 ffff974f7954ad30 SOCK UNIX</span><br><span class="line">  3 ffff974f6dab5b00 ffff974f7582fec0 ffff974f7951b090 UNKN [eventpoll]</span><br><span class="line">  4 ffff974f6dab4900 ffff974f73a1fbc0 ffff974f7951b090 UNKN [eventfd]</span><br><span class="line">  5 ffff974f6dab5b00 ffff974f7582fec0 ffff974f7951b090 UNKN [eventpoll]</span><br><span class="line">  6 ffff974f6dab4500 ffff974f75856fc0 ffff974f35c1e6b0 SOCK UNIX</span><br><span class="line">  7 ffff974f6dab5d00 ffff974f758f9800 ffff974f35c18a30 SOCK UNIX</span><br><span class="line">  8 ffff974f6dab4500 ffff974f75856fc0 ffff974f35c1e6b0 SOCK UNIX</span><br><span class="line">  9 ffff974f6dab5400 ffff974f75ab1380 ffff974f75a8b9d0 FIFO</span><br><span class="line"> 10 ffff974f6dab7700 ffff974f75ab1380 ffff974f75a8b9d0 FIFO</span><br><span class="line"> 11 ffff974f6dab4700 ffff974f75ab1800 ffff974f75a8bc20 FIFO</span><br><span class="line"> 12 ffff974f6dab5200 ffff974f75ab1800 ffff974f75a8bc20 FIFO</span><br><span class="line"> 13 ffff974f6dab4100 ffff974f75ab18c0 ffff974f75a8be70 FIFO</span><br><span class="line"> 14 ffff974f6dab4200 ffff974f75ab18c0 ffff974f75a8be70 FIFO</span><br><span class="line"> 15 ffff974f6dab6000 ffff974f75ab1980 ffff974f75a8c0c0 FIFO</span><br><span class="line"> 16 ffff974f6dab5f00 ffff974f75ab1980 ffff974f75a8c0c0 FIFO</span><br><span class="line"> 17 ffff974f60b45e00 ffff974f61e6bd40 ffff974f61e99bb0 SOCK TCP</span><br><span class="line"> 18 ffff974f60b47f00 ffff974f61db6900 ffff974f61e99e30 SOCK TCP</span><br></pre></td></tr></table></figure>
+
+<p>5、vm命令</p>
+<p>vm pid 打印某指定进程当时虚拟内存基本信息</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crash&gt; vm 832</span><br><span class="line">PID: 832    TASK: ffff974f77b63150  CPU: 0   COMMAND: <span class="string">&quot;vector&quot;</span></span><br><span class="line">       MM               PGD          RSS    TOTAL_VM</span><br><span class="line">ffff974f3615abc0  ffff974f736b0000  73656k  206980k</span><br><span class="line">      VMA           START       END     FLAGS FILE</span><br><span class="line">ffff974f6356d518 7fbc31f38000 7fbc31f3a000 8000070</span><br><span class="line">ffff974f6356d6c8 7fbc31f3a000 7fbc32140000 8100073</span><br><span class="line">ffff974f6356d440 7fbc32140000 7fbc32142000 8000070</span><br><span class="line">ffff974f6356d878 7fbc32142000 7fbc32348000 8100073</span><br><span class="line">ffff974f6356d5f0 7fbc32348000 7fbc3234a000 8000070</span><br><span class="line">ffff974f6356da28 7fbc3234a000 7fbc32550000 8100073</span><br><span class="line">ffff974f6356d7a0 7fbc32550000 7fbc32552000 8000070</span><br><span class="line">ffff974f6356de60 7fbc32552000 7fbc32758000 8100073</span><br><span class="line">ffff974f6356d950 7fbc32758000 7fbc3275a000 8000070</span><br><span class="line">ffff974f6356dcb0 7fbc3275a000 7fbc32960000 8100073</span><br><span class="line">ffff974f6356db00 7fbc32960000 7fbc32962000 8000070</span><br><span class="line">ffff974f69324d80 7fbc32962000 7fbc32b68000 8100073</span><br><span class="line">ffff974f6356dd88 7fbc32b68000 7fbc32b6a000 8000070</span><br><span class="line">ffff974f69324ca8 7fbc32b6a000 7fbc32d70000 8100073</span><br><span class="line">ffff974f69324bd0 7fbc32d70000 7fbc32ff0000 8200073</span><br><span class="line">ffff974f69324510 7fbc32ff0000 7fbc32ff2000 8000070</span><br><span class="line">ffff974f69324360 7fbc32ff2000 7fbc331f8000 8100073</span><br></pre></td></tr></table></figure>
+
+<p>6、task命令</p>
+<p>task 查看当前进程或指定进程task_struct和thread_info的信息</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crash&gt; task 832</span><br><span class="line">PID: 832    TASK: ffff974f77b63150  CPU: 0   COMMAND: <span class="string">&quot;vector&quot;</span></span><br><span class="line">struct task_struct &#123;</span><br><span class="line">  state = 1,</span><br><span class="line">  stack = 0xffff974f7367c000,</span><br><span class="line">  usage = &#123;</span><br><span class="line">    counter = 2</span><br><span class="line">  &#125;,</span><br><span class="line">  flags = 1077944320,</span><br><span class="line">  ptrace = 0,</span><br><span class="line">  wake_entry = &#123;</span><br><span class="line">    next = 0x0</span><br><span class="line">  &#125;,</span><br><span class="line">  on_cpu = 0,</span><br><span class="line">  last_wakee = 0xffff974f76cbe2a0,</span><br><span class="line">  wakee_flips = 100,</span><br><span class="line">  wakee_flip_decay_ts = 4294674675,</span><br><span class="line">  wake_cpu = 0,</span><br><span class="line">  on_rq = 0,</span><br><span class="line">  prio = 120,</span><br><span class="line">  static_prio = 120,</span><br><span class="line">  normal_prio = 120,</span><br><span class="line">  rt_priority = 0,</span><br><span class="line">  sched_class = 0xffffffffaae1e3c0,</span><br><span class="line">  se = &#123;</span><br><span class="line">    load = &#123;</span><br><span class="line">      weight = 1024,</span><br><span class="line">      inv_weight = 4194304</span><br><span class="line">    &#125;,</span><br><span class="line">    run_node = &#123;</span><br><span class="line">      __rb_parent_color = 1,</span><br><span class="line">      rb_right = 0x0,</span><br><span class="line">      rb_left = 0x0</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>内核</tag>
+        <tag>vmcore</tag>
+        <tag>crash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>kubelet状态更新和自驱逐参数优化</title>
+    <url>/2023/03/24/kubelet-zhuang-tai-geng-xin-he-zi-qu-zhu-can-shu-you-hua/</url>
+    <content><![CDATA[<h1 id="环境信息"><a href="#环境信息" class="headerlink" title="环境信息"></a>环境信息</h1><ul>
+<li>kubelet： v1.19.10</li>
+<li>os：centos7.9</li>
+<li>deploy：<a href="https://github.com/easzlab/kubeasz">kubeasz</a></li>
+</ul>
+<h1 id="概览"><a href="#概览" class="headerlink" title="概览"></a>概览</h1><p>当 Kubernetes 中 Node 节点出现状态异常的情况下，节点上的 Pod 会被重新调度到其他节点上去，但是有的时候我们会发现节点 Down 掉以后，Pod 并不会立即触发重新调度，这实际上就是和 Kubelet 的状态更新机制密切相关的，Kubernetes 提供了一些参数配置来触发重新调度的时间，为了简单起见，将跳过 HA 的部分，仅描述 Kubelet&lt;-&gt;Controller Manager 通信流程。</p>
+<p>默认情况下，正常行为：</p>
+<ul>
+<li>kubelet 自身会定期更新状态到 apiserver，通过参数 –node-status-update-frequency 指定上报频率，默认是 10s 上报一次。</li>
+<li>Kubernetes controller manager 每隔 –node-monitor-period 检查 Kubelet 的状态。默认值为 5 秒。</li>
+<li>如果状态在 –node-monitor-grace-period 时间内更新，Kubernetes controller manager 认为 Kubelet 处于健康状态。默认值为 40 秒。</li>
+</ul>
+<blockquote>
+<p>Kubernetes controller manager 和 kubelet 是异步工作。这意味着延迟可能包括任何网络延迟、API Server 延迟、etcd 延迟、由控制平面节点上的负载引起的延迟等。所以如果 –node-status-update-frequency 设置为 5s 实际上它可能会在 6-7 秒甚至更长的时间出现在 etcd 中，因为 etcd 无法将数据提交到仲裁节点。</p>
+</blockquote>
+<h2 id="节点故障时"><a href="#节点故障时" class="headerlink" title="节点故障时"></a>节点故障时</h2><p>Kubelet将尝试进行 <code>nodeStatusUpdateRetry</code> POST。目前在kubelet.go中，<code>nodeStatusUpdateRetry</code>经常设置为5。</p>
+<p>Kubelet将尝试更新 tryUpdateNodeStatus函数中的状态。Kubelet使用 <code>http.Client() Golang</code>方法，但没有指定的超时时间。因此，在建立TCP连接时，当API服务器过载时可能会出现一些故障。</p>
+<p>因此，将会有 <code>nodeStatusUpdateRetry*--node-status-update-furn</code>尝试设置节点的状态。</p>
+<p>同时，Kubernetes控制器管理器将尝试每隔一段时间-node-monitor-period，检查节点状态更新nodeStatusUpdateRetry重试次数  。在节点监视器宽限期-node-monitor-grace-period之后，它将认为节点运行不正常。然后，将根据您单独设置的基于污染的逐出计时器或API服务器的全局计时器重新调度Pod：<code>--default-not-ready-toleration-seconds &amp; --default-unreachable-toleration-seconds</code></p>
+<p>kube-proxy在API上有一个监视器。Pod被逐出后，kube-proxy会注意到并更新节点的iptable。它将从服务中删除端点，因此故障节点中的POD将不再可访问。</p>
+<h1 id="基于不同场景配置"><a href="#基于不同场景配置" class="headerlink" title="基于不同场景配置"></a>基于不同场景配置</h1><h2 id="默认参数"><a href="#默认参数" class="headerlink" title="默认参数"></a>默认参数</h2><table>
+<thead>
+<tr>
+<th>组件</th>
+<th>参数</th>
+<th>说明</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>kubelet</td>
+<td>–node-status-update-frequency or nodeStatusUpdateFrequency</td>
+<td>node状态更新频率</td>
+<td>10s</td>
+</tr>
+<tr>
+<td>kube-controller-manager</td>
+<td>-node-monitor-period</td>
+<td>在kube-controller中同步Node状态的时间</td>
+<td>5s</td>
+</tr>
+<tr>
+<td>kube-controller-manager</td>
+<td>–node-monitor-grace-period</td>
+<td>允许运行节点无响应的时间。（必须是kubelet的nodeStatusUpdateFrequency的N倍，其中N表示允许kubelet发布节点状态的重试次数）</td>
+<td>40s</td>
+</tr>
+<tr>
+<td>kube-controller-manager</td>
+<td>–pod-eviction-timeout</td>
+<td>删除失败节点上的pod的宽限期。</td>
+<td>5m0s</td>
+</tr>
+<tr>
+<td>kube-apiserver</td>
+<td>–default-not-ready-toleration-seconds</td>
+<td>指示notReady:NoExecute的容忍度的容忍度时间（秒）</td>
+<td>300</td>
+</tr>
+<tr>
+<td>kube-apiserver</td>
+<td>–default-unreachable-toleration-seconds</td>
+<td>指示对不可访问的容忍度的容忍时间（秒）</td>
+<td>300</td>
+</tr>
+</tbody></table>
+<h2 id="快速更新和快速反应"><a href="#快速更新和快速反应" class="headerlink" title="快速更新和快速反应"></a>快速更新和快速反应</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 修改 kube-controller-manager启动参数或者配置文件新增如下配置</span></span><br><span class="line">--node-monitor-period: 2s (default 5s)</span><br><span class="line">--node-monitor-grace-period: 20s (default 40s)</span><br><span class="line">--pod-eviction-timeout: 30s (default 5m0s)</span><br><span class="line"><span class="comment"># 修改 kubelet配置参数</span></span><br><span class="line">--node-status-update-frequency: 4s （default 10s）</span><br><span class="line">或</span><br><span class="line">(nodeStatusUpdateFrequency: 4s default 10s)</span><br><span class="line"><span class="comment"># 修改 kube-apiserver配置参数</span></span><br><span class="line">--default-unreachable-toleration-seconds=60 (default 300) <span class="comment">#指示对不可访问的容忍度的容忍度秒数：NoExecute，默认情况下添加到尚未具有这种容忍度的每个pod</span></span><br><span class="line">--default-not-ready-toleration-seconds=60 (default 300) <span class="comment">#指示notReady:NoExecute的容忍度的容忍度秒数，默认情况下，该值会添加到尚未具有此类容忍度的每个pod中。</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>在这种情况下，Pod 将在 50s 被驱逐，因为该节点在 20s 后被视为Down掉了，–pod-eviction-timeout 在 30s 之后发生，Kubelet将尝试每4秒更新一次状态。因此，在Kubernetes控制器管理器考虑节点的不健康状态之前，它将是 (20s / 4s * 5) = 25 次尝试，但是，这种情况会给 etcd 产生很大的开销，因为每个节点都会尝试每 2s 更新一次状态。</p>
+<p>如果环境有1000个节点，那么每分钟将有(60s / 4s * 1000) = 15000次节点更新操作，这可能需要大型 etcd 容器甚至是 etcd 的专用节点。</p>
+</blockquote>
+<h2 id="中等更新和平均反应"><a href="#中等更新和平均反应" class="headerlink" title="中等更新和平均反应"></a>中等更新和平均反应</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 修改 kube-controller-manager 启动参数或者配置文件新增如下配置</span></span><br><span class="line">--node-monitor-period: 5s (default 5s)</span><br><span class="line">--node-monitor-grace-period: 1m0s (default 40s)</span><br><span class="line">--pod-eviction-timeout: 1m0s (default 5m0s)</span><br><span class="line"><span class="comment"># 修改 kubelet配置参数</span></span><br><span class="line">--node-status-update-frequency: 10s （default 10s）</span><br><span class="line">或</span><br><span class="line">(nodeStatusUpdateFrequency: 10s (default 10s)</span><br><span class="line"><span class="comment"># 修改 kube-apiserver配置参数</span></span><br><span class="line">--default-unreachable-toleration-seconds=60 (default 300) <span class="comment">#指示对不可访问的容忍度的容忍度秒数：NoExecute，默认情况下添加到尚未具有这种容忍度的每个pod</span></span><br><span class="line">--default-not-ready-toleration-seconds=60 (default 300) <span class="comment">#指示notReady:NoExecute的容忍度的容忍度秒数，默认情况下，该值会添加到尚未具有此类容忍度的每个pod中。</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这种场景下会，Kubelet将尝试每10秒更新一次状态。因此，在Kubernetes控制器管理器检查节点的不健康状态之前，它将是 (1m / 10s *5) = 30 次尝试，节点异常后Pod将在 3m以内被驱逐。目前我们生产就采用该配置。</p>
+</blockquote>
+<h2 id="低更新和慢反应"><a href="#低更新和慢反应" class="headerlink" title="低更新和慢反应"></a>低更新和慢反应</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 修改 kube-controller-manager 启动参数或者配置文件新增如下配置</span></span><br><span class="line">--node-monitor-period: 5s (default 5s)</span><br><span class="line">--node-monitor-grace-period: 5m0s (default 40s)</span><br><span class="line">--pod-eviction-timeout: 1m0s (default 5m0s)</span><br><span class="line"><span class="comment"># 修改 kubelet配置参数</span></span><br><span class="line">--node-status-update-frequency: 60s （default 10s）</span><br><span class="line">或</span><br><span class="line">(nodeStatusUpdateFrequency: 60s (default 10s)</span><br><span class="line"><span class="comment"># 修改 kube-apiserver配置参数</span></span><br><span class="line">--default-unreachable-toleration-seconds=60 (default 300) <span class="comment">#指示对不可访问的容忍度的容忍度秒数：NoExecute，默认情况下添加到尚未具有这种容忍度的每个pod</span></span><br><span class="line">--default-not-ready-toleration-seconds=60 (default 300) <span class="comment">#指示notReady:NoExecute的容忍度的容忍度秒数，默认情况下，该值会添加到尚未具有此类容忍度的每个pod中。</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>这种场景下会，Kubelet将尝试每10秒更新一次状态。因此，在Kubernetes控制器管理器检查节点的不健康状态之前，它将是 (5m / 1m *5) = 20 次尝试。节点被标记为不健康状态之后，Pod 将在 1m以内被驱逐。（总计6分钟左右）</p>
+</blockquote>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://github.com/kubernetes-sigs/kubespray/blob/master/docs/kubernetes-reliability.md?spm=a2c6h.12873639.article-detail.148.5575136eM59wC5&file=kubernetes-reliability.md">https://github.com/kubernetes-sigs/kubespray/blob/master/docs/kubernetes-reliability.md?spm=a2c6h.12873639.article-detail.148.5575136eM59wC5&amp;file=kubernetes-reliability.md</a></p>
+<p><a href="http://team.jiunile.com/blog/2019/08/k8s-kubelet-sync-node-status.html">http://team.jiunile.com/blog/2019/08/k8s-kubelet-sync-node-status.html</a></p>
+]]></content>
+      <categories>
+        <category>kubernetes</category>
+      </categories>
+      <tags>
+        <tag>kubernetes</tag>
+        <tag>k8s</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Go语言基础之结构体</title>
-    <url>/2021/06/22/Go%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80%E4%B9%8B%E7%BB%93%E6%9E%84%E4%BD%93/</url>
+    <url>/2021/06/22/go-yu-yan-ji-chu-zhi-jie-gou-ti/</url>
     <content><![CDATA[<p>Go语言中没有“类”的概念，也不支持“类”的继承等面向对象的概念。Go语言中通过结构体的内嵌再配合接口比面向对象具有更高的扩展性和灵活性。</p>
 <h1 id="类型别名和自定义类型"><a href="#类型别名和自定义类型" class="headerlink" title="类型别名和自定义类型"></a>类型别名和自定义类型</h1><h2 id="自定义类型"><a href="#自定义类型" class="headerlink" title="自定义类型"></a>自定义类型</h2><p>在Go语言中有一些基本的数据类型，如<code>string</code>、<code>整型</code>、<code>浮点型</code>、<code>布尔</code>等数据类型， Go语言中可以使用<code>type</code>关键字来定义自定义类型。</p>
 <p>自定义类型是定义了一个全新的类型。我们可以基于内置的基本类型定义，也可以通过struct定义。例如：</p>
@@ -426,290 +807,6 @@
         <tag>Go</tag>
         <tag>Golang</tag>
         <tag>Go学习</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Kubernetes容器网络</title>
-    <url>/2021/07/15/Kubernetes%E5%AE%B9%E5%99%A8%E7%BD%91%E7%BB%9C/</url>
-    <content><![CDATA[<h2 id="容器是什么"><a href="#容器是什么" class="headerlink" title="容器是什么"></a>容器是什么</h2><p>容器其实是一种沙盒技术。顾名思义，沙盒就是能够像一个集装箱一样，把你的应用“装”起来的技术。这样，应用与应用之间，就因为有了边界而不至于相互干扰；而被装进集装箱的应用，也可以被方便地搬到任何地方运行。对于大多数如Docker、RKT，等Linux容器，其实就是利用Linux Namespace技术创建隔离的进程空间、文件系统、网络命名空间、用户空间、主机名的一组进程。</p>
-<p>所以说，容器，其实是一种特殊的进程而已。</p>
-<p>一个“容器”，实际上是一个由 Linux Namespace、Linux Cgroups 和 rootfs 三种技术构建出来的进程的隔离环境。</p>
-<h3 id="容器优势"><a href="#容器优势" class="headerlink" title="容器优势"></a>容器优势</h3><ul>
-<li>开销更少，无需像虚拟化一样虚拟完整的内核以及初始化环境，和启动一些多余的系统进程。</li>
-<li>可移植性强，容器可以轻松在不同平台移植，如直接运行<code>docker run -d --name nginx -p 80:80 nginx</code></li>
-<li>高效率，开发打完包构建容器后，可以更快部署，发布</li>
-<li>敏捷开发，更快的移植，无需担心依赖的环境不一致的问题</li>
-<li>….</li>
-</ul>
-<h3 id="Kebernetes"><a href="#Kebernetes" class="headerlink" title="Kebernetes"></a>Kebernetes</h3><p>k8s 是什么？为什么要引入 k8s，kubernetes 其实是google公司开源，和Redhat公司一起开发的一个容器编排项目。</p>
-<ul>
-<li><p>k8s 是什么，为什么要引入k8s：<a href="https://kubernetes.io/zh/docs/concepts/overview/what-is-kubernetes/">https://kubernetes.io/zh/docs/concepts/overview/what-is-kubernetes/</a></p>
-</li>
-<li><p>k8s 组件有哪些：<a href="https://kubernetes.io/zh/docs/concepts/overview/components/">https://kubernetes.io/zh/docs/concepts/overview/components/</a> </p>
-</li>
-</ul>
-<h2 id="容器网络模型"><a href="#容器网络模型" class="headerlink" title="容器网络模型"></a>容器网络模型</h2><h3 id="docker-的三种网络模式"><a href="#docker-的三种网络模式" class="headerlink" title="docker 的三种网络模式"></a>docker 的三种网络模式</h3><p>在将容器网络之前先讲一下docker 的网络模式，<code>docker network ls</code>  可以看到</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"> NETWORK ID          NAME                DRIVER              SCOPE</span><br><span class="line">7152832275d0        bridge              bridge              local</span><br><span class="line">bfc2647e9b0b        host                host                local</span><br><span class="line">00ed57db3efb        none                null                local</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>bridge 借助虚拟网桥设备为容器建立网络连接</p>
-</li>
-<li><p>host 设置容器直接共享当前节点主机的网络名称空间</p>
-</li>
-<li><p>none 对于此容器，禁用所有网络。通常与自定义网络驱动程序结合使用</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 每个容器都有自己的独立的&#x27;网络栈&#x27;，如果你想要实现两台主机之间的通信，最直接的办法，就是把它们用一根网线连接起来；而如果你想要实现多台主机之间的通信，那就需要用网线，把它们连接在一台交换机上，即网桥（Bridge）。它是一个工作在数据链路层（Data Link）的设备，主要功能是根据 MAC 地址学习来将数据包转发到网桥的不同端口（Port）上</span></span><br><span class="line"><span class="comment"># 在容器中，Docker安装完成时会创建一个名为docker0的linux bridge，不指定网络时，创建的网络默认为桥接网络，都会桥接到docker0上。</span></span><br><span class="line"><span class="comment"># 如何把容器连接到这个docker0 网桥上呢？这个时候就需要 Veth Pair 的虚拟设备了，该设备一般是成对的出现，并且，从其中一个“网卡”发出的数据包，可以直接出现在与它对应的另一张“网卡”上，哪怕这两个“网卡”在不同的 Network Namespace 里</span></span><br><span class="line">$ brctl show</span><br><span class="line">bridge name     bridge id               STP enabled     interfaces</span><br><span class="line">docker0         8000.0242f2caa77e       no</span><br><span class="line">pan1            8000.000000000000       no</span><br><span class="line">$ docker run -d -u daemon  --name <span class="string">&#x27;net-bridge&#x27;</span> busybox top </span><br><span class="line">$ docker <span class="built_in">exec</span> -ti net-bridge  /bin/sh</span><br><span class="line"><span class="comment"># Veth Pair虚拟网卡设备eth0@if62</span></span><br><span class="line">/ $ ip a</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">61: eth0@if62: &lt;BROADCAST,MULTICAST,UP,LOWER_UP,M-DOWN&gt; mtu 1500 qdisc noqueue</span><br><span class="line">    link/ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 172.17.0.2/16 brd 172.17.255.255 scope global eth0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">/ $ route -n</span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags Metric Ref    Use Iface</span><br><span class="line">0.0.0.0         172.17.0.1      0.0.0.0         UG    0      0        0 eth0</span><br><span class="line">172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 eth0</span><br><span class="line"><span class="comment"># 宿主机上查看接口信息,启动了一个虚拟网卡设备 vethaf3497b@if61</span></span><br><span class="line">$ ip a | tail -4</span><br><span class="line">62: vethaf3497b@if61: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP group default</span><br><span class="line">    link/ether ca:2f:b0:6a:a1:28 brd ff:ff:ff:ff:ff:ff link-netnsid 0</span><br><span class="line">    inet6 fe80::c82f:b0ff:fe6a:a128/64 scope link</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line"></span><br><span class="line"><span class="comment"># brctl show 可以看到docker0 设备上多了一个接口 vethf29b81e 即刚才启动容器的虚拟网卡</span></span><br><span class="line">$ brctl show</span><br><span class="line">bridge name     bridge id               STP enabled     interfaces</span><br><span class="line">docker0         8000.0242f2caa77e       no              vethaf3497b</span><br><span class="line">pan1            8000.000000000000       no</span><br><span class="line"></span><br><span class="line"><span class="comment"># host网络，就是和host主机共享网络，会和host使用一样的网络，host网络的性能比较高，但也会不可避免地引入共享网络资源的问题，比如端口冲突，比如隔离性问题。</span></span><br><span class="line"></span><br><span class="line">$ docker run --net=host busybox ifconfig</span><br><span class="line">docker0   Link encap:Ethernet  HWaddr 02:42:F2:CA:A7:7E</span><br><span class="line">          inet addr:172.17.0.1  Bcast:172.17.255.255  Mask:255.255.0.0</span><br><span class="line">          inet6 addr: fe80::42:f2ff:feca:a77e/64 Scope:Link</span><br><span class="line">          UP BROADCAST MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:274096 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:323190 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:0</span><br><span class="line">          RX bytes:13525456 (12.8 MiB)  TX bytes:1664281006 (1.5 GiB)</span><br><span class="line"></span><br><span class="line">enp0s31f6 Link encap:Ethernet  HWaddr 54:E1:AD:08:B4:21</span><br><span class="line">          UP BROADCAST MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:0 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:0 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1000</span><br><span class="line">          RX bytes:0 (0.0 B)  TX bytes:0 (0.0 B)</span><br><span class="line">          Interrupt:16 Memory:f2200000-f2220000</span><br><span class="line"></span><br><span class="line">lo        Link encap:Local Loopback</span><br><span class="line">          inet addr:127.0.0.1  Mask:255.0.0.0</span><br><span class="line">          inet6 addr: ::1/128 Scope:Host</span><br><span class="line">          UP LOOPBACK RUNNING  MTU:65536  Metric:1</span><br><span class="line">          RX packets:1850471 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:1850471 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1000</span><br><span class="line">          RX bytes:1186483790 (1.1 GiB)  TX bytes:1186483790 (1.1 GiB)</span><br><span class="line"></span><br><span class="line">pan1      Link encap:Ethernet  HWaddr 12:AA:30:13:D7:A4</span><br><span class="line">          inet addr:10.6.207.1  Bcast:10.6.207.255  Mask:255.255.255.0</span><br><span class="line">          inet6 addr: fe80::10aa:30ff:fe13:d7a4/64 Scope:Link</span><br><span class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:0 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:14194 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1000</span><br><span class="line">          RX bytes:0 (0.0 B)  TX bytes:2916067 (2.7 MiB)</span><br><span class="line">wlp3s0    Link encap:Ethernet  HWaddr F8:59:71:8E:3F:55</span><br><span class="line">          inet addr:10.10.134.147  Bcast:10.10.143.255  Mask:255.255.240.0</span><br><span class="line">          inet6 addr: fe80::54ce:44cc:368:d288/64 Scope:Link</span><br><span class="line">          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1</span><br><span class="line">          RX packets:16914279 errors:0 dropped:0 overruns:0 frame:0</span><br><span class="line">          TX packets:4101535 errors:0 dropped:0 overruns:0 carrier:0</span><br><span class="line">          collisions:0 txqueuelen:1000</span><br><span class="line">          RX bytes:7919534294 (7.3 GiB)  TX bytes:2673781183 (2.4 GiB)          </span><br><span class="line">....</span><br><span class="line"></span><br><span class="line"><span class="comment"># none网络，在该网络下的容器仅有lo网卡，属于封闭式网络，通常用于对安全性要求较高并且不需要联网的应用</span></span><br><span class="line">docker run --rm -it --network=none busybox ip a</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line"> </span><br></pre></td></tr></table></figure></li>
-</ul>
-<p>接下来以docker 两种通信方式来介绍容器通信模式：</p>
-<h3 id="单机容器通信"><a href="#单机容器通信" class="headerlink" title="单机容器通信"></a>单机容器通信</h3><p>同一个宿主机上的不同容器通过 docker0 网桥进行通信的流程如图：</p>
-<p><img src="https://i.loli.net/2021/07/14/VutyxR1TczBPSpv.png" alt="image-20210713104524840"></p>
-<p>如图说所示，在容器中，通过docker0网桥，凡是连接到docker0的容器，就可以通过它来进行通信。要想容器能够连接到docker0网桥，我们需要类似网线的虚拟设备Veth Pair来把容器连接到网桥上。 </p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 启动一个container1 </span></span><br><span class="line">$ docker run -d --name <span class="string">&#x27;container1&#x27;</span> nginx</span><br><span class="line">$ dockrer <span class="built_in">exec</span> -ti container1  /bin/sh</span><br><span class="line">$ ip a</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">65: eth0@if66: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</span><br><span class="line">    link/ether 02:42:ac:11:00:03 brd ff:ff:ff:ff:ff:ff link-netnsid 0</span><br><span class="line">    inet 172.17.0.3/16 brd 172.17.255.255 scope global eth0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">$ route -n</span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags Metric Ref    Use Iface</span><br><span class="line">0.0.0.0         172.17.0.1      0.0.0.0         UG    0      0        0 eth0</span><br><span class="line">172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 eth0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 启动一个container2</span></span><br><span class="line">$ docker run -d --name <span class="string">&#x27;container2&#x27;</span> nginx</span><br><span class="line">$ dockrer <span class="built_in">exec</span> -ti container2  /bin/sh</span><br><span class="line">$ ip a</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">63: eth0@if64: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</span><br><span class="line">    link/ether 02:42:ac:11:00:02 brd ff:ff:ff:ff:ff:ff link-netnsid 0</span><br><span class="line">    inet 172.17.0.2/16 brd 172.17.255.255 scope global eth0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line"><span class="comment"># route -n</span></span><br><span class="line">Kernel IP routing table</span><br><span class="line">Destination     Gateway         Genmask         Flags Metric Ref    Use Iface</span><br><span class="line">0.0.0.0         172.17.0.1      0.0.0.0         UG    0      0        0 eth0</span><br><span class="line">172.17.0.0      0.0.0.0         255.255.0.0     U     0      0        0 eth0</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看宿主机上的虚拟设备Veth Pair, veth182b3a5@if63 和 container2 的eth0@if64 是一对，container1 同理。</span></span><br><span class="line">$ ip a | tail -8</span><br><span class="line">64: veth182b3a5@if63: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP group default</span><br><span class="line">    link/ether 76:97:8e:fe:a9:c7 brd ff:ff:ff:ff:ff:ff link-netnsid 0</span><br><span class="line">    inet6 fe80::7497:8eff:fefe:a9c7/64 scope link</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">66: veth877c7d8@if65: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue master docker0 state UP group default</span><br><span class="line">    link/ether 12:7e:d0:0f:ae:99 brd ff:ff:ff:ff:ff:ff link-netnsid 1</span><br><span class="line">    inet6 fe80::107e:d0ff:fe0f:ae99/64 scope link</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line"></span><br><span class="line"><span class="comment"># container1 ping container2 测试</span></span><br><span class="line"><span class="comment"># ping 172.17.0.3</span></span><br><span class="line">PING 172.17.0.3 (172.17.0.3) 56(84) bytes of data.</span><br><span class="line">64 bytes from 172.17.0.3: icmp_seq=1 ttl=64 time=0.091 ms</span><br><span class="line">64 bytes from 172.17.0.3: icmp_seq=2 ttl=64 time=0.059 ms</span><br><span class="line">64 bytes from 172.17.0.3: icmp_seq=3 ttl=64 time=0.034 ms</span><br><span class="line"><span class="comment"># 可以看到同一宿主机容器默认都是通的，是因为他们默认网关都是docker0 这块网卡。 </span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="跨主机容器通信"><a href="#跨主机容器通信" class="headerlink" title="跨主机容器通信"></a>跨主机容器通信</h3><p>跨主机通信方案有以下几种方案：</p>
-<ul>
-<li>NAT方式<br>NAT就是传统的docker网络，利用宿主机的IP和Iptables来达到容器，主机之间的通信。容器对外IP都是宿主机的IP，NAT的性能损耗比较大。但只要宿主机之间三层IP可达，容器之间就可以通信，比较普适。</li>
-<li>Tunnel（overlay）方式，VPN，ipip，VXLAN等都是tunnel技术，简单讲就是在容器的数据包间封装一层或多层其他的数据协议头，达到连通的效果。这种方式一般也是只需要三层可达，容器就能互通，比较普适。</li>
-<li>Routing方式<br>路由方案主要是通过路由设置的方式让容器对容器，容器对宿主机之间相通信。例如：calico的BGP路由方案（非IPIP）。这种方式一般适用于单个数据中心，最常见的是同一个vlan中使用，如果不是，需要设置路由规则。路由方案性能损耗少，和主机网络性能比较接近。</li>
-</ul>
-<p>先介绍下NAT方式，所有接入到该桥接设备上的容器都会被NAT隐藏，它们发往Docker主机外部的所有流量都会经过源地址转换后发出(SNAT)，并且默认是无法直接接受节点之外的其他主机发来的请求。当需要接入Docker主机外部流量，就需要进行目标地址转换(DNAT)甚至端口转换将其暴露在外部网络当中。大致的流程图：</p>
-<p><img src="https://i.loli.net/2021/07/14/scPfALv6ibqEMWI.png" alt="image-20210713111835432"></p>
-<p>容器内的属于私有地址，需要在左侧的主机上的eth0上进行源地址转换，而右侧的地址需要被访问，就需要将eth0的地址进行NAT转换。SNAT—-&gt;DNAT。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">#具体方案在2个主机上通过主机路由和iptables 地址伪装来实现跨主机容器的互通，这里就不做过多解释</span><br></pre></td></tr></table></figure>
-
-<h2 id="Kubernetes-容器网络CNI插件"><a href="#Kubernetes-容器网络CNI插件" class="headerlink" title="Kubernetes 容器网络CNI插件"></a>Kubernetes 容器网络CNI插件</h2><p>这里介绍完docker的网络方案之后，我们来聊聊kubernetes的容器间网络的通信方案。</p>
-<p>官网中文doc：<a href="https://kubernetes.io/zh/docs/concepts/cluster-administration/networking/">https://kubernetes.io/zh/docs/concepts/cluster-administration/networking/</a></p>
-<p>那么什么是CNI（container network interface）容器网络接口，k8s为了更好的控制网络的接入，推出了CNI即容器网络的API接口。CNI维护了一个单独的网桥来代替 docker0。这个网桥的名字就叫作：CNI 网桥，它在宿主机上的设备名称默认是：cni0。</p>
-<p>CNI主要解决Pod间的通信，目前流行的CNI插件如：calico, cilium, flannel, kube-ovn, kube-router</p>
-<h2 id="Flannel-插件跨主机通信原理"><a href="#Flannel-插件跨主机通信原理" class="headerlink" title="Flannel 插件跨主机通信原理"></a>Flannel 插件跨主机通信原理</h2><p>Flannel 项目是 CoreOS 公司主推的容器网络方案。事实上，Flannel 项目本身只是一个框架，真正为我们提供容器网络功能的，是 Flannel 的后端实现。目前，Flannel 支持三种后端实现，分别是：</p>
-<ul>
-<li>UDP</li>
-<li>VXLAN</li>
-<li>host-gw</li>
-</ul>
-<h3 id="udp模式"><a href="#udp模式" class="headerlink" title="udp模式"></a>udp模式</h3><p><img src="https://i.loli.net/2021/07/14/zSH467pZwVF1LBg.png" alt="image-20210713190907679"></p>
-<p>可以看到，Flannel UDP 模式提供的其实是一个三层的 Overlay 网络，即：它首先对发出端的 IP 包进行 UDP 封装，然后在接收端进行解封装拿到原始的 IP 包，进而把这个 IP 包转发给目标容器。这就好比，Flannel 在不同宿主机上的两个容器之间打通了一条“隧道”，使得这两个容器可以直接使用 IP 地址进行通信，而无需关心容器和宿主机的分布情况。</p>
-<p>但是UDP 模式有严重的性能问题，基本已经上被废弃了。</p>
-<p>基于 Flannel UDP 模式的容器通信多了一个额外的步骤，即 flanneld 的处理过程。而这个过程，由于使用到了 flannel0 这个 TUN 设备，仅在发出 IP 包的过程中，就需要经过三次用户态与内核态之间的数据拷贝，其性能可想而知。</p>
-<h3 id="VXLAN模式"><a href="#VXLAN模式" class="headerlink" title="VXLAN模式"></a>VXLAN模式</h3><p>VXLAN，即 Virtual Extensible LAN（虚拟可扩展局域网），是 Linux 内核本身就支持的一种网络虚似化技术。所以说，VXLAN 可以完全在内核态实现上述封装和解封装的工作，从而通过与前面相似的“隧道”机制，构建出覆盖网络（Overlay Network）</p>
-<p><img src="https://i.loli.net/2021/07/14/Kqv7ULZscznIGFC.png" alt="image-20210713191114467"></p>
-<p>VXLAN 模式组建的覆盖网络，其实就是一个由不同宿主机上的 VTEP 设备，也就是 flannel.1 设备组成的虚拟二层网络。对于 VTEP 设备来说，它发出的“内部数据帧”就仿佛是一直在这个虚拟的二层网络上流动。这，也正是覆盖网络的含义,具体就不展开了。</p>
-<h2 id="Kubernetes-三层网络方案"><a href="#Kubernetes-三层网络方案" class="headerlink" title="Kubernetes 三层网络方案"></a>Kubernetes 三层网络方案</h2><p>讲了以上flannel 的以上2种方案，我们接下来讲一下纯三层的网络方案，如于 Flannel 的 host-gw 模式和 Calico BGP</p>
-<h3 id="Flannel-的-host-gw-模式"><a href="#Flannel-的-host-gw-模式" class="headerlink" title="Flannel 的 host-gw 模式"></a>Flannel 的 host-gw 模式</h3><p><img src="https://i.loli.net/2021/07/14/xp64BmUif5PMXsl.png" alt="image-20210714221235728"></p>
-<p>假设现在，Node 1 上的 Infra-container-1，要访问 Node 2 上的 Infra-container-2。</p>
-<p>当你设置 Flannel 使用 host-gw 模式之后，flanneld 会在宿主机上创建这样一条规则，以 Node 1 为例：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ ip route</span><br><span class="line">...</span><br><span class="line">10.244.1.0/24 via 10.168.0.3 dev eth0</span><br></pre></td></tr></table></figure>
-
-<p>这条路由规则的含义是：目的 IP 地址属于 10.244.1.0/24 网段的 IP 包，应该经过本机的 eth0 设备发出去（即：dev eth0）；并且，它下一跳地址（next-hop）是 10.168.0.3（即：via 10.168.0.3）。</p>
-<p>如图所示这个下一跳地址对应的，正是我们的目的宿主机 Node 2。</p>
-<p>一旦配置了下一跳地址，那么接下来，当 IP 包从网络层进入链路层封装成帧的时候，eth0 设备就会使用下一跳地址对应的 MAC 地址，作为该数据帧的目的 MAC 地址。显然，这个 MAC 地址，正是 Node 2 的 MAC 地址。这样，这个数据帧就会从 Node 1 通过宿主机的二层网络顺利到达 Node 2 上。</p>
-<p>而 Node 2 的内核网络栈从二层数据帧里拿到 IP 包后，会“看到”这个 IP 包的目的 IP 地址是 10.244.1.3，即 Infra-container-2 的 IP 地址。这时候，根据 Node 2 上的路由表，该目的地址会匹配到第二条路由规则（也就是 10.244.1.0 对应的路由规则），从而进入 cni0 网桥，进而进入到 Infra-container-2 当中。</p>
-<p>host-gw 模式的工作原理，其实就是将每个 Flannel 子网（Flannel Subnet，比如：10.244.1.0/24）的“下一跳”，设置成了该子网对应的宿主机的 IP 地址。所以宿主机充当了“网关”的角色，即顾名思义“host-gw”</p>
-<h3 id="Calico"><a href="#Calico" class="headerlink" title="Calico"></a>Calico</h3><p>Calico 是一套开源的网络和网络安全方案，用于容器、虚拟机、宿主机之前的网络连接，可以用在kubernetes、OpenShift、DockerEE、OpenStrack等PaaS或IaaS平台上。</p>
-<p>首先看下calico 架构图</p>
-<p><img src="https://i.loli.net/2021/07/14/t4dhz5sQkFiPWcl.png" alt="image-20210713170229021"></p>
-<ul>
-<li><code>Felix</code>：<code>calico</code>的核心组件，运行在每个节点上。主要的功能有接口管理、路由规则、ACL规则和状态报告</li>
-<li><code>Etcd</code>：保证数据一致性的数据库，存储集群中节点的所有路由信息。为保证数据的可靠和容错建议至少三个以上etcd节点。</li>
-<li><code>Bird</code>：BGP客户端，<code>Calico</code>在每个节点上的都会部署一个BGP客户端（利用Daemonset方式部署），它的作用是将Felix的路由信息读入内核，并通过BGP协议在集群中分发。当Felix将路由插入到Linux内核FIB中时，BGP客户端将获取这些路由并将它们分发到部署中的其他节点。这可以确保在部署时有效地路由流量。</li>
-<li><code>BGP Router Reflector</code>：使用 BGP client 形成 mesh 全网互联的方案就会导致规模限制，所有节点需要 N^2 个连接，为了解决这个规模问题，BGP 的 <code>Router Reflector</code>的方法，使所有 BGP Client 仅与特定 RR 节点互联并做路由同步，从而大大减少连接数。</li>
-</ul>
-<h4 id="Calico-网络模式"><a href="#Calico-网络模式" class="headerlink" title="Calico 网络模式"></a>Calico 网络模式</h4><ul>
-<li> IPIP模式，把 IP 层封装到 IP 层的一个 tunnel。作用其实基本上就相当于一个基于IP层的网桥！一般来说，普通的网桥是基于mac层的，根本不需 IP，而这个 ipip 则是通过两端的路由做一个 tunnel，把两个本来不通的网络通过点对点连接起来。</li>
-<li>Router Reflector 模式（RR），Calico 维护的网络在默认是（Node-to-Node Mesh）全互联模式，Calico集群中的节点之间都会相互建立连接，用于路由交换。但是随着集群规模的扩大，mesh模式将形成一个巨大服务网格，连接数成倍增加。这时就需要使用 Route Reflector（路由器反射）模式解决这个问题。</li>
-</ul>
-<h4 id="BGP-协议"><a href="#BGP-协议" class="headerlink" title="BGP 协议"></a>BGP 协议</h4><p><code>BGP（border gateway protocol）是外部路由协议（边界网关路由协议）</code>，用来在AS之间传递路由信息是一种增强的距离矢量路由协议（应用场景），基本功能是在自治系统间自动交换无环路的路由信息，通过交换带有自治系统号序列属性的路径可达信息，来构造自治系统的拓扑图，从而消除路由环路并实施用户配置的路由策略。<strong>只要记住BGP简单理解其实就是实现大规模网络中节点路由信息同步共享的一种协议</strong>。</p>
-<blockquote>
-<p>实际上，Calico 项目提供的 <code>BGP</code> 网络解决方案，与 <code>Flannel</code> 的 <code>host-gw</code> 模式几乎一样。也就是说，Calico也是基于路由表实现容器数据包转发，但不同于Flannel使用flanneld进程来维护路由信息的做法，而Calico项目使用BGP协议来自动维护整个集群的路由信息。</p>
-</blockquote>
-<p>BGP模式</p>
-<ul>
-<li><code>全互联模式</code>（node-to-node mesh） 每一个BGP Speaker都需要和其他BGP Speaker建立BGP连接，这样BGP连接总数就是N^2，如果数量过大会消耗大量连接。如果集群数量超过100台官方不建议使用此种模式。</li>
-<li>RR模式（Router Reflection），会指定一个或多个BGP Speaker为RouterReflection，它与网络中其他Speaker建立连接，每个Speaker只要与Router Reflection建立BGP就可以获得全网的路由信息。在calico中可以通过<code>Global Peer</code>实现RR模式。</li>
-</ul>
-<h4 id="Calico-IPIP"><a href="#Calico-IPIP" class="headerlink" title="Calico IPIP"></a>Calico IPIP</h4><p><img src="https://i.loli.net/2021/07/14/dtF9w1YTnsIZ4Ek.png" alt="image-20210714210320203"></p>
-<p>IPIP 是linux内核的驱动程序，可以对数据包进行隧道，上图可以看到两个不同的网络 vlan1 和 vlan2。基于现有的以太网将原始包中的原始IP进行一次封装，通过tunl0解包，这个tunl0类似于ipip模块，和Flannel vxlan的veth很类似。</p>
-<p>Pod1 访问 Pod2 流程如下：</p>
-<ol>
-<li><p>数据包从 Pod1 出到达Veth Pair另一端（宿主机上，以cali前缀开头）。</p>
-</li>
-<li><p>进入IP隧道设备（tunl0），由Linux内核IPIP驱动封装，把源容器ip换成源宿主机ip，目的容器ip换成目的主机ip，这样就封装成 Node1 到 Node2 的数据包。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">此时包的类型：</span><br><span class="line">  原始IP包：</span><br><span class="line">  源IP：10.244.1.10</span><br><span class="line">  目的IP：10.244.2.10</span><br><span class="line"></span><br><span class="line">   TCP：</span><br><span class="line">   源IP: 192.168.31.62</span><br><span class="line">   目的iP：192.168.32.63</span><br></pre></td></tr></table></figure></li>
-<li><p>数据包经过路由器三层转发到 Node2</p>
-</li>
-<li><p>Node2 收到数据包后，网络协议栈会使用IPIP驱动进行解包，从中拿到原始IP包。</p>
-</li>
-<li><p>然后根据路由规则，将数据包转发给cali设备，从而到达 Pod2。</p>
-</li>
-</ol>
-<p>通过如上步骤可以看出，当 Calico 使用 IPIP 模式的时候，集群的网络性能会因为额外的封包和解包工作而下降。所以建议你将所有宿主机节点放在一个子网里，避免使用 IPIP。<strong>不过这里可以利用IPIP模式的CrossSubnet来突破node不能跨VALN的问题，这个目前已经测试通过。</strong></p>
-<h4 id="Calico-BGP-RR"><a href="#Calico-BGP-RR" class="headerlink" title="Calico BGP RR"></a>Calico BGP RR</h4><p>calico还和flannel host-gw不同之处在于，它不会创建网桥设备，而是通过路由表来维护每个pod的通信，如下图：</p>
-<p><img src="https://i.loli.net/2021/07/14/2nKSBwmRChpUqgD.png" alt="image-20210714200920896"></p>
-<p>Pod1 访问 Pod2大致流程如下：</p>
-<ul>
-<li>数据包从Pod1出到达Veth Pair另一端（宿主机上，以cali前缀开头）</li>
-<li>宿主机根据路由规则，将数据包转发给下一跳（网关）</li>
-<li>到达Node2，根据路由规则将数据包转发给cali设备，从而到达Pod2</li>
-</ul>
-<p>实际例子：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">1.启动2个容器</span><br><span class="line">kubectl create -f -&lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string">apiVersion: apps/v1</span></span><br><span class="line"><span class="string">kind: Deployment</span></span><br><span class="line"><span class="string">metadata:</span></span><br><span class="line"><span class="string">  name: nettools-deploy</span></span><br><span class="line"><span class="string">spec:</span></span><br><span class="line"><span class="string">  replicas: 2</span></span><br><span class="line"><span class="string">  selector:</span></span><br><span class="line"><span class="string">    matchLabels:</span></span><br><span class="line"><span class="string">      app: nettools-deploy</span></span><br><span class="line"><span class="string">  template:</span></span><br><span class="line"><span class="string">    metadata:</span></span><br><span class="line"><span class="string">      labels:</span></span><br><span class="line"><span class="string">        app: nettools-deploy</span></span><br><span class="line"><span class="string">    spec:</span></span><br><span class="line"><span class="string">      containers:</span></span><br><span class="line"><span class="string">        - name: nettools-deploy</span></span><br><span class="line"><span class="string">          image: registry.XXX.com/base/network-multitool:lastet</span></span><br><span class="line"><span class="string">          imagePullPolicy: IfNotPresent     </span></span><br><span class="line"><span class="string">          ports:</span></span><br><span class="line"><span class="string">            - containerPort: 80</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line">2.查看2个pod 目前所在的node节点</span><br><span class="line">kubectl get pod -owide</span><br><span class="line">NAME                               READY   STATUS    RESTARTS   AGE    IP             NODE         NOMINATED NODE   READINESS GATES</span><br><span class="line">nettools-deploy-68b646bdfb-2ckgt   1/1     Running   0          113s   10.5.231.54    10.4.83.14   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">nettools-deploy-68b646bdfb-xbpwd   1/1     Running   0          113s   10.5.228.128   10.4.83.11   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">3.查看pod中的路由和网卡信息，可以看到路由指向的是一个不存在的网关地址169.254.1.1，这个主要利用了ARP代理欺骗的技术来把pod 所有数据流导到宿主机的 cali70d877f367d@if3 网卡上</span><br><span class="line">kubectl <span class="built_in">exec</span> -ti nettools-deploy-68b646bdfb-2ckgt  /bin/sh</span><br><span class="line">ip r</span><br><span class="line">default via 169.254.1.1 dev eth0</span><br><span class="line">169.254.1.1 dev eth0 scope link</span><br><span class="line">/ <span class="comment"># ip a</span></span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">3: eth0@if9431: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</span><br><span class="line">    link/ether be:11:81:9a:9b:d4 brd ff:ff:ff:ff:ff:ff link-netnsid 0</span><br><span class="line">    inet 10.5.231.54/32 scope global eth0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">4.可以登录node 查看Veth Pair 设备和路由信息，这里可以看到网卡的编号和pod 中的网卡名是一样的。所以称之为虚拟网卡对(Veth Pair)，有了这个cali70d877f367d@if3 设备那么容器发出的IP包就会通过veth pair设备到达宿主机</span><br><span class="line">ip r  | grep 10.5.231.54</span><br><span class="line">10.5.231.54 dev cali70d877f367d scope link</span><br><span class="line"></span><br><span class="line">ip a | grep -A 4  9431</span><br><span class="line">9431: cali70d877f367d@if3: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc noqueue state UP group default</span><br><span class="line">    link/ether ee:ee:ee:ee:ee:ee brd ff:ff:ff:ff:ff:ff link-netnsid 7</span><br><span class="line">    inet6 fe80::ecee:eeff:feee:eeee/64 scope link</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">5.pod1要想跟其他主机pod2通信那么检查node上是否存在相应的路由，然后到达目标宿主机，再到达目标容器</span><br><span class="line">ip r | grep 10.5.228.128</span><br><span class="line">10.5.228.128/26 via 10.4.83.11 dev bond0 proto bird</span><br></pre></td></tr></table></figure>
-
-<p>其中，这里最核心的 下一跳 路由规则，就是由 Calico 的 Felix 进程负责维护的。这些路由规则信息，则是通过 BGP Client 中 BIRD 组件，使用 BGP 协议来传输。</p>
-<p>不难发现，Calico 项目实际上将集群里的所有节点，都当作是边界路由器来处理，它们一起组成了一个全连通的网络，互相之间通过 BGP 协议交换路由规则。这些节点，我们称为 BGP Peer。</p>
-<p>需要注意的是calico 维护网络的默认模式是 node-to-node mesh ,这种模式下，每台宿主机的BGP client都会跟集群所有的节点BGP client进行通信交换路由。这样一来，随着节点规模数量N的增加，连接会以N的2次方增长，会集群网络本身带来巨大压力，在集群规模比较大时，官方建议是使用BGP-RR 如下是我们使用网络硬件设备作为RR</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">calicoctl node status</span><br><span class="line">Calico process is running.</span><br><span class="line"></span><br><span class="line">IPv4 BGP status</span><br><span class="line">+--------------+-----------+-------+------------+-------------+</span><br><span class="line">| PEER ADDRESS | PEER TYPE | STATE |   SINCE    |    INFO     |</span><br><span class="line">+--------------+-----------+-------+------------+-------------+</span><br><span class="line">| 10.4.36.250  | global    | up    | 2021-05-11 | Established |</span><br><span class="line">| 10.4.36.251  | global    | up    | 2021-05-11 | Established |</span><br><span class="line">+--------------+-----------+-------+------------+-------------+</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-
-
-<h4 id="目前calico架构图"><a href="#目前calico架构图" class="headerlink" title="目前calico架构图"></a>目前calico架构图</h4><p><img src="https://i.loli.net/2021/07/14/cOREUpCYqS5omPI.png" alt="image-20210714205042267"></p>
-<p>现在的架构考虑到了冗余，隔离，性能</p>
-<ul>
-<li>网络隔离，所有的bgp 学习在一组交换机内，不向上通报，避免容器的bgp 影响到我们sdn 的bgp，带来的排障的麻烦，这是隔离。</li>
-<li>性能方面，现在集群 bgp 关闭full mesh，改为global，降低因容器集群规模变大，导致路由过多的问题。</li>
-<li>冗余方面，现在每台机器2条线，接2个交换机，bgp 跟2个交换机互联，实现了冗余，所有流量通过 交换机交换，满足了性能跟冗余的要求。</li>
-</ul>
-<h4 id="Calico-优劣势"><a href="#Calico-优劣势" class="headerlink" title="Calico 优劣势"></a>Calico 优劣势</h4><p>优势</p>
-<ul>
-<li>BGP RR没有封包和解包过程，完全基于两端宿主机的路由表进行转发</li>
-<li>可以配合使用 <code>Network Policy</code> 做 pod 和 pod 之前的访问控制</li>
-</ul>
-<p>劣势</p>
-<ul>
-<li>要求宿主机处于同一个2层网络下，也就是连在一台交换机上，但也可以突破</li>
-<li>每个node上会设置大量（大量)的iptables规则、路由，运维、排障难度大</li>
-<li>安全策略隔离上也略显不足</li>
-</ul>
-<h3 id="CNI插件性能比较"><a href="#CNI插件性能比较" class="headerlink" title="CNI插件性能比较"></a>CNI插件性能比较</h3><p>基于flannel解包包的路由和转发的操作都是在CPU上进行的，这样就造成了计算资源的浪费。下图是从网上找的各种开源网络组件的性能对比。可以看出，无论是带宽还是网络延迟，性能都和calico主机差不多。</p>
-<p><img src="https://i.loli.net/2021/07/14/5r1QBLDSUpcR7Hk.png" alt="image-20210714212457115"></p>
-<h2 id="Kubernetes-Service-NodePort-和Ingress"><a href="#Kubernetes-Service-NodePort-和Ingress" class="headerlink" title="Kubernetes Service NodePort 和Ingress"></a>Kubernetes Service NodePort 和Ingress</h2><h4 id="Service"><a href="#Service" class="headerlink" title="Service"></a>Service</h4><p>Service 这个 Kubernetes 里重要的服务对象。而 Kubernetes 之所以需要 Service，</p>
-<ul>
-<li><p>一方面是因为 Pod 的 IP 不是固定的</p>
-</li>
-<li><p>另一方面则是因为一组 Pod 实例之间总会有负载均衡的需求</p>
-</li>
-</ul>
-<p>实际上，Service 是由 kube-proxy 组件，加上 iptables 来共同实现的。</p>
-<blockquote>
-<p>并且现在还支持IPVS的模式，kube-proxy 通过 iptables 处理 Service 的过程，其实需要在宿主机上设置相当多的 iptables 规则。而且，kube-proxy 还需要在控制循环里不断地刷新这些规则来确保它们始终是正确的。当pod数量巨大时，成百上千条 iptables 规则不断地被刷新，会大量占用该宿主机的 CPU 资源，甚至会让宿主机“卡”在这个过程中。所以说，一直以来，基于 iptables 的 Service 实现，都是制约 Kubernetes 项目承载更多量级的 Pod 的主要障碍。我们知道IPVS跟IPtables都是工作基于内核的Netfilter 的 NAT 模式工作的，IPVS 并不需要在宿主机上为每个 Pod 设置 iptables 规则，而是把对这些“规则”的处理放到了内核态，从而极大地降低了维护这些规则的代价。所以当集群规模比较大的时候，可以使用ipvs 来提高性能。</p>
-</blockquote>
-<p>ClusterIP 服务是默认的 Kubernetes Service。它为您提供集群内的服务，集群内的其他应用程序可以访问该服务,默认外部无法访问改地址。如图所示</p>
-<p><img src="https://i.loli.net/2021/07/14/5VXtAYkF86OxiNH.png" alt="image-20210714223846542"></p>
-<h4 id="NodePort"><a href="#NodePort" class="headerlink" title="NodePort"></a>NodePort</h4><p> NodePort服务是将外部流量直接发送到您的服务的最原始方式。NodePort，顾名思义，在所有节点（VM）上打开一个特定的端口，发送到这个端口的任何流量都会转发到服务，如图所示。</p>
-<p><img src="https://i.loli.net/2021/07/14/w8H4RvuPsiJnDzN.png" alt="image-20210714224044599"></p>
-<h4 id="Ingress"><a href="#Ingress" class="headerlink" title="Ingress"></a>Ingress</h4><p>Ingress 实际上不是一种服务。相反，它位于多个服务的前面，充当“智能路由器”或集群的入口点。</p>
-<p>Ingress 的功能其实很容易理解：所谓 Ingress，就是 Service 的“Service”，如图所示：</p>
-<p><img src="https://i.loli.net/2021/07/14/hgznYwIPp87KHJF.png" alt="image-20210714224239095"></p>
-<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><ol>
-<li>为什么要用calico </li>
-<li>cilium 取代calico</li>
-<li>….</li>
-</ol>
-]]></content>
-  </entry>
-  <entry>
-    <title>Hexo 分类和标签</title>
-    <url>/2021/11/08/Hexo-%E5%88%86%E7%B1%BB%E5%92%8C%E6%A0%87%E7%AD%BE/</url>
-    <content><![CDATA[<h3 id="一、主题配置打开"><a href="#一、主题配置打开" class="headerlink" title="一、主题配置打开"></a><strong>一、主题配置打开</strong></h3><p>打开 <code>themes/next/_config.yml</code> <strong>主题配置文件</strong> 找到 <code>Menu Settings</code> ，把 <code>categories</code> 和 <code>tags</code> 取消注释。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tags: /tags/ || fa fa-tags</span><br><span class="line">categories: /categories/ || fa fa-th</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<h2 id="二、添加分类模块"><a href="#二、添加分类模块" class="headerlink" title="二、添加分类模块"></a>二、添加分类模块</h2><p>新建一个分类页面。<br><code>$ hexo new page categories</code><br>你会发现你的source文件夹下有了categories[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 分类</p>
-<p>把文章归入分类只需在文章的顶部标题下方添加categories字段，即可自动创建分类名并加入对应的分类中</p>
-<h2 id="三、添加标签模块"><a href="#三、添加标签模块" class="headerlink" title="三、添加标签模块"></a>三、添加标签模块</h2><p>新建一个标签页面 。<br><code>$ hexo new page tags</code><br>你会发现你的source文件夹下有了tags[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 标签<br>把文章添加标签只需在文章的顶部标题下方添加tags字段，即可自动创建标签名并归入对应的标签中</p>
-<h2 id="四、修改-index-md-文件"><a href="#四、修改-index-md-文件" class="headerlink" title="四、修改 index.md 文件"></a><strong>四、修改 <a href="http://index.md/">index.md</a> 文件</strong></h2><p>打开 <code>categories</code> 文件夹下的 <code>index.md</code> ，在最下面一行加一行文字就行，注意中间有空格。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2021-11-08 10:47:33</span><br><span class="line"><span class="built_in">type</span>: categories</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>同理，<code>tags</code> 也是如此。</p>
-<h2 id="五、效果展示"><a href="#五、效果展示" class="headerlink" title="五、效果展示"></a><strong>五、效果展示</strong></h2><p><img src="/2021/11/08/Hexo-%E5%88%86%E7%B1%BB%E5%92%8C%E6%A0%87%E7%AD%BE/1677584124277.png" alt="1677584124277"></p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>blog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Linux 使用crash分析vmcore dump文件</title>
-    <url>/2023/02/28/Linux%20%E4%BD%BF%E7%94%A8crash%E5%88%86%E6%9E%90vmcore%20dump%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h2 id="vmcore是什么？"><a href="#vmcore是什么？" class="headerlink" title="vmcore是什么？"></a>vmcore是什么？</h2><p>vmcore是指操作系统在遇到致命错误（比如内核崩溃）时所生成的内存转储文件。这个文件包含了操作系统在崩溃前的内存状态，因此可以用于诊断崩溃的原因。</p>
-<p>在 Linux 系统中，当内核崩溃时，通常会生成一个称为vmcore的文件。该文件位于/var/crash目录下，其命名类似于vmcore.&lt;时间戳&gt;。vmcore文件通常是非常大的，因为它包含了操作系统在崩溃前的全部内存内容。</p>
-<p>一般情况下，vmcore文件可以通过分析工具进行分析，以确定崩溃的原因。例如，可以使用GNU Debugger（GDB）或crash工具来分析vmcore文件。</p>
-<h2 id="手动触发vmcore的文件"><a href="#手动触发vmcore的文件" class="headerlink" title="手动触发vmcore的文件"></a>手动触发vmcore的文件</h2><p>vmcore文件通常是在系统遇到严重故障、例如操作系统崩溃或Panic时自动生成的，而无法手动触发。在一些情况下，我们可能需要手动触发一个vmcore文件的生成，例如在进行内核调试时。这时，可以使用kdump工具来手动触发vmcore文件的生成。</p>
-<h3 id="安装kexec-tools和kernel-debuginfo包"><a href="#安装kexec-tools和kernel-debuginfo包" class="headerlink" title="安装kexec-tools和kernel-debuginfo包"></a>安装kexec-tools和kernel-debuginfo包</h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># yum install yum-utils kexec-tools</span><br><span class="line"># debuginfo-install kernel</span><br></pre></td></tr></table></figure>
-
-<p>如果 <code>kernel-debuginfo</code>安装不成功，直接下载CentOS官方下载：<a href="http://debuginfo.centos.org/7/x86_64/">http://debuginfo.centos.org/7/x86_64/</a></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">curl -o kernel-debuginfo-$(uname -r).rpm http://debuginfo.centos.org/7/x86_64/kernel-debuginfo-$(uname -r).rpm</span><br><span class="line">curl -o kernel-debuginfo-common-x86_64-$(uname -r).rpm http://debuginfo.centos.org/7/x86_64/kernel-debuginfo-common-x86_64-$(uname -r).rpm</span><br><span class="line">rpm -ivh kernel-debuginfo-common-x86_64-$(uname -r).rpm</span><br><span class="line">rpm -ivh kernel-debuginfo-$(uname -r).rpm</span><br></pre></td></tr></table></figure>
-
-<p>在使用kdump之前，需要先安装kexec-tools和kernel-debuginfokernel-debuginf包，它们可以通过Linux发行版的软件包管理器来安装。</p>
-<h3 id="配置kdump"><a href="#配置kdump" class="headerlink" title="配置kdump"></a>配置kdump</h3><p>可以使用命令 <code>systemctl status kdump</code>来检查kdump是否已经安装并启用。</p>
-<p>如果没有启用，需要编辑/etc/default/grub文件并添加以下行：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">RUB_CMDLINE_LINUX_DEFAULT=<span class="string">&quot;crashkernel=auto rd.lvm.lv=&lt;rootvg&gt;/&lt;rootlv&gt;&quot;</span></span><br></pre></td></tr></table></figure>
-
-<p>其中 <code>&lt;rootvg&gt;</code>和 <code>&lt;rootlv&gt;</code>是根分区的名称。</p>
-<p>保存并关闭文件后，执行以下命令以重新生成grub.cfg文件：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># grub2-mkconfig -o /boot/grub2/grub.cfg</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="启用kdump服务"><a href="#启用kdump服务" class="headerlink" title="启用kdump服务"></a>启用kdump服务</h3><p>执行以下命令以启用kdump服务：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># systemctl enable kdump</span></span><br><span class="line"><span class="comment"># systemctl start kdump</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="手动生成vmcore文件"><a href="#手动生成vmcore文件" class="headerlink" title="手动生成vmcore文件"></a>手动生成vmcore文件</h3><p>要手动生成vmcore文件，可以使用以下命令：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># echo 1 &gt; /proc/sys/kernel/sysrq</span></span><br><span class="line"><span class="comment"># echo c &gt; /proc/sysrq-trigger</span></span><br></pre></td></tr></table></figure>
-
-<p>这将触发系统崩溃，并在/var/crash目录下生成一个vmcore文件。可以使用crash工具或其他工具来分析vmcore文件以诊断问题。</p>
-<p>需要注意的是，生成vmcore文件需要一定的时间和系统资源，因此建议在空闲时段进行操作，并确保系统有足够的磁盘空间来存储生成的vmcore文件。</p>
-<h3 id="配置core-dump大小限制"><a href="#配置core-dump大小限制" class="headerlink" title="配置core dump大小限制"></a>配置core dump大小限制</h3><p><code>ulimit -c unlimited</code> 命令用于设置当前用户在发生崩溃或者程序异常退出时所产生的 core dump 文件的最大大小限制。如果将其设置为 <code>unlimited</code>，则表示没有限制，即允许生成任意大小的 core dump 文件。</p>
-<p>需要注意的是，<code>ulimit</code> 命令只会在当前的 shell 会话中生效。如果要在整个系统中永久性地修改 core dump 文件大小限制，可以将相应的配置写入 <code>/etc/security/limits.conf</code> 文件中。例如：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">* soft core unlimited</span><br><span class="line">* hard core unlimited</span><br></pre></td></tr></table></figure>
-
-<h2 id="调试vmcore-dump文件"><a href="#调试vmcore-dump文件" class="headerlink" title="调试vmcore dump文件"></a>调试vmcore dump文件</h2><h3 id="使用crash工具分析vmcore文件"><a href="#使用crash工具分析vmcore文件" class="headerlink" title="使用crash工具分析vmcore文件"></a>使用crash工具分析vmcore文件</h3><p>crash是一个用于分析vmcore文件的强大工具，可以用来诊断操作系统故障和性能问题。可以使用以下命令安装crash：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># yum install crash</span></span><br></pre></td></tr></table></figure>
-
-<p>然后可以使用以下命令来打开vmcore文件并启动crash工具：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crash /path/to/vmcore /usr/lib/debug/lib/modules/$(uname -r)/vmlinux</span><br></pre></td></tr></table></figure>
-
-<p>其中 <code>/path/to/vmcore</code>是vmcore文件的路径，<code>/usr/lib/debug/lib/modules/$(uname -r)/vmlinux</code>是当前正在运行的内核镜像的路径。</p>
-<p>一旦打开了crash工具，就可以使用各种命令来分析vmcore文件，例如 <code>bt</code>命令可以显示进程的调用堆栈，<code>ps</code>命令可以显示进程列表，<code>mem</code>命令可以显示内存使用情况等等。</p>
-<h3 id="使用gdb工具分析vmcore文件"><a href="#使用gdb工具分析vmcore文件" class="headerlink" title="使用gdb工具分析vmcore文件"></a>使用gdb工具分析vmcore文件</h3><p>除了crash工具外，还可以使用gdb工具来分析vmcore文件。gdb是一个用于调试和分析程序的强大工具，可以用于分析操作系统崩溃的原因和调用堆栈等信息。可以使用以下命令安装gdb：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">yum install gdb</span><br></pre></td></tr></table></figure>
-
-<p>然后可以使用以下命令来打开vmcore文件并启动gdb工具：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">gdb /usr/lib/debug/lib/modules/$(uname -r)/vmlinux /path/to/vmcore</span><br></pre></td></tr></table></figure>
-
-<p>一旦打开了gdb工具，就可以使用各种命令来分析vmcore文件，例如 <code>bt</code>命令可以显示进程的调用堆栈，<code>info proc</code>命令可以显示进程列表，<code>info mem</code>命令可以显示内存使用情况等等。</p>
-<h3 id="crash常用的命令"><a href="#crash常用的命令" class="headerlink" title="crash常用的命令"></a>crash常用的命令</h3><p>1、bt命令</p>
-<p>backtrace打印内核栈回溯信息，bt pid 打印指定进程栈信息</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crash&gt; bt 832</span><br><span class="line">PID: 832    TASK: ffff974f77b63150  CPU: 0   COMMAND: <span class="string">&quot;vector&quot;</span></span><br><span class="line"> <span class="comment">#0 [ffff974f7367fc28] __schedule at ffffffffaad8057a</span></span><br><span class="line"> <span class="comment">#1 [ffff974f7367fcb0] schedule at ffffffffaad80a29</span></span><br><span class="line"> <span class="comment">#2 [ffff974f7367fcc0] futex_wait_queue_me at ffffffffaa712086</span></span><br><span class="line"> <span class="comment">#3 [ffff974f7367fd00] futex_wait at ffffffffaa712e2b</span></span><br><span class="line"> <span class="comment">#4 [ffff974f7367fe48] do_futex at ffffffffaa714b76</span></span><br><span class="line"> <span class="comment">#5 [ffff974f7367fed8] sys_futex at ffffffffaa715090</span></span><br><span class="line"> <span class="comment">#6 [ffff974f7367ff50] system_call_fastpath at ffffffffaad8dede</span></span><br><span class="line">    RIP: 00007fbc3d51cb43  RSP: 00007ffe3cede1f0  RFLAGS: 00010246</span><br><span class="line">    RAX: 00000000000000ca  RBX: 00007fbc3d51caa5  RCX: 0000000000000000</span><br><span class="line">    RDX: 0000000000000001  RSI: 0000000000000080  RDI: 00007fbc3df64930</span><br><span class="line">    RBP: 0000000000000080   R8: 0000000000000070   R9: 00007fbc3df64910</span><br><span class="line">    R10: 0000000000000000  R11: 0000000000000212  R12: 0000000000000001</span><br><span class="line">    R13: 00007fbc3df64930  R14: 00007fbc38002080  R15: 00007fbc38002000</span><br><span class="line">    ORIG_RAX: 00000000000000ca  CS: 0033  SS: 002b</span><br></pre></td></tr></table></figure>
-
-<p>2、log命令</p>
-<p>打印vmcore所在的系统内核dmesg日志信息</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crash&gt; <span class="built_in">log</span></span><br><span class="line">[    0.000000] Initializing cgroup subsys cpuset</span><br><span class="line">[    0.000000] Initializing cgroup subsys cpu</span><br><span class="line">[    0.000000] Initializing cgroup subsys cpuacct</span><br><span class="line">[    0.000000] Linux version 3.10.0-1062.12.1.el7.x86_64 (mockbuild@kbuilder.bsys.centos.org) (gcc version 4.8.5 20150623 (Red Hat 4.8.5-39) (GCC) ) <span class="comment">#1 SMP Tue Feb 4 23:02:59 UTC 2020</span></span><br><span class="line">[    0.000000] Command line: BOOT_IMAGE=/vmlinuz-3.10.0-1062.12.1.el7.x86_64 root=/dev/mapper/centos-root ro crashkernel=auto rd.lvm.lv=centos/root rd.lvm.lv=centos/swap rhgb quiet LANG=en_US.UTF-8</span><br><span class="line">[    0.000000] Disabled fast string operations</span><br><span class="line">[    0.000000] e820: BIOS-provided physical RAM map:</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x0000000000000000-0x000000000009ebff] usable</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x000000000009ec00-0x000000000009ffff] reserved</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x00000000000dc000-0x00000000000fffff] reserved</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x0000000000100000-0x000000007fedffff] usable</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x000000007fee0000-0x000000007fefefff] ACPI data</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x000000007feff000-0x000000007fefffff] ACPI NVS</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x000000007ff00000-0x000000007fffffff] usable</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x00000000f0000000-0x00000000f7ffffff] reserved</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x00000000fec00000-0x00000000fec0ffff] reserved</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x00000000fee00000-0x00000000fee00fff] reserved</span><br><span class="line">[    0.000000] BIOS-e820: [mem 0x00000000fffe0000-0x00000000ffffffff] reserved</span><br><span class="line">[    0.000000] NX (Execute Disable) protection: active</span><br><span class="line">[    0.000000] SMBIOS 2.4 present.</span><br><span class="line">[    0.000000] DMI: VMware, Inc. VMware Virtual Platform/440BX Desktop Reference Platform, BIOS 6.00 12/12/2018</span><br><span class="line">[    0.000000] Hypervisor detected: VMware</span><br></pre></td></tr></table></figure>
-
-<p>3、ps命令</p>
-<p>ps 打印内核崩溃时，正常的进程信息，带 &gt; 标识代表是活跃的进程，ps pid打印某指定进程的状态信息</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crash&gt; bt 832</span><br><span class="line">PID: 832    TASK: ffff974f77b63150  CPU: 0   COMMAND: <span class="string">&quot;vector&quot;</span></span><br><span class="line"> <span class="comment">#0 [ffff974f7367fc28] __schedule at ffffffffaad8057a</span></span><br><span class="line"> <span class="comment">#1 [ffff974f7367fcb0] schedule at ffffffffaad80a29</span></span><br><span class="line"> <span class="comment">#2 [ffff974f7367fcc0] futex_wait_queue_me at ffffffffaa712086</span></span><br><span class="line"> <span class="comment">#3 [ffff974f7367fd00] futex_wait at ffffffffaa712e2b</span></span><br><span class="line"> <span class="comment">#4 [ffff974f7367fe48] do_futex at ffffffffaa714b76</span></span><br><span class="line"> <span class="comment">#5 [ffff974f7367fed8] sys_futex at ffffffffaa715090</span></span><br><span class="line"> <span class="comment">#6 [ffff974f7367ff50] system_call_fastpath at ffffffffaad8dede</span></span><br><span class="line">    RIP: 00007fbc3d51cb43  RSP: 00007ffe3cede1f0  RFLAGS: 00010246</span><br><span class="line">    RAX: 00000000000000ca  RBX: 00007fbc3d51caa5  RCX: 0000000000000000</span><br><span class="line">    RDX: 0000000000000001  RSI: 0000000000000080  RDI: 00007fbc3df64930</span><br><span class="line">    RBP: 0000000000000080   R8: 0000000000000070   R9: 00007fbc3df64910</span><br><span class="line">    R10: 0000000000000000  R11: 0000000000000212  R12: 0000000000000001</span><br><span class="line">    R13: 00007fbc3df64930  R14: 00007fbc38002080  R15: 00007fbc38002000</span><br><span class="line">    ORIG_RAX: 00000000000000ca  CS: 0033  SS: 002b</span><br></pre></td></tr></table></figure>
-
-<p>4、file命令</p>
-<p>files pid 打印指定进程所打开的文件信息</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crash&gt; files 832</span><br><span class="line">PID: 832    TASK: ffff974f77b63150  CPU: 0   COMMAND: <span class="string">&quot;vector&quot;</span></span><br><span class="line">ROOT: /    CWD: /</span><br><span class="line"> FD       FILE            DENTRY           INODE       TYPE PATH</span><br><span class="line">  0 ffff974f7761b300 ffff974f7950db00 ffff974f7a3b0850 CHR  /dev/null</span><br><span class="line">  1 ffff974f7761b100 ffff974f7957f740 ffff974f7954ad30 SOCK UNIX</span><br><span class="line">  2 ffff974f7761b100 ffff974f7957f740 ffff974f7954ad30 SOCK UNIX</span><br><span class="line">  3 ffff974f6dab5b00 ffff974f7582fec0 ffff974f7951b090 UNKN [eventpoll]</span><br><span class="line">  4 ffff974f6dab4900 ffff974f73a1fbc0 ffff974f7951b090 UNKN [eventfd]</span><br><span class="line">  5 ffff974f6dab5b00 ffff974f7582fec0 ffff974f7951b090 UNKN [eventpoll]</span><br><span class="line">  6 ffff974f6dab4500 ffff974f75856fc0 ffff974f35c1e6b0 SOCK UNIX</span><br><span class="line">  7 ffff974f6dab5d00 ffff974f758f9800 ffff974f35c18a30 SOCK UNIX</span><br><span class="line">  8 ffff974f6dab4500 ffff974f75856fc0 ffff974f35c1e6b0 SOCK UNIX</span><br><span class="line">  9 ffff974f6dab5400 ffff974f75ab1380 ffff974f75a8b9d0 FIFO</span><br><span class="line"> 10 ffff974f6dab7700 ffff974f75ab1380 ffff974f75a8b9d0 FIFO</span><br><span class="line"> 11 ffff974f6dab4700 ffff974f75ab1800 ffff974f75a8bc20 FIFO</span><br><span class="line"> 12 ffff974f6dab5200 ffff974f75ab1800 ffff974f75a8bc20 FIFO</span><br><span class="line"> 13 ffff974f6dab4100 ffff974f75ab18c0 ffff974f75a8be70 FIFO</span><br><span class="line"> 14 ffff974f6dab4200 ffff974f75ab18c0 ffff974f75a8be70 FIFO</span><br><span class="line"> 15 ffff974f6dab6000 ffff974f75ab1980 ffff974f75a8c0c0 FIFO</span><br><span class="line"> 16 ffff974f6dab5f00 ffff974f75ab1980 ffff974f75a8c0c0 FIFO</span><br><span class="line"> 17 ffff974f60b45e00 ffff974f61e6bd40 ffff974f61e99bb0 SOCK TCP</span><br><span class="line"> 18 ffff974f60b47f00 ffff974f61db6900 ffff974f61e99e30 SOCK TCP</span><br></pre></td></tr></table></figure>
-
-<p>5、vm命令</p>
-<p>vm pid 打印某指定进程当时虚拟内存基本信息</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crash&gt; vm 832</span><br><span class="line">PID: 832    TASK: ffff974f77b63150  CPU: 0   COMMAND: <span class="string">&quot;vector&quot;</span></span><br><span class="line">       MM               PGD          RSS    TOTAL_VM</span><br><span class="line">ffff974f3615abc0  ffff974f736b0000  73656k  206980k</span><br><span class="line">      VMA           START       END     FLAGS FILE</span><br><span class="line">ffff974f6356d518 7fbc31f38000 7fbc31f3a000 8000070</span><br><span class="line">ffff974f6356d6c8 7fbc31f3a000 7fbc32140000 8100073</span><br><span class="line">ffff974f6356d440 7fbc32140000 7fbc32142000 8000070</span><br><span class="line">ffff974f6356d878 7fbc32142000 7fbc32348000 8100073</span><br><span class="line">ffff974f6356d5f0 7fbc32348000 7fbc3234a000 8000070</span><br><span class="line">ffff974f6356da28 7fbc3234a000 7fbc32550000 8100073</span><br><span class="line">ffff974f6356d7a0 7fbc32550000 7fbc32552000 8000070</span><br><span class="line">ffff974f6356de60 7fbc32552000 7fbc32758000 8100073</span><br><span class="line">ffff974f6356d950 7fbc32758000 7fbc3275a000 8000070</span><br><span class="line">ffff974f6356dcb0 7fbc3275a000 7fbc32960000 8100073</span><br><span class="line">ffff974f6356db00 7fbc32960000 7fbc32962000 8000070</span><br><span class="line">ffff974f69324d80 7fbc32962000 7fbc32b68000 8100073</span><br><span class="line">ffff974f6356dd88 7fbc32b68000 7fbc32b6a000 8000070</span><br><span class="line">ffff974f69324ca8 7fbc32b6a000 7fbc32d70000 8100073</span><br><span class="line">ffff974f69324bd0 7fbc32d70000 7fbc32ff0000 8200073</span><br><span class="line">ffff974f69324510 7fbc32ff0000 7fbc32ff2000 8000070</span><br><span class="line">ffff974f69324360 7fbc32ff2000 7fbc331f8000 8100073</span><br></pre></td></tr></table></figure>
-
-<p>6、task命令</p>
-<p>task 查看当前进程或指定进程task_struct和thread_info的信息</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">crash&gt; task 832</span><br><span class="line">PID: 832    TASK: ffff974f77b63150  CPU: 0   COMMAND: <span class="string">&quot;vector&quot;</span></span><br><span class="line">struct task_struct &#123;</span><br><span class="line">  state = 1,</span><br><span class="line">  stack = 0xffff974f7367c000,</span><br><span class="line">  usage = &#123;</span><br><span class="line">    counter = 2</span><br><span class="line">  &#125;,</span><br><span class="line">  flags = 1077944320,</span><br><span class="line">  ptrace = 0,</span><br><span class="line">  wake_entry = &#123;</span><br><span class="line">    next = 0x0</span><br><span class="line">  &#125;,</span><br><span class="line">  on_cpu = 0,</span><br><span class="line">  last_wakee = 0xffff974f76cbe2a0,</span><br><span class="line">  wakee_flips = 100,</span><br><span class="line">  wakee_flip_decay_ts = 4294674675,</span><br><span class="line">  wake_cpu = 0,</span><br><span class="line">  on_rq = 0,</span><br><span class="line">  prio = 120,</span><br><span class="line">  static_prio = 120,</span><br><span class="line">  normal_prio = 120,</span><br><span class="line">  rt_priority = 0,</span><br><span class="line">  sched_class = 0xffffffffaae1e3c0,</span><br><span class="line">  se = &#123;</span><br><span class="line">    load = &#123;</span><br><span class="line">      weight = 1024,</span><br><span class="line">      inv_weight = 4194304</span><br><span class="line">    &#125;,</span><br><span class="line">    run_node = &#123;</span><br><span class="line">      __rb_parent_color = 1,</span><br><span class="line">      rb_right = 0x0,</span><br><span class="line">      rb_left = 0x0</span><br><span class="line">    &#125;,</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>内核</tag>
-        <tag>linux</tag>
-        <tag>vmcore</tag>
-        <tag>crash</tag>
       </tags>
   </entry>
 </search>
