@@ -1,0 +1,212 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>docker报错打开太多文件（too many open files） | Ljohn's Blog</title><meta name="author" content="Ljohn"><meta name="copyright" content="Ljohn"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="在Linux系统内默认对所有进程打开的文件数量有限制（也可以称为文件句柄，包含打开的文件，套接字，网络连接等都算是一个文件句柄） 查看当前系统限制最大文件打开数量12cat &#x2F;proc&#x2F;sys&#x2F;fs&#x2F;file-max2000000  查询当前系统已打开文件数量12cat &#x2F;proc&#x2F;sys&#x2F;fs&#x2F;file-nr8640    0       2000000    # 左边的值为当前系统已打开文件数">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker报错打开太多文件（too many open files）">
+<meta property="og:url" content="https://www.ljohn.cn/2023/03/29/docker-bao-cuo-da-kai-tai-duo-wen-jian-too-many-open-files/index.html">
+<meta property="og:site_name" content="Ljohn&#39;s Blog">
+<meta property="og:description" content="在Linux系统内默认对所有进程打开的文件数量有限制（也可以称为文件句柄，包含打开的文件，套接字，网络连接等都算是一个文件句柄） 查看当前系统限制最大文件打开数量12cat &#x2F;proc&#x2F;sys&#x2F;fs&#x2F;file-max2000000  查询当前系统已打开文件数量12cat &#x2F;proc&#x2F;sys&#x2F;fs&#x2F;file-nr8640    0       2000000    # 左边的值为当前系统已打开文件数">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png">
+<meta property="article:published_time" content="2023-03-29T07:07:40.744Z">
+<meta property="article:modified_time" content="2023-03-29T07:10:14.322Z">
+<meta property="article:author" content="Ljohn">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="k8s">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://www.ljohn.cn/2023/03/29/docker-bao-cuo-da-kai-tai-duo-wen-jian-too-many-open-files/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="/pluginsSrc/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/pluginsSrc/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: '/pluginsSrc/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: '/pluginsSrc/flickr-justified-gallery/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'docker报错打开太多文件（too many open files）',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-03-29 15:10:14'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/mycss.css"><meta name="generator" content="Hexo 5.4.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://pic-go-img.oss-cn-hangzhou.aliyuncs.com/202202230023069.jpg')"><nav id="nav"><span id="blog-info"><a href="/" title="Ljohn's Blog"><span class="site-name">Ljohn's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/messageboard/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">docker报错打开太多文件（too many open files）</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-29T07:07:40.744Z" title="发表于 2023-03-29 15:07:40">2023-03-29</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-29T07:10:14.322Z" title="更新于 2023-03-29 15:10:14">2023-03-29</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/linux/">linux</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/linux/docker/">docker</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="docker报错打开太多文件（too many open files）"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>在Linux系统内默认对所有进程打开的文件数量有限制（也可以称为文件句柄，包含打开的文件，套接字，网络连接等都算是一个文件句柄）</p>
+<h2 id="查看当前系统限制最大文件打开数量"><a href="#查看当前系统限制最大文件打开数量" class="headerlink" title="查看当前系统限制最大文件打开数量"></a>查看当前系统限制最大文件打开数量</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/sys/fs/file-max</span><br><span class="line">2000000</span><br></pre></td></tr></table></figure>
+
+<h2 id="查询当前系统已打开文件数量"><a href="#查询当前系统已打开文件数量" class="headerlink" title="查询当前系统已打开文件数量"></a>查询当前系统已打开文件数量</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/sys/fs/file-nr</span><br><span class="line">8640    0       2000000    <span class="comment"># 左边的值为当前系统已打开文件数量，右侧表示当前系统限制最大文件打开数</span></span><br></pre></td></tr></table></figure>
+
+<p>以上查询得知当前系统打开文件句柄数未达到上限，往下排查Docker进程的最大文件句柄数限制及已打开文件数</p>
+<h2 id="查询当前Docker进程最大可打开文件数量及已打开文件数量"><a href="#查询当前Docker进程最大可打开文件数量及已打开文件数量" class="headerlink" title="查询当前Docker进程最大可打开文件数量及已打开文件数量"></a>查询当前Docker进程最大可打开文件数量及已打开文件数量</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">systemctl status docker | grep PID      <span class="comment">#获取Docker进程的PID号</span></span><br><span class="line">Main PID: 14644 (dockerd)</span><br><span class="line">cat /proc/`pidof dockerd`/limits</span><br><span class="line"><span class="comment"># 或者使用</span></span><br><span class="line">ls -l /proc/`pidof dockerd`/fd/* | wc -l    <span class="comment">## 获取当前Docker进程已打开的文件数量</span></span><br><span class="line">65342      <span class="comment">#报错时该值达到了最大限制65536</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="临时动态修改当前Docker进程的nofile限制，问题修复"><a href="#临时动态修改当前Docker进程的nofile限制，问题修复" class="headerlink" title="临时动态修改当前Docker进程的nofile限制，问题修复"></a>临时动态修改当前Docker进程的nofile限制，问题修复</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#将Docker进程的nofile限制调整为655360</span></span><br><span class="line">prlimit --pid 14644 --nofile=655360:655360   </span><br><span class="line"><span class="comment">#再次查询Docker进程状态发现问题已修复</span></span><br><span class="line">systemctl status docker </span><br><span class="line"><span class="comment">#查看当前Docker进程最大可打开文件数量</span></span><br><span class="line">cat /proc/`pidof dockerd`/limits   </span><br><span class="line">Max cpu time              unlimited            unlimited            seconds</span><br><span class="line">Max file size             unlimited            unlimited            bytes</span><br><span class="line">Max data size             unlimited            unlimited            bytes</span><br><span class="line">Max stack size            8388608              unlimited            bytes</span><br><span class="line">Max core file size        unlimited            unlimited            bytes</span><br><span class="line">Max resident <span class="built_in">set</span>          unlimited            unlimited            bytes</span><br><span class="line">Max processes             unlimited            unlimited            processes</span><br><span class="line">Max open files            655360               655360               files</span><br><span class="line">Max locked memory         65536                65536        				bytes</span><br><span class="line">Max address space         unlimited            unlimited            bytes</span><br><span class="line">Max file locks            unlimited            unlimited            locks</span><br><span class="line">Max pending signals       61943                61943                signals</span><br><span class="line">Max msgqueue size         819200               819200               bytes</span><br><span class="line">Max nice priority         0                    0</span><br><span class="line">Max realtime priority     0                    0</span><br><span class="line">Max realtime timeout      unlimited            unlimited            us</span><br></pre></td></tr></table></figure>
+
+<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><p>Q、修改daoker systemd服务配置参数LimitNOFILE=<strong><strong>infinity，不生效问题。</strong></strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ cat  /etc/redhat-release</span><br><span class="line">CentOS Linux release 7.6.1810 (Core)</span><br><span class="line">$ rpm -qa | grep systemd-sysv</span><br><span class="line">systemd-sysv-219-62.el7.x86_64</span><br><span class="line">$ uname -a</span><br><span class="line">Linux HZPL004094053 3.10.0-1160.76.1.el7.x86_64 <span class="comment">#1 SMP Wed Aug 10 16:21:17 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux</span></span><br><span class="line">$ cat /etc/systemd/system/docker.service | grep LimitNOFILE</span><br><span class="line">LimitNOFILE=infinity </span><br><span class="line"><span class="comment">#最终却得到65536</span></span><br><span class="line">cat /proc/`pidof dockerd`/limits |grep files</span><br><span class="line">Max open files            65536                65536                files</span><br></pre></td></tr></table></figure>
+
+<p>A、根治方案，修改systemd配置LimitNOFILE值</p>
+<p>该问题应该是systemd服务<a target="_blank" rel="noopener" href="https://github.com/systemd/systemd/issues/6559">bug issue</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cat /etc/systemd/system/docker.service | grep LimitNOFILE</span><br><span class="line">LimitNOFILE=200000 <span class="comment"># 可以修改配置文件到20w以上。</span></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br><span class="line">cat /proc/`pidof dockerd`/limits |grep files</span><br><span class="line">Max open files            200000                200000                files</span><br></pre></td></tr></table></figure>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://www.ljohn.cn">Ljohn</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.ljohn.cn/2023/03/29/docker-bao-cuo-da-kai-tai-duo-wen-jian-too-many-open-files/">https://www.ljohn.cn/2023/03/29/docker-bao-cuo-da-kai-tai-duo-wen-jian-too-many-open-files/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.ljohn.cn" target="_blank">Ljohn's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/linux/">linux</a><a class="post-meta__tags" href="/tags/k8s/">k8s</a><a class="post-meta__tags" href="/tags/docker/">docker</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="/pluginsSrc/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="/pluginsSrc/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2023/03/24/kubelet-zhuang-tai-geng-xin-he-zi-qu-zhu-can-shu-you-hua/" title="kubelet状态更新和自驱逐参数优化"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">kubelet状态更新和自驱逐参数优化</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/2023/03/03/centos7-an-zhuang-ji-yu-bpf-de-bcc-tools-xi-tong-xing-neng-gong-ju-ku/" title="CentOS7安装基于BPF的bcc-tools系统性能工具库"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-03</div><div class="title">CentOS7安装基于BPF的bcc-tools系统性能工具库</div></div></a></div><div><a href="/2023/02/28/linux-shi-yong-crash-fen-xi-vmcore-dump-wen-jian/" title="Linux 使用crash分析vmcore dump文件"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-02-28</div><div class="title">Linux 使用crash分析vmcore dump文件</div></div></a></div><div><a href="/2023/03/24/kubelet-zhuang-tai-geng-xin-he-zi-qu-zhu-can-shu-you-hua/" title="kubelet状态更新和自驱逐参数优化"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2023-03-24</div><div class="title">kubelet状态更新和自驱逐参数优化</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://i.loli.net/2021/02/24/5O1day2nriDzjSu.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Ljohn</div><div class="author-info__description">知行合一，止于至善</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">9</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">15</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">4</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/Ljohn001"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到Ljohn的个人博客，如果阅读过程中遇到了问题，请及时评论或者留言，看到了会在第一时间给出回复。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E7%9C%8B%E5%BD%93%E5%89%8D%E7%B3%BB%E7%BB%9F%E9%99%90%E5%88%B6%E6%9C%80%E5%A4%A7%E6%96%87%E4%BB%B6%E6%89%93%E5%BC%80%E6%95%B0%E9%87%8F"><span class="toc-number">1.</span> <span class="toc-text">查看当前系统限制最大文件打开数量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%BD%93%E5%89%8D%E7%B3%BB%E7%BB%9F%E5%B7%B2%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%E9%87%8F"><span class="toc-number">2.</span> <span class="toc-text">查询当前系统已打开文件数量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9F%A5%E8%AF%A2%E5%BD%93%E5%89%8DDocker%E8%BF%9B%E7%A8%8B%E6%9C%80%E5%A4%A7%E5%8F%AF%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%E9%87%8F%E5%8F%8A%E5%B7%B2%E6%89%93%E5%BC%80%E6%96%87%E4%BB%B6%E6%95%B0%E9%87%8F"><span class="toc-number">3.</span> <span class="toc-text">查询当前Docker进程最大可打开文件数量及已打开文件数量</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%B4%E6%97%B6%E5%8A%A8%E6%80%81%E4%BF%AE%E6%94%B9%E5%BD%93%E5%89%8DDocker%E8%BF%9B%E7%A8%8B%E7%9A%84nofile%E9%99%90%E5%88%B6%EF%BC%8C%E9%97%AE%E9%A2%98%E4%BF%AE%E5%A4%8D"><span class="toc-number">4.</span> <span class="toc-text">临时动态修改当前Docker进程的nofile限制，问题修复</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#FAQ"><span class="toc-number">5.</span> <span class="toc-text">FAQ</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/03/29/docker-bao-cuo-da-kai-tai-duo-wen-jian-too-many-open-files/" title="docker报错打开太多文件（too many open files）">docker报错打开太多文件（too many open files）</a><time datetime="2023-03-29T07:07:40.744Z" title="发表于 2023-03-29 15:07:40">2023-03-29</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/03/24/kubelet-zhuang-tai-geng-xin-he-zi-qu-zhu-can-shu-you-hua/" title="kubelet状态更新和自驱逐参数优化">kubelet状态更新和自驱逐参数优化</a><time datetime="2023-03-24T04:12:14.865Z" title="发表于 2023-03-24 12:12:14">2023-03-24</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/03/03/centos7-an-zhuang-ji-yu-bpf-de-bcc-tools-xi-tong-xing-neng-gong-ju-ku/" title="CentOS7安装基于BPF的bcc-tools系统性能工具库">CentOS7安装基于BPF的bcc-tools系统性能工具库</a><time datetime="2023-03-03T08:28:37.256Z" title="发表于 2023-03-03 16:28:37">2023-03-03</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2023/02/28/linux-shi-yong-crash-fen-xi-vmcore-dump-wen-jian/" title="Linux 使用crash分析vmcore dump文件">Linux 使用crash分析vmcore dump文件</a><time datetime="2023-02-28T12:07:40.225Z" title="发表于 2023-02-28 20:07:40">2023-02-28</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2021/11/08/hexo-fen-lei-he-biao-qian/" title="Hexo 分类和标签">Hexo 分类和标签</a><time datetime="2021-11-08T03:15:02.000Z" title="发表于 2021-11-08 11:15:02">2021-11-08</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2023 By Ljohn</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat_btn" type="button" title="聊天"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/pluginsSrc/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '09095629e7d96304805d',
+      clientSecret: 'f7e635330c322cdc1478de533f9aa89c4f89d0d7',
+      repo: 'blogs',
+      owner: 'Ljohn001',
+      admin: ['Ljohn001'],
+      id: 'e7daa8bdf3520eaabb31d814feef8331',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    getCSS('/pluginsSrc/gitalk/dist/gitalk.css')
+    getScript('/pluginsSrc/gitalk/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !false) {
+  if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
