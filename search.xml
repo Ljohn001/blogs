@@ -1,6 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>CentOS7安装基于BPF的bcc-tools系统性能工具库</title>
+    <url>/2023/03/03/centos7-an-zhuang-ji-yu-bpf-de-bcc-tools-xi-tong-xing-neng-gong-ju-ku/</url>
+    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><ul>
+<li>OS版本：CentOS7.6.1810</li>
+<li>内核版本：5.4.207-1.el7.elrepo.x86_64</li>
+<li>依赖包：<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#内核依赖包</span></span><br><span class="line">rpm -qa | grep kernel-lt</span><br><span class="line">kernel-lt-tools-5.4.207-1.el7.elrepo.x86_64</span><br><span class="line">kernel-lt-tools-libs-5.4.207-1.el7.elrepo.x86_64</span><br><span class="line">kernel-lt-devel-5.4.207-1.el7.elrepo.x86_64</span><br><span class="line">kernel-lt-5.4.207-1.el7.elrepo.x86_64</span><br><span class="line">kernel-lt-headers-5.4.207-1.el7.elrepo.x86_64</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>内核必须升级到4.x版本以上，才可以使用。我的内核版本已经升级过，具体升级内核过程这里不展开，建议使用<a href="http://elrepo.org/tiki/HomePage">elrepo</a> 安装高版本内核。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#安装bcc-tools</span></span><br><span class="line">yum install -y bcc-tools</span><br><span class="line"><span class="comment">#添加环境变量</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/usr/share/bcc/tools</span><br><span class="line"><span class="comment"># 测试</span></span><br><span class="line"><span class="comment">#cachestat</span></span><br><span class="line">    HITS   MISSES  DIRTIES HITRATIO   BUFFERS_MB  CACHED_MB</span><br><span class="line">   11224        0        0  100.00%            1      61258</span><br><span class="line">   10865        0        0  100.00%            1      61259</span><br><span class="line">    5021        0        0  100.00%            1      61259</span><br><span class="line">    4403        0        0  100.00%            1      61259</span><br><span class="line">   12214        0        0  100.00%            1      61259</span><br><span class="line">   26951        0        0  100.00%            1      61259</span><br></pre></td></tr></table></figure>
+
+<h1 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h1><p>1、安装后执行命令报错</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#cachestat</span></span><br><span class="line">modprobe: FATAL: Module kheaders not found.</span><br><span class="line"><span class="built_in">chdir</span>(/lib/modules/5.4.207-1.el7.elrepo.x86_64/build): No such file or directory</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">&quot;/usr/share/bcc/tools/cachestat&quot;</span>, line 96, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    b = BPF(text=bpf_text)</span><br><span class="line">  File <span class="string">&quot;/usr/lib/python2.7/site-packages/bcc/__init__.py&quot;</span>, line 325, <span class="keyword">in</span> __init__</span><br><span class="line">    raise Exception(<span class="string">&quot;Failed to compile BPF text&quot;</span>)</span><br><span class="line">Exception: Failed to compile BPF text</span><br></pre></td></tr></table></figure>
+
+<p>原因是由于kernel-devel 版本不一致导致的，建议下载跟操作系统内核版本对齐。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#可以yum安装</span></span><br><span class="line">yum install <span class="string">&quot;kernel-devel-<span class="subst">$(uname -r)</span>&quot;</span></span><br><span class="line"><span class="comment"># 或者下载对应内核版本rpm包安装</span></span><br><span class="line"><span class="comment"># 下载地址：http://mirrors.coreix.net/elrepo-archive-archive/kernel/el7/x86_64/RPMS/</span></span><br><span class="line">rpm -ivh kernel-lt-devel-5.4.207-1.el7.elrepo.x86_64.rpm</span><br></pre></td></tr></table></figure>
+
+<p>2、执行命令报错</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">In file included from /virtual/main.c:2:</span><br><span class="line">In file included from /lib/modules/5.4.207-1.el7.elrepo.x86_64/build/include/uapi/linux/ptrace.h:143:</span><br><span class="line">In file included from /lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/ptrace.h:5:</span><br><span class="line">/lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/segment.h:266:2: error: expected <span class="string">&#x27;(&#x27;</span> after <span class="string">&#x27;asm&#x27;</span></span><br><span class="line">        alternative_io (<span class="string">&quot;lsl %[seg],%[p]&quot;</span>,</span><br><span class="line">        ^</span><br><span class="line">/lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/alternative.h:240:2: note: expanded from macro <span class="string">&#x27;alternative_io&#x27;</span></span><br><span class="line">        asm_inline volatile (ALTERNATIVE(oldinstr, newinstr, feature)   \</span><br><span class="line">        ^</span><br><span class="line">/lib/modules/5.4.207-1.el7.elrepo.x86_64/build/include/linux/compiler_types.h:214:24: note: expanded from macro <span class="string">&#x27;asm_inline&#x27;</span></span><br><span class="line"><span class="comment">#define asm_inline asm __inline</span></span><br><span class="line">                       ^</span><br><span class="line">1 error generated.</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">&quot;/usr/share/bcc/tools/cachestat&quot;</span>, line 96, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    b = BPF(text=bpf_text)</span><br><span class="line">  File <span class="string">&quot;/usr/lib/python2.7/site-packages/bcc/__init__.py&quot;</span>, line 325, <span class="keyword">in</span> __init__</span><br><span class="line">    raise Exception(<span class="string">&quot;Failed to compile BPF text&quot;</span>)</span><br><span class="line">Exception: Failed to compile BPF text</span><br></pre></td></tr></table></figure>
+
+<p>这个是由于内核版本的原因，kernel-5.4.X之后才会出现该问题。内核头文件中用 asm 替换 asm_inline即可，具体参考BCC官方<a href="https://github.com/iovisor/bcc/issues/2546">issues</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"> vim /lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/segment.h 在最上新增如下配置</span><br><span class="line"></span><br><span class="line"><span class="comment">#ifdef asm_inline</span></span><br><span class="line"><span class="comment">#undef asm_inline</span></span><br><span class="line"><span class="comment">#define asm_inline asm</span></span><br><span class="line"><span class="comment">#endif</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>bcc</tag>
+        <tag>bpf</tag>
+        <tag>系统</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Go语言基础之map</title>
     <url>/2021/06/25/go-yu-yan-ji-chu-zhi-map/</url>
     <content><![CDATA[<p>Go语言中提供的映射关系容器为<code>map</code>，其内部使用<code>散列表（hash）</code>实现。</p>
@@ -396,64 +429,6 @@
       </tags>
   </entry>
   <entry>
-    <title>CentOS7安装基于BPF的bcc-tools系统性能工具库</title>
-    <url>/2023/03/03/centos7-an-zhuang-ji-yu-bpf-de-bcc-tools-xi-tong-xing-neng-gong-ju-ku/</url>
-    <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><ul>
-<li>OS版本：CentOS7.6.1810</li>
-<li>内核版本：5.4.207-1.el7.elrepo.x86_64</li>
-<li>依赖包：<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#内核依赖包</span></span><br><span class="line">rpm -qa | grep kernel-lt</span><br><span class="line">kernel-lt-tools-5.4.207-1.el7.elrepo.x86_64</span><br><span class="line">kernel-lt-tools-libs-5.4.207-1.el7.elrepo.x86_64</span><br><span class="line">kernel-lt-devel-5.4.207-1.el7.elrepo.x86_64</span><br><span class="line">kernel-lt-5.4.207-1.el7.elrepo.x86_64</span><br><span class="line">kernel-lt-headers-5.4.207-1.el7.elrepo.x86_64</span><br></pre></td></tr></table></figure></li>
-</ul>
-<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>内核必须升级到4.x版本以上，才可以使用。我的内核版本已经升级过，具体升级内核过程这里不展开，建议使用<a href="http://elrepo.org/tiki/HomePage">elrepo</a> 安装高版本内核。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#安装bcc-tools</span></span><br><span class="line">yum install -y bcc-tools</span><br><span class="line"><span class="comment">#添加环境变量</span></span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:/usr/share/bcc/tools</span><br><span class="line"><span class="comment"># 测试</span></span><br><span class="line"><span class="comment">#cachestat</span></span><br><span class="line">    HITS   MISSES  DIRTIES HITRATIO   BUFFERS_MB  CACHED_MB</span><br><span class="line">   11224        0        0  100.00%            1      61258</span><br><span class="line">   10865        0        0  100.00%            1      61259</span><br><span class="line">    5021        0        0  100.00%            1      61259</span><br><span class="line">    4403        0        0  100.00%            1      61259</span><br><span class="line">   12214        0        0  100.00%            1      61259</span><br><span class="line">   26951        0        0  100.00%            1      61259</span><br></pre></td></tr></table></figure>
-
-<h1 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h1><p>1、安装后执行命令报错</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#cachestat</span></span><br><span class="line">modprobe: FATAL: Module kheaders not found.</span><br><span class="line"><span class="built_in">chdir</span>(/lib/modules/5.4.207-1.el7.elrepo.x86_64/build): No such file or directory</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">&quot;/usr/share/bcc/tools/cachestat&quot;</span>, line 96, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    b = BPF(text=bpf_text)</span><br><span class="line">  File <span class="string">&quot;/usr/lib/python2.7/site-packages/bcc/__init__.py&quot;</span>, line 325, <span class="keyword">in</span> __init__</span><br><span class="line">    raise Exception(<span class="string">&quot;Failed to compile BPF text&quot;</span>)</span><br><span class="line">Exception: Failed to compile BPF text</span><br></pre></td></tr></table></figure>
-
-<p>原因是由于kernel-devel 版本不一致导致的，建议下载跟操作系统内核版本对齐。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#可以yum安装</span></span><br><span class="line">yum install <span class="string">&quot;kernel-devel-<span class="subst">$(uname -r)</span>&quot;</span></span><br><span class="line"><span class="comment"># 或者下载对应内核版本rpm包安装</span></span><br><span class="line"><span class="comment"># 下载地址：http://mirrors.coreix.net/elrepo-archive-archive/kernel/el7/x86_64/RPMS/</span></span><br><span class="line">rpm -ivh kernel-lt-devel-5.4.207-1.el7.elrepo.x86_64.rpm</span><br></pre></td></tr></table></figure>
-
-<p>2、执行命令报错</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">In file included from /virtual/main.c:2:</span><br><span class="line">In file included from /lib/modules/5.4.207-1.el7.elrepo.x86_64/build/include/uapi/linux/ptrace.h:143:</span><br><span class="line">In file included from /lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/ptrace.h:5:</span><br><span class="line">/lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/segment.h:266:2: error: expected <span class="string">&#x27;(&#x27;</span> after <span class="string">&#x27;asm&#x27;</span></span><br><span class="line">        alternative_io (<span class="string">&quot;lsl %[seg],%[p]&quot;</span>,</span><br><span class="line">        ^</span><br><span class="line">/lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/alternative.h:240:2: note: expanded from macro <span class="string">&#x27;alternative_io&#x27;</span></span><br><span class="line">        asm_inline volatile (ALTERNATIVE(oldinstr, newinstr, feature)   \</span><br><span class="line">        ^</span><br><span class="line">/lib/modules/5.4.207-1.el7.elrepo.x86_64/build/include/linux/compiler_types.h:214:24: note: expanded from macro <span class="string">&#x27;asm_inline&#x27;</span></span><br><span class="line"><span class="comment">#define asm_inline asm __inline</span></span><br><span class="line">                       ^</span><br><span class="line">1 error generated.</span><br><span class="line">Traceback (most recent call last):</span><br><span class="line">  File <span class="string">&quot;/usr/share/bcc/tools/cachestat&quot;</span>, line 96, <span class="keyword">in</span> &lt;module&gt;</span><br><span class="line">    b = BPF(text=bpf_text)</span><br><span class="line">  File <span class="string">&quot;/usr/lib/python2.7/site-packages/bcc/__init__.py&quot;</span>, line 325, <span class="keyword">in</span> __init__</span><br><span class="line">    raise Exception(<span class="string">&quot;Failed to compile BPF text&quot;</span>)</span><br><span class="line">Exception: Failed to compile BPF text</span><br></pre></td></tr></table></figure>
-
-<p>这个是由于内核版本的原因，kernel-5.4.X之后才会出现该问题。内核头文件中用 asm 替换 asm_inline即可，具体参考BCC官方<a href="https://github.com/iovisor/bcc/issues/2546">issues</a></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"> vim /lib/modules/5.4.207-1.el7.elrepo.x86_64/build/arch/x86/include/asm/segment.h 在最上新增如下配置</span><br><span class="line"></span><br><span class="line"><span class="comment">#ifdef asm_inline</span></span><br><span class="line"><span class="comment">#undef asm_inline</span></span><br><span class="line"><span class="comment">#define asm_inline asm</span></span><br><span class="line"><span class="comment">#endif</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>bcc</tag>
-        <tag>bpf</tag>
-        <tag>系统</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo 分类和标签</title>
-    <url>/2021/11/08/hexo-fen-lei-he-biao-qian/</url>
-    <content><![CDATA[<h3 id="一、主题配置打开"><a href="#一、主题配置打开" class="headerlink" title="一、主题配置打开"></a><strong>一、主题配置打开</strong></h3><p>打开 <code>themes/next/_config.yml</code> <strong>主题配置文件</strong> 找到 <code>Menu Settings</code> ，把 <code>categories</code> 和 <code>tags</code> 取消注释。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tags: /tags/ || fa fa-tags</span><br><span class="line">categories: /categories/ || fa fa-th</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<h2 id="二、添加分类模块"><a href="#二、添加分类模块" class="headerlink" title="二、添加分类模块"></a>二、添加分类模块</h2><p>新建一个分类页面。<br><code>$ hexo new page categories</code><br>你会发现你的source文件夹下有了categories[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 分类</p>
-<p>把文章归入分类只需在文章的顶部标题下方添加categories字段，即可自动创建分类名并加入对应的分类中</p>
-<h2 id="三、添加标签模块"><a href="#三、添加标签模块" class="headerlink" title="三、添加标签模块"></a>三、添加标签模块</h2><p>新建一个标签页面 。<br><code>$ hexo new page tags</code><br>你会发现你的source文件夹下有了tags[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 标签<br>把文章添加标签只需在文章的顶部标题下方添加tags字段，即可自动创建标签名并归入对应的标签中</p>
-<h2 id="四、修改-index-md-文件"><a href="#四、修改-index-md-文件" class="headerlink" title="四、修改 index.md 文件"></a><strong>四、修改 <a href="http://index.md/">index.md</a> 文件</strong></h2><p>打开 <code>categories</code> 文件夹下的 <code>index.md</code> ，在最下面一行加一行文字就行，注意中间有空格。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2021-11-08 10:47:33</span><br><span class="line"><span class="built_in">type</span>: categories</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>同理，<code>tags</code> 也是如此。</p>
-<h2 id="五、效果展示"><a href="#五、效果展示" class="headerlink" title="五、效果展示"></a><strong>五、效果展示</strong></h2><p><img src="/2021/11/08/hexo-fen-lei-he-biao-qian/1677584124277.png" alt="1677584124277"></p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>blog</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Kubernetes容器网络</title>
     <url>/2021/07/15/kubernetes-rong-qi-wang-luo/</url>
     <content><![CDATA[<h2 id="容器是什么"><a href="#容器是什么" class="headerlink" title="容器是什么"></a>容器是什么</h2><p>容器其实是一种沙盒技术。顾名思义，沙盒就是能够像一个集装箱一样，把你的应用“装”起来的技术。这样，应用与应用之间，就因为有了边界而不至于相互干扰；而被装进集装箱的应用，也可以被方便地搬到任何地方运行。对于大多数如Docker、RKT，等Linux容器，其实就是利用Linux Namespace技术创建隔离的进程空间、文件系统、网络命名空间、用户空间、主机名的一组进程。</p>
@@ -631,6 +606,31 @@
 ]]></content>
   </entry>
   <entry>
+    <title>Hexo 分类和标签</title>
+    <url>/2021/11/08/hexo-fen-lei-he-biao-qian/</url>
+    <content><![CDATA[<h3 id="一、主题配置打开"><a href="#一、主题配置打开" class="headerlink" title="一、主题配置打开"></a><strong>一、主题配置打开</strong></h3><p>打开 <code>themes/next/_config.yml</code> <strong>主题配置文件</strong> 找到 <code>Menu Settings</code> ，把 <code>categories</code> 和 <code>tags</code> 取消注释。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tags: /tags/ || fa fa-tags</span><br><span class="line">categories: /categories/ || fa fa-th</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h2 id="二、添加分类模块"><a href="#二、添加分类模块" class="headerlink" title="二、添加分类模块"></a>二、添加分类模块</h2><p>新建一个分类页面。<br><code>$ hexo new page categories</code><br>你会发现你的source文件夹下有了categories[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 分类</p>
+<p>把文章归入分类只需在文章的顶部标题下方添加categories字段，即可自动创建分类名并加入对应的分类中</p>
+<h2 id="三、添加标签模块"><a href="#三、添加标签模块" class="headerlink" title="三、添加标签模块"></a>三、添加标签模块</h2><p>新建一个标签页面 。<br><code>$ hexo new page tags</code><br>你会发现你的source文件夹下有了tags[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 标签<br>把文章添加标签只需在文章的顶部标题下方添加tags字段，即可自动创建标签名并归入对应的标签中</p>
+<h2 id="四、修改-index-md-文件"><a href="#四、修改-index-md-文件" class="headerlink" title="四、修改 index.md 文件"></a><strong>四、修改 <a href="http://index.md/">index.md</a> 文件</strong></h2><p>打开 <code>categories</code> 文件夹下的 <code>index.md</code> ，在最下面一行加一行文字就行，注意中间有空格。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2021-11-08 10:47:33</span><br><span class="line"><span class="built_in">type</span>: categories</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>同理，<code>tags</code> 也是如此。</p>
+<h2 id="五、效果展示"><a href="#五、效果展示" class="headerlink" title="五、效果展示"></a><strong>五、效果展示</strong></h2><p><img src="/2021/11/08/hexo-fen-lei-he-biao-qian/1677584124277.png" alt="1677584124277"></p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>blog</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Kubernetets CPU绑核配置</title>
     <url>/2023/03/30/kubernetets-cpu-bang-he-pei-zhi/</url>
     <content><![CDATA[<h1 id="CPU绑核配置"><a href="#CPU绑核配置" class="headerlink" title="CPU绑核配置"></a>CPU绑核配置</h1><p>默认情况下，kubelet 使用 <a href="https://www.kernel.org/doc/html/latest/scheduler/sched-design-CFS.html">CFS 配额</a> 来执行 Pod 的 CPU 约束。 当节点上运行了很多 CPU 密集的 Pod 时，工作负载可能会迁移到不同的 CPU 核， 这取决于调度时 Pod 是否被扼制，以及哪些 CPU 核是可用的。许多应用对这种迁移不敏感，因此无需任何干预即可正常工作。有些应用对CPU敏感，CPU敏感型应用有如下特点。</p>
@@ -751,8 +751,8 @@
         <category>linux</category>
       </categories>
       <tags>
-        <tag>linux</tag>
         <tag>内核</tag>
+        <tag>linux</tag>
         <tag>vmcore</tag>
         <tag>crash</tag>
       </tags>
