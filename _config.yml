@@ -14,16 +14,20 @@ timezone: ''
 # URL
 ## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
 url: https://www.ljohn.cn
-permalink: :year/:month/:day/:title/
-# permalink: :year/:month:day/:translate_title.html
+# permalink: :year/:month/:day/:title/
+permalink: :posts/:abbrlink.html # post为自定义前缀
+
+abbrlink:
+  alg: crc32   #算法： crc16(default) and crc32
+  rep: hex     #进制： dec(default) and hex
 permalink_defaults:
 pretty_urls:
   trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
   trailing_html: true # Set to false to remove trailing '.html' from permalinks
 
-translate_title:
-  translate_way: google  # google,youdao,baidu_with_appid,baidu_no_appid
-  is_need_proxy: false     # true | false
+# translate_title:
+#   translate_way: google  # google,youdao,baidu_with_appid,baidu_no_appid
+#   is_need_proxy: false     # true | false
 
 # Directory
 source_dir: source
@@ -119,7 +123,12 @@ deploy:
   branch: main
   message: Update Hexo Static Content
 
+sitemap:
+    path: sitemap.xml # 索引地图路径
+    tag: false # 标签页不添加到网站地图中
+    category: false # 分类页不添加到网站地图中
+
 # # 中文链接转拼音：https://github.com/viko16/hexo-permalink-pinyin
-permalink_pinyin:
-  enable: true
-  separator: '-'   # default: '-'
+# permalink_pinyin:
+#   enable: true
+#   separator: '-'   # default: '-'

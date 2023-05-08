@@ -1,9 +1,13 @@
 ---
 title: Kubernetets CPU绑核配置
-tags: [kubernetes,k8s,linux]
-categories: [kubernetes]
+tags:
+  - kubernetes
+  - k8s
+  - linux
+categories:
+  - kubernetes
+abbrlink: 19c6e9f2
 ---
-
 # CPU绑核配置
 
 默认情况下，kubelet 使用 [CFS 配额](https://www.kernel.org/doc/html/latest/scheduler/sched-design-CFS.html) 来执行 Pod 的 CPU 约束。 当节点上运行了很多 CPU 密集的 Pod 时，工作负载可能会迁移到不同的 CPU 核， 这取决于调度时 Pod 是否被扼制，以及哪些 CPU 核是可用的。许多应用对这种迁移不敏感，因此无需任何干预即可正常工作。有些应用对CPU敏感，CPU敏感型应用有如下特点。
@@ -20,7 +24,7 @@ categories: [kubernetes]
 
 想要让Pod能够绑核，有如下几点要求：
 
-* 节点上开启静态绑核策略。具体方法请参见[开启CPU管理策略](https://support.huaweicloud.com/usermanual-cce/cce_10_0351.html#cce_10_0351__section173918176434)。
+* 节点上开启静态绑核策略。
 * Pod的定义里都要设置request和limits，request和limits要一致。
 * 对于要绑核的容器，request值必须是整数。
 * 如果有init container希望进行绑核的话，init container的request最好与业务容器设置的request一致（避免业务容器未继承init container的cpu分配结果，导致cpu manager多预留一部分cpu）。更多信息请参见[App Containers can&#39;t inherit Init Containers CPUs - CPU Manager Static Policy](https://github.com/kubernetes/kubernetes/issues/94220#issuecomment-868489201)。

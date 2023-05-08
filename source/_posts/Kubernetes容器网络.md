@@ -1,5 +1,6 @@
 ---
 title: Kubernetes容器网络
+abbrlink: 484087c6
 date: 2021-07-15 09:14:37
 tags:
 ---

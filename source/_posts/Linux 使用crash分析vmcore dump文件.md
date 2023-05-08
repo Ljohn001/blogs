@@ -1,7 +1,13 @@
 ---
 title: Linux 使用crash分析vmcore dump文件
-tags: [linux,内核,vmcore,crash]
-categories: [linux]
+tags:
+  - linux
+  - 内核
+  - vmcore
+  - crash
+categories:
+  - linux
+abbrlink: 76d974f3
 ---
 ## vmcore是什么？
 

@@ -1,7 +1,11 @@
 ---
 title: Go语言基础之map
+tags:
+  - Go
+  - Golang
+  - Go学习
+abbrlink: d6a720ce
 date: 2021-06-25 10:13:33
-tags: [Go, Golang, Go学习]
 ---
 Go语言中提供的映射关系容器为`map`，其内部使用`散列表（hash）`实现。
 

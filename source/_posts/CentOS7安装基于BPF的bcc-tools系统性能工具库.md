@@ -1,7 +1,13 @@
 ---
 title: CentOS7安装基于BPF的bcc-tools系统性能工具库
-categories: [linux]
-tags: [linux,bcc,bpf,系统]
+categories:
+  - linux
+tags:
+  - linux
+  - bcc
+  - bpf
+  - 系统
+abbrlink: f49f425d
 ---
 # 准备
 

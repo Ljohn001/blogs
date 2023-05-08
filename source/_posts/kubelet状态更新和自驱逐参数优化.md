@@ -1,7 +1,11 @@
 ---
 title: kubelet状态更新和自驱逐参数优化
-tags: [kubernetes,k8s]
-categories: [kubernetes]
+tags:
+  - kubernetes
+  - k8s
+categories:
+  - kubernetes
+abbrlink: 7f9c3178
 ---
 # 环境信息
 

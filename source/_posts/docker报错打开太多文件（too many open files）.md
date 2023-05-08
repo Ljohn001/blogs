@@ -1,7 +1,13 @@
 ---
 title: docker报错打开太多文件（too many open files）
-tags: [docker,k8s,linux]
-categories: [linux,docker]
+tags:
+  - docker
+  - k8s
+  - linux
+categories:
+  - linux
+  - docker
+abbrlink: 743c406f
 ---
 在Linux系统内默认对所有进程打开的文件数量有限制（也可以称为文件句柄，包含打开的文件，套接字，网络连接等都算是一个文件句柄）
 

@@ -1,7 +1,11 @@
 ---
 title: Go语言基础之接口
+tags:
+  - Go
+  - Golang
+  - Go学习
+abbrlink: 2ad2e944
 date: 2021-07-02 08:29:27
-tags: [Go, Golang, Go学习]
 ---
 接口（interface）定义了一个对象的行为规范，只定义规范不实现，由具体的对象来实现规范的细节。
 

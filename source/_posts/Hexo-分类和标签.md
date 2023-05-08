@@ -1,8 +1,12 @@
 ---
 title: Hexo 分类和标签
+tags:
+  - hexo
+  - blog
+categories:
+  - hexo
+abbrlink: dccf6045
 date: 2021-11-08 11:15:02
-tags: [hexo,blog]
-categories: [hexo]
 ---
 ### **一、主题配置打开**
 
