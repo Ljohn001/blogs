@@ -239,31 +239,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Hexo 分类和标签</title>
-    <url>/posts/dccf6045.html</url>
-    <content><![CDATA[<h3 id="一、主题配置打开"><a href="#一、主题配置打开" class="headerlink" title="一、主题配置打开"></a><strong>一、主题配置打开</strong></h3><p>打开 <code>themes/next/_config.yml</code> <strong>主题配置文件</strong> 找到 <code>Menu Settings</code> ，把 <code>categories</code> 和 <code>tags</code> 取消注释。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tags: /tags/ || fa fa-tags</span><br><span class="line">categories: /categories/ || fa fa-th</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<h2 id="二、添加分类模块"><a href="#二、添加分类模块" class="headerlink" title="二、添加分类模块"></a>二、添加分类模块</h2><p>新建一个分类页面。<br><code>$ hexo new page categories</code><br>你会发现你的source文件夹下有了categories[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 分类</p>
-<p>把文章归入分类只需在文章的顶部标题下方添加categories字段，即可自动创建分类名并加入对应的分类中</p>
-<h2 id="三、添加标签模块"><a href="#三、添加标签模块" class="headerlink" title="三、添加标签模块"></a>三、添加标签模块</h2><p>新建一个标签页面 。<br><code>$ hexo new page tags</code><br>你会发现你的source文件夹下有了tags[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 标签<br>把文章添加标签只需在文章的顶部标题下方添加tags字段，即可自动创建标签名并归入对应的标签中</p>
-<h2 id="四、修改-index-md-文件"><a href="#四、修改-index-md-文件" class="headerlink" title="四、修改 index.md 文件"></a><strong>四、修改 <a href="http://index.md/">index.md</a> 文件</strong></h2><p>打开 <code>categories</code> 文件夹下的 <code>index.md</code> ，在最下面一行加一行文字就行，注意中间有空格。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2021-11-08 10:47:33</span><br><span class="line"><span class="built_in">type</span>: categories</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>同理，<code>tags</code> 也是如此。</p>
-<h2 id="五、效果展示"><a href="#五、效果展示" class="headerlink" title="五、效果展示"></a><strong>五、效果展示</strong></h2><p><img src="/posts/dccf6045.htm/1677584124277.png" alt="1677584124277"></p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>blog</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Go语言基础之结构体</title>
     <url>/posts/e21ef27.html</url>
     <content><![CDATA[<p>Go语言中没有“类”的概念，也不支持“类”的继承等面向对象的概念。Go语言中通过结构体的内嵌再配合接口比面向对象具有更高的扩展性和灵活性。</p>
@@ -451,6 +426,31 @@
         <tag>Go</tag>
         <tag>Golang</tag>
         <tag>Go学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hexo 分类和标签</title>
+    <url>/posts/dccf6045.html</url>
+    <content><![CDATA[<h3 id="一、主题配置打开"><a href="#一、主题配置打开" class="headerlink" title="一、主题配置打开"></a><strong>一、主题配置打开</strong></h3><p>打开 <code>themes/next/_config.yml</code> <strong>主题配置文件</strong> 找到 <code>Menu Settings</code> ，把 <code>categories</code> 和 <code>tags</code> 取消注释。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tags: /tags/ || fa fa-tags</span><br><span class="line">categories: /categories/ || fa fa-th</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h2 id="二、添加分类模块"><a href="#二、添加分类模块" class="headerlink" title="二、添加分类模块"></a>二、添加分类模块</h2><p>新建一个分类页面。<br><code>$ hexo new page categories</code><br>你会发现你的source文件夹下有了categories[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 分类</p>
+<p>把文章归入分类只需在文章的顶部标题下方添加categories字段，即可自动创建分类名并加入对应的分类中</p>
+<h2 id="三、添加标签模块"><a href="#三、添加标签模块" class="headerlink" title="三、添加标签模块"></a>三、添加标签模块</h2><p>新建一个标签页面 。<br><code>$ hexo new page tags</code><br>你会发现你的source文件夹下有了tags[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 标签<br>把文章添加标签只需在文章的顶部标题下方添加tags字段，即可自动创建标签名并归入对应的标签中</p>
+<h2 id="四、修改-index-md-文件"><a href="#四、修改-index-md-文件" class="headerlink" title="四、修改 index.md 文件"></a><strong>四、修改 <a href="http://index.md/">index.md</a> 文件</strong></h2><p>打开 <code>categories</code> 文件夹下的 <code>index.md</code> ，在最下面一行加一行文字就行，注意中间有空格。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2021-11-08 10:47:33</span><br><span class="line"><span class="built_in">type</span>: categories</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>同理，<code>tags</code> 也是如此。</p>
+<h2 id="五、效果展示"><a href="#五、效果展示" class="headerlink" title="五、效果展示"></a><strong>五、效果展示</strong></h2><p><img src="/posts/dccf6045.htm/1677584124277.png" alt="1677584124277"></p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>blog</tag>
       </tags>
   </entry>
   <entry>
@@ -751,10 +751,40 @@
         <category>linux</category>
       </categories>
       <tags>
-        <tag>内核</tag>
         <tag>linux</tag>
+        <tag>内核</tag>
         <tag>vmcore</tag>
         <tag>crash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker报错打开太多文件（too many open files）</title>
+    <url>/posts/743c406f.html</url>
+    <content><![CDATA[<p>在Linux系统内默认对所有进程打开的文件数量有限制（也可以称为文件句柄，包含打开的文件，套接字，网络连接等都算是一个文件句柄）</p>
+<h2 id="查看当前系统限制最大文件打开数量"><a href="#查看当前系统限制最大文件打开数量" class="headerlink" title="查看当前系统限制最大文件打开数量"></a>查看当前系统限制最大文件打开数量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/fs/file-max</span><br><span class="line">2000000</span><br></pre></td></tr></table></figure>
+
+<h2 id="查询当前系统已打开文件数量"><a href="#查询当前系统已打开文件数量" class="headerlink" title="查询当前系统已打开文件数量"></a>查询当前系统已打开文件数量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/fs/file-nr</span><br><span class="line">8640    0       2000000    <span class="comment"># 左边的值为当前系统已打开文件数量，右侧表示当前系统限制最大文件打开数</span></span><br></pre></td></tr></table></figure>
+
+<p>以上查询得知当前系统打开文件句柄数未达到上限，往下排查Docker进程的最大文件句柄数限制及已打开文件数</p>
+<h2 id="查询当前Docker进程最大可打开文件数量及已打开文件数量"><a href="#查询当前Docker进程最大可打开文件数量及已打开文件数量" class="headerlink" title="查询当前Docker进程最大可打开文件数量及已打开文件数量"></a>查询当前Docker进程最大可打开文件数量及已打开文件数量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl status docker | grep PID      <span class="comment">#获取Docker进程的PID号</span></span><br><span class="line">Main PID: 14644 (dockerd)</span><br><span class="line">cat /proc/`pidof dockerd`/limits</span><br><span class="line"><span class="comment"># 或者使用</span></span><br><span class="line">ls -l /proc/`pidof dockerd`/fd/* | wc -l    <span class="comment">## 获取当前Docker进程已打开的文件数量</span></span><br><span class="line">65342      <span class="comment">#报错时该值达到了最大限制65536</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="临时动态修改当前Docker进程的nofile限制，问题修复"><a href="#临时动态修改当前Docker进程的nofile限制，问题修复" class="headerlink" title="临时动态修改当前Docker进程的nofile限制，问题修复"></a>临时动态修改当前Docker进程的nofile限制，问题修复</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#将Docker进程的nofile限制调整为655360</span></span><br><span class="line">prlimit --pid 14644 --nofile=655360:655360   </span><br><span class="line"><span class="comment">#再次查询Docker进程状态发现问题已修复</span></span><br><span class="line">systemctl status docker </span><br><span class="line"><span class="comment">#查看当前Docker进程最大可打开文件数量</span></span><br><span class="line">cat /proc/`pidof dockerd`/limits   </span><br><span class="line">Max cpu time              unlimited            unlimited            seconds</span><br><span class="line">Max file size             unlimited            unlimited            bytes</span><br><span class="line">Max data size             unlimited            unlimited            bytes</span><br><span class="line">Max stack size            8388608              unlimited            bytes</span><br><span class="line">Max core file size        unlimited            unlimited            bytes</span><br><span class="line">Max resident <span class="built_in">set</span>          unlimited            unlimited            bytes</span><br><span class="line">Max processes             unlimited            unlimited            processes</span><br><span class="line">Max open files            655360               655360               files</span><br><span class="line">Max locked memory         65536                65536        				bytes</span><br><span class="line">Max address space         unlimited            unlimited            bytes</span><br><span class="line">Max file locks            unlimited            unlimited            locks</span><br><span class="line">Max pending signals       61943                61943                signals</span><br><span class="line">Max msgqueue size         819200               819200               bytes</span><br><span class="line">Max nice priority         0                    0</span><br><span class="line">Max realtime priority     0                    0</span><br><span class="line">Max realtime timeout      unlimited            unlimited            us</span><br></pre></td></tr></table></figure>
+
+<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><p>Q、修改daoker systemd服务配置参数LimitNOFILE=<strong><strong>infinity，不生效问题。</strong></strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ cat  /etc/redhat-release</span><br><span class="line">CentOS Linux release 7.6.1810 (Core)</span><br><span class="line">$ rpm -qa | grep systemd-sysv</span><br><span class="line">systemd-sysv-219-62.el7.x86_64</span><br><span class="line">$ uname -a</span><br><span class="line">Linux HZPL004094053 3.10.0-1160.76.1.el7.x86_64 <span class="comment">#1 SMP Wed Aug 10 16:21:17 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux</span></span><br><span class="line">$ cat /etc/systemd/system/docker.service | grep LimitNOFILE</span><br><span class="line">LimitNOFILE=infinity </span><br><span class="line"><span class="comment">#最终却得到65536</span></span><br><span class="line">cat /proc/`pidof dockerd`/limits |grep files</span><br><span class="line">Max open files            65536                65536                files</span><br></pre></td></tr></table></figure>
+
+<p>A、根治方案，修改systemd配置LimitNOFILE值</p>
+<p>该问题应该是systemd服务<a href="https://github.com/systemd/systemd/issues/6559">bug issue</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/systemd/system/docker.service | grep LimitNOFILE</span><br><span class="line">LimitNOFILE=200000 <span class="comment"># 可以修改配置文件到20w以上。</span></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br><span class="line">cat /proc/`pidof dockerd`/limits |grep files</span><br><span class="line">Max open files            200000                200000                files</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>linux</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>k8s</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -851,36 +881,6 @@
       <tags>
         <tag>kubernetes</tag>
         <tag>k8s</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker报错打开太多文件（too many open files）</title>
-    <url>/posts/743c406f.html</url>
-    <content><![CDATA[<p>在Linux系统内默认对所有进程打开的文件数量有限制（也可以称为文件句柄，包含打开的文件，套接字，网络连接等都算是一个文件句柄）</p>
-<h2 id="查看当前系统限制最大文件打开数量"><a href="#查看当前系统限制最大文件打开数量" class="headerlink" title="查看当前系统限制最大文件打开数量"></a>查看当前系统限制最大文件打开数量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/fs/file-max</span><br><span class="line">2000000</span><br></pre></td></tr></table></figure>
-
-<h2 id="查询当前系统已打开文件数量"><a href="#查询当前系统已打开文件数量" class="headerlink" title="查询当前系统已打开文件数量"></a>查询当前系统已打开文件数量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/fs/file-nr</span><br><span class="line">8640    0       2000000    <span class="comment"># 左边的值为当前系统已打开文件数量，右侧表示当前系统限制最大文件打开数</span></span><br></pre></td></tr></table></figure>
-
-<p>以上查询得知当前系统打开文件句柄数未达到上限，往下排查Docker进程的最大文件句柄数限制及已打开文件数</p>
-<h2 id="查询当前Docker进程最大可打开文件数量及已打开文件数量"><a href="#查询当前Docker进程最大可打开文件数量及已打开文件数量" class="headerlink" title="查询当前Docker进程最大可打开文件数量及已打开文件数量"></a>查询当前Docker进程最大可打开文件数量及已打开文件数量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl status docker | grep PID      <span class="comment">#获取Docker进程的PID号</span></span><br><span class="line">Main PID: 14644 (dockerd)</span><br><span class="line">cat /proc/`pidof dockerd`/limits</span><br><span class="line"><span class="comment"># 或者使用</span></span><br><span class="line">ls -l /proc/`pidof dockerd`/fd/* | wc -l    <span class="comment">## 获取当前Docker进程已打开的文件数量</span></span><br><span class="line">65342      <span class="comment">#报错时该值达到了最大限制65536</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="临时动态修改当前Docker进程的nofile限制，问题修复"><a href="#临时动态修改当前Docker进程的nofile限制，问题修复" class="headerlink" title="临时动态修改当前Docker进程的nofile限制，问题修复"></a>临时动态修改当前Docker进程的nofile限制，问题修复</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#将Docker进程的nofile限制调整为655360</span></span><br><span class="line">prlimit --pid 14644 --nofile=655360:655360   </span><br><span class="line"><span class="comment">#再次查询Docker进程状态发现问题已修复</span></span><br><span class="line">systemctl status docker </span><br><span class="line"><span class="comment">#查看当前Docker进程最大可打开文件数量</span></span><br><span class="line">cat /proc/`pidof dockerd`/limits   </span><br><span class="line">Max cpu time              unlimited            unlimited            seconds</span><br><span class="line">Max file size             unlimited            unlimited            bytes</span><br><span class="line">Max data size             unlimited            unlimited            bytes</span><br><span class="line">Max stack size            8388608              unlimited            bytes</span><br><span class="line">Max core file size        unlimited            unlimited            bytes</span><br><span class="line">Max resident <span class="built_in">set</span>          unlimited            unlimited            bytes</span><br><span class="line">Max processes             unlimited            unlimited            processes</span><br><span class="line">Max open files            655360               655360               files</span><br><span class="line">Max locked memory         65536                65536        				bytes</span><br><span class="line">Max address space         unlimited            unlimited            bytes</span><br><span class="line">Max file locks            unlimited            unlimited            locks</span><br><span class="line">Max pending signals       61943                61943                signals</span><br><span class="line">Max msgqueue size         819200               819200               bytes</span><br><span class="line">Max nice priority         0                    0</span><br><span class="line">Max realtime priority     0                    0</span><br><span class="line">Max realtime timeout      unlimited            unlimited            us</span><br></pre></td></tr></table></figure>
-
-<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><p>Q、修改daoker systemd服务配置参数LimitNOFILE=<strong><strong>infinity，不生效问题。</strong></strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ cat  /etc/redhat-release</span><br><span class="line">CentOS Linux release 7.6.1810 (Core)</span><br><span class="line">$ rpm -qa | grep systemd-sysv</span><br><span class="line">systemd-sysv-219-62.el7.x86_64</span><br><span class="line">$ uname -a</span><br><span class="line">Linux HZPL004094053 3.10.0-1160.76.1.el7.x86_64 <span class="comment">#1 SMP Wed Aug 10 16:21:17 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux</span></span><br><span class="line">$ cat /etc/systemd/system/docker.service | grep LimitNOFILE</span><br><span class="line">LimitNOFILE=infinity </span><br><span class="line"><span class="comment">#最终却得到65536</span></span><br><span class="line">cat /proc/`pidof dockerd`/limits |grep files</span><br><span class="line">Max open files            65536                65536                files</span><br></pre></td></tr></table></figure>
-
-<p>A、根治方案，修改systemd配置LimitNOFILE值</p>
-<p>该问题应该是systemd服务<a href="https://github.com/systemd/systemd/issues/6559">bug issue</a></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/systemd/system/docker.service | grep LimitNOFILE</span><br><span class="line">LimitNOFILE=200000 <span class="comment"># 可以修改配置文件到20w以上。</span></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br><span class="line">cat /proc/`pidof dockerd`/limits |grep files</span><br><span class="line">Max open files            200000                200000                files</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>linux</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>k8s</tag>
-        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
