@@ -123,10 +123,10 @@ deploy:
   branch: main
   message: Update Hexo Static Content
 
-sitemap:
-    path: sitemap.xml # 索引地图路径
-    tag: false # 标签页不添加到网站地图中
-    category: false # 分类页不添加到网站地图中
+# sitemap:
+#     path: sitemap.xml # 索引地图路径
+#     tag: false # 标签页不添加到网站地图中
+#     category: false # 分类页不添加到网站地图中
 
 # # 中文链接转拼音：https://github.com/viko16/hexo-permalink-pinyin
 # permalink_pinyin:
