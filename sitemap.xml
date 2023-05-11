@@ -191,7 +191,42 @@
 
   
   <url>
+    <loc>https://www.ljohn.cn/tags/%E5%86%85%E6%A0%B8/</loc>
+    <lastmod>2023-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://www.ljohn.cn/tags/linux/</loc>
+    <lastmod>2023-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ljohn.cn/tags/kubernetes/</loc>
+    <lastmod>2023-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ljohn.cn/tags/k8s/</loc>
+    <lastmod>2023-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ljohn.cn/tags/vmcore/</loc>
+    <lastmod>2023-05-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ljohn.cn/tags/crash/</loc>
     <lastmod>2023-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -240,20 +275,6 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/kubernetes/</loc>
-    <lastmod>2023-05-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.ljohn.cn/tags/k8s/</loc>
-    <lastmod>2023-05-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://www.ljohn.cn/tags/hexo/</loc>
     <lastmod>2023-05-11</lastmod>
     <changefreq>weekly</changefreq>
@@ -262,27 +283,6 @@
   
   <url>
     <loc>https://www.ljohn.cn/tags/blog/</loc>
-    <lastmod>2023-05-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.ljohn.cn/tags/%E5%86%85%E6%A0%B8/</loc>
-    <lastmod>2023-05-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.ljohn.cn/tags/vmcore/</loc>
-    <lastmod>2023-05-11</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.ljohn.cn/tags/crash/</loc>
     <lastmod>2023-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -305,14 +305,14 @@
 
   
   <url>
-    <loc>https://www.ljohn.cn/categories/linux/</loc>
+    <loc>https://www.ljohn.cn/categories/kubernetes/</loc>
     <lastmod>2023-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/categories/kubernetes/</loc>
+    <loc>https://www.ljohn.cn/categories/linux/</loc>
     <lastmod>2023-05-11</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
