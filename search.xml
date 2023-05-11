@@ -239,6 +239,75 @@
       </tags>
   </entry>
   <entry>
+    <title>Hexo 分类和标签</title>
+    <url>/posts/dccf6045.html</url>
+    <content><![CDATA[<h3 id="一、主题配置打开"><a href="#一、主题配置打开" class="headerlink" title="一、主题配置打开"></a><strong>一、主题配置打开</strong></h3><p>打开 <code>themes/next/_config.yml</code> <strong>主题配置文件</strong> 找到 <code>Menu Settings</code> ，把 <code>categories</code> 和 <code>tags</code> 取消注释。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tags: /tags/ || fa fa-tags</span><br><span class="line">categories: /categories/ || fa fa-th</span><br></pre></td></tr></table></figure>
+
+<span id="more"></span>
+
+<h2 id="二、添加分类模块"><a href="#二、添加分类模块" class="headerlink" title="二、添加分类模块"></a>二、添加分类模块</h2><p>新建一个分类页面。<br><code>$ hexo new page categories</code><br>你会发现你的source文件夹下有了categories[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 分类</p>
+<p>把文章归入分类只需在文章的顶部标题下方添加categories字段，即可自动创建分类名并加入对应的分类中</p>
+<h2 id="三、添加标签模块"><a href="#三、添加标签模块" class="headerlink" title="三、添加标签模块"></a>三、添加标签模块</h2><p>新建一个标签页面 。<br><code>$ hexo new page tags</code><br>你会发现你的source文件夹下有了tags[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 标签<br>把文章添加标签只需在文章的顶部标题下方添加tags字段，即可自动创建标签名并归入对应的标签中</p>
+<h2 id="四、修改-index-md-文件"><a href="#四、修改-index-md-文件" class="headerlink" title="四、修改 index.md 文件"></a><strong>四、修改 <a href="http://index.md/">index.md</a> 文件</strong></h2><p>打开 <code>categories</code> 文件夹下的 <code>index.md</code> ，在最下面一行加一行文字就行，注意中间有空格。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2021-11-08 10:47:33</span><br><span class="line"><span class="built_in">type</span>: categories</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
+
+<p>同理，<code>tags</code> 也是如此。</p>
+<h2 id="五、效果展示"><a href="#五、效果展示" class="headerlink" title="五、效果展示"></a><strong>五、效果展示</strong></h2><p><img src="/posts/dccf6045.htm/1677584124277.png" alt="1677584124277"></p>
+]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
+      <tags>
+        <tag>hexo</tag>
+        <tag>blog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Kubernetets CPU绑核配置</title>
+    <url>/posts/19c6e9f2.html</url>
+    <content><![CDATA[<h1 id="CPU绑核配置"><a href="#CPU绑核配置" class="headerlink" title="CPU绑核配置"></a>CPU绑核配置</h1><p>默认情况下，kubelet 使用 <a href="https://www.kernel.org/doc/html/latest/scheduler/sched-design-CFS.html">CFS 配额</a> 来执行 Pod 的 CPU 约束。 当节点上运行了很多 CPU 密集的 Pod 时，工作负载可能会迁移到不同的 CPU 核， 这取决于调度时 Pod 是否被扼制，以及哪些 CPU 核是可用的。许多应用对这种迁移不敏感，因此无需任何干预即可正常工作。有些应用对CPU敏感，CPU敏感型应用有如下特点。</p>
+<ul>
+<li>对CPU throttling 敏感</li>
+<li>对上下文切换敏感</li>
+<li>对处理器缓存未命中敏感</li>
+<li>对跨socket内存访问敏感</li>
+<li>期望运行在同一物理CPU的超线程</li>
+</ul>
+<p>如果您的应用有以上其中一个特点，可以利用kubernetes中提供的绑核策略去给应用绑核，提升应用性能，减少应用的调度延迟。cpu manager会优先在一个Socket上分配资源，也会优先分配完整的物理核，避免一些干扰。</p>
+<h1 id="如何为Pod绑核"><a href="#如何为Pod绑核" class="headerlink" title="如何为Pod绑核"></a><strong>如何为Pod绑核</strong></h1><p>想要让Pod能够绑核，有如下几点要求：</p>
+<ul>
+<li>节点上开启静态绑核策略。</li>
+<li>Pod的定义里都要设置request和limits，request和limits要一致。</li>
+<li>对于要绑核的容器，request值必须是整数。</li>
+<li>如果有init container希望进行绑核的话，init container的request最好与业务容器设置的request一致（避免业务容器未继承init container的cpu分配结果，导致cpu manager多预留一部分cpu）。更多信息请参见<a href="https://github.com/kubernetes/kubernetes/issues/94220#issuecomment-868489201">App Containers can&#39;t inherit Init Containers CPUs - CPU Manager Static Policy</a>。</li>
+</ul>
+<p>在使用时您可以利用<a href="https://support.huaweicloud.com/usermanual-cce/cce_10_0232.html">调度策略（亲和与反亲和）</a>将如上配置的Pod调度到开启静态绑核策略的节点上，这样就能够达到绑核的效果。</p>
+<h3 id="开启CPU管理策略"><a href="#开启CPU管理策略" class="headerlink" title="开启CPU管理策略"></a><strong>开启CPU管理策略</strong></h3><p><a href="https://kubernetes.io/zh/docs/tasks/administer-cluster/cpu-management-policies/">CPU 管理策略</a>通过 kubelet 参数 –cpu-manager-policy 来指定。支持两种策略：</p>
+<ul>
+<li>关闭（none）：默认策略，显式地启用现有的默认 CPU 亲和方案，不提供操作系统调度器默认行为之外的亲和性策略。</li>
+<li>开启（static）：针对具有整数型 CPU requests 的 Guaranteed Pod ，它允许该类 Pod 中的容器访问节点上的独占 CPU 资源（绑核）。</li>
+</ul>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先驱逐节点，停止kubeket</span></span><br><span class="line"><span class="string">systemctl</span> <span class="string">stop</span> <span class="string">kubelet</span></span><br><span class="line"><span class="comment"># 修改kubelet启动配置</span></span><br><span class="line"><span class="string">--cpu-manager-policy=&quot;static&quot;</span> <span class="comment"># 新版本已经废弃该用--config方式</span></span><br><span class="line"><span class="comment"># v1.19以后新版本在config.yml配置中新增</span></span><br><span class="line"><span class="attr">cpuManagerPolicy:</span> <span class="string">static</span></span><br><span class="line"><span class="comment"># 另外，需要配置 kubeReserved预留否则会报错</span></span><br><span class="line"><span class="attr">kubeReserved:</span></span><br><span class="line">  <span class="attr">cpu:</span> <span class="string">2000m</span></span><br><span class="line"><span class="comment"># 删除配置</span></span><br><span class="line"><span class="string">mv</span>  <span class="string">/var/lib/kubelet/cpu_manager_state&#123;,.bak&#125;</span></span><br><span class="line"><span class="comment"># 重启kubelet</span></span><br><span class="line"><span class="string">systemctl</span> <span class="string">daemon-reload</span> <span class="string">&amp;&amp;</span> <span class="string">systemctl</span> <span class="string">restart</span> <span class="string">kubelet</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="Pod资源配置"><a href="#Pod资源配置" class="headerlink" title="Pod资源配置"></a><strong><strong>Pod资源配置</strong></strong></h2><p>Pod的resources中cpu的request值需为整数，且request和limits要一致。</p>
+<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建一个pod</span></span><br><span class="line"><span class="string">kubectl</span> <span class="string">create</span> <span class="string">-f</span> <span class="string">-&lt;&lt;EOF</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nettools-deploy</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">      <span class="attr">matchLabels:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">nettools-deploy</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">nettools-deploy</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">nodeName:</span> <span class="string">&quot;10.4.83.28&quot;</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nettools-deploy</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">registry.XXXX.com/base/network-multitool:lastet</span></span><br><span class="line">        <span class="attr">imagePullPolicy:</span> <span class="string">IfNotPresent</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">nettools-deploy</span></span><br><span class="line">        <span class="attr">resources:</span></span><br><span class="line">          <span class="attr">requests:</span></span><br><span class="line">            <span class="attr">memory:</span> <span class="string">&quot;200Mi&quot;</span></span><br><span class="line">            <span class="attr">cpu:</span> <span class="string">&quot;2&quot;</span></span><br><span class="line">          <span class="attr">limits:</span></span><br><span class="line">            <span class="attr">memory:</span> <span class="string">&quot;200Mi&quot;</span></span><br><span class="line">            <span class="attr">cpu:</span> <span class="string">&quot;2&quot;</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"><span class="comment"># 验证绑核效果,可以看到容器实例帮核已经到2,34核心</span></span><br><span class="line"><span class="string">$</span> <span class="string">cat</span> <span class="string">/var/lib/kubelet/cpu_manager_state</span></span><br><span class="line">&#123;<span class="string">&quot;policyName&quot;</span><span class="string">:&quot;static&quot;</span>,<span class="string">&quot;defaultCpuSet&quot;</span><span class="string">:&quot;0-1</span>,<span class="number">3</span><span class="number">-33</span>,<span class="number">35</span><span class="number">-63</span><span class="string">&quot;,&quot;</span><span class="string">entries&quot;:</span>&#123;<span class="string">&quot;4378c1c9-7a86-48a0-8ad9-5a0d4ff4b3ac&quot;</span><span class="string">:</span>&#123;<span class="string">&quot;nettools-deploy&quot;</span><span class="string">:&quot;2</span>,<span class="number">34</span><span class="string">&quot;&#125;&#125;,&quot;</span><span class="string">checksum&quot;:239816225</span>&#125;</span><br><span class="line"><span class="comment"># 查找pod 对应的pid</span></span><br><span class="line"><span class="string">$</span> <span class="string">docker</span> <span class="string">ps</span> <span class="string">-a</span> <span class="string">|</span> <span class="string">grep</span> <span class="string">nettools-deploy-7b4df69496-8rzn4</span> <span class="string">|</span> <span class="string">head</span> <span class="string">-n</span> <span class="number">1</span>  <span class="string">|</span> <span class="string">awk</span> <span class="string">&#x27;&#123;print $1&#125;&#x27;</span>  <span class="string">|</span> <span class="string">xargs</span> <span class="string">-i</span> <span class="string">docker</span> <span class="string">inspect</span> &#123;&#125; <span class="string">|grep</span> <span class="string">Pid</span></span><br><span class="line">            <span class="attr">&quot;Pid&quot;:</span> <span class="number">234293</span>,</span><br><span class="line">            <span class="attr">&quot;PidMode&quot;:</span> <span class="string">&quot;&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;PidsLimit&quot;:</span> <span class="literal">null</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment"># 命令查看帮核效果，跟kubelet记录一致</span></span><br><span class="line"><span class="string">$</span> <span class="string">taskset</span> <span class="string">-c</span> <span class="string">-p</span> <span class="number">234293</span></span><br><span class="line"><span class="string">pid</span> <span class="number">234293</span><span class="string">&#x27;s current affinity list: 2,34</span></span><br></pre></td></tr></table></figure>
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/cpu-management-policies/"></a><a href="https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/cpu-management-policies/">https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/cpu-management-policies/</a></p>
+<p><a href="https://support.huaweicloud.com/usermanual-cce/cce_10_0351.html"></a><a href="https://support.huaweicloud.com/usermanual-cce/cce_10_0351.html">https://support.huaweicloud.com/usermanual-cce/cce_10_0351.html</a></p>
+<p><a href="https://imroc.cc/kubernetes/best-practices/performance-optimization/cpu.html"></a><a href="https://imroc.cc/kubernetes/best-practices/performance-optimization/cpu.html">https://imroc.cc/kubernetes/best-practices/performance-optimization/cpu.html</a></p>
+<p><a href="https://cloud.tencent.com/developer/article/1642977"></a><a href="https://cloud.tencent.com/developer/article/1642977">https://cloud.tencent.com/developer/article/1642977</a></p>
+]]></content>
+      <categories>
+        <category>kubernetes</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>kubernetes</tag>
+        <tag>k8s</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Go语言基础之结构体</title>
     <url>/posts/e21ef27.html</url>
     <content><![CDATA[<p>Go语言中没有“类”的概念，也不支持“类”的继承等面向对象的概念。Go语言中通过结构体的内嵌再配合接口比面向对象具有更高的扩展性和灵活性。</p>
@@ -845,75 +914,6 @@
         <tag>kubernetes</tag>
         <tag>k8s</tag>
         <tag>npd</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Kubernetets CPU绑核配置</title>
-    <url>/posts/19c6e9f2.html</url>
-    <content><![CDATA[<h1 id="CPU绑核配置"><a href="#CPU绑核配置" class="headerlink" title="CPU绑核配置"></a>CPU绑核配置</h1><p>默认情况下，kubelet 使用 <a href="https://www.kernel.org/doc/html/latest/scheduler/sched-design-CFS.html">CFS 配额</a> 来执行 Pod 的 CPU 约束。 当节点上运行了很多 CPU 密集的 Pod 时，工作负载可能会迁移到不同的 CPU 核， 这取决于调度时 Pod 是否被扼制，以及哪些 CPU 核是可用的。许多应用对这种迁移不敏感，因此无需任何干预即可正常工作。有些应用对CPU敏感，CPU敏感型应用有如下特点。</p>
-<ul>
-<li>对CPU throttling 敏感</li>
-<li>对上下文切换敏感</li>
-<li>对处理器缓存未命中敏感</li>
-<li>对跨socket内存访问敏感</li>
-<li>期望运行在同一物理CPU的超线程</li>
-</ul>
-<p>如果您的应用有以上其中一个特点，可以利用kubernetes中提供的绑核策略去给应用绑核，提升应用性能，减少应用的调度延迟。cpu manager会优先在一个Socket上分配资源，也会优先分配完整的物理核，避免一些干扰。</p>
-<h1 id="如何为Pod绑核"><a href="#如何为Pod绑核" class="headerlink" title="如何为Pod绑核"></a><strong>如何为Pod绑核</strong></h1><p>想要让Pod能够绑核，有如下几点要求：</p>
-<ul>
-<li>节点上开启静态绑核策略。</li>
-<li>Pod的定义里都要设置request和limits，request和limits要一致。</li>
-<li>对于要绑核的容器，request值必须是整数。</li>
-<li>如果有init container希望进行绑核的话，init container的request最好与业务容器设置的request一致（避免业务容器未继承init container的cpu分配结果，导致cpu manager多预留一部分cpu）。更多信息请参见<a href="https://github.com/kubernetes/kubernetes/issues/94220#issuecomment-868489201">App Containers can&#39;t inherit Init Containers CPUs - CPU Manager Static Policy</a>。</li>
-</ul>
-<p>在使用时您可以利用<a href="https://support.huaweicloud.com/usermanual-cce/cce_10_0232.html">调度策略（亲和与反亲和）</a>将如上配置的Pod调度到开启静态绑核策略的节点上，这样就能够达到绑核的效果。</p>
-<h3 id="开启CPU管理策略"><a href="#开启CPU管理策略" class="headerlink" title="开启CPU管理策略"></a><strong>开启CPU管理策略</strong></h3><p><a href="https://kubernetes.io/zh/docs/tasks/administer-cluster/cpu-management-policies/">CPU 管理策略</a>通过 kubelet 参数 –cpu-manager-policy 来指定。支持两种策略：</p>
-<ul>
-<li>关闭（none）：默认策略，显式地启用现有的默认 CPU 亲和方案，不提供操作系统调度器默认行为之外的亲和性策略。</li>
-<li>开启（static）：针对具有整数型 CPU requests 的 Guaranteed Pod ，它允许该类 Pod 中的容器访问节点上的独占 CPU 资源（绑核）。</li>
-</ul>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 先驱逐节点，停止kubeket</span></span><br><span class="line"><span class="string">systemctl</span> <span class="string">stop</span> <span class="string">kubelet</span></span><br><span class="line"><span class="comment"># 修改kubelet启动配置</span></span><br><span class="line"><span class="string">--cpu-manager-policy=&quot;static&quot;</span> <span class="comment"># 新版本已经废弃该用--config方式</span></span><br><span class="line"><span class="comment"># v1.19以后新版本在config.yml配置中新增</span></span><br><span class="line"><span class="attr">cpuManagerPolicy:</span> <span class="string">static</span></span><br><span class="line"><span class="comment"># 另外，需要配置 kubeReserved预留否则会报错</span></span><br><span class="line"><span class="attr">kubeReserved:</span></span><br><span class="line">  <span class="attr">cpu:</span> <span class="string">2000m</span></span><br><span class="line"><span class="comment"># 删除配置</span></span><br><span class="line"><span class="string">mv</span>  <span class="string">/var/lib/kubelet/cpu_manager_state&#123;,.bak&#125;</span></span><br><span class="line"><span class="comment"># 重启kubelet</span></span><br><span class="line"><span class="string">systemctl</span> <span class="string">daemon-reload</span> <span class="string">&amp;&amp;</span> <span class="string">systemctl</span> <span class="string">restart</span> <span class="string">kubelet</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="Pod资源配置"><a href="#Pod资源配置" class="headerlink" title="Pod资源配置"></a><strong><strong>Pod资源配置</strong></strong></h2><p>Pod的resources中cpu的request值需为整数，且request和limits要一致。</p>
-<figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建一个pod</span></span><br><span class="line"><span class="string">kubectl</span> <span class="string">create</span> <span class="string">-f</span> <span class="string">-&lt;&lt;EOF</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">nettools-deploy</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">      <span class="attr">matchLabels:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">nettools-deploy</span></span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">nettools-deploy</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">nodeName:</span> <span class="string">&quot;10.4.83.28&quot;</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">nettools-deploy</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">registry.XXXX.com/base/network-multitool:lastet</span></span><br><span class="line">        <span class="attr">imagePullPolicy:</span> <span class="string">IfNotPresent</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">nettools-deploy</span></span><br><span class="line">        <span class="attr">resources:</span></span><br><span class="line">          <span class="attr">requests:</span></span><br><span class="line">            <span class="attr">memory:</span> <span class="string">&quot;200Mi&quot;</span></span><br><span class="line">            <span class="attr">cpu:</span> <span class="string">&quot;2&quot;</span></span><br><span class="line">          <span class="attr">limits:</span></span><br><span class="line">            <span class="attr">memory:</span> <span class="string">&quot;200Mi&quot;</span></span><br><span class="line">            <span class="attr">cpu:</span> <span class="string">&quot;2&quot;</span></span><br><span class="line"><span class="string">EOF</span></span><br><span class="line"><span class="comment"># 验证绑核效果,可以看到容器实例帮核已经到2,34核心</span></span><br><span class="line"><span class="string">$</span> <span class="string">cat</span> <span class="string">/var/lib/kubelet/cpu_manager_state</span></span><br><span class="line">&#123;<span class="string">&quot;policyName&quot;</span><span class="string">:&quot;static&quot;</span>,<span class="string">&quot;defaultCpuSet&quot;</span><span class="string">:&quot;0-1</span>,<span class="number">3</span><span class="number">-33</span>,<span class="number">35</span><span class="number">-63</span><span class="string">&quot;,&quot;</span><span class="string">entries&quot;:</span>&#123;<span class="string">&quot;4378c1c9-7a86-48a0-8ad9-5a0d4ff4b3ac&quot;</span><span class="string">:</span>&#123;<span class="string">&quot;nettools-deploy&quot;</span><span class="string">:&quot;2</span>,<span class="number">34</span><span class="string">&quot;&#125;&#125;,&quot;</span><span class="string">checksum&quot;:239816225</span>&#125;</span><br><span class="line"><span class="comment"># 查找pod 对应的pid</span></span><br><span class="line"><span class="string">$</span> <span class="string">docker</span> <span class="string">ps</span> <span class="string">-a</span> <span class="string">|</span> <span class="string">grep</span> <span class="string">nettools-deploy-7b4df69496-8rzn4</span> <span class="string">|</span> <span class="string">head</span> <span class="string">-n</span> <span class="number">1</span>  <span class="string">|</span> <span class="string">awk</span> <span class="string">&#x27;&#123;print $1&#125;&#x27;</span>  <span class="string">|</span> <span class="string">xargs</span> <span class="string">-i</span> <span class="string">docker</span> <span class="string">inspect</span> &#123;&#125; <span class="string">|grep</span> <span class="string">Pid</span></span><br><span class="line">            <span class="attr">&quot;Pid&quot;:</span> <span class="number">234293</span>,</span><br><span class="line">            <span class="attr">&quot;PidMode&quot;:</span> <span class="string">&quot;&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;PidsLimit&quot;:</span> <span class="literal">null</span>,</span><br><span class="line"></span><br><span class="line"><span class="comment"># 命令查看帮核效果，跟kubelet记录一致</span></span><br><span class="line"><span class="string">$</span> <span class="string">taskset</span> <span class="string">-c</span> <span class="string">-p</span> <span class="number">234293</span></span><br><span class="line"><span class="string">pid</span> <span class="number">234293</span><span class="string">&#x27;s current affinity list: 2,34</span></span><br></pre></td></tr></table></figure>
-
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/cpu-management-policies/"></a><a href="https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/cpu-management-policies/">https://kubernetes.io/zh-cn/docs/tasks/administer-cluster/cpu-management-policies/</a></p>
-<p><a href="https://support.huaweicloud.com/usermanual-cce/cce_10_0351.html"></a><a href="https://support.huaweicloud.com/usermanual-cce/cce_10_0351.html">https://support.huaweicloud.com/usermanual-cce/cce_10_0351.html</a></p>
-<p><a href="https://imroc.cc/kubernetes/best-practices/performance-optimization/cpu.html"></a><a href="https://imroc.cc/kubernetes/best-practices/performance-optimization/cpu.html">https://imroc.cc/kubernetes/best-practices/performance-optimization/cpu.html</a></p>
-<p><a href="https://cloud.tencent.com/developer/article/1642977"></a><a href="https://cloud.tencent.com/developer/article/1642977">https://cloud.tencent.com/developer/article/1642977</a></p>
-]]></content>
-      <categories>
-        <category>kubernetes</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>kubernetes</tag>
-        <tag>k8s</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo 分类和标签</title>
-    <url>/posts/dccf6045.html</url>
-    <content><![CDATA[<h3 id="一、主题配置打开"><a href="#一、主题配置打开" class="headerlink" title="一、主题配置打开"></a><strong>一、主题配置打开</strong></h3><p>打开 <code>themes/next/_config.yml</code> <strong>主题配置文件</strong> 找到 <code>Menu Settings</code> ，把 <code>categories</code> 和 <code>tags</code> 取消注释。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tags: /tags/ || fa fa-tags</span><br><span class="line">categories: /categories/ || fa fa-th</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<h2 id="二、添加分类模块"><a href="#二、添加分类模块" class="headerlink" title="二、添加分类模块"></a>二、添加分类模块</h2><p>新建一个分类页面。<br><code>$ hexo new page categories</code><br>你会发现你的source文件夹下有了categories[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 分类</p>
-<p>把文章归入分类只需在文章的顶部标题下方添加categories字段，即可自动创建分类名并加入对应的分类中</p>
-<h2 id="三、添加标签模块"><a href="#三、添加标签模块" class="headerlink" title="三、添加标签模块"></a>三、添加标签模块</h2><p>新建一个标签页面 。<br><code>$ hexo new page tags</code><br>你会发现你的source文件夹下有了tags[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 标签<br>把文章添加标签只需在文章的顶部标题下方添加tags字段，即可自动创建标签名并归入对应的标签中</p>
-<h2 id="四、修改-index-md-文件"><a href="#四、修改-index-md-文件" class="headerlink" title="四、修改 index.md 文件"></a><strong>四、修改 <a href="http://index.md/">index.md</a> 文件</strong></h2><p>打开 <code>categories</code> 文件夹下的 <code>index.md</code> ，在最下面一行加一行文字就行，注意中间有空格。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2021-11-08 10:47:33</span><br><span class="line"><span class="built_in">type</span>: categories</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>同理，<code>tags</code> 也是如此。</p>
-<h2 id="五、效果展示"><a href="#五、效果展示" class="headerlink" title="五、效果展示"></a><strong>五、效果展示</strong></h2><p><img src="/posts/dccf6045.htm/1677584124277.png" alt="1677584124277"></p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>blog</tag>
       </tags>
   </entry>
 </search>
