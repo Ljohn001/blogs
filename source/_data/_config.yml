@@ -888,10 +888,10 @@ css_prefix: true
 inject:
   head:
     # - <link rel="stylesheet" href="/xxx.css">
-    <link rel="stylesheet" href="/css/mycss.css">
+    # <link rel="stylesheet" href="/css/mycss.css">
   bottom:
     # - <script src="xxxx"></script>
-    <link rel="stylesheet" href="/css/mycss.css">
+    # <link rel="stylesheet" href="/css/mycss.css">
 
 # CDN
 # Don't modify the following settings unless you know how they work
