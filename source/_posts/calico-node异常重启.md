@@ -1,5 +1,3 @@
-
-
 ---
 title: calico-node异常重启
 tags: [calico,kubernetes,linux,k8s]
@@ -14,14 +12,14 @@ categories: [calico]
 
 # 问题描述
 
-calico异常重启导致容器网络异常超时，查看日志发现报错如下
+calico异常重启导致容器网络异常超时，查看日志发现报错如下：`failed to create new OS thread`
 
 ```bash
 # 获取异常节点calico-node重启多次
 kubectl -n kube-system get pod -owide | grep calico-node-56bgm
 calico-node-56bgm                             1/1     Running   21         246d   10.165.6.26      10.165.6.26   <none>           <none>
 
-# 查看calico-node历史日志如下
+# 查看calico-node历史日志如下：
 kubectl -n kube-system logs -p calico-node-56bgm | less
 runtime: failed to create new OS thread (have 41 already; errno=11)
 runtime: may need to increase max user processes (ulimit -u)
@@ -61,6 +59,15 @@ created by runtime.gcBgMarkStartWorkers
 
 ```
 
+dmesg 系统日志报错：`cgroup: fork rejected by pids controller in /kubepods/`
+
+```
+# 登录主机会发现如下报错
+# dmesg -xTL | tail
+kern  :info  : [Mon May 15 09:25:27 2023] cgroup: fork rejected by pids controller in /kubepods/burstable/pod22612ffb-4523-4958-b6dd-a80bd35fd325/8e8c5f52932538520f5b8042a2b602c1c5a07805ee073f1892ad27b0d818b584
+kern  :info  : [Mon May 15 09:25:27 2023] cgroup: fork rejected by pids controller in /kubepods/burstable/podd06203b5-9e78-4247-b80c-43ffaea99318/52177669439ab2d4a1253b2fa7daedf226bff37911841d846286e5c6fb015a55
+```
+
 # 根因分析
 
 查看系统ulimit限制
@@ -73,7 +80,7 @@ cat /etc/security/limits.conf | tail -n 5
 *       hard    nproc   65535
 ```
 
-查看用户进程限制，默认限制用户进程的数量 4096 太小
+查看用户进程限制，限制用户进程的数量 4096 太小，这里可以设当调整，调整后还是容易出现该异常。
 
 ```bash
 cat /etc/security/limits.d/20-nproc.conf
@@ -83,4 +90,18 @@ cat /etc/security/limits.d/20-nproc.conf
 
 *          soft    nproc     4096
 root       soft    nproc     unlimited
+```
+
+可能是因为kubernetes kubepods cgroup 的pids.max 配置太小。
+
+```
+# 查看 kubepods cgroup 的pids.max
+cat /sys/fs/cgroup/pids/kubepods/pids.max
+49152
+# 再查看系统的pid_max值，这个值是修改过，但是没有重启过kubelet服务，所以k8s没识别到该该系统参数。
+cat /proc/sys/kernel/pid_max
+1000000
+# 这里只需要重启kubelet即可自动保持pids.max和kernel.pid_max值一致
+systemctl restart kubelet
+
 ```
