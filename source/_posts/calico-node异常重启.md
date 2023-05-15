@@ -1,7 +1,13 @@
 ---
 title: calico-node异常重启
-tags: [calico,kubernetes,linux,k8s]
-categories: [calico]
+tags:
+  - calico
+  - kubernetes
+  - linux
+  - k8s
+categories:
+  - calico
+abbrlink: d62f787
 ---
 # 环境信息
 
