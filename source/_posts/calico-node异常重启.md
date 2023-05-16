@@ -1,17 +1,11 @@
 ---
 title: calico-node异常重启
-tags:
-  - calico
-  - kubernetes
-  - linux
-  - k8s
-categories:
-  - calico
-abbrlink: d62f787
+tags: [calico,kubernetes,linux,k8s]
+categories: [calico]
 ---
 # 环境信息
 
-* os 版本： centos7.
+* os 版本： centos7.9
 * kernel 版本：3.10.0-1160.59.1.el7.x86_64
 * k8s 版本：v1.19.4
 * calico-node 版本：v3.8.8-1
@@ -65,7 +59,7 @@ created by runtime.gcBgMarkStartWorkers
 
 ```
 
-dmesg 系统日志报错：`cgroup: fork rejected by pids controller in /kubepods/`
+dmesg 系统日志报错：`cgroup: fork rejected by pids controller in /kubepods/...`
 
 ```
 # 登录主机会发现如下报错
@@ -111,3 +105,7 @@ cat /proc/sys/kernel/pid_max
 systemctl restart kubelet
 
 ```
+
+> /sys/fs/cgroup/pids/kubepods/pids.max 是一个控制 Linux 控制组（cgroup）中进程数量限制的文件路径。它的值表示在该 cgroup 中允许的最大进程数。
+>
+> 在 Kubernetes 中，pids.max 文件通常是由 kubelet 进程负责设置和管理的。kubelet 会创建和管理用于容器进程的 cgroup，并根据配置中指定的值设置 pids.max 文件的值。
