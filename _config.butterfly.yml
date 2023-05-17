@@ -485,9 +485,21 @@ google_adsense:
 
 site_verification:
   # - name: google-site-verification
-  #   content: xxxxxx
+  #   content: googlecdca5505856a2c15.html
   # - name: baidu-site-verification
-  #   content: xxxxxxx
+  #   content: 4ff02f073398a074487c7a2b11f899da
+
+# SEO
+# 为网站使用到的所有外链添加 rel="noopener external nofollow noreferrer"，可有效地加强网站 SEO 和防止权重流失
+nofollow:
+  enable: true
+  field: site
+  exclude:
+    # - 'exclude1.com'
+    # - 'exclude2.com'
+
+
+
 
 # Beautify/Effect (美化/效果)
 # --------------------------------------
