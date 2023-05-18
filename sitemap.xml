@@ -209,13 +209,6 @@
 
   
   <url>
-    <loc>https://www.ljohn.cn/tags/%E5%86%85%E6%A0%B8/</loc>
-    <lastmod>2023-05-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://www.ljohn.cn/tags/linux/</loc>
     <lastmod>2023-05-18</lastmod>
     <changefreq>weekly</changefreq>
@@ -223,14 +216,7 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/kubernetes/</loc>
-    <lastmod>2023-05-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.ljohn.cn/tags/k8s/</loc>
+    <loc>https://www.ljohn.cn/tags/%E5%86%85%E6%A0%B8/</loc>
     <lastmod>2023-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -251,21 +237,14 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/Go/</loc>
+    <loc>https://www.ljohn.cn/tags/kubernetes/</loc>
     <lastmod>2023-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/Golang/</loc>
-    <lastmod>2023-05-18</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.ljohn.cn/tags/Go%E5%AD%A6%E4%B9%A0/</loc>
+    <loc>https://www.ljohn.cn/tags/k8s/</loc>
     <lastmod>2023-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -300,6 +279,27 @@
   </url>
   
   <url>
+    <loc>https://www.ljohn.cn/tags/Go/</loc>
+    <lastmod>2023-05-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ljohn.cn/tags/Golang/</loc>
+    <lastmod>2023-05-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ljohn.cn/tags/Go%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2023-05-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://www.ljohn.cn/tags/hexo/</loc>
     <lastmod>2023-05-18</lastmod>
     <changefreq>weekly</changefreq>
@@ -314,14 +314,14 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/calico/</loc>
+    <loc>https://www.ljohn.cn/tags/docker/</loc>
     <lastmod>2023-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/docker/</loc>
+    <loc>https://www.ljohn.cn/tags/calico/</loc>
     <lastmod>2023-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -337,14 +337,14 @@
 
   
   <url>
-    <loc>https://www.ljohn.cn/categories/kubernetes/</loc>
+    <loc>https://www.ljohn.cn/categories/linux/</loc>
     <lastmod>2023-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/categories/linux/</loc>
+    <loc>https://www.ljohn.cn/categories/kubernetes/</loc>
     <lastmod>2023-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -358,14 +358,14 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/categories/calico/</loc>
+    <loc>https://www.ljohn.cn/categories/linux/docker/</loc>
     <lastmod>2023-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/categories/linux/docker/</loc>
+    <loc>https://www.ljohn.cn/categories/calico/</loc>
     <lastmod>2023-05-18</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
