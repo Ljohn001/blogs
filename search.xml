@@ -4,6 +4,37 @@
   
     
     <entry>
+      <title>kubelet统计磁盘inode耗时导致负载升高问题</title>
+      <link href="/posts/b0f608c0.html"/>
+      <url>/posts/b0f608c0.html</url>
+      
+        <content type="html"><![CDATA[<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>1、磁盘容量告警</p><p><img src="/posts/b0f608c0.htm/1685575843966.png" alt="1685575843966"></p><p>2、对主机进行磁盘检查并尝试清理磁盘占用较高的pod，有5900多个文件描述符被打开没有关闭。</p><p><img src="/posts/b0f608c0.htm/1685576103317.png" alt="1685576103317"></p><p><img src="/posts/b0f608c0.htm/1685577904035.png" alt="1685577904035"></p><p>通过平台删除该pod: product-center-query-pro-remain-5bfb5f4c98-m2l55</p><p>3、主机负载冲高，触发告警</p><p><img src="/posts/b0f608c0.htm/1685575658188.png" alt="1685575658188"></p><h1 id="根因排查"><a href="#根因排查" class="headerlink" title="根因排查"></a>根因排查</h1><p>1、根据系统日志发现磁盘最早在5月28日就出现了磁盘inode统计超时情况。</p><p><img src="/posts/b0f608c0.htm/1685576358306.png" alt="1685576358306"></p><h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><ul><li>立即对主机进行疏散，避免再次出现异常，导致主机负载升高，影响业务pod。</li><li>增加该kubelet日志告警（fs: disk usage and inodes count on following dirs took 1），提前发现及时人工介入进行处理。</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> kubernetes </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> kubernetes </tag>
+            
+            <tag> k8s </tag>
+            
+            <tag> linux </tag>
+            
+            <tag> 容器 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>2022CKS安全认证模拟题</title>
       <link href="/posts/3e9a887b.html"/>
       <url>/posts/3e9a887b.html</url>
@@ -49,11 +80,11 @@
       
         <tags>
             
-            <tag> linux </tag>
-            
             <tag> kubernetes </tag>
             
             <tag> k8s </tag>
+            
+            <tag> linux </tag>
             
             <tag> calico </tag>
             
@@ -80,11 +111,11 @@
       
         <tags>
             
-            <tag> linux </tag>
-            
             <tag> kubernetes </tag>
             
             <tag> k8s </tag>
+            
+            <tag> linux </tag>
             
             <tag> npd </tag>
             
@@ -111,11 +142,11 @@
       
         <tags>
             
-            <tag> linux </tag>
-            
             <tag> kubernetes </tag>
             
             <tag> k8s </tag>
+            
+            <tag> linux </tag>
             
         </tags>
       
@@ -142,9 +173,9 @@
       
         <tags>
             
-            <tag> linux </tag>
-            
             <tag> k8s </tag>
+            
+            <tag> linux </tag>
             
             <tag> docker </tag>
             
