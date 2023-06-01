@@ -1,8 +1,13 @@
 ---
 title: kubelet统计磁盘inode耗时导致负载升高问题
-tags: [linux,kubernetes,k8s,容器]
-categories: [kubernetes]
-
+tags:
+  - linux
+  - kubernetes
+  - k8s
+  - 容器
+categories:
+  - kubernetes
+abbrlink: b0f608c0
 ---
 # 问题描述
 
@@ -28,7 +33,9 @@ categories: [kubernetes]
 
 ![1685576358306](kubelet统计磁盘inode耗时导致负载升高问题/1685576358306.png)
 
+2、发现有个容器在/tmp目录创建了很多小文件，占用了大量的磁盘空间及Inode，可能是导致磁盘响应变慢的直接原因。
 
+![1685601543912](kubelet统计磁盘inode耗时导致负载升高问题/1685601543912.png)
 
 # 解决方案
 
