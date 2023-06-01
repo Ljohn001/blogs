@@ -182,7 +182,7 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/categories/index.html</loc>
+    <loc>https://www.ljohn.cn/tags/index.html</loc>
     
     <lastmod>2023-02-03</lastmod>
     
@@ -200,7 +200,7 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/index.html</loc>
+    <loc>https://www.ljohn.cn/categories/index.html</loc>
     
     <lastmod>2023-02-03</lastmod>
     
@@ -216,6 +216,27 @@
     <priority>1.0</priority>
   </url>
 
+  
+  <url>
+    <loc>https://www.ljohn.cn/tags/kubernetes/</loc>
+    <lastmod>2023-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ljohn.cn/tags/k8s/</loc>
+    <lastmod>2023-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ljohn.cn/tags/security/</loc>
+    <lastmod>2023-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
   
   <url>
     <loc>https://www.ljohn.cn/tags/linux/</loc>
@@ -267,27 +288,6 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/kubernetes/</loc>
-    <lastmod>2023-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.ljohn.cn/tags/k8s/</loc>
-    <lastmod>2023-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.ljohn.cn/tags/security/</loc>
-    <lastmod>2023-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://www.ljohn.cn/tags/hexo/</loc>
     <lastmod>2023-06-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -296,6 +296,20 @@
   
   <url>
     <loc>https://www.ljohn.cn/tags/blog/</loc>
+    <lastmod>2023-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ljohn.cn/tags/calico/</loc>
+    <lastmod>2023-06-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ljohn.cn/tags/docker/</loc>
     <lastmod>2023-06-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -323,14 +337,7 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/calico/</loc>
-    <lastmod>2023-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.ljohn.cn/tags/docker/</loc>
+    <loc>https://www.ljohn.cn/tags/%E5%AE%B9%E5%99%A8/</loc>
     <lastmod>2023-06-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -343,24 +350,17 @@
     <priority>0.2</priority>
   </url>
   
-  <url>
-    <loc>https://www.ljohn.cn/tags/%E5%AE%B9%E5%99%A8/</loc>
-    <lastmod>2023-06-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
 
   
   <url>
-    <loc>https://www.ljohn.cn/categories/linux/</loc>
+    <loc>https://www.ljohn.cn/categories/kubernetes/</loc>
     <lastmod>2023-06-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/categories/kubernetes/</loc>
+    <loc>https://www.ljohn.cn/categories/linux/</loc>
     <lastmod>2023-06-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
