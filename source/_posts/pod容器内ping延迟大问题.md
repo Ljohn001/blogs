@@ -1,7 +1,13 @@
 ---
 title: pod容器内ping延迟大问题
-tags: [linux,kubernetes,k8s,容器]
-categories: [kubernetes]
+tags:
+  - linux
+  - kubernetes
+  - k8s
+  - 容器
+categories:
+  - kubernetes
+abbrlink: da179f53
 ---
 # 问题描述
 
