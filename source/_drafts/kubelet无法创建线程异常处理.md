@@ -7,11 +7,10 @@ categories: [kubernetes]
 
 1、少量的应用出现OOM报错，查看pod资源开销情况发现并未出现内存溢出
 
-
 2、查看kubelet异常日志发现报错如下：`pthread_create failed: Resource tmporarily unavailable`
 
 ```bash
-5月 11 09:01:37 HZPL004094050 kubelet[5347]: I0511 09:01:37.778960    5347 prober.go:117] Readiness probe for "zto-tidb-second-biz-prod-rq-55787858cf-vpgv4_pangu(fff52887-bb5f-4af9-8ba4-e3416dcd32b9):java" failed (failure): Get "http://10.6.181.96:8166/health": dial tcp 10.6.181.96:8166: connect: connection timed out
+5月 11 09:01:37 HZPL004094050 kubelet[5347]: I0511 09:01:37.778960    5347 prober.go:117] Readiness probe for "tidb-second-biz-prod-rq-55787858cf-vpgv4_pangu(fff52887-bb5f-4af9-8ba4-e3416dcd32b9):java" failed (failure): Get "http://10.6.181.96:8166/health": dial tcp 10.6.181.96:8166: connect: connection timed out
 5月 11 09:01:38 HZPL004094050 kubelet[5347]: I0511 09:01:38.754255    5347 prober.go:117] Liveness probe for "calico-node-nh7n4_kube-system(213160f6-13e1-41bb-b2db-2a8a763aec67):calico-node" failed (failure): runtime/cgo: pthread_create failed: Resource temporarily unavailable
 5月 11 09:01:38 HZPL004094050 kubelet[5347]: SIGABRT: abort
 5月 11 09:01:38 HZPL004094050 kubelet[5347]: PC=0x7f0e6e62f37f m=0 sigcode=18446744073709551610
