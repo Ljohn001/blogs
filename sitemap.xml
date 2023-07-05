@@ -4,7 +4,7 @@
   <url>
     <loc>https://www.ljohn.cn/about/index.html</loc>
     
-    <lastmod>2023-07-04</lastmod>
+    <lastmod>2023-07-05</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
@@ -369,14 +369,14 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/categories/kubernetes/</loc>
+    <loc>https://www.ljohn.cn/categories/kubernet/</loc>
     <lastmod>2023-07-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/categories/kubernet/</loc>
+    <loc>https://www.ljohn.cn/categories/kubernetes/</loc>
     <lastmod>2023-07-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
