@@ -2,18 +2,18 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>https://www.ljohn.cn/posts/da179f53/</loc>
+    <loc>https://www.ljohn.cn/about/index.html</loc>
     
-    <lastmod>2023-07-06</lastmod>
+    <lastmod>2023-07-10</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/about/index.html</loc>
+    <loc>https://www.ljohn.cn/posts/da179f53/</loc>
     
-    <lastmod>2023-07-05</lastmod>
+    <lastmod>2023-07-06</lastmod>
     
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
