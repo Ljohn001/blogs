@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>https://www.ljohn.cn/posts/1c340043/</loc>
+    
+    <lastmod>2023-07-19</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.ljohn.cn/posts/de1f3bdf/</loc>
     
     <lastmod>2023-07-13</lastmod>
@@ -357,7 +366,21 @@
   </url>
   
   <url>
+    <loc>https://www.ljohn.cn/tags/ingress/</loc>
+    <lastmod>2023-07-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://www.ljohn.cn/tags/ubuntu/</loc>
+    <lastmod>2023-07-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ljohn.cn/tags/calico/</loc>
     <lastmod>2023-07-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -372,20 +395,6 @@
   
   <url>
     <loc>https://www.ljohn.cn/tags/npd/</loc>
-    <lastmod>2023-07-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.ljohn.cn/tags/ingress/</loc>
-    <lastmod>2023-07-19</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.ljohn.cn/tags/calico/</loc>
     <lastmod>2023-07-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -422,14 +431,14 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/categories/linux/docker/</loc>
+    <loc>https://www.ljohn.cn/categories/calico/</loc>
     <lastmod>2023-07-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/categories/calico/</loc>
+    <loc>https://www.ljohn.cn/categories/linux/docker/</loc>
     <lastmod>2023-07-19</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
