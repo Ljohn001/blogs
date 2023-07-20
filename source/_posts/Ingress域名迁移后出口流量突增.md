@@ -1,20 +1,19 @@
 ---
 title: Ingress域名迁移后出口流量突增
-date: 2023-07-19T12:09:13+08:00
 tags:
   - kubernetes
   - k8s
   - ingress
 categories:
   - kubernetes
+abbrlink: 1c340043
+date: 2023-07-19 04:09:13
 ---
-
 # 背景
 
 某个集群需要进行资源整合下线，需要对集群上业务进行迁移，但在迁移某个带域名容器服务后，发现网络出口带宽升高了70%，域名带宽也一样增高。
 
 - ingress: 0.32.0  迁移到 ingress :1.1.3
-
 - kubernetes: 1.17.9 迁移到 kubernetes: 1.22.14
 
 # 问题描述
@@ -24,7 +23,6 @@ categories:
 ![1689742273045](Ingress域名迁移后出口流量突增/1689742273045.png)
 
 2、迁移前后ingress-nginx-controller 版本是有一个升级的，0.32.0 -- > 1.1.3
-
 
 # 根因分析
 
@@ -58,7 +56,11 @@ xxx.ljohn.cn  -- > F5 -- > BFE(负载均衡) -- > Ingress -- > 容器pod
 
 # 解决方案
 
-1、ingress开启全局gzip （目前我们保持跟之前一致所有默认也开启了gzip，但注意开启是有一定性能损耗的，比如cpu会上升）
+1、ingress开启全局gzip （目前我们保持跟之前一致所有默认也开启了gzip。）
+
+> a、注意开启是有一定性能损耗的，比如ingress cpu资源开销会上升。
+>
+> b、可能存在域名对应的服务端不支持gzip解压，可能会出现乱码，生产变更风险较大。
 
 ```
 # 直接编辑全局ingress配置
@@ -88,16 +90,16 @@ kubectl -n ingress-nginx exec -ti ingress-nginx-controller-588c895b4-wbclg -- ca
 
 ![1689742183172](Ingress域名迁移后出口流量突增/1689742183172.png)
 
-2、或者对单个ingress域名开启gzip
+2、或者对单个ingress域名开启gzip，关闭gzip
 
 ```
-# 直接编辑单个ingress 配置，这里就不做验证了。
+# 直接编辑单个ingress 配置。
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: comptest-ingress
   annotations:
-    nginx.ingress.kubernetes.io/server-snippet:  gzip on;  # 新增 开启gzip
+    nginx.ingress.kubernetes.io/server-snippet:  gzip on;  # 新增 开启gzip，关闭修改为 gzip off
 ```
 
 # 参考
