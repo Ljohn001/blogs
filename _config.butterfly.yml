@@ -911,11 +911,9 @@ inject:
     # <link rel="stylesheet" href="/css/mycss.css">
   bottom:
     # - <script src="xxxx"></script>
+    # 页脚养鱼 参考：https://hujiyi.github.io/2021/11/17/footer-fish/
     - <script src="/js/jquery.min.js"></script>
     - <script src="/js/fishes.js"></script>
-    # - <script defer src="https://cdn.bootcss.com/jquery/3.4.1/jquery.min.js"></script>
-    # - <script defer src="https://uuuuu.cf/js/fishes.js"></script> # 页脚养鱼(彩色)
-    # - <script src="https://gcore.jsdelivr.net/gh/xiabo2/CDN@latest/fishes.js"></script>
 
 # CDN
 # Don't modify the following settings unless you know how they work
