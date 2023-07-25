@@ -4,11 +4,14 @@
 
 menu:
   首页: / || fas fa-home
-  # 文章||fas fa-book:
-  归档: /archives/ || fas fa-archive
-  标签: /tags/ || fas fa-tags
-  分类: /categories/ || fas fa-folder-open
-  关于: /about/ || fas fa-heart
+  博文 || fa fa-graduation-cap:
+    分类: /categories/ || fa fa-archive
+    标签: /tags/ || fa fa-tags
+    归档: /archives/ || fa fa-folder-open
+  外链 || fa fa-graduation-cap:
+    友情链接: /link/ || fa fa-link
+    宝藏链接: /mark/ || fa fa-link
+  自述: /about/ || fas fa-heart
 
 nav:
   logo: # image
