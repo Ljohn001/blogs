@@ -2,15 +2,26 @@ class:
   class_name: 友情链接
   link_list:
     1:
-      name: xxx
-      link: https://blog.xxx.com
-      avatar: https://cdn.xxxxx.top/avatar.png
-      descr: xxxxxxx
+      name: 黑光
+      link: https://helight.cn/
+      avatar: https://helight.cn/img/helight.png
+      descr: 腾讯Linux内核专家。 完美之道，不在无可增加，而在无可删减。
     2:
-      name: xxxxxx
-      link: https://www.xxxxxxcn/
-      avatar: https://xxxxx/avatar.png
-      descr: xxxxxxx  
+      name: 小林coding
+      link: https://xiaolincoding.com/
+      avatar: https://xiaolincoding.com/logo.png
+      descr: 小林 x 图解计算机基础
+    3:
+      name: dingmos
+      link: https://www.dingmos.com/
+      avatar: https://www.dingmos.com/usr/uploads/2023/03/1001149009.jpg
+      descr: 腾讯云计算，勿在浮沙筑高台，每天进步一丁点儿！
+    4:
+      name: pantheon
+      link: https://blog.pantheon.press
+      avatar: https://cdn.xxxxx.top/avatar.png
+      descr: pantheon
+
 # class2:
 #   class_name: 常用链接
 #   link_list:
@@ -24,3 +35,4 @@ class:
 #       link: https://www.axxxx.cn/
 #       avatar: https://x
 #       descr: xx
+
