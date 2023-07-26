@@ -7,7 +7,6 @@ type: "link"
 ## 我的信息：
 
 ```yaml
-
 - name: Ljohn's Blog
   link: https://www.ljohn.cn
   avatar: https://www.ljohn.cn/img/head.png

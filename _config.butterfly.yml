@@ -8,9 +8,10 @@ menu:
     分类: /categories/ || fa fa-archive
     标签: /tags/ || fa fa-tags
     归档: /archives/ || fa fa-folder-open
+  跑步: https://run.ljohn.cn
   外链 || fa fa-graduation-cap:
     友情链接: /link/ || fa fa-link
-    宝藏链接: /mark/ || fa fa-link
+    宝藏链接: /favorite/ || fa fa-link
   自述: /about/ || fas fa-heart
 
 nav:
@@ -40,8 +41,8 @@ copy:
 # formal:
 #   icon: link || the description
 social:
-  # fab fa-github: https://github.com/xxxxx || Github
-  # fas fa-envelope: mailto:xxxxxx@gmail.com || Email
+  fab fa-github: https://github.com/ljohn001 || Github
+  fas fa-envelope: ljohnmail@foxmail.com|| Email
 
 # search (搜索)
 # see https://butterfly.js.org/posts/ceeb73f/#搜索系統
