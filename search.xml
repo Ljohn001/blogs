@@ -452,6 +452,77 @@
       </tags>
   </entry>
   <entry>
+    <title>Go语言基础之map</title>
+    <url>/posts/d6a720ce/</url>
+    <content><![CDATA[<p>Go语言中提供的映射关系容器为<code>map</code>，其内部使用<code>散列表（hash）</code>实现。</p>
+<h1 id="map"><a href="#map" class="headerlink" title="map"></a>map</h1><p>map是一种无序的基于<code>key-value</code>的数据结构，Go语言中的map是引用类型，必须初始化才能使用。</p>
+<h2 id="map定义"><a href="#map定义" class="headerlink" title="map定义"></a>map定义</h2><p>Go语言中 <code>map</code>的定义语法如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">map</span>[KeyType]ValueType</span><br></pre></td></tr></table></figure>
+
+<p>其中，</p>
+<ul>
+<li>KeyType:表示键的类型。</li>
+<li>ValueType:表示键对应的值的类型。</li>
+</ul>
+<p>map类型的变量默认初始值为nil，需要使用make()函数来分配内存。语法为：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="built_in">make</span>(<span class="keyword">map</span>[KeyType]ValueType, [<span class="built_in">cap</span>])</span><br></pre></td></tr></table></figure>
+
+<p>其中cap表示map的容量，该参数虽然不是必须的，但是我们应该在初始化map的时候就为其指定一个合适的容量。</p>
+<h2 id="map基本使用"><a href="#map基本使用" class="headerlink" title="map基本使用"></a>map基本使用</h2><p>map中的数据都是成对出现的，map的基本使用示例代码如下：</p>
+<span id="more"></span>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>, <span class="number">8</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	fmt.Println(scoreMap)</span><br><span class="line">	fmt.Println(scoreMap[<span class="string">&quot;小明&quot;</span>])</span><br><span class="line">	fmt.Printf(<span class="string">&quot;type of a:%T\n&quot;</span>, scoreMap)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>输出：</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">map[小明:100 张三:90]</span><br><span class="line">100</span><br><span class="line"><span class="built_in">type</span> of a:map[string]int</span><br></pre></td></tr></table></figure>
+
+<p>map也支持在声明的时候填充元素，例如：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	userInfo := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>&#123;</span><br><span class="line">		<span class="string">&quot;username&quot;</span>: <span class="string">&quot;沙河小王子&quot;</span>,</span><br><span class="line">		<span class="string">&quot;password&quot;</span>: <span class="string">&quot;123456&quot;</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(userInfo) <span class="comment">//</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="判断某个键是否存在"><a href="#判断某个键是否存在" class="headerlink" title="判断某个键是否存在"></a>判断某个键是否存在</h2><p>Go语言中有个判断map中键是否存在的特殊写法，格式如下:</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">value, ok := <span class="keyword">map</span>[key]</span><br></pre></td></tr></table></figure>
+
+<p>举个例子：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	<span class="comment">// 如果key存在ok为true,v为对应的值；不存在ok为false,v为值类型的零值</span></span><br><span class="line">	v, ok := scoreMap[<span class="string">&quot;张三&quot;</span>]</span><br><span class="line">	<span class="keyword">if</span> ok &#123;</span><br><span class="line">		fmt.Println(v)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;查无此人&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="map的遍历"><a href="#map的遍历" class="headerlink" title="map的遍历"></a>map的遍历</h2><p>Go语言中使用<code>for range</code>遍历map。</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	scoreMap[<span class="string">&quot;娜扎&quot;</span>] = <span class="number">60</span></span><br><span class="line">	<span class="keyword">for</span> k, v := <span class="keyword">range</span> scoreMap &#123;</span><br><span class="line">		fmt.Println(k, v)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>但我们只想遍历key的时候，可以按下面的写法：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	scoreMap[<span class="string">&quot;娜扎&quot;</span>] = <span class="number">60</span></span><br><span class="line">	<span class="keyword">for</span> k := <span class="keyword">range</span> scoreMap &#123;</span><br><span class="line">		fmt.Println(k)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 遍历map时的元素顺序与添加键值对的顺序无关。</p>
+<h2 id="使用delete-函数删除键值对"><a href="#使用delete-函数删除键值对" class="headerlink" title="使用delete()函数删除键值对"></a>使用delete()函数删除键值对</h2><p>使用<code>delete()</code>内建函数从map中删除一组键值对，<code>delete()</code>函数的格式如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="built_in">delete</span>(<span class="keyword">map</span>, key)</span><br></pre></td></tr></table></figure>
+
+<p>其中，</p>
+<ul>
+<li>map:表示要删除键值对的map</li>
+<li>key:表示要删除的键值对的键</li>
+</ul>
+<p>示例代码如下：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	scoreMap[<span class="string">&quot;娜扎&quot;</span>] = <span class="number">60</span></span><br><span class="line">	<span class="built_in">delete</span>(scoreMap, <span class="string">&quot;小明&quot;</span>)<span class="comment">//将小明:100从map中删除</span></span><br><span class="line">	<span class="keyword">for</span> k,v := <span class="keyword">range</span> scoreMap&#123;</span><br><span class="line">		fmt.Println(k, v)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="按照指定顺序遍历map"><a href="#按照指定顺序遍历map" class="headerlink" title="按照指定顺序遍历map"></a>按照指定顺序遍历map</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	rand.Seed(time.Now().UnixNano()) <span class="comment">//初始化随机数种子</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> scoreMap = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>, <span class="number">200</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">100</span>; i++ &#123;</span><br><span class="line">		key := fmt.Sprintf(<span class="string">&quot;stu%02d&quot;</span>, i) <span class="comment">//生成stu开头的字符串</span></span><br><span class="line">		value := rand.Intn(<span class="number">100</span>)          <span class="comment">//生成0~99的随机整数</span></span><br><span class="line">		scoreMap[key] = value</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//取出map中的所有key存入切片keys</span></span><br><span class="line">	<span class="keyword">var</span> keys = <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">0</span>, <span class="number">200</span>)</span><br><span class="line">	<span class="keyword">for</span> key := <span class="keyword">range</span> scoreMap &#123;</span><br><span class="line">		keys = <span class="built_in">append</span>(keys, key)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//对切片进行排序</span></span><br><span class="line">	sort.Strings(keys)</span><br><span class="line">	<span class="comment">//按照排序后的key遍历map</span></span><br><span class="line">	<span class="keyword">for</span> _, key := <span class="keyword">range</span> keys &#123;</span><br><span class="line">		fmt.Println(key, scoreMap[key])</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="元素为map类型的切片"><a href="#元素为map类型的切片" class="headerlink" title="元素为map类型的切片"></a>元素为map类型的切片</h2><p>下面的代码演示了切片中的元素为map类型时的操作：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> mapSlice = <span class="built_in">make</span>([]<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>, <span class="number">3</span>)</span><br><span class="line">	<span class="keyword">for</span> index, value := <span class="keyword">range</span> mapSlice &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;index:%d value:%v\n&quot;</span>, index, value)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(<span class="string">&quot;after init&quot;</span>)</span><br><span class="line">	<span class="comment">// 对切片中的map元素进行初始化</span></span><br><span class="line">	mapSlice[<span class="number">0</span>] = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>, <span class="number">10</span>)</span><br><span class="line">	mapSlice[<span class="number">0</span>][<span class="string">&quot;name&quot;</span>] = <span class="string">&quot;小王子&quot;</span></span><br><span class="line">	mapSlice[<span class="number">0</span>][<span class="string">&quot;password&quot;</span>] = <span class="string">&quot;123456&quot;</span></span><br><span class="line">	mapSlice[<span class="number">0</span>][<span class="string">&quot;address&quot;</span>] = <span class="string">&quot;沙河&quot;</span></span><br><span class="line">	<span class="keyword">for</span> index, value := <span class="keyword">range</span> mapSlice &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;index:%d value:%v\n&quot;</span>, index, value)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="值为切片类型的map"><a href="#值为切片类型的map" class="headerlink" title="值为切片类型的map"></a>值为切片类型的map</h2><p>下面的代码演示了map中值为切片类型的操作：</p>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> sliceMap = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>][]<span class="keyword">string</span>, <span class="number">3</span>)</span><br><span class="line">	fmt.Println(sliceMap)</span><br><span class="line">	fmt.Println(<span class="string">&quot;after init&quot;</span>)</span><br><span class="line">	key := <span class="string">&quot;中国&quot;</span></span><br><span class="line">	value, ok := sliceMap[key]</span><br><span class="line">	<span class="keyword">if</span> !ok &#123;</span><br><span class="line">		value = <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">0</span>, <span class="number">2</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	value = <span class="built_in">append</span>(value, <span class="string">&quot;北京&quot;</span>, <span class="string">&quot;上海&quot;</span>)</span><br><span class="line">	sliceMap[key] = value</span><br><span class="line">	fmt.Println(sliceMap)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h1><ol>
+<li>写一个程序，统计一个字符串中每个单词出现的次数。比如：”how do you do”中how=1 do=2 you=1。</li>
+<li>观察下面代码，写出最终的打印结果。</li>
+</ol>
+<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">type</span> Map <span class="keyword">map</span>[<span class="keyword">string</span>][]<span class="keyword">int</span></span><br><span class="line">	m := <span class="built_in">make</span>(Map)</span><br><span class="line">	s := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br><span class="line">	s = <span class="built_in">append</span>(s, <span class="number">3</span>)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%+v\n&quot;</span>, s)</span><br><span class="line">	m[<span class="string">&quot;q1mi&quot;</span>] = s</span><br><span class="line">	s = <span class="built_in">append</span>(s[:<span class="number">1</span>], s[<span class="number">2</span>:]...)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%+v\n&quot;</span>, s)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%+v\n&quot;</span>, m[<span class="string">&quot;q1mi&quot;</span>])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <tags>
+        <tag>Go</tag>
+        <tag>Golang</tag>
+        <tag>Go学习</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CentOS7安装基于BPF的bcc-tools系统性能工具库</title>
     <url>/posts/f49f425d/</url>
     <content><![CDATA[<h1 id="准备"><a href="#准备" class="headerlink" title="准备"></a>准备</h1><ul>
@@ -619,74 +690,28 @@
       </tags>
   </entry>
   <entry>
-    <title>Go语言基础之map</title>
-    <url>/posts/d6a720ce/</url>
-    <content><![CDATA[<p>Go语言中提供的映射关系容器为<code>map</code>，其内部使用<code>散列表（hash）</code>实现。</p>
-<h1 id="map"><a href="#map" class="headerlink" title="map"></a>map</h1><p>map是一种无序的基于<code>key-value</code>的数据结构，Go语言中的map是引用类型，必须初始化才能使用。</p>
-<h2 id="map定义"><a href="#map定义" class="headerlink" title="map定义"></a>map定义</h2><p>Go语言中 <code>map</code>的定义语法如下：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="keyword">map</span>[KeyType]ValueType</span><br></pre></td></tr></table></figure>
+    <title>Hexo 分类和标签</title>
+    <url>/posts/dccf6045/</url>
+    <content><![CDATA[<h3 id="一、主题配置打开"><a href="#一、主题配置打开" class="headerlink" title="一、主题配置打开"></a><strong>一、主题配置打开</strong></h3><p>打开 <code>themes/next/_config.yml</code> <strong>主题配置文件</strong> 找到 <code>Menu Settings</code> ，把 <code>categories</code> 和 <code>tags</code> 取消注释。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tags: /tags/ || fa fa-tags</span><br><span class="line">categories: /categories/ || fa fa-th</span><br></pre></td></tr></table></figure>
 
-<p>其中，</p>
-<ul>
-<li>KeyType:表示键的类型。</li>
-<li>ValueType:表示键对应的值的类型。</li>
-</ul>
-<p>map类型的变量默认初始值为nil，需要使用make()函数来分配内存。语法为：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="built_in">make</span>(<span class="keyword">map</span>[KeyType]ValueType, [<span class="built_in">cap</span>])</span><br></pre></td></tr></table></figure>
-
-<p>其中cap表示map的容量，该参数虽然不是必须的，但是我们应该在初始化map的时候就为其指定一个合适的容量。</p>
-<h2 id="map基本使用"><a href="#map基本使用" class="headerlink" title="map基本使用"></a>map基本使用</h2><p>map中的数据都是成对出现的，map的基本使用示例代码如下：</p>
 <span id="more"></span>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>, <span class="number">8</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	fmt.Println(scoreMap)</span><br><span class="line">	fmt.Println(scoreMap[<span class="string">&quot;小明&quot;</span>])</span><br><span class="line">	fmt.Printf(<span class="string">&quot;type of a:%T\n&quot;</span>, scoreMap)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<p>输出：</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">map[小明:100 张三:90]</span><br><span class="line">100</span><br><span class="line"><span class="built_in">type</span> of a:map[string]int</span><br></pre></td></tr></table></figure>
+<h2 id="二、添加分类模块"><a href="#二、添加分类模块" class="headerlink" title="二、添加分类模块"></a>二、添加分类模块</h2><p>新建一个分类页面。<br><code>$ hexo new page categories</code><br>你会发现你的source文件夹下有了categories[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 分类</p>
+<p>把文章归入分类只需在文章的顶部标题下方添加categories字段，即可自动创建分类名并加入对应的分类中</p>
+<h2 id="三、添加标签模块"><a href="#三、添加标签模块" class="headerlink" title="三、添加标签模块"></a>三、添加标签模块</h2><p>新建一个标签页面 。<br><code>$ hexo new page tags</code><br>你会发现你的source文件夹下有了tags[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 标签<br>把文章添加标签只需在文章的顶部标题下方添加tags字段，即可自动创建标签名并归入对应的标签中</p>
+<h2 id="四、修改-index-md-文件"><a href="#四、修改-index-md-文件" class="headerlink" title="四、修改 index.md 文件"></a><strong>四、修改 <a href="http://index.md/">index.md</a> 文件</strong></h2><p>打开 <code>categories</code> 文件夹下的 <code>index.md</code> ，在最下面一行加一行文字就行，注意中间有空格。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2021-11-08 10:47:33</span><br><span class="line"><span class="built_in">type</span>: categories</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
 
-<p>map也支持在声明的时候填充元素，例如：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	userInfo := <span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>&#123;</span><br><span class="line">		<span class="string">&quot;username&quot;</span>: <span class="string">&quot;沙河小王子&quot;</span>,</span><br><span class="line">		<span class="string">&quot;password&quot;</span>: <span class="string">&quot;123456&quot;</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(userInfo) <span class="comment">//</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="判断某个键是否存在"><a href="#判断某个键是否存在" class="headerlink" title="判断某个键是否存在"></a>判断某个键是否存在</h2><p>Go语言中有个判断map中键是否存在的特殊写法，格式如下:</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line">value, ok := <span class="keyword">map</span>[key]</span><br></pre></td></tr></table></figure>
-
-<p>举个例子：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	<span class="comment">// 如果key存在ok为true,v为对应的值；不存在ok为false,v为值类型的零值</span></span><br><span class="line">	v, ok := scoreMap[<span class="string">&quot;张三&quot;</span>]</span><br><span class="line">	<span class="keyword">if</span> ok &#123;</span><br><span class="line">		fmt.Println(v)</span><br><span class="line">	&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">		fmt.Println(<span class="string">&quot;查无此人&quot;</span>)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="map的遍历"><a href="#map的遍历" class="headerlink" title="map的遍历"></a>map的遍历</h2><p>Go语言中使用<code>for range</code>遍历map。</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	scoreMap[<span class="string">&quot;娜扎&quot;</span>] = <span class="number">60</span></span><br><span class="line">	<span class="keyword">for</span> k, v := <span class="keyword">range</span> scoreMap &#123;</span><br><span class="line">		fmt.Println(k, v)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>但我们只想遍历key的时候，可以按下面的写法：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	scoreMap[<span class="string">&quot;娜扎&quot;</span>] = <span class="number">60</span></span><br><span class="line">	<span class="keyword">for</span> k := <span class="keyword">range</span> scoreMap &#123;</span><br><span class="line">		fmt.Println(k)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>注意：</strong> 遍历map时的元素顺序与添加键值对的顺序无关。</p>
-<h2 id="使用delete-函数删除键值对"><a href="#使用delete-函数删除键值对" class="headerlink" title="使用delete()函数删除键值对"></a>使用delete()函数删除键值对</h2><p>使用<code>delete()</code>内建函数从map中删除一组键值对，<code>delete()</code>函数的格式如下：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="built_in">delete</span>(<span class="keyword">map</span>, key)</span><br></pre></td></tr></table></figure>
-
-<p>其中，</p>
-<ul>
-<li>map:表示要删除键值对的map</li>
-<li>key:表示要删除的键值对的键</li>
-</ul>
-<p>示例代码如下：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span>&#123;</span><br><span class="line">	scoreMap := <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>)</span><br><span class="line">	scoreMap[<span class="string">&quot;张三&quot;</span>] = <span class="number">90</span></span><br><span class="line">	scoreMap[<span class="string">&quot;小明&quot;</span>] = <span class="number">100</span></span><br><span class="line">	scoreMap[<span class="string">&quot;娜扎&quot;</span>] = <span class="number">60</span></span><br><span class="line">	<span class="built_in">delete</span>(scoreMap, <span class="string">&quot;小明&quot;</span>)<span class="comment">//将小明:100从map中删除</span></span><br><span class="line">	<span class="keyword">for</span> k,v := <span class="keyword">range</span> scoreMap&#123;</span><br><span class="line">		fmt.Println(k, v)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="按照指定顺序遍历map"><a href="#按照指定顺序遍历map" class="headerlink" title="按照指定顺序遍历map"></a>按照指定顺序遍历map</h2><figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	rand.Seed(time.Now().UnixNano()) <span class="comment">//初始化随机数种子</span></span><br><span class="line"></span><br><span class="line">	<span class="keyword">var</span> scoreMap = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">int</span>, <span class="number">200</span>)</span><br><span class="line"></span><br><span class="line">	<span class="keyword">for</span> i := <span class="number">0</span>; i &lt; <span class="number">100</span>; i++ &#123;</span><br><span class="line">		key := fmt.Sprintf(<span class="string">&quot;stu%02d&quot;</span>, i) <span class="comment">//生成stu开头的字符串</span></span><br><span class="line">		value := rand.Intn(<span class="number">100</span>)          <span class="comment">//生成0~99的随机整数</span></span><br><span class="line">		scoreMap[key] = value</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//取出map中的所有key存入切片keys</span></span><br><span class="line">	<span class="keyword">var</span> keys = <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">0</span>, <span class="number">200</span>)</span><br><span class="line">	<span class="keyword">for</span> key := <span class="keyword">range</span> scoreMap &#123;</span><br><span class="line">		keys = <span class="built_in">append</span>(keys, key)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">//对切片进行排序</span></span><br><span class="line">	sort.Strings(keys)</span><br><span class="line">	<span class="comment">//按照排序后的key遍历map</span></span><br><span class="line">	<span class="keyword">for</span> _, key := <span class="keyword">range</span> keys &#123;</span><br><span class="line">		fmt.Println(key, scoreMap[key])</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="元素为map类型的切片"><a href="#元素为map类型的切片" class="headerlink" title="元素为map类型的切片"></a>元素为map类型的切片</h2><p>下面的代码演示了切片中的元素为map类型时的操作：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> mapSlice = <span class="built_in">make</span>([]<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>, <span class="number">3</span>)</span><br><span class="line">	<span class="keyword">for</span> index, value := <span class="keyword">range</span> mapSlice &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;index:%d value:%v\n&quot;</span>, index, value)</span><br><span class="line">	&#125;</span><br><span class="line">	fmt.Println(<span class="string">&quot;after init&quot;</span>)</span><br><span class="line">	<span class="comment">// 对切片中的map元素进行初始化</span></span><br><span class="line">	mapSlice[<span class="number">0</span>] = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>]<span class="keyword">string</span>, <span class="number">10</span>)</span><br><span class="line">	mapSlice[<span class="number">0</span>][<span class="string">&quot;name&quot;</span>] = <span class="string">&quot;小王子&quot;</span></span><br><span class="line">	mapSlice[<span class="number">0</span>][<span class="string">&quot;password&quot;</span>] = <span class="string">&quot;123456&quot;</span></span><br><span class="line">	mapSlice[<span class="number">0</span>][<span class="string">&quot;address&quot;</span>] = <span class="string">&quot;沙河&quot;</span></span><br><span class="line">	<span class="keyword">for</span> index, value := <span class="keyword">range</span> mapSlice &#123;</span><br><span class="line">		fmt.Printf(<span class="string">&quot;index:%d value:%v\n&quot;</span>, index, value)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="值为切片类型的map"><a href="#值为切片类型的map" class="headerlink" title="值为切片类型的map"></a>值为切片类型的map</h2><p>下面的代码演示了map中值为切片类型的操作：</p>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> sliceMap = <span class="built_in">make</span>(<span class="keyword">map</span>[<span class="keyword">string</span>][]<span class="keyword">string</span>, <span class="number">3</span>)</span><br><span class="line">	fmt.Println(sliceMap)</span><br><span class="line">	fmt.Println(<span class="string">&quot;after init&quot;</span>)</span><br><span class="line">	key := <span class="string">&quot;中国&quot;</span></span><br><span class="line">	value, ok := sliceMap[key]</span><br><span class="line">	<span class="keyword">if</span> !ok &#123;</span><br><span class="line">		value = <span class="built_in">make</span>([]<span class="keyword">string</span>, <span class="number">0</span>, <span class="number">2</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	value = <span class="built_in">append</span>(value, <span class="string">&quot;北京&quot;</span>, <span class="string">&quot;上海&quot;</span>)</span><br><span class="line">	sliceMap[key] = value</span><br><span class="line">	fmt.Println(sliceMap)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="练习题"><a href="#练习题" class="headerlink" title="练习题"></a>练习题</h1><ol>
-<li>写一个程序，统计一个字符串中每个单词出现的次数。比如：”how do you do”中how=1 do=2 you=1。</li>
-<li>观察下面代码，写出最终的打印结果。</li>
-</ol>
-<figure class="highlight go"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">main</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">type</span> Map <span class="keyword">map</span>[<span class="keyword">string</span>][]<span class="keyword">int</span></span><br><span class="line">	m := <span class="built_in">make</span>(Map)</span><br><span class="line">	s := []<span class="keyword">int</span>&#123;<span class="number">1</span>, <span class="number">2</span>&#125;</span><br><span class="line">	s = <span class="built_in">append</span>(s, <span class="number">3</span>)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%+v\n&quot;</span>, s)</span><br><span class="line">	m[<span class="string">&quot;q1mi&quot;</span>] = s</span><br><span class="line">	s = <span class="built_in">append</span>(s[:<span class="number">1</span>], s[<span class="number">2</span>:]...)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%+v\n&quot;</span>, s)</span><br><span class="line">	fmt.Printf(<span class="string">&quot;%+v\n&quot;</span>, m[<span class="string">&quot;q1mi&quot;</span>])</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同理，<code>tags</code> 也是如此。</p>
+<h2 id="五、效果展示"><a href="#五、效果展示" class="headerlink" title="五、效果展示"></a><strong>五、效果展示</strong></h2><p><img src="/posts/dccf6045/1677584124277.png" alt="1677584124277"></p>
 ]]></content>
+      <categories>
+        <category>hexo</category>
+      </categories>
       <tags>
-        <tag>Go</tag>
-        <tag>Golang</tag>
-        <tag>Go学习</tag>
+        <tag>hexo</tag>
+        <tag>blog</tag>
       </tags>
   </entry>
   <entry>
@@ -880,85 +905,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Ubuntu内核管理</title>
-    <url>/posts/b97fcc87/</url>
-    <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>由于公司目前开始全面开始推进ubuntu系统的使用，使用时发现内核更新太过频繁，对于ubuntu桌面版本内核升级可能会提升用户体验和安全性，但对于ubuntu server服务器，我们一般会采用固定版本。默认情况下ubuntu不管是桌面版还是server版本，执行 <code>apt update</code>会升级下载所有需要升级的包（包括内核包）。版本固定方便统一维护，如果某个版本的内核存在bug，可以安排统一更新。</p>
-<h1 id="升级和卸载内核"><a href="#升级和卸载内核" class="headerlink" title="升级和卸载内核"></a>升级和卸载内核</h1><p>1、升级内核</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看当前内核</span><br><span class="line">uname -r</span><br><span class="line"># 升级软件包</span><br><span class="line">sudo apt update</span><br><span class="line"># 查看可用内核</span><br><span class="line">apt-cache search linux-image</span><br><span class="line"># 选择合适的内核进行安装</span><br><span class="line">sudo apt-get install linux-image-XXXX-generic</span><br><span class="line"></span><br><span class="line">or </span><br><span class="line">之前执行过 sudo apt update 更新过，执行如下</span><br><span class="line">dpkg --list | grep linux-image</span><br><span class="line"></span><br><span class="line">or </span><br><span class="line">另外，可以自行下载制定内核进行安装，下载地址如下：</span><br><span class="line">http://kernel.ubuntu.com/~kernel-ppa/mainline/ </span><br><span class="line">sudo dpkg -i *.deb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2、卸载内核</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看内核安装情况：</span><br><span class="line">dpkg --list | grep linux-image</span><br><span class="line">dpkg --list | grep linux-headers</span><br><span class="line"># 手动指定卸载内核：</span><br><span class="line">sudo apt purge linux-image-xx</span><br><span class="line">sudo apt purge linux-headers-xx</span><br><span class="line">sudo apt autoremove</span><br><span class="line"></span><br><span class="line"># 这里也可以选择卸载所有不在使用的内核版本(5.4.187为当前在使用版本)</span><br><span class="line">sudo apt-get autoremove --purge $(dpkg -l &#x27;linux-*&#x27; | awk &#x27;/^ii/&#123;print $2&#125;&#x27; | grep -E &#x27;linux-(image|headers|modules|modules-extra)-[0-9]+&#x27; | grep -v &quot;5.4.187&quot; | awk &#x27;&#123;print $1&#125;&#x27;)</span><br><span class="line"></span><br><span class="line"># 执行更新grub</span><br><span class="line">sudo update-grub </span><br></pre></td></tr></table></figure>
-
-<p>3、修改默认启动的内核版本</p>
-<p>如果已经更新了内核，主机上就会存在多个已安装版本，默认情况下重启会自动选择最新的，这个时候如何选择某个版本下次重启生效</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看已经在启动列表的内核</span><br><span class="line">cat /boot/grub/grub.cfg | grep &quot;menuentry &#x27;Ubuntu,&quot; | awk -F &#x27;--class&#x27; &#x27;&#123;print $1&#125;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 5.10.87-051087-generic&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 5.10.87-051087-generic (recovery mode)&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 5.4.187-0504187-generic&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 5.4.187-0504187-generic (recovery mode)&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 4.15.0-163-generic&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 4.15.0-163-generic (recovery mode)&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 4.15.0-162-generic&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 4.15.0-162-generic (recovery mode)&#x27;</span><br><span class="line"># 修改/etc/default/grub 找到 GRUB_DEFAULT 行，并将其值设置为所选择的内核版本的完整名称或索引号。</span><br><span class="line">vi /etc/default/grub</span><br><span class="line">GRUB_DEFAULT=&#x27;Ubuntu, with Linux 4.15.0-162-generic&#x27;</span><br><span class="line"># 更新grub，重启主机生效</span><br><span class="line">update-grub</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="关闭内核自动更新"><a href="#关闭内核自动更新" class="headerlink" title="关闭内核自动更新"></a>关闭内核自动更新</h1><p>1、固定某个版本的内核</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 固定hold某个软件包，以后执行update就不会升级和下载内核</span><br><span class="line">sudo apt-mark hold linux-image-generic linux-headers-generic</span><br><span class="line"># 查看hold状态包</span><br><span class="line">sudo dpkg --get-selections | grep hold </span><br><span class="line"># 如果要重新启用内核更新</span><br><span class="line">sudo apt-mark unhold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
-
-<p>2、或，如下方式关闭软件包自动更新配置</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 修改如下配置，其中的值改成 &quot;0&quot;</span><br><span class="line">/etc/apt/apt.conf.d/10periodic</span><br><span class="line">/etc/apt/apt.conf.d/20auto-upgrades</span><br><span class="line"></span><br><span class="line">cat /etc/apt/apt.conf.d/20auto-upgrades</span><br><span class="line">APT::Periodic::Update-Package-Lists &quot;0&quot;;</span><br><span class="line">APT::Periodic::Unattended-Upgrade &quot;0&quot;;</span><br><span class="line"></span><br><span class="line">cat /etc/apt/apt.conf.d/10periodic</span><br><span class="line">APT::Periodic::Update-Package-Lists &quot;0&quot;;</span><br><span class="line">APT::Periodic::Download-Upgradeable-Packages &quot;0&quot;;</span><br><span class="line">APT::Periodic::AutocleanInterval &quot;0&quot;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.cnblogs.com/open-skill/p/8295234.html">https://www.cnblogs.com/open-skill/p/8295234.html</a></p>
-<p><a href="https://linux.cn/article-6245-1.html">https://linux.cn/article-6245-1.html</a></p>
-]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Ingress域名迁移后出口流量突增</title>
-    <url>/posts/1c340043/</url>
-    <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>某个集群需要进行资源整合下线，需要对集群上业务进行迁移，但在迁移某个带域名容器服务后，发现网络出口带宽升高了70%，域名带宽也一样增高。</p>
-<ul>
-<li>ingress: 0.32.0  迁移到 ingress :1.1.3</li>
-<li>kubernetes: 1.17.9 迁移到 kubernetes: 1.22.14</li>
-</ul>
-<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>1、域名出口带宽和机房出口带宽都同步增加了1G多，但请求量，Qps：~ 8k/s，没什么变化；域名状态也正常；业务也方反馈也没有出现明显异常。</p>
-<p><img src="/posts/1c340043/1689742273045.png" alt="1689742273045"></p>
-<p>2、迁移前后ingress-nginx-controller 版本是有一个升级的，0.32.0 – &gt; 1.1.3</p>
-<h1 id="根因分析"><a href="#根因分析" class="headerlink" title="根因分析"></a>根因分析</h1><p>1、整个域名请求拓扑如下所示</p>
-<p>xxx.ljohn.cn  – &gt; F5 – &gt; BFE(负载均衡) – &gt; Ingress – &gt; 容器pod</p>
-<p>2、排查发现域名相应的body长度有所增加，同一个接口长度增加3倍，怀疑跟gzip压缩有关</p>
-<p><img src="/posts/1c340043/1689742814206.png" alt="1689742814206"></p>
-<p>3、于是联系最前端负载均衡是否有gzip压缩，从BFE负载均衡侧查询到是没有开启。</p>
-<p>4、再然后查询ingress侧是否有开启gzip，发现老的ingress(0.32.0)是默认开启gzip</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gzip on;</span><br><span class="line">gzip_comp_level 5;</span><br><span class="line">gzip_http_version 1.1;</span><br><span class="line">gzip_min_length 256;</span><br><span class="line">gzip_types application/atom+xml application/javascript application/x-javascript application/json application/rss+xml application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/svg+xml image/x-icon text/css text/javascript text/plain text/x-component;</span><br><span class="line">gzip_proxied any;</span><br><span class="line">gzip_vary on;</span><br></pre></td></tr></table></figure>
-
-<p>新的ingress(1.1.3)，默认是没有这些配置，查看ingress-nginx当前官方文档发现默认是关闭的，至此问题应该是找到原因了。</p>
-<blockquote>
-<p>use-gzip</p>
-<p>Enables or disables compression of HTTP responses using the <a href="https://nginx.org/en/docs/http/ngx_http_gzip_module.html">&#34;gzip&#34; module</a>. MIME types to compress are controlled by <a href="https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#gzip-types">gzip-types</a>. <em><strong>default:</strong></em> false</p>
-</blockquote>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>1、ingress开启全局gzip （目前我们保持跟之前一致所有默认也开启了gzip。）</p>
-<blockquote>
-<p>a、注意开启是有一定性能损耗的，比如ingress cpu资源开销会上升。</p>
-<p>b、可能存在域名对应的服务端不支持gzip解压，可能会出现乱码，生产变更风险较大。</p>
-</blockquote>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 直接编辑全局ingress配置</span><br><span class="line">kubectl -n ingress-nginx edit cm ingress-nginx-controller</span><br><span class="line">apiVersion: v1</span><br><span class="line">data:</span><br><span class="line">  allow-snippet-annotations: &quot;true&quot;</span><br><span class="line">  enable-real-ip: &quot;true&quot;</span><br><span class="line">  gzip-level: &quot;2&quot;   # 新增 gzip压缩级别1-9</span><br><span class="line">  use-gzip: &quot;true&quot;  # 新增 开启gzip </span><br><span class="line"># 容器发现配置变更会自动检查配置并reload</span><br><span class="line">kubectl -n ingress-nginx exec -ti ingress-nginx-controller-588c895b4-wbclg -- cat nginx.conf &gt; /tmp/nginx.conf | less </span><br><span class="line">...</span><br><span class="line">        gzip on;</span><br><span class="line">        gzip_comp_level 2;</span><br><span class="line">        gzip_http_version 1.1;</span><br><span class="line">        gzip_min_length 256;</span><br><span class="line">        gzip_types application/atom+xml application/javascript application/x-javascript application/json application/rss+xml application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/svg+xml image/x-icon text/css text/javascript text/plain text/x-component;</span><br><span class="line">        gzip_proxied any;</span><br><span class="line">        gzip_vary on;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>修改后效果，出口流量降低了1G</p>
-<p><img src="/posts/1c340043/1689742183172.png" alt="1689742183172"></p>
-<p>2、或者对单个ingress域名开启gzip，关闭gzip</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 直接编辑单个ingress 配置。</span><br><span class="line">apiVersion: extensions/v1beta1</span><br><span class="line">kind: Ingress</span><br><span class="line">metadata:</span><br><span class="line">  name: comptest-ingress</span><br><span class="line">  annotations:</span><br><span class="line">    nginx.ingress.kubernetes.io/server-snippet:  gzip on;  # 新增 开启gzip，关闭修改为 gzip off</span><br></pre></td></tr></table></figure>
-
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#use-gzip">https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#use-gzip</a></p>
-<p><a href="https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#gzip-level">https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#gzip-level</a></p>
-]]></content>
-      <categories>
-        <category>kubernetes</category>
-      </categories>
-      <tags>
-        <tag>kubernetes</tag>
-        <tag>k8s</tag>
-        <tag>ingress</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Kubernetes容器网络</title>
     <url>/posts/484087c6/</url>
     <content><![CDATA[<h2 id="容器是什么"><a href="#容器是什么" class="headerlink" title="容器是什么"></a>容器是什么</h2><p>容器其实是一种沙盒技术。顾名思义，沙盒就是能够像一个集装箱一样，把你的应用“装”起来的技术。这样，应用与应用之间，就因为有了边界而不至于相互干扰；而被装进集装箱的应用，也可以被方便地搬到任何地方运行。对于大多数如Docker、RKT，等Linux容器，其实就是利用Linux Namespace技术创建隔离的进程空间、文件系统、网络命名空间、用户空间、主机名的一组进程。</p>
@@ -1136,6 +1082,54 @@
 ]]></content>
   </entry>
   <entry>
+    <title>Ingress域名迁移后出口流量突增</title>
+    <url>/posts/1c340043/</url>
+    <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>某个集群需要进行资源整合下线，需要对集群上业务进行迁移，但在迁移某个带域名容器服务后，发现网络出口带宽升高了70%，域名带宽也一样增高。</p>
+<ul>
+<li>ingress: 0.32.0  迁移到 ingress :1.1.3</li>
+<li>kubernetes: 1.17.9 迁移到 kubernetes: 1.22.14</li>
+</ul>
+<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>1、域名出口带宽和机房出口带宽都同步增加了1G多，但请求量，Qps：~ 8k/s，没什么变化；域名状态也正常；业务也方反馈也没有出现明显异常。</p>
+<p><img src="/posts/1c340043/1689742273045.png" alt="1689742273045"></p>
+<p>2、迁移前后ingress-nginx-controller 版本是有一个升级的，0.32.0 – &gt; 1.1.3</p>
+<h1 id="根因分析"><a href="#根因分析" class="headerlink" title="根因分析"></a>根因分析</h1><p>1、整个域名请求拓扑如下所示</p>
+<p>xxx.ljohn.cn  – &gt; F5 – &gt; BFE(负载均衡) – &gt; Ingress – &gt; 容器pod</p>
+<p>2、排查发现域名相应的body长度有所增加，同一个接口长度增加3倍，怀疑跟gzip压缩有关</p>
+<p><img src="/posts/1c340043/1689742814206.png" alt="1689742814206"></p>
+<p>3、于是联系最前端负载均衡是否有gzip压缩，从BFE负载均衡侧查询到是没有开启。</p>
+<p>4、再然后查询ingress侧是否有开启gzip，发现老的ingress(0.32.0)是默认开启gzip</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">gzip on;</span><br><span class="line">gzip_comp_level 5;</span><br><span class="line">gzip_http_version 1.1;</span><br><span class="line">gzip_min_length 256;</span><br><span class="line">gzip_types application/atom+xml application/javascript application/x-javascript application/json application/rss+xml application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/svg+xml image/x-icon text/css text/javascript text/plain text/x-component;</span><br><span class="line">gzip_proxied any;</span><br><span class="line">gzip_vary on;</span><br></pre></td></tr></table></figure>
+
+<p>新的ingress(1.1.3)，默认是没有这些配置，查看ingress-nginx当前官方文档发现默认是关闭的，至此问题应该是找到原因了。</p>
+<blockquote>
+<p>use-gzip</p>
+<p>Enables or disables compression of HTTP responses using the <a href="https://nginx.org/en/docs/http/ngx_http_gzip_module.html">&#34;gzip&#34; module</a>. MIME types to compress are controlled by <a href="https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#gzip-types">gzip-types</a>. <em><strong>default:</strong></em> false</p>
+</blockquote>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><p>1、ingress开启全局gzip （目前我们保持跟之前一致所有默认也开启了gzip。）</p>
+<blockquote>
+<p>a、注意开启是有一定性能损耗的，比如ingress cpu资源开销会上升。</p>
+<p>b、可能存在域名对应的服务端不支持gzip解压，可能会出现乱码，生产变更风险较大。</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 直接编辑全局ingress配置</span><br><span class="line">kubectl -n ingress-nginx edit cm ingress-nginx-controller</span><br><span class="line">apiVersion: v1</span><br><span class="line">data:</span><br><span class="line">  allow-snippet-annotations: &quot;true&quot;</span><br><span class="line">  enable-real-ip: &quot;true&quot;</span><br><span class="line">  gzip-level: &quot;2&quot;   # 新增 gzip压缩级别1-9</span><br><span class="line">  use-gzip: &quot;true&quot;  # 新增 开启gzip </span><br><span class="line"># 容器发现配置变更会自动检查配置并reload</span><br><span class="line">kubectl -n ingress-nginx exec -ti ingress-nginx-controller-588c895b4-wbclg -- cat nginx.conf &gt; /tmp/nginx.conf | less </span><br><span class="line">...</span><br><span class="line">        gzip on;</span><br><span class="line">        gzip_comp_level 2;</span><br><span class="line">        gzip_http_version 1.1;</span><br><span class="line">        gzip_min_length 256;</span><br><span class="line">        gzip_types application/atom+xml application/javascript application/x-javascript application/json application/rss+xml application/vnd.ms-fontobject application/x-font-ttf application/x-web-app-manifest+json application/xhtml+xml application/xml font/opentype image/svg+xml image/x-icon text/css text/javascript text/plain text/x-component;</span><br><span class="line">        gzip_proxied any;</span><br><span class="line">        gzip_vary on;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>修改后效果，出口流量降低了1G</p>
+<p><img src="/posts/1c340043/1689742183172.png" alt="1689742183172"></p>
+<p>2、或者对单个ingress域名开启gzip，关闭gzip</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 直接编辑单个ingress 配置。</span><br><span class="line">apiVersion: extensions/v1beta1</span><br><span class="line">kind: Ingress</span><br><span class="line">metadata:</span><br><span class="line">  name: comptest-ingress</span><br><span class="line">  annotations:</span><br><span class="line">    nginx.ingress.kubernetes.io/server-snippet:  gzip on;  # 新增 开启gzip，关闭修改为 gzip off</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#use-gzip">https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#use-gzip</a></p>
+<p><a href="https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#gzip-level">https://kubernetes.github.io/ingress-nginx/user-guide/nginx-configuration/configmap/#gzip-level</a></p>
+]]></content>
+      <categories>
+        <category>kubernetes</category>
+      </categories>
+      <tags>
+        <tag>kubernetes</tag>
+        <tag>k8s</tag>
+        <tag>ingress</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Kubernetets CPU绑核配置</title>
     <url>/posts/19c6e9f2/</url>
     <content><![CDATA[<h1 id="CPU绑核配置"><a href="#CPU绑核配置" class="headerlink" title="CPU绑核配置"></a>CPU绑核配置</h1><p>默认情况下，kubelet 使用 <a href="https://www.kernel.org/doc/html/latest/scheduler/sched-design-CFS.html">CFS 配额</a> 来执行 Pod 的 CPU 约束。 当节点上运行了很多 CPU 密集的 Pod 时，工作负载可能会迁移到不同的 CPU 核， 这取决于调度时 Pod 是否被扼制，以及哪些 CPU 核是可用的。许多应用对这种迁移不敏感，因此无需任何干预即可正常工作。有些应用对CPU敏感，CPU敏感型应用有如下特点。</p>
@@ -1177,6 +1171,37 @@
         <tag>kubernetes</tag>
         <tag>k8s</tag>
         <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ubuntu内核管理</title>
+    <url>/posts/b97fcc87/</url>
+    <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>由于公司目前开始全面开始推进ubuntu系统的使用，使用时发现内核更新太过频繁，对于ubuntu桌面版本内核升级可能会提升用户体验和安全性，但对于ubuntu server服务器，我们一般会采用固定版本。默认情况下ubuntu不管是桌面版还是server版本，执行 <code>apt update</code>会升级下载所有需要升级的包（包括内核包）。版本固定方便统一维护，如果某个版本的内核存在bug，可以安排统一更新。</p>
+<h1 id="升级和卸载内核"><a href="#升级和卸载内核" class="headerlink" title="升级和卸载内核"></a>升级和卸载内核</h1><p>1、升级内核</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看当前内核</span><br><span class="line">uname -r</span><br><span class="line"># 升级软件包</span><br><span class="line">sudo apt update</span><br><span class="line"># 查看可用内核</span><br><span class="line">apt-cache search linux-image</span><br><span class="line"># 选择合适的内核进行安装</span><br><span class="line">sudo apt-get install linux-image-XXXX-generic</span><br><span class="line"></span><br><span class="line">or </span><br><span class="line">之前执行过 sudo apt update 更新过，执行如下</span><br><span class="line">dpkg --list | grep linux-image</span><br><span class="line"></span><br><span class="line">or </span><br><span class="line">另外，可以自行下载制定内核进行安装，下载地址如下：</span><br><span class="line">http://kernel.ubuntu.com/~kernel-ppa/mainline/ </span><br><span class="line">sudo dpkg -i *.deb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2、卸载内核</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看内核安装情况：</span><br><span class="line">dpkg --list | grep linux-image</span><br><span class="line">dpkg --list | grep linux-headers</span><br><span class="line"># 手动指定卸载内核：</span><br><span class="line">sudo apt purge linux-image-xx</span><br><span class="line">sudo apt purge linux-headers-xx</span><br><span class="line">sudo apt autoremove</span><br><span class="line"></span><br><span class="line"># 这里也可以选择卸载所有不在使用的内核版本(5.4.187为当前在使用版本)</span><br><span class="line">sudo apt-get autoremove --purge $(dpkg -l &#x27;linux-*&#x27; | awk &#x27;/^ii/&#123;print $2&#125;&#x27; | grep -E &#x27;linux-(image|headers|modules|modules-extra)-[0-9]+&#x27; | grep -v &quot;5.4.187&quot; | awk &#x27;&#123;print $1&#125;&#x27;)</span><br><span class="line"></span><br><span class="line"># 执行更新grub</span><br><span class="line">sudo update-grub </span><br></pre></td></tr></table></figure>
+
+<p>3、修改默认启动的内核版本</p>
+<p>如果已经更新了内核，主机上就会存在多个已安装版本，默认情况下重启会自动选择最新的，这个时候如何选择某个版本下次重启生效</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看已经在启动列表的内核</span><br><span class="line">cat /boot/grub/grub.cfg | grep &quot;menuentry &#x27;Ubuntu,&quot; | awk -F &#x27;--class&#x27; &#x27;&#123;print $1&#125;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 5.10.87-051087-generic&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 5.10.87-051087-generic (recovery mode)&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 5.4.187-0504187-generic&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 5.4.187-0504187-generic (recovery mode)&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 4.15.0-163-generic&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 4.15.0-163-generic (recovery mode)&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 4.15.0-162-generic&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 4.15.0-162-generic (recovery mode)&#x27;</span><br><span class="line"># 修改/etc/default/grub 找到 GRUB_DEFAULT 行，并将其值设置为所选择的内核版本的完整名称或索引号。</span><br><span class="line">vi /etc/default/grub</span><br><span class="line">GRUB_DEFAULT=&#x27;Ubuntu, with Linux 4.15.0-162-generic&#x27;</span><br><span class="line"># 更新grub，重启主机生效</span><br><span class="line">update-grub</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="关闭内核自动更新"><a href="#关闭内核自动更新" class="headerlink" title="关闭内核自动更新"></a>关闭内核自动更新</h1><p>1、固定某个版本的内核</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 固定hold某个软件包，以后执行update就不会升级和下载内核</span><br><span class="line">sudo apt-mark hold linux-image-generic linux-headers-generic</span><br><span class="line"># 查看hold状态包</span><br><span class="line">sudo dpkg --get-selections | grep hold </span><br><span class="line"># 如果要重新启用内核更新</span><br><span class="line">sudo apt-mark unhold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
+
+<p>2、或，如下方式关闭软件包自动更新配置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 修改如下配置，其中的值改成 &quot;0&quot;</span><br><span class="line">/etc/apt/apt.conf.d/10periodic</span><br><span class="line">/etc/apt/apt.conf.d/20auto-upgrades</span><br><span class="line"></span><br><span class="line">cat /etc/apt/apt.conf.d/20auto-upgrades</span><br><span class="line">APT::Periodic::Update-Package-Lists &quot;0&quot;;</span><br><span class="line">APT::Periodic::Unattended-Upgrade &quot;0&quot;;</span><br><span class="line"></span><br><span class="line">cat /etc/apt/apt.conf.d/10periodic</span><br><span class="line">APT::Periodic::Update-Package-Lists &quot;0&quot;;</span><br><span class="line">APT::Periodic::Download-Upgradeable-Packages &quot;0&quot;;</span><br><span class="line">APT::Periodic::AutocleanInterval &quot;0&quot;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.cnblogs.com/open-skill/p/8295234.html">https://www.cnblogs.com/open-skill/p/8295234.html</a></p>
+<p><a href="https://linux.cn/article-6245-1.html">https://linux.cn/article-6245-1.html</a></p>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>ubuntu</tag>
       </tags>
   </entry>
   <entry>
@@ -1260,6 +1285,105 @@
         <tag>内核</tag>
         <tag>vmcore</tag>
         <tag>crash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>calico-node异常重启</title>
+    <url>/posts/d62f787/</url>
+    <content><![CDATA[<h1 id="环境信息"><a href="#环境信息" class="headerlink" title="环境信息"></a>环境信息</h1><ul>
+<li>os 版本： centos7.9</li>
+<li>kernel 版本：3.10.0-1160.59.1.el7.x86_64</li>
+<li>k8s 版本：v1.19.4</li>
+<li>calico-node 版本：v3.8.8-1</li>
+</ul>
+<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>calico异常重启导致容器网络异常超时，查看日志发现报错如下：<code>failed to create new OS thread</code></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 获取异常节点calico-node重启多次</span></span><br><span class="line">kubectl -n kube-system get pod -owide | grep calico-node-56bgm</span><br><span class="line">calico-node-56bgm                             1/1     Running   21         246d   10.165.6.26      10.165.6.26   &lt;none&gt;           &lt;none&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看calico-node历史日志如下：</span></span><br><span class="line">kubectl -n kube-system logs -p calico-node-56bgm | less</span><br><span class="line">runtime: failed to create new OS thread (have 41 already; errno=11)</span><br><span class="line">runtime: may need to increase max user processes (<span class="built_in">ulimit</span> -u)</span><br><span class="line">fatal error: newosproc</span><br><span class="line"></span><br><span class="line">runtime stack:</span><br><span class="line">runtime.throw(0x1aa0343, 0x9)</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/panic.go:608 +0x72</span><br><span class="line">runtime.newosproc(0xc00062ea80)</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/os_linux.go:166 +0x1c0</span><br><span class="line">runtime.newm1(0xc00062ea80)</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/proc.go:1940 +0xfe</span><br><span class="line">runtime.newm(0x1b62358, 0x0)</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/proc.go:1919 +0x9b</span><br><span class="line">runtime.startTheWorldWithSema(0xc0000b7501, 0x45b1b6)</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/proc.go:1209 +0x1ce</span><br><span class="line">runtime.gcMarkTermination.func3()</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/mgc.go:1644 +0x26</span><br><span class="line">runtime.systemstack(0x0)</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/asm_amd64.s:351 +0x66</span><br><span class="line">runtime.mstart()</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/proc.go:1229</span><br><span class="line"></span><br><span class="line">goroutine 35 [running]:</span><br><span class="line">runtime.systemstack_switch()</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/asm_amd64.s:311 fp=0xc0000b7568 sp=0xc0000b7560 pc=0x4577d0</span><br><span class="line">runtime.gcMarkTermination(0x3fecb9f8bbbbdd6c)</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/mgc.go:1644 +0x3f5 fp=0xc0000b7738 sp=0xc0000b7568 pc=0x41a695</span><br><span class="line">runtime.gcMarkDone()</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/mgc.go:1510 +0x21e fp=0xc0000b7760 sp=0xc0000b7738 pc=0x41a23e</span><br><span class="line">runtime.gcBgMarkWorker(0xc00005f900)</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/mgc.go:1909 +0x2b2 fp=0xc0000b77d8 sp=0xc0000b7760 pc=0x41b162</span><br><span class="line">runtime.goexit()</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/asm_amd64.s:1333 +0x1 fp=0xc0000b77e0 sp=0xc0000b77d8 pc=0x459731</span><br><span class="line">created by runtime.gcBgMarkStartWorkers</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/mgc.go:1720 +0x77</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>dmesg 系统日志报错：<code>cgroup: fork rejected by pids controller in /kubepods/...</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 登录主机会发现如下报错</span><br><span class="line"># dmesg -xTL | tail</span><br><span class="line">kern  :info  : [Mon May 15 09:25:27 2023] cgroup: fork rejected by pids controller in /kubepods/burstable/pod22612ffb-4523-4958-b6dd-a80bd35fd325/8e8c5f52932538520f5b8042a2b602c1c5a07805ee073f1892ad27b0d818b584</span><br><span class="line">kern  :info  : [Mon May 15 09:25:27 2023] cgroup: fork rejected by pids controller in /kubepods/burstable/podd06203b5-9e78-4247-b80c-43ffaea99318/52177669439ab2d4a1253b2fa7daedf226bff37911841d846286e5c6fb015a55</span><br></pre></td></tr></table></figure>
+
+<h1 id="根因分析"><a href="#根因分析" class="headerlink" title="根因分析"></a>根因分析</h1><p>查看系统ulimit限制</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/security/limits.conf | tail -n 5</span><br><span class="line">*       soft    nofile  65535</span><br><span class="line">*       hard    nofile  65535</span><br><span class="line">*       soft    nproc   65535</span><br><span class="line">*       hard    nproc   65535</span><br></pre></td></tr></table></figure>
+
+<p>查看用户进程限制，限制用户进程的数量 4096 太小，这里可以设当调整，调整后还是容易出现该异常。</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/security/limits.d/20-nproc.conf</span><br><span class="line"><span class="comment"># Default limit for number of user&#x27;s processes to prevent</span></span><br><span class="line"><span class="comment"># accidental fork bombs.</span></span><br><span class="line"><span class="comment"># See rhbz #432903 for reasoning.</span></span><br><span class="line"></span><br><span class="line">*          soft    nproc     4096</span><br><span class="line">root       soft    nproc     unlimited</span><br></pre></td></tr></table></figure>
+
+<p>可能是因为kubernetes kubepods cgroup 的pids.max 配置太小。</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看 kubepods cgroup 的pids.max</span><br><span class="line">cat /sys/fs/cgroup/pids/kubepods/pids.max</span><br><span class="line">49152</span><br><span class="line"># 再查看系统的pid_max值，这个值是修改过，但是没有重启过kubelet服务，所以k8s没识别到该该系统参数。</span><br><span class="line">cat /proc/sys/kernel/pid_max</span><br><span class="line">1000000</span><br><span class="line"># 这里只需要重启kubelet即可自动保持pids.max和kernel.pid_max值一致</span><br><span class="line">systemctl restart kubelet</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>/sys/fs/cgroup/pids/kubepods/pids.max 是一个控制 Linux 控制组（cgroup）中进程数量限制的文件路径。它的值表示在该 cgroup 中允许的最大进程数。</p>
+<p>在 Kubernetes 中，pids.max 文件通常是由 kubelet 进程负责设置和管理的。kubelet 会创建和管理用于容器进程的 cgroup，并根据配置中指定的值设置 pids.max 文件的值。</p>
+</blockquote>
+]]></content>
+      <categories>
+        <category>calico</category>
+      </categories>
+      <tags>
+        <tag>kubernetes</tag>
+        <tag>k8s</tag>
+        <tag>linux</tag>
+        <tag>calico</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>docker报错打开太多文件（too many open files）</title>
+    <url>/posts/743c406f/</url>
+    <content><![CDATA[<p>在Linux系统内默认对所有进程打开的文件数量有限制（也可以称为文件句柄，包含打开的文件，套接字，网络连接等都算是一个文件句柄）</p>
+<h2 id="查看当前系统限制最大文件打开数量"><a href="#查看当前系统限制最大文件打开数量" class="headerlink" title="查看当前系统限制最大文件打开数量"></a>查看当前系统限制最大文件打开数量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/fs/file-max</span><br><span class="line">2000000</span><br></pre></td></tr></table></figure>
+
+<h2 id="查询当前系统已打开文件数量"><a href="#查询当前系统已打开文件数量" class="headerlink" title="查询当前系统已打开文件数量"></a>查询当前系统已打开文件数量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/fs/file-nr</span><br><span class="line">8640    0       2000000    <span class="comment"># 左边的值为当前系统已打开文件数量，右侧表示当前系统限制最大文件打开数</span></span><br></pre></td></tr></table></figure>
+
+<p>以上查询得知当前系统打开文件句柄数未达到上限，往下排查Docker进程的最大文件句柄数限制及已打开文件数</p>
+<h2 id="查询当前Docker进程最大可打开文件数量及已打开文件数量"><a href="#查询当前Docker进程最大可打开文件数量及已打开文件数量" class="headerlink" title="查询当前Docker进程最大可打开文件数量及已打开文件数量"></a>查询当前Docker进程最大可打开文件数量及已打开文件数量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl status docker | grep PID      <span class="comment">#获取Docker进程的PID号</span></span><br><span class="line">Main PID: 14644 (dockerd)</span><br><span class="line">cat /proc/`pidof dockerd`/limits</span><br><span class="line"><span class="comment"># 或者使用</span></span><br><span class="line">ls -l /proc/`pidof dockerd`/fd/* | wc -l    <span class="comment">## 获取当前Docker进程已打开的文件数量</span></span><br><span class="line">65342      <span class="comment">#报错时该值达到了最大限制65536</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="临时动态修改当前Docker进程的nofile限制，问题修复"><a href="#临时动态修改当前Docker进程的nofile限制，问题修复" class="headerlink" title="临时动态修改当前Docker进程的nofile限制，问题修复"></a>临时动态修改当前Docker进程的nofile限制，问题修复</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#将Docker进程的nofile限制调整为655360</span></span><br><span class="line">prlimit --pid 14644 --nofile=655360:655360   </span><br><span class="line"><span class="comment">#再次查询Docker进程状态发现问题已修复</span></span><br><span class="line">systemctl status docker </span><br><span class="line"><span class="comment">#查看当前Docker进程最大可打开文件数量</span></span><br><span class="line">cat /proc/`pidof dockerd`/limits   </span><br><span class="line">Max cpu time              unlimited            unlimited            seconds</span><br><span class="line">Max file size             unlimited            unlimited            bytes</span><br><span class="line">Max data size             unlimited            unlimited            bytes</span><br><span class="line">Max stack size            8388608              unlimited            bytes</span><br><span class="line">Max core file size        unlimited            unlimited            bytes</span><br><span class="line">Max resident <span class="built_in">set</span>          unlimited            unlimited            bytes</span><br><span class="line">Max processes             unlimited            unlimited            processes</span><br><span class="line">Max open files            655360               655360               files</span><br><span class="line">Max locked memory         65536                65536        				bytes</span><br><span class="line">Max address space         unlimited            unlimited            bytes</span><br><span class="line">Max file locks            unlimited            unlimited            locks</span><br><span class="line">Max pending signals       61943                61943                signals</span><br><span class="line">Max msgqueue size         819200               819200               bytes</span><br><span class="line">Max nice priority         0                    0</span><br><span class="line">Max realtime priority     0                    0</span><br><span class="line">Max realtime timeout      unlimited            unlimited            us</span><br></pre></td></tr></table></figure>
+
+<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><p>Q、修改daoker systemd服务配置参数LimitNOFILE=<strong><strong>infinity，不生效问题。</strong></strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ cat  /etc/redhat-release</span><br><span class="line">CentOS Linux release 7.6.1810 (Core)</span><br><span class="line">$ rpm -qa | grep systemd-sysv</span><br><span class="line">systemd-sysv-219-62.el7.x86_64</span><br><span class="line">$ uname -a</span><br><span class="line">Linux HZPL004094053 3.10.0-1160.76.1.el7.x86_64 <span class="comment">#1 SMP Wed Aug 10 16:21:17 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux</span></span><br><span class="line">$ cat /etc/systemd/system/docker.service | grep LimitNOFILE</span><br><span class="line">LimitNOFILE=infinity </span><br><span class="line"><span class="comment">#最终却得到65536</span></span><br><span class="line">cat /proc/`pidof dockerd`/limits |grep files</span><br><span class="line">Max open files            65536                65536                files</span><br></pre></td></tr></table></figure>
+
+<p>A、根治方案，修改systemd配置LimitNOFILE值</p>
+<p>该问题应该是systemd服务<a href="https://github.com/systemd/systemd/issues/6559">bug issue</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/systemd/system/docker.service | grep LimitNOFILE</span><br><span class="line">LimitNOFILE=200000 <span class="comment"># 可以修改配置文件到20w以上。</span></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br><span class="line">cat /proc/`pidof dockerd`/limits |grep files</span><br><span class="line">Max open files            200000                200000                files</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>linux</category>
+        <category>docker</category>
+      </categories>
+      <tags>
+        <tag>k8s</tag>
+        <tag>linux</tag>
+        <tag>docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>kubelet统计磁盘inode耗时导致负载升高问题</title>
+    <url>/posts/b0f608c0/</url>
+    <content><![CDATA[<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>1、磁盘容量告警</p>
+<p><img src="/posts/b0f608c0/1685575843966.png" alt="1685575843966"></p>
+<p>2、对主机进行磁盘检查并尝试清理磁盘占用较高的pod，有5900多个文件描述符被打开没有关闭。</p>
+<p><img src="/posts/b0f608c0/1685576103317.png" alt="1685576103317"></p>
+<p><img src="/posts/b0f608c0/1685577904035.png" alt="1685577904035"></p>
+<p>通过平台删除该pod: product-center-query-pro-remain-5bfb5f4c98-m2l55</p>
+<p>3、主机负载冲高，触发告警</p>
+<p><img src="/posts/b0f608c0/1685575658188.png" alt="1685575658188"></p>
+<h1 id="根因排查"><a href="#根因排查" class="headerlink" title="根因排查"></a>根因排查</h1><p>1、根据系统日志发现磁盘最早在5月28日就出现了磁盘inode统计超时情况。</p>
+<p><img src="/posts/b0f608c0/1685576358306.png" alt="1685576358306"></p>
+<p>2、发现有个容器在/tmp目录创建了很多小文件，占用了大量的磁盘空间及Inode，可能是导致磁盘响应变慢的直接原因。</p>
+<p><img src="/posts/b0f608c0/1685601543912.png" alt="1685601543912"></p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><ul>
+<li>立即对主机进行疏散，避免再次出现异常，导致主机负载升高，影响业务pod。</li>
+<li>增加该kubelet日志告警（fs: disk usage and inodes count on following dirs took 1），提前发现及时人工介入进行处理。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>kubernetes</category>
+      </categories>
+      <tags>
+        <tag>kubernetes</tag>
+        <tag>k8s</tag>
+        <tag>linux</tag>
+        <tag>容器</tag>
       </tags>
   </entry>
   <entry>
@@ -1359,75 +1483,6 @@
       </tags>
   </entry>
   <entry>
-    <title>calico-node异常重启</title>
-    <url>/posts/d62f787/</url>
-    <content><![CDATA[<h1 id="环境信息"><a href="#环境信息" class="headerlink" title="环境信息"></a>环境信息</h1><ul>
-<li>os 版本： centos7.9</li>
-<li>kernel 版本：3.10.0-1160.59.1.el7.x86_64</li>
-<li>k8s 版本：v1.19.4</li>
-<li>calico-node 版本：v3.8.8-1</li>
-</ul>
-<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>calico异常重启导致容器网络异常超时，查看日志发现报错如下：<code>failed to create new OS thread</code></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 获取异常节点calico-node重启多次</span></span><br><span class="line">kubectl -n kube-system get pod -owide | grep calico-node-56bgm</span><br><span class="line">calico-node-56bgm                             1/1     Running   21         246d   10.165.6.26      10.165.6.26   &lt;none&gt;           &lt;none&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看calico-node历史日志如下：</span></span><br><span class="line">kubectl -n kube-system logs -p calico-node-56bgm | less</span><br><span class="line">runtime: failed to create new OS thread (have 41 already; errno=11)</span><br><span class="line">runtime: may need to increase max user processes (<span class="built_in">ulimit</span> -u)</span><br><span class="line">fatal error: newosproc</span><br><span class="line"></span><br><span class="line">runtime stack:</span><br><span class="line">runtime.throw(0x1aa0343, 0x9)</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/panic.go:608 +0x72</span><br><span class="line">runtime.newosproc(0xc00062ea80)</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/os_linux.go:166 +0x1c0</span><br><span class="line">runtime.newm1(0xc00062ea80)</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/proc.go:1940 +0xfe</span><br><span class="line">runtime.newm(0x1b62358, 0x0)</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/proc.go:1919 +0x9b</span><br><span class="line">runtime.startTheWorldWithSema(0xc0000b7501, 0x45b1b6)</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/proc.go:1209 +0x1ce</span><br><span class="line">runtime.gcMarkTermination.func3()</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/mgc.go:1644 +0x26</span><br><span class="line">runtime.systemstack(0x0)</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/asm_amd64.s:351 +0x66</span><br><span class="line">runtime.mstart()</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/proc.go:1229</span><br><span class="line"></span><br><span class="line">goroutine 35 [running]:</span><br><span class="line">runtime.systemstack_switch()</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/asm_amd64.s:311 fp=0xc0000b7568 sp=0xc0000b7560 pc=0x4577d0</span><br><span class="line">runtime.gcMarkTermination(0x3fecb9f8bbbbdd6c)</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/mgc.go:1644 +0x3f5 fp=0xc0000b7738 sp=0xc0000b7568 pc=0x41a695</span><br><span class="line">runtime.gcMarkDone()</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/mgc.go:1510 +0x21e fp=0xc0000b7760 sp=0xc0000b7738 pc=0x41a23e</span><br><span class="line">runtime.gcBgMarkWorker(0xc00005f900)</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/mgc.go:1909 +0x2b2 fp=0xc0000b77d8 sp=0xc0000b7760 pc=0x41b162</span><br><span class="line">runtime.goexit()</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/asm_amd64.s:1333 +0x1 fp=0xc0000b77e0 sp=0xc0000b77d8 pc=0x459731</span><br><span class="line">created by runtime.gcBgMarkStartWorkers</span><br><span class="line">        /usr/<span class="built_in">local</span>/go/src/runtime/mgc.go:1720 +0x77</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>dmesg 系统日志报错：<code>cgroup: fork rejected by pids controller in /kubepods/...</code></p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 登录主机会发现如下报错</span><br><span class="line"># dmesg -xTL | tail</span><br><span class="line">kern  :info  : [Mon May 15 09:25:27 2023] cgroup: fork rejected by pids controller in /kubepods/burstable/pod22612ffb-4523-4958-b6dd-a80bd35fd325/8e8c5f52932538520f5b8042a2b602c1c5a07805ee073f1892ad27b0d818b584</span><br><span class="line">kern  :info  : [Mon May 15 09:25:27 2023] cgroup: fork rejected by pids controller in /kubepods/burstable/podd06203b5-9e78-4247-b80c-43ffaea99318/52177669439ab2d4a1253b2fa7daedf226bff37911841d846286e5c6fb015a55</span><br></pre></td></tr></table></figure>
-
-<h1 id="根因分析"><a href="#根因分析" class="headerlink" title="根因分析"></a>根因分析</h1><p>查看系统ulimit限制</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/security/limits.conf | tail -n 5</span><br><span class="line">*       soft    nofile  65535</span><br><span class="line">*       hard    nofile  65535</span><br><span class="line">*       soft    nproc   65535</span><br><span class="line">*       hard    nproc   65535</span><br></pre></td></tr></table></figure>
-
-<p>查看用户进程限制，限制用户进程的数量 4096 太小，这里可以设当调整，调整后还是容易出现该异常。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/security/limits.d/20-nproc.conf</span><br><span class="line"><span class="comment"># Default limit for number of user&#x27;s processes to prevent</span></span><br><span class="line"><span class="comment"># accidental fork bombs.</span></span><br><span class="line"><span class="comment"># See rhbz #432903 for reasoning.</span></span><br><span class="line"></span><br><span class="line">*          soft    nproc     4096</span><br><span class="line">root       soft    nproc     unlimited</span><br></pre></td></tr></table></figure>
-
-<p>可能是因为kubernetes kubepods cgroup 的pids.max 配置太小。</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看 kubepods cgroup 的pids.max</span><br><span class="line">cat /sys/fs/cgroup/pids/kubepods/pids.max</span><br><span class="line">49152</span><br><span class="line"># 再查看系统的pid_max值，这个值是修改过，但是没有重启过kubelet服务，所以k8s没识别到该该系统参数。</span><br><span class="line">cat /proc/sys/kernel/pid_max</span><br><span class="line">1000000</span><br><span class="line"># 这里只需要重启kubelet即可自动保持pids.max和kernel.pid_max值一致</span><br><span class="line">systemctl restart kubelet</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>/sys/fs/cgroup/pids/kubepods/pids.max 是一个控制 Linux 控制组（cgroup）中进程数量限制的文件路径。它的值表示在该 cgroup 中允许的最大进程数。</p>
-<p>在 Kubernetes 中，pids.max 文件通常是由 kubelet 进程负责设置和管理的。kubelet 会创建和管理用于容器进程的 cgroup，并根据配置中指定的值设置 pids.max 文件的值。</p>
-</blockquote>
-]]></content>
-      <categories>
-        <category>calico</category>
-      </categories>
-      <tags>
-        <tag>kubernetes</tag>
-        <tag>k8s</tag>
-        <tag>linux</tag>
-        <tag>calico</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>docker报错打开太多文件（too many open files）</title>
-    <url>/posts/743c406f/</url>
-    <content><![CDATA[<p>在Linux系统内默认对所有进程打开的文件数量有限制（也可以称为文件句柄，包含打开的文件，套接字，网络连接等都算是一个文件句柄）</p>
-<h2 id="查看当前系统限制最大文件打开数量"><a href="#查看当前系统限制最大文件打开数量" class="headerlink" title="查看当前系统限制最大文件打开数量"></a>查看当前系统限制最大文件打开数量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/fs/file-max</span><br><span class="line">2000000</span><br></pre></td></tr></table></figure>
-
-<h2 id="查询当前系统已打开文件数量"><a href="#查询当前系统已打开文件数量" class="headerlink" title="查询当前系统已打开文件数量"></a>查询当前系统已打开文件数量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/fs/file-nr</span><br><span class="line">8640    0       2000000    <span class="comment"># 左边的值为当前系统已打开文件数量，右侧表示当前系统限制最大文件打开数</span></span><br></pre></td></tr></table></figure>
-
-<p>以上查询得知当前系统打开文件句柄数未达到上限，往下排查Docker进程的最大文件句柄数限制及已打开文件数</p>
-<h2 id="查询当前Docker进程最大可打开文件数量及已打开文件数量"><a href="#查询当前Docker进程最大可打开文件数量及已打开文件数量" class="headerlink" title="查询当前Docker进程最大可打开文件数量及已打开文件数量"></a>查询当前Docker进程最大可打开文件数量及已打开文件数量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl status docker | grep PID      <span class="comment">#获取Docker进程的PID号</span></span><br><span class="line">Main PID: 14644 (dockerd)</span><br><span class="line">cat /proc/`pidof dockerd`/limits</span><br><span class="line"><span class="comment"># 或者使用</span></span><br><span class="line">ls -l /proc/`pidof dockerd`/fd/* | wc -l    <span class="comment">## 获取当前Docker进程已打开的文件数量</span></span><br><span class="line">65342      <span class="comment">#报错时该值达到了最大限制65536</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="临时动态修改当前Docker进程的nofile限制，问题修复"><a href="#临时动态修改当前Docker进程的nofile限制，问题修复" class="headerlink" title="临时动态修改当前Docker进程的nofile限制，问题修复"></a>临时动态修改当前Docker进程的nofile限制，问题修复</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#将Docker进程的nofile限制调整为655360</span></span><br><span class="line">prlimit --pid 14644 --nofile=655360:655360   </span><br><span class="line"><span class="comment">#再次查询Docker进程状态发现问题已修复</span></span><br><span class="line">systemctl status docker </span><br><span class="line"><span class="comment">#查看当前Docker进程最大可打开文件数量</span></span><br><span class="line">cat /proc/`pidof dockerd`/limits   </span><br><span class="line">Max cpu time              unlimited            unlimited            seconds</span><br><span class="line">Max file size             unlimited            unlimited            bytes</span><br><span class="line">Max data size             unlimited            unlimited            bytes</span><br><span class="line">Max stack size            8388608              unlimited            bytes</span><br><span class="line">Max core file size        unlimited            unlimited            bytes</span><br><span class="line">Max resident <span class="built_in">set</span>          unlimited            unlimited            bytes</span><br><span class="line">Max processes             unlimited            unlimited            processes</span><br><span class="line">Max open files            655360               655360               files</span><br><span class="line">Max locked memory         65536                65536        				bytes</span><br><span class="line">Max address space         unlimited            unlimited            bytes</span><br><span class="line">Max file locks            unlimited            unlimited            locks</span><br><span class="line">Max pending signals       61943                61943                signals</span><br><span class="line">Max msgqueue size         819200               819200               bytes</span><br><span class="line">Max nice priority         0                    0</span><br><span class="line">Max realtime priority     0                    0</span><br><span class="line">Max realtime timeout      unlimited            unlimited            us</span><br></pre></td></tr></table></figure>
-
-<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><p>Q、修改daoker systemd服务配置参数LimitNOFILE=<strong><strong>infinity，不生效问题。</strong></strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ cat  /etc/redhat-release</span><br><span class="line">CentOS Linux release 7.6.1810 (Core)</span><br><span class="line">$ rpm -qa | grep systemd-sysv</span><br><span class="line">systemd-sysv-219-62.el7.x86_64</span><br><span class="line">$ uname -a</span><br><span class="line">Linux HZPL004094053 3.10.0-1160.76.1.el7.x86_64 <span class="comment">#1 SMP Wed Aug 10 16:21:17 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux</span></span><br><span class="line">$ cat /etc/systemd/system/docker.service | grep LimitNOFILE</span><br><span class="line">LimitNOFILE=infinity </span><br><span class="line"><span class="comment">#最终却得到65536</span></span><br><span class="line">cat /proc/`pidof dockerd`/limits |grep files</span><br><span class="line">Max open files            65536                65536                files</span><br></pre></td></tr></table></figure>
-
-<p>A、根治方案，修改systemd配置LimitNOFILE值</p>
-<p>该问题应该是systemd服务<a href="https://github.com/systemd/systemd/issues/6559">bug issue</a></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/systemd/system/docker.service | grep LimitNOFILE</span><br><span class="line">LimitNOFILE=200000 <span class="comment"># 可以修改配置文件到20w以上。</span></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br><span class="line">cat /proc/`pidof dockerd`/limits |grep files</span><br><span class="line">Max open files            200000                200000                files</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>linux</category>
-        <category>docker</category>
-      </categories>
-      <tags>
-        <tag>k8s</tag>
-        <tag>linux</tag>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>pod容器内ping延迟大问题</title>
     <url>/posts/da179f53/</url>
     <content><![CDATA[<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>1、根据业务方的反馈，有2个容器之前存在网络延迟，但同一集群并未有其他人反馈异常</p>
@@ -1451,61 +1506,6 @@
 
 <p>2、联系硬件厂商保修该主机。</p>
 <p>这里怀疑是因为网卡设备问题，</p>
-]]></content>
-      <categories>
-        <category>kubernetes</category>
-      </categories>
-      <tags>
-        <tag>kubernetes</tag>
-        <tag>k8s</tag>
-        <tag>linux</tag>
-        <tag>容器</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hexo 分类和标签</title>
-    <url>/posts/dccf6045/</url>
-    <content><![CDATA[<h3 id="一、主题配置打开"><a href="#一、主题配置打开" class="headerlink" title="一、主题配置打开"></a><strong>一、主题配置打开</strong></h3><p>打开 <code>themes/next/_config.yml</code> <strong>主题配置文件</strong> 找到 <code>Menu Settings</code> ，把 <code>categories</code> 和 <code>tags</code> 取消注释。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">tags: /tags/ || fa fa-tags</span><br><span class="line">categories: /categories/ || fa fa-th</span><br></pre></td></tr></table></figure>
-
-<span id="more"></span>
-
-<h2 id="二、添加分类模块"><a href="#二、添加分类模块" class="headerlink" title="二、添加分类模块"></a>二、添加分类模块</h2><p>新建一个分类页面。<br><code>$ hexo new page categories</code><br>你会发现你的source文件夹下有了categories[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 分类</p>
-<p>把文章归入分类只需在文章的顶部标题下方添加categories字段，即可自动创建分类名并加入对应的分类中</p>
-<h2 id="三、添加标签模块"><a href="#三、添加标签模块" class="headerlink" title="三、添加标签模块"></a>三、添加标签模块</h2><p>新建一个标签页面 。<br><code>$ hexo new page tags</code><br>你会发现你的source文件夹下有了tags[index.md](<a href="http://index.md/)%EF%BC%8C%E6%89%93%E5%BC%80index.md%E6%96%87%E4%BB%B6%E5%B0%86">http://index.md/)，打开index.md文件将</a> title 设置为title: 标签<br>把文章添加标签只需在文章的顶部标题下方添加tags字段，即可自动创建标签名并归入对应的标签中</p>
-<h2 id="四、修改-index-md-文件"><a href="#四、修改-index-md-文件" class="headerlink" title="四、修改 index.md 文件"></a><strong>四、修改 <a href="http://index.md/">index.md</a> 文件</strong></h2><p>打开 <code>categories</code> 文件夹下的 <code>index.md</code> ，在最下面一行加一行文字就行，注意中间有空格。</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">---</span><br><span class="line">title: tags</span><br><span class="line">date: 2021-11-08 10:47:33</span><br><span class="line"><span class="built_in">type</span>: categories</span><br><span class="line">---</span><br></pre></td></tr></table></figure>
-
-<p>同理，<code>tags</code> 也是如此。</p>
-<h2 id="五、效果展示"><a href="#五、效果展示" class="headerlink" title="五、效果展示"></a><strong>五、效果展示</strong></h2><p><img src="/posts/dccf6045/1677584124277.png" alt="1677584124277"></p>
-]]></content>
-      <categories>
-        <category>hexo</category>
-      </categories>
-      <tags>
-        <tag>hexo</tag>
-        <tag>blog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>kubelet统计磁盘inode耗时导致负载升高问题</title>
-    <url>/posts/b0f608c0/</url>
-    <content><![CDATA[<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>1、磁盘容量告警</p>
-<p><img src="/posts/b0f608c0/1685575843966.png" alt="1685575843966"></p>
-<p>2、对主机进行磁盘检查并尝试清理磁盘占用较高的pod，有5900多个文件描述符被打开没有关闭。</p>
-<p><img src="/posts/b0f608c0/1685576103317.png" alt="1685576103317"></p>
-<p><img src="/posts/b0f608c0/1685577904035.png" alt="1685577904035"></p>
-<p>通过平台删除该pod: product-center-query-pro-remain-5bfb5f4c98-m2l55</p>
-<p>3、主机负载冲高，触发告警</p>
-<p><img src="/posts/b0f608c0/1685575658188.png" alt="1685575658188"></p>
-<h1 id="根因排查"><a href="#根因排查" class="headerlink" title="根因排查"></a>根因排查</h1><p>1、根据系统日志发现磁盘最早在5月28日就出现了磁盘inode统计超时情况。</p>
-<p><img src="/posts/b0f608c0/1685576358306.png" alt="1685576358306"></p>
-<p>2、发现有个容器在/tmp目录创建了很多小文件，占用了大量的磁盘空间及Inode，可能是导致磁盘响应变慢的直接原因。</p>
-<p><img src="/posts/b0f608c0/1685601543912.png" alt="1685601543912"></p>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><ul>
-<li>立即对主机进行疏散，避免再次出现异常，导致主机负载升高，影响业务pod。</li>
-<li>增加该kubelet日志告警（fs: disk usage and inodes count on following dirs took 1），提前发现及时人工介入进行处理。</li>
-</ul>
 ]]></content>
       <categories>
         <category>kubernetes</category>
