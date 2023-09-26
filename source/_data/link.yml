@@ -21,7 +21,11 @@ class:
       link: https://blog.pantheon.press
       avatar: https://cdn.xxxxx.top/avatar.png
       descr: pantheon
-
+    5:
+      name: imroc
+      link: https://imroc.cc
+      avatar: https://imroc.cc/author/roc/avatar_hu49c03114a9ce8ad2bc0bd62c0ddb3f2a_64404_270x270_fill_q75_lanczos_center.jpg
+      descr: roc 腾讯云原生架构师
 # class2:
 #   class_name: 常用链接
 #   link_list:
