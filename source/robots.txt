@@ -1,8 +1,7 @@
 User-agent: *
-Allow: /
 Allow: /posts/
-Allow: /about/
-allow: /archives/
+Disallow: /about/
+Disallow: /archives/
 Disallow: /categories/
 Disallow: /tags/
 
