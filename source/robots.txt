@@ -1,7 +1,9 @@
 User-agent: *
-Disallow: /archives/
+Allow: /
+Allow: /posts/
+Allow: /about/
+allow: /archives/
 Disallow: /categories/
-Disallow: /about/
 Disallow: /tags/
 
 Sitemap: https://www.ljohn.cn/sitemap.xml
