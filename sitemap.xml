@@ -321,13 +321,6 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/security/</loc>
-    <lastmod>2024-02-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://www.ljohn.cn/tags/bcc/</loc>
     <lastmod>2024-02-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -370,14 +363,7 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/hexo/</loc>
-    <lastmod>2024-02-01</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.ljohn.cn/tags/blog/</loc>
+    <loc>https://www.ljohn.cn/tags/security/</loc>
     <lastmod>2024-02-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -391,6 +377,13 @@
   </url>
   
   <url>
+    <loc>https://www.ljohn.cn/tags/ubuntu/</loc>
+    <lastmod>2024-02-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://www.ljohn.cn/tags/calico/</loc>
     <lastmod>2024-02-01</lastmod>
     <changefreq>weekly</changefreq>
@@ -398,7 +391,14 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/ubuntu/</loc>
+    <loc>https://www.ljohn.cn/tags/hexo/</loc>
+    <lastmod>2024-02-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ljohn.cn/tags/blog/</loc>
     <lastmod>2024-02-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -442,14 +442,14 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/categories/hexo/</loc>
+    <loc>https://www.ljohn.cn/categories/calico/</loc>
     <lastmod>2024-02-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/categories/calico/</loc>
+    <loc>https://www.ljohn.cn/categories/hexo/</loc>
     <lastmod>2024-02-01</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
