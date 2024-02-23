@@ -65,7 +65,7 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/categories/index-1.html</loc>
+    <loc>https://www.ljohn.cn/about/</loc>
     
     <lastmod>2024-02-01</lastmod>
     
@@ -74,7 +74,7 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/about/</loc>
+    <loc>https://www.ljohn.cn/categories/index-1.html</loc>
     
     <lastmod>2024-02-01</lastmod>
     
@@ -173,7 +173,7 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/posts/484087c6/</loc>
+    <loc>https://www.ljohn.cn/posts/19c6e9f2/</loc>
     
     <lastmod>2024-02-01</lastmod>
     
@@ -182,7 +182,7 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/posts/19c6e9f2/</loc>
+    <loc>https://www.ljohn.cn/posts/484087c6/</loc>
     
     <lastmod>2024-02-01</lastmod>
     
@@ -330,6 +330,13 @@
   </url>
   
   <url>
+    <loc>https://www.ljohn.cn/tags/security/</loc>
+    <lastmod>2024-02-23</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://www.ljohn.cn/tags/bcc/</loc>
     <lastmod>2024-02-23</lastmod>
     <changefreq>weekly</changefreq>
@@ -366,13 +373,6 @@
   
   <url>
     <loc>https://www.ljohn.cn/tags/Go%E5%AD%A6%E4%B9%A0/</loc>
-    <lastmod>2024-02-23</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.ljohn.cn/tags/security/</loc>
     <lastmod>2024-02-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -421,14 +421,14 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/kubeadm/</loc>
+    <loc>https://www.ljohn.cn/tags/npd/</loc>
     <lastmod>2024-02-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/npd/</loc>
+    <loc>https://www.ljohn.cn/tags/kubeadm/</loc>
     <lastmod>2024-02-23</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
