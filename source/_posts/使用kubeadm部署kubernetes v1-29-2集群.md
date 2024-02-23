@@ -1,13 +1,16 @@
 ---
 title: 使用kubeadm部署kubernetes v1-29-2集群
-date: 2024-02-23T12:20:51+08:00
 tags:
   - kubeadm
   - kubernetes
   - linux
   - k8s
+abbrlink: c03d6b40
+date: 2024-02-23 04:20:51
 ---
 ## 0.准备
+
+最近准备开始考CKAD，之前考过了CKA，CKS，但环境有些陈旧了，现在最新版考试需要v1.29了。所以重新使用kubeadm部署一套最新版本kubernetes集群v1.29.2，用于练习模拟题。
 
 ```bash
 1.虚拟机环境
