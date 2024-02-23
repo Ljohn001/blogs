@@ -251,7 +251,7 @@ EOF
 sudo systemctl daemon-reload ; sudo systemctl restart containerd
 ```
 
-## 7.清理集群
+## 8.清理集群
 
 ```bash
 # 驱逐node 节点容器
