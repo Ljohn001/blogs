@@ -1,11 +1,12 @@
 ---
-title: CKAD模拟题:3-Dockerfile
-date: 2024-02-24T09:55:44+08:00
+title: 'CKAD模拟题:3-Dockerfile'
 tags:
   - kubernetes
   - ckad
   - cncf
   - ckad
+abbrlink: 80e5c31c
+date: 2024-02-24 01:55:44
 ---
 
 ## 题目要求

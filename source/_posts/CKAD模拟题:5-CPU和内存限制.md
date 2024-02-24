@@ -1,11 +1,12 @@
 ---
-title: CKAD模拟题:5-CPU和内存限制
-date: 2024-02-24T09:56:19+08:00
+title: 'CKAD模拟题:5-CPU和内存限制'
 tags:
   - kubernetes
   - ckad
   - cncf
   - ckad
+abbrlink: fe30d26b
+date: 2024-02-24 01:56:19
 ---
 
 ## 题目要求

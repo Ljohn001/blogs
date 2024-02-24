@@ -1,11 +1,12 @@
 ---
-title: CKAD模拟题:2-CronJob
-date: 2024-02-24T09:54:38+08:00
+title: 'CKAD模拟题:2-CronJob'
 tags:
   - kubernetes
   - ckad
   - cncf
   - ckad题
+abbrlink: d95d044a
+date: 2024-02-24 01:54:38
 ---
 
 ## 题目要求

@@ -1,11 +1,12 @@
 ---
-title: CKAD模拟题:6-运行旧版应用程序
-date: 2024-02-24T09:58:58+08:00
+title: 'CKAD模拟题:6-运行旧版应用程序'
 tags:
   - kubernetes
   - ckad
   - cncf
   - ckad
+abbrlink: 533c2c30
+date: 2024-02-24 01:58:58
 ---
 
 ## 题目要求

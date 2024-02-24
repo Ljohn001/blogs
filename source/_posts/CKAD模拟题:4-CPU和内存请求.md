@@ -1,11 +1,12 @@
 ---
-title: CKAD模拟题:4-CPU和内存请求
-date: 2024-02-24T09:56:19+08:00
+title: 'CKAD模拟题:4-CPU和内存请求'
 tags:
   - kubernetes
   - ckad
   - cncf
   - ckad
+abbrlink: 6ef9277f
+date: 2024-02-24 01:56:19
 ---
 
 ## 题目要求
