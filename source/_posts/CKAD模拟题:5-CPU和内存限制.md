@@ -5,10 +5,11 @@ tags:
   - ckad
   - cncf
   - ckad
+categories:
+  - ckad
 abbrlink: fe30d26b
 date: 2024-02-24 01:56:19
 ---
-
 ## 题目要求
 
 namespace **haddock** 中名为 **nosql** 的 Deployment 的 Pod 因其容器已用完资源而无法启动。

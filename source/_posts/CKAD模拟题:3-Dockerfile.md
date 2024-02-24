@@ -5,10 +5,11 @@ tags:
   - ckad
   - cncf
   - ckad
+categories:
+  - ckad
 abbrlink: 80e5c31c
 date: 2024-02-24 01:55:44
 ---
-
 ## 题目要求
 
 一个Dockerfile 已经存在于 **/ckad/DF/Dockerfile**

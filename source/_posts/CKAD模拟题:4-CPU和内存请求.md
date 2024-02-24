@@ -5,10 +5,11 @@ tags:
   - ckad
   - cncf
   - ckad
+categories:
+  - ckad
 abbrlink: 6ef9277f
 date: 2024-02-24 01:56:19
 ---
-
 ## 题目要求
 
 在现有的 namespace **pod-resources**中创建一个名为**nginx-resource**s 的 Pod 。镜像为 **nginx:1.16** ,为其容器指定资源请求**40m**的 CPU 和**50Mi**的内存
