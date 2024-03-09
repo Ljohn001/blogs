@@ -3,8 +3,6 @@ title: 'CKAD模拟题:3-Dockerfile'
 tags:
   - kubernetes
   - ckad
-  - cncf
-  - ckad
 categories:
   - ckad
 abbrlink: 80e5c31c

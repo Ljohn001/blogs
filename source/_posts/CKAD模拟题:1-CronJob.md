@@ -1,14 +1,14 @@
 ---
 title: 'CKAD模拟题:1-CronJob'
+
+abbrlink: e0d0388f
+date: 2024-02-24 01:47:29
 tags:
   - kubernetes
   - ckad
-  - cncf
-  - ckad题库
-abbrlink: e0d0388f
-date: 2024-02-24 01:47:29
+categories:
+  - ckad
 ---
-
 ## 题目要求
 
 1.创建一个名为 ppi 并执行一个运行以下单一容器的 Pod 的 CronJob

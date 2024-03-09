@@ -3,8 +3,6 @@ title: 'CKAD模拟题:5-CPU和内存限制'
 tags:
   - kubernetes
   - ckad
-  - cncf
-  - ckad
 categories:
   - ckad
 abbrlink: fe30d26b

@@ -3,12 +3,11 @@ title: 'CKAD模拟题:6-运行旧版应用程序'
 tags:
   - kubernetes
   - ckad
-  - cncf
+categories:
   - ckad
 abbrlink: 533c2c30
 date: 2024-02-24 01:58:58
 ---
-
 ## 题目要求
 
 1. 修复清单文件 **/ckad/credible-mite/www.yaml** 中的任何 API 弃用问题 以便可以将应用程序部署在 k8s cluster 上 。注意：该应用程序是为 Kubernetes v1.15 开发的 。k8s cluster 运行着 Kubernetes v1.26

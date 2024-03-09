@@ -3,8 +3,6 @@ title: 'CKAD模拟题:4-CPU和内存请求'
 tags:
   - kubernetes
   - ckad
-  - cncf
-  - ckad
 categories:
   - ckad
 abbrlink: 6ef9277f

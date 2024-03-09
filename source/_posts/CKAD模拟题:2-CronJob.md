@@ -3,12 +3,10 @@ title: 'CKAD模拟题:2-CronJob'
 tags:
   - kubernetes
   - ckad
-  - cncf
-  - ckad题
+categories:
+  - ckad
 abbrlink: d95d044a
-date: 2024-02-24 01:54:38
 ---
-
 ## 题目要求
 
 1. 在清单文件 /ckad/CKAD00016/periodic.yaml 中定义此 Pod
