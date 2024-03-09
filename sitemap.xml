@@ -290,7 +290,7 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/link/</loc>
+    <loc>https://www.ljohn.cn/linux/</loc>
     
     <lastmod>2024-02-01</lastmod>
     
@@ -299,7 +299,7 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/linux/</loc>
+    <loc>https://www.ljohn.cn/link/</loc>
     
     <lastmod>2024-02-01</lastmod>
     
@@ -335,15 +335,6 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/categories/index-2.html</loc>
-    
-    <lastmod>2024-02-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.ljohn.cn/about/</loc>
     
     <lastmod>2024-02-01</lastmod>
@@ -363,6 +354,15 @@
   
   <url>
     <loc>https://www.ljohn.cn/categories/</loc>
+    
+    <lastmod>2024-02-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ljohn.cn/categories/index-2.html</loc>
     
     <lastmod>2024-02-01</lastmod>
     
@@ -398,7 +398,7 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/posts/d62f787/</loc>
+    <loc>https://www.ljohn.cn/posts/7f9c3178/</loc>
     
     <lastmod>2024-02-01</lastmod>
     
@@ -407,7 +407,7 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/posts/7f9c3178/</loc>
+    <loc>https://www.ljohn.cn/posts/d62f787/</loc>
     
     <lastmod>2024-02-01</lastmod>
     
@@ -434,6 +434,15 @@
   </url>
   
   <url>
+    <loc>https://www.ljohn.cn/posts/19c6e9f2/</loc>
+    
+    <lastmod>2024-02-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.ljohn.cn/posts/484087c6/</loc>
     
     <lastmod>2024-02-01</lastmod>
@@ -452,25 +461,7 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/posts/19c6e9f2/</loc>
-    
-    <lastmod>2024-02-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
     <loc>https://www.ljohn.cn/posts/1c340043/</loc>
-    
-    <lastmod>2024-02-01</lastmod>
-    
-    <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.ljohn.cn/posts/e21ef27/</loc>
     
     <lastmod>2024-02-01</lastmod>
     
@@ -489,6 +480,15 @@
   
   <url>
     <loc>https://www.ljohn.cn/posts/dccf6045/</loc>
+    
+    <lastmod>2024-02-01</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ljohn.cn/posts/e21ef27/</loc>
     
     <lastmod>2024-02-01</lastmod>
     
@@ -533,13 +533,6 @@
 
   
   <url>
-    <loc>https://www.ljohn.cn/tags/linux/</loc>
-    <lastmod>2024-03-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
     <loc>https://www.ljohn.cn/tags/%E5%86%85%E6%A0%B8/</loc>
     <lastmod>2024-03-09</lastmod>
     <changefreq>weekly</changefreq>
@@ -547,14 +540,7 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/vmcore/</loc>
-    <lastmod>2024-03-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.ljohn.cn/tags/crash/</loc>
+    <loc>https://www.ljohn.cn/tags/linux/</loc>
     <lastmod>2024-03-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -582,6 +568,20 @@
   </url>
   
   <url>
+    <loc>https://www.ljohn.cn/tags/vmcore/</loc>
+    <lastmod>2024-03-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>https://www.ljohn.cn/tags/crash/</loc>
+    <lastmod>2024-03-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://www.ljohn.cn/tags/security/</loc>
     <lastmod>2024-03-09</lastmod>
     <changefreq>weekly</changefreq>
@@ -590,13 +590,6 @@
   
   <url>
     <loc>https://www.ljohn.cn/tags/ckad/</loc>
-    <lastmod>2024-03-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.2</priority>
-  </url>
-  
-  <url>
-    <loc>https://www.ljohn.cn/tags/cks/</loc>
     <lastmod>2024-03-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -645,7 +638,7 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/ingress/</loc>
+    <loc>https://www.ljohn.cn/tags/cks/</loc>
     <lastmod>2024-03-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -666,6 +659,13 @@
   </url>
   
   <url>
+    <loc>https://www.ljohn.cn/tags/ingress/</loc>
+    <lastmod>2024-03-09</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
     <loc>https://www.ljohn.cn/tags/calico/</loc>
     <lastmod>2024-03-09</lastmod>
     <changefreq>weekly</changefreq>
@@ -673,14 +673,14 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/docker/</loc>
+    <loc>https://www.ljohn.cn/tags/ubuntu/</loc>
     <lastmod>2024-03-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/ubuntu/</loc>
+    <loc>https://www.ljohn.cn/tags/docker/</loc>
     <lastmod>2024-03-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
@@ -703,14 +703,14 @@
 
   
   <url>
-    <loc>https://www.ljohn.cn/categories/linux/</loc>
+    <loc>https://www.ljohn.cn/categories/kubernetes/</loc>
     <lastmod>2024-03-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/categories/kubernetes/</loc>
+    <loc>https://www.ljohn.cn/categories/linux/</loc>
     <lastmod>2024-03-09</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
