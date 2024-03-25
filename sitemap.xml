@@ -11,6 +11,15 @@
   </url>
   
   <url>
+    <loc>https://www.ljohn.cn/posts/61bd4278/</loc>
+    
+    <lastmod>2024-03-25</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>https://www.ljohn.cn/categories/index-2.html</loc>
     
     <lastmod>2024-03-14</lastmod>
@@ -668,14 +677,14 @@
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/docker/</loc>
+    <loc>https://www.ljohn.cn/tags/calico/</loc>
     <lastmod>2024-03-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
-    <loc>https://www.ljohn.cn/tags/calico/</loc>
+    <loc>https://www.ljohn.cn/tags/docker/</loc>
     <lastmod>2024-03-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>

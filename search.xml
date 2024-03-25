@@ -12,20 +12,13 @@
 <p><img src="/posts/6fd8cc9b/1711334407602.png" alt="1711334407602"></p>
 <h1 id="考试大纲"><a href="#考试大纲" class="headerlink" title="考试大纲"></a>考试大纲</h1><p>参考：<a href="https://training.linuxfoundation.cn/certificates/4">https://training.linuxfoundation.cn/certificates/4</a></p>
 <p>考试课程包括这些一般领域及其在考试中的权重：</p>
-<table>
-<thead>
-<tr>
-<th>应用程序设计和构建–20%</th>
-<th>应用部署 - 20％</th>
-<th>应用观察和维护 - 15％</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>应用环境、配置与安全 - 25％</td>
-<td>服务与网络 - 20％</td>
-<td></td>
-</tr>
-</tbody></table>
+<ul>
+<li>应用程序设计和构建–20%</li>
+<li>应用部署 - 20％</li>
+<li>应用观察和维护 - 15％</li>
+<li>应用环境、配置与安全 - 25％</li>
+<li>服务与网络 - 20％</li>
+</ul>
 <p><strong>详细内容</strong></p>
 <p>应用程序设计和构建–20%</p>
 <ul>
@@ -64,7 +57,8 @@
 <li>通过服务提供对应用程序的访问并排除故障</li>
 <li>使用Ingress规则公开应用程序</li>
 </ul>
-<h1 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h1><p>1、模拟题笔记：<a href="https://www.ljohn.cn/categories/ckad/">https://www.ljohn.cn/categories/ckad/</a></p>
+<h1 id="学习资料"><a href="#学习资料" class="headerlink" title="学习资料"></a>学习资料</h1><p>1、模拟题笔记：</p>
+<p><a href="https://www.ljohn.cn/categories/ckad/">https://www.ljohn.cn/categories/ckad/</a></p>
 <p>2、备考指南：<a href="https://mainframe2cloud.com/%E5%A6%82%E4%BD%95%E5%A4%87%E8%80%83CKAD%E8%AE%A4%E8%AF%81/"></a><a href="https://mainframe2cloud.com/%E5%A6%82%E4%BD%95%E5%A4%87%E8%80%83CKAD%E8%AE%A4%E8%AF%81/">https://mainframe2cloud.com/如何备考CKAD认证/</a></p>
 <p>3、练习题笔记：<a href="https://github.com/dgkanatsios/CKAD-exercises/tree/main">https://github.com/dgkanatsios/CKAD-exercises/tree/main</a></p>
 <p>4、<strong>Udemy CKAD</strong>视频：<a href="https://www.bilibili.com/video/BV14S4y1c7Sh/?p=5&spm_id_from=pageDriver&vd_source=ae33dc49f3801f36e832f78caf92929e">https://www.bilibili.com/video/BV14S4y1c7Sh/?p=5&amp;spm_id_from=pageDriver&amp;vd_source=ae33dc49f3801f36e832f78caf92929e</a></p>
@@ -603,6 +597,22 @@
       </tags>
   </entry>
   <entry>
+    <title>CKAD模拟题:9-创建 Deployment 并指定环境变量</title>
+    <url>/posts/2250b530/</url>
+    <content><![CDATA[<h2 id="题目要求"><a href="#题目要求" class="headerlink" title="题目要求"></a>题目要求</h2><p>在现有的 namespace <strong>ckad00014</strong> 中创建一个运行 <strong>6</strong> 个 Pod 副本 ,名为 <strong>api</strong> 的 Deployment 。 用 <strong>nginx:1.16</strong> 的镜像来指定一个容器。将名为 <strong>NGINX_PORT</strong> 且值为 <strong>8000</strong> 的环境变量添加到容器中 然后公开端口 <strong>80</strong></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://kubernetes.io/zh-cn/docs/tasks/inject-data-application/define-environment-variable-container/">https://kubernetes.io/zh-cn/docs/tasks/inject-data-application/define-environment-variable-container/</a></p>
+<p><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-deployment-em-">https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-deployment-em-</a></p>
+<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建一个deployment配置</span></span><br><span class="line">kubectl -n **ckad00014** create deployment api --image=nginx:1.16 --port=80 --dry-run=client -o yaml &gt; 09-deployment-with-env.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改配置</span></span><br><span class="line">vim 09-deployment-with-env.yaml</span><br><span class="line">apiVersion: apps/v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  creationTimestamp: null</span><br><span class="line">  labels:</span><br><span class="line">    app: api</span><br><span class="line">  name: api</span><br><span class="line">  namespace: ckad00014</span><br><span class="line">spec:</span><br><span class="line">  replicas: 6  <span class="comment"># 题目需求副本6个</span></span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app: api</span><br><span class="line">  strategy: &#123;&#125;</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      creationTimestamp: null</span><br><span class="line">      labels:</span><br><span class="line">        app: api</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - image: nginx:1.16</span><br><span class="line">        env:   <span class="comment"># 题目需求新增</span></span><br><span class="line">        - name: NGINX_PORT  <span class="comment"># 题目需求新增</span></span><br><span class="line">          value: <span class="string">&quot;8000&quot;</span>  <span class="comment"># 题目需求新增</span></span><br><span class="line">        name: nginx</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 80  <span class="comment"># 题目需求新增</span></span><br><span class="line">        resources: &#123;&#125;</span><br><span class="line">status: &#123;&#125;</span><br><span class="line"></span><br><span class="line">kubectl apply -f 09-deployment-with-env.yaml</span><br><span class="line">deployment.apps/api created</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查服务</span></span><br><span class="line">kubectl -n ckad00014 get all</span><br><span class="line">NAME                       READY   STATUS         RESTARTS   AGE</span><br><span class="line">pod/api-58cc7f8d5d-rk8jk   0/1     ErrImagePull   0          2m44s</span><br><span class="line"></span><br><span class="line">NAME                  READY   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">deployment.apps/api   0/1     1            0           2m44s</span><br><span class="line"></span><br><span class="line">NAME                             DESIRED   CURRENT   READY   AGE</span><br><span class="line">replicaset.apps/api-58cc7f8d5d   1         1         0       2m44s</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>ckad</category>
+      </categories>
+      <tags>
+        <tag>kubernetes</tag>
+        <tag>ckad</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CKAD模拟题:7-金丝雀部署</title>
     <url>/posts/8380b7d5/</url>
     <content><![CDATA[<h2 id="题目要求"><a href="#题目要求" class="headerlink" title="题目要求"></a>题目要求</h2><p>namespace <strong>goshawk</strong> 中名为 <strong>chipmunk-service</strong> 的 Service 指向名为 <strong>current-chipmunk-deployment</strong> 的 Deployment 创建的 5 个 Pod</p>
@@ -619,22 +629,6 @@
 <p><img src="/posts/8380b7d5/1709968950046.png" alt="1709968950046"></p>
 <h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://kubernetes.io/zh-cn/docs/concepts/cluster-administration/manage-deployment/#canary-deployments">https://kubernetes.io/zh-cn/docs/concepts/cluster-administration/manage-deployment/#canary-deployments</a></p>
 <h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 1.复制一份yaml文件,并进行编辑, 修改为canary-chipmunk-deployment部署的yaml</span></span><br><span class="line"><span class="built_in">cd</span> /ckad/goshawk/</span><br><span class="line">cp current-chipmunk-deployment.yaml canary-chipmunk-deployment.yaml</span><br><span class="line">vim canary-chipmunk-deployment.yaml</span><br><span class="line"></span><br><span class="line">apiVersion: apps/v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  name: canary-chipmunk-deployment <span class="comment">#修改为题目要求</span></span><br><span class="line">  namespace: goshawk <span class="comment">#修改为题目要求</span></span><br><span class="line">spec:</span><br><span class="line">  replicas: 1</span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app: canary-chipmunk-deployment <span class="comment">#修改为题目要求</span></span><br><span class="line">      run: dep-svc <span class="comment">#确保和current-chipmunk-deployment都有此标签</span></span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      labels:</span><br><span class="line">        app: canary-chipmunk-deployment <span class="comment">#修改为题目要求</span></span><br><span class="line">        run: dep-svc <span class="comment">#确保和current-chipmunk-deployment都有此标签</span></span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - image: vicuu/nginx:hi</span><br><span class="line">        name: nginx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建资源</span></span><br><span class="line">kubectl apply -f canary-chipmunk-deployment.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改pod数量，要求总计10个pod，**chipmunk.servic**e 流量的 **40%** 流向 Pod **canary-chipmunk-deployment</span></span><br><span class="line">kubectl -n goshawk scale deployment current-chipmunk-deployment --replicas 6</span><br><span class="line">kubectl -n goshawk scale deployment canary-chipmunk-deployment --replicas 4</span><br><span class="line"></span><br><span class="line"><span class="comment"># 测试验证</span></span><br><span class="line">kubectl -n goshawk get svc -owide</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> &#123;1..1000&#125; ; <span class="keyword">do</span>  curl -qs 10.109.141.220;<span class="keyword">done</span> | sort |uniq -c</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>ckad</category>
-      </categories>
-      <tags>
-        <tag>kubernetes</tag>
-        <tag>ckad</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>CKAD模拟题:9-创建 Deployment 并指定环境变量</title>
-    <url>/posts/2250b530/</url>
-    <content><![CDATA[<h2 id="题目要求"><a href="#题目要求" class="headerlink" title="题目要求"></a>题目要求</h2><p>在现有的 namespace <strong>ckad00014</strong> 中创建一个运行 <strong>6</strong> 个 Pod 副本 ,名为 <strong>api</strong> 的 Deployment 。 用 <strong>nginx:1.16</strong> 的镜像来指定一个容器。将名为 <strong>NGINX_PORT</strong> 且值为 <strong>8000</strong> 的环境变量添加到容器中 然后公开端口 <strong>80</strong></p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://kubernetes.io/zh-cn/docs/tasks/inject-data-application/define-environment-variable-container/">https://kubernetes.io/zh-cn/docs/tasks/inject-data-application/define-environment-variable-container/</a></p>
-<p><a href="https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-deployment-em-">https://kubernetes.io/docs/reference/generated/kubectl/kubectl-commands#-em-deployment-em-</a></p>
-<h2 id="解答"><a href="#解答" class="headerlink" title="解答"></a>解答</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建一个deployment配置</span></span><br><span class="line">kubectl -n **ckad00014** create deployment api --image=nginx:1.16 --port=80 --dry-run=client -o yaml &gt; 09-deployment-with-env.yaml</span><br><span class="line"></span><br><span class="line"><span class="comment"># 修改配置</span></span><br><span class="line">vim 09-deployment-with-env.yaml</span><br><span class="line">apiVersion: apps/v1</span><br><span class="line">kind: Deployment</span><br><span class="line">metadata:</span><br><span class="line">  creationTimestamp: null</span><br><span class="line">  labels:</span><br><span class="line">    app: api</span><br><span class="line">  name: api</span><br><span class="line">  namespace: ckad00014</span><br><span class="line">spec:</span><br><span class="line">  replicas: 6  <span class="comment"># 题目需求副本6个</span></span><br><span class="line">  selector:</span><br><span class="line">    matchLabels:</span><br><span class="line">      app: api</span><br><span class="line">  strategy: &#123;&#125;</span><br><span class="line">  template:</span><br><span class="line">    metadata:</span><br><span class="line">      creationTimestamp: null</span><br><span class="line">      labels:</span><br><span class="line">        app: api</span><br><span class="line">    spec:</span><br><span class="line">      containers:</span><br><span class="line">      - image: nginx:1.16</span><br><span class="line">        env:   <span class="comment"># 题目需求新增</span></span><br><span class="line">        - name: NGINX_PORT  <span class="comment"># 题目需求新增</span></span><br><span class="line">          value: <span class="string">&quot;8000&quot;</span>  <span class="comment"># 题目需求新增</span></span><br><span class="line">        name: nginx</span><br><span class="line">        ports:</span><br><span class="line">        - containerPort: 80  <span class="comment"># 题目需求新增</span></span><br><span class="line">        resources: &#123;&#125;</span><br><span class="line">status: &#123;&#125;</span><br><span class="line"></span><br><span class="line">kubectl apply -f 09-deployment-with-env.yaml</span><br><span class="line">deployment.apps/api created</span><br><span class="line"></span><br><span class="line"><span class="comment"># 检查服务</span></span><br><span class="line">kubectl -n ckad00014 get all</span><br><span class="line">NAME                       READY   STATUS         RESTARTS   AGE</span><br><span class="line">pod/api-58cc7f8d5d-rk8jk   0/1     ErrImagePull   0          2m44s</span><br><span class="line"></span><br><span class="line">NAME                  READY   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">deployment.apps/api   0/1     1            0           2m44s</span><br><span class="line"></span><br><span class="line">NAME                             DESIRED   CURRENT   READY   AGE</span><br><span class="line">replicaset.apps/api-58cc7f8d5d   1         1         0       2m44s</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
         <category>ckad</category>
@@ -1114,35 +1108,6 @@
       </tags>
   </entry>
   <entry>
-    <title>docker报错打开太多文件（too many open files）</title>
-    <url>/posts/743c406f/</url>
-    <content><![CDATA[<p>在Linux系统内默认对所有进程打开的文件数量有限制（也可以称为文件句柄，包含打开的文件，套接字，网络连接等都算是一个文件句柄）</p>
-<h2 id="查看当前系统限制最大文件打开数量"><a href="#查看当前系统限制最大文件打开数量" class="headerlink" title="查看当前系统限制最大文件打开数量"></a>查看当前系统限制最大文件打开数量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/fs/file-max</span><br><span class="line">2000000</span><br></pre></td></tr></table></figure>
-
-<h2 id="查询当前系统已打开文件数量"><a href="#查询当前系统已打开文件数量" class="headerlink" title="查询当前系统已打开文件数量"></a>查询当前系统已打开文件数量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/fs/file-nr</span><br><span class="line">8640    0       2000000    <span class="comment"># 左边的值为当前系统已打开文件数量，右侧表示当前系统限制最大文件打开数</span></span><br></pre></td></tr></table></figure>
-
-<p>以上查询得知当前系统打开文件句柄数未达到上限，往下排查Docker进程的最大文件句柄数限制及已打开文件数</p>
-<h2 id="查询当前Docker进程最大可打开文件数量及已打开文件数量"><a href="#查询当前Docker进程最大可打开文件数量及已打开文件数量" class="headerlink" title="查询当前Docker进程最大可打开文件数量及已打开文件数量"></a>查询当前Docker进程最大可打开文件数量及已打开文件数量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl status docker | grep PID      <span class="comment">#获取Docker进程的PID号</span></span><br><span class="line">Main PID: 14644 (dockerd)</span><br><span class="line">cat /proc/`pidof dockerd`/limits</span><br><span class="line"><span class="comment"># 或者使用</span></span><br><span class="line">ls -l /proc/`pidof dockerd`/fd/* | wc -l    <span class="comment">## 获取当前Docker进程已打开的文件数量</span></span><br><span class="line">65342      <span class="comment">#报错时该值达到了最大限制65536</span></span><br></pre></td></tr></table></figure>
-
-<h2 id="临时动态修改当前Docker进程的nofile限制，问题修复"><a href="#临时动态修改当前Docker进程的nofile限制，问题修复" class="headerlink" title="临时动态修改当前Docker进程的nofile限制，问题修复"></a>临时动态修改当前Docker进程的nofile限制，问题修复</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#将Docker进程的nofile限制调整为655360</span></span><br><span class="line">prlimit --pid 14644 --nofile=655360:655360   </span><br><span class="line"><span class="comment">#再次查询Docker进程状态发现问题已修复</span></span><br><span class="line">systemctl status docker </span><br><span class="line"><span class="comment">#查看当前Docker进程最大可打开文件数量</span></span><br><span class="line">cat /proc/`pidof dockerd`/limits   </span><br><span class="line">Max cpu time              unlimited            unlimited            seconds</span><br><span class="line">Max file size             unlimited            unlimited            bytes</span><br><span class="line">Max data size             unlimited            unlimited            bytes</span><br><span class="line">Max stack size            8388608              unlimited            bytes</span><br><span class="line">Max core file size        unlimited            unlimited            bytes</span><br><span class="line">Max resident <span class="built_in">set</span>          unlimited            unlimited            bytes</span><br><span class="line">Max processes             unlimited            unlimited            processes</span><br><span class="line">Max open files            655360               655360               files</span><br><span class="line">Max locked memory         65536                65536        				bytes</span><br><span class="line">Max address space         unlimited            unlimited            bytes</span><br><span class="line">Max file locks            unlimited            unlimited            locks</span><br><span class="line">Max pending signals       61943                61943                signals</span><br><span class="line">Max msgqueue size         819200               819200               bytes</span><br><span class="line">Max nice priority         0                    0</span><br><span class="line">Max realtime priority     0                    0</span><br><span class="line">Max realtime timeout      unlimited            unlimited            us</span><br></pre></td></tr></table></figure>
-
-<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><p>Q、修改daoker systemd服务配置参数LimitNOFILE=<strong><strong>infinity，不生效问题。</strong></strong></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ cat  /etc/redhat-release</span><br><span class="line">CentOS Linux release 7.6.1810 (Core)</span><br><span class="line">$ rpm -qa | grep systemd-sysv</span><br><span class="line">systemd-sysv-219-62.el7.x86_64</span><br><span class="line">$ uname -a</span><br><span class="line">Linux HZPL004094053 3.10.0-1160.76.1.el7.x86_64 <span class="comment">#1 SMP Wed Aug 10 16:21:17 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux</span></span><br><span class="line">$ cat /etc/systemd/system/docker.service | grep LimitNOFILE</span><br><span class="line">LimitNOFILE=infinity </span><br><span class="line"><span class="comment">#最终却得到65536</span></span><br><span class="line">cat /proc/`pidof dockerd`/limits |grep files</span><br><span class="line">Max open files            65536                65536                files</span><br></pre></td></tr></table></figure>
-
-<p>A、根治方案，修改systemd配置LimitNOFILE值</p>
-<p>该问题应该是systemd服务<a href="https://github.com/systemd/systemd/issues/6559">bug issue</a></p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/systemd/system/docker.service | grep LimitNOFILE</span><br><span class="line">LimitNOFILE=200000 <span class="comment"># 可以修改配置文件到20w以上。</span></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br><span class="line">cat /proc/`pidof dockerd`/limits |grep files</span><br><span class="line">Max open files            200000                200000                files</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>k8s</tag>
-        <tag>docker</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>calico-node异常重启</title>
     <url>/posts/d62f787/</url>
     <content><![CDATA[<h1 id="环境信息"><a href="#环境信息" class="headerlink" title="环境信息"></a>环境信息</h1><ul>
@@ -1182,33 +1147,32 @@
       </tags>
   </entry>
   <entry>
-    <title>kubelet统计磁盘inode耗时导致负载升高问题</title>
-    <url>/posts/b0f608c0/</url>
-    <content><![CDATA[<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>1、磁盘容量告警</p>
-<p><img src="/posts/b0f608c0/1685575843966.png" alt="1685575843966"></p>
-<p>2、对主机进行磁盘检查并尝试清理磁盘占用较高的pod，有5900多个文件描述符被打开没有关闭。</p>
-<p><img src="/posts/b0f608c0/1685576103317.png" alt="1685576103317"></p>
-<p><img src="/posts/b0f608c0/1685577904035.png" alt="1685577904035"></p>
-<p>通过平台删除该pod: product-center-query-pro-remain-5bfb5f4c98-m2l55</p>
-<p>3、主机负载冲高，触发告警</p>
-<p><img src="/posts/b0f608c0/1685575658188.png" alt="1685575658188"></p>
-<h1 id="根因排查"><a href="#根因排查" class="headerlink" title="根因排查"></a>根因排查</h1><p>1、根据系统日志发现磁盘最早在5月28日就出现了磁盘inode统计超时情况。</p>
-<p><img src="/posts/b0f608c0/1685576358306.png" alt="1685576358306"></p>
-<p>2、发现有个容器在/tmp目录创建了很多小文件，占用了大量的磁盘空间及Inode，可能是导致磁盘响应变慢的直接原因。</p>
-<p><img src="/posts/b0f608c0/1685601543912.png" alt="1685601543912"></p>
-<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><ul>
-<li>立即对主机进行疏散，避免再次出现异常，导致主机负载升高，影响业务pod。</li>
-<li>增加该kubelet日志告警（fs: disk usage and inodes count on following dirs took 1），提前发现及时人工介入进行处理。</li>
-</ul>
+    <title>docker报错打开太多文件（too many open files）</title>
+    <url>/posts/743c406f/</url>
+    <content><![CDATA[<p>在Linux系统内默认对所有进程打开的文件数量有限制（也可以称为文件句柄，包含打开的文件，套接字，网络连接等都算是一个文件句柄）</p>
+<h2 id="查看当前系统限制最大文件打开数量"><a href="#查看当前系统限制最大文件打开数量" class="headerlink" title="查看当前系统限制最大文件打开数量"></a>查看当前系统限制最大文件打开数量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/fs/file-max</span><br><span class="line">2000000</span><br></pre></td></tr></table></figure>
+
+<h2 id="查询当前系统已打开文件数量"><a href="#查询当前系统已打开文件数量" class="headerlink" title="查询当前系统已打开文件数量"></a>查询当前系统已打开文件数量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /proc/sys/fs/file-nr</span><br><span class="line">8640    0       2000000    <span class="comment"># 左边的值为当前系统已打开文件数量，右侧表示当前系统限制最大文件打开数</span></span><br></pre></td></tr></table></figure>
+
+<p>以上查询得知当前系统打开文件句柄数未达到上限，往下排查Docker进程的最大文件句柄数限制及已打开文件数</p>
+<h2 id="查询当前Docker进程最大可打开文件数量及已打开文件数量"><a href="#查询当前Docker进程最大可打开文件数量及已打开文件数量" class="headerlink" title="查询当前Docker进程最大可打开文件数量及已打开文件数量"></a>查询当前Docker进程最大可打开文件数量及已打开文件数量</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">systemctl status docker | grep PID      <span class="comment">#获取Docker进程的PID号</span></span><br><span class="line">Main PID: 14644 (dockerd)</span><br><span class="line">cat /proc/`pidof dockerd`/limits</span><br><span class="line"><span class="comment"># 或者使用</span></span><br><span class="line">ls -l /proc/`pidof dockerd`/fd/* | wc -l    <span class="comment">## 获取当前Docker进程已打开的文件数量</span></span><br><span class="line">65342      <span class="comment">#报错时该值达到了最大限制65536</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="临时动态修改当前Docker进程的nofile限制，问题修复"><a href="#临时动态修改当前Docker进程的nofile限制，问题修复" class="headerlink" title="临时动态修改当前Docker进程的nofile限制，问题修复"></a>临时动态修改当前Docker进程的nofile限制，问题修复</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment">#将Docker进程的nofile限制调整为655360</span></span><br><span class="line">prlimit --pid 14644 --nofile=655360:655360   </span><br><span class="line"><span class="comment">#再次查询Docker进程状态发现问题已修复</span></span><br><span class="line">systemctl status docker </span><br><span class="line"><span class="comment">#查看当前Docker进程最大可打开文件数量</span></span><br><span class="line">cat /proc/`pidof dockerd`/limits   </span><br><span class="line">Max cpu time              unlimited            unlimited            seconds</span><br><span class="line">Max file size             unlimited            unlimited            bytes</span><br><span class="line">Max data size             unlimited            unlimited            bytes</span><br><span class="line">Max stack size            8388608              unlimited            bytes</span><br><span class="line">Max core file size        unlimited            unlimited            bytes</span><br><span class="line">Max resident <span class="built_in">set</span>          unlimited            unlimited            bytes</span><br><span class="line">Max processes             unlimited            unlimited            processes</span><br><span class="line">Max open files            655360               655360               files</span><br><span class="line">Max locked memory         65536                65536        				bytes</span><br><span class="line">Max address space         unlimited            unlimited            bytes</span><br><span class="line">Max file locks            unlimited            unlimited            locks</span><br><span class="line">Max pending signals       61943                61943                signals</span><br><span class="line">Max msgqueue size         819200               819200               bytes</span><br><span class="line">Max nice priority         0                    0</span><br><span class="line">Max realtime priority     0                    0</span><br><span class="line">Max realtime timeout      unlimited            unlimited            us</span><br></pre></td></tr></table></figure>
+
+<h2 id="FAQ"><a href="#FAQ" class="headerlink" title="FAQ"></a>FAQ</h2><p>Q、修改daoker systemd服务配置参数LimitNOFILE=<strong><strong>infinity，不生效问题。</strong></strong></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ cat  /etc/redhat-release</span><br><span class="line">CentOS Linux release 7.6.1810 (Core)</span><br><span class="line">$ rpm -qa | grep systemd-sysv</span><br><span class="line">systemd-sysv-219-62.el7.x86_64</span><br><span class="line">$ uname -a</span><br><span class="line">Linux HZPL004094053 3.10.0-1160.76.1.el7.x86_64 <span class="comment">#1 SMP Wed Aug 10 16:21:17 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux</span></span><br><span class="line">$ cat /etc/systemd/system/docker.service | grep LimitNOFILE</span><br><span class="line">LimitNOFILE=infinity </span><br><span class="line"><span class="comment">#最终却得到65536</span></span><br><span class="line">cat /proc/`pidof dockerd`/limits |grep files</span><br><span class="line">Max open files            65536                65536                files</span><br></pre></td></tr></table></figure>
+
+<p>A、根治方案，修改systemd配置LimitNOFILE值</p>
+<p>该问题应该是systemd服务<a href="https://github.com/systemd/systemd/issues/6559">bug issue</a></p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">cat /etc/systemd/system/docker.service | grep LimitNOFILE</span><br><span class="line">LimitNOFILE=200000 <span class="comment"># 可以修改配置文件到20w以上。</span></span><br><span class="line">systemctl daemon-reload</span><br><span class="line">systemctl restart docker</span><br><span class="line">cat /proc/`pidof dockerd`/limits |grep files</span><br><span class="line">Max open files            200000                200000                files</span><br></pre></td></tr></table></figure>
 ]]></content>
       <categories>
-        <category>kubernetes</category>
+        <category>linux</category>
       </categories>
       <tags>
         <tag>linux</tag>
-        <tag>kubernetes</tag>
         <tag>k8s</tag>
-        <tag>容器</tag>
+        <tag>docker</tag>
       </tags>
   </entry>
   <entry>
@@ -1305,6 +1269,36 @@
       <tags>
         <tag>kubernetes</tag>
         <tag>k8s</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>kubelet统计磁盘inode耗时导致负载升高问题</title>
+    <url>/posts/b0f608c0/</url>
+    <content><![CDATA[<h1 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h1><p>1、磁盘容量告警</p>
+<p><img src="/posts/b0f608c0/1685575843966.png" alt="1685575843966"></p>
+<p>2、对主机进行磁盘检查并尝试清理磁盘占用较高的pod，有5900多个文件描述符被打开没有关闭。</p>
+<p><img src="/posts/b0f608c0/1685576103317.png" alt="1685576103317"></p>
+<p><img src="/posts/b0f608c0/1685577904035.png" alt="1685577904035"></p>
+<p>通过平台删除该pod: product-center-query-pro-remain-5bfb5f4c98-m2l55</p>
+<p>3、主机负载冲高，触发告警</p>
+<p><img src="/posts/b0f608c0/1685575658188.png" alt="1685575658188"></p>
+<h1 id="根因排查"><a href="#根因排查" class="headerlink" title="根因排查"></a>根因排查</h1><p>1、根据系统日志发现磁盘最早在5月28日就出现了磁盘inode统计超时情况。</p>
+<p><img src="/posts/b0f608c0/1685576358306.png" alt="1685576358306"></p>
+<p>2、发现有个容器在/tmp目录创建了很多小文件，占用了大量的磁盘空间及Inode，可能是导致磁盘响应变慢的直接原因。</p>
+<p><img src="/posts/b0f608c0/1685601543912.png" alt="1685601543912"></p>
+<h1 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h1><ul>
+<li>立即对主机进行疏散，避免再次出现异常，导致主机负载升高，影响业务pod。</li>
+<li>增加该kubelet日志告警（fs: disk usage and inodes count on following dirs took 1），提前发现及时人工介入进行处理。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>kubernetes</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>kubernetes</tag>
+        <tag>k8s</tag>
+        <tag>容器</tag>
       </tags>
   </entry>
   <entry>
@@ -2312,6 +2306,577 @@
         <tag>kubernetes</tag>
         <tag>k8s</tag>
         <tag>security</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CKAD模拟题2024</title>
+    <url>/posts/61bd4278/</url>
+    <content><![CDATA[<h2 id="Question-1-Namespaces"><a href="#Question-1-Namespaces" class="headerlink" title="Question 1 | Namespaces"></a><strong>Question 1 | Namespaces</strong></h2><p>The DevOps team would like to get the list of all <em>Namespaces</em> in the cluster. Get the list and save it to <code>/opt/course/1/namespaces</code>.</p>
+<h3 id="Answer"><a href="#Answer" class="headerlink" title="Answer:"></a><strong>Answer:</strong></h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k get ns &gt; /opt/course/1/namespaces</span><br></pre></td></tr></table></figure>
+
+<p>The content should then look like:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># /opt/course/1/namespacesNAME           STATUS   AGEdefault        Active   150mearth          Active   76mjupiter        Active   76mkube-public    Active   150mkube-system    Active   150mmars           Active   76mmercury        Active   76mmoon           Active   76mneptune        Active   76mpluto          Active   76msaturn         Active   76mshell-intern   Active   76msun            Active   76mvenus          Active   76m</span><br></pre></td></tr></table></figure>
+
+<h2 id="Question-2-Pods"><a href="#Question-2-Pods" class="headerlink" title="Question 2 | Pods"></a><strong>Question 2 | Pods</strong></h2><p>Create a single <em>Pod</em> of image <code>httpd:2.4.41-alpine</code> in <em>Namespace</em> <code>default</code>. The <em>Pod</em> should be named <code>pod1</code> and the container should be named <code>pod1-container</code>.</p>
+<p>Your manager would like to run a command manually on occasion to output the status of that exact  <em>Pod</em> . Please write a command that does this into <code>/opt/course/2/pod1-status-command.sh</code>. The command should use <code>kubectl</code>.</p>
+<h3 id="Answer-1"><a href="#Answer-1" class="headerlink" title="Answer:"></a><strong>Answer:</strong></h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k run # help# check the export on the very top of this document so we can use $dok run pod1 --image=httpd:2.4.41-alpine $do &gt; 2.yamlvim 2.yaml</span><br></pre></td></tr></table></figure>
+
+<p>Change the container name in <code>2.yaml</code> to <code>pod1-container</code>:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># 2.yamlapiVersion: v1kind: Podmetadata:  creationTimestamp: null  labels:    run: pod1  name: pod1spec:  containers:  - image: httpd:2.4.41-alpine    name: pod1-container # change    resources: &#123;&#125;  dnsPolicy: ClusterFirst  restartPolicy: Alwaysstatus: &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Then run:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k create -f 2.yamlpod/pod1 created➜ k get podNAME   READY   STATUS              RESTARTS   AGEpod1   0/1     ContainerCreating   0          6s➜ k get podNAME   READY   STATUS    RESTARTS   AGEpod1   1/1     Running   0          30s</span><br></pre></td></tr></table></figure>
+
+<p>Next create the requested command:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">vim /opt/course/2/pod1-status-command.sh</span><br></pre></td></tr></table></figure>
+
+<p>The content of the command file could look like:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># /opt/course/2/pod1-status-command.shkubectl -n default describe pod pod1 | grep -i status:</span><br></pre></td></tr></table></figure>
+
+<p>Another solution would be using jsonpath:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># /opt/course/2/pod1-status-command.shkubectl -n default get pod pod1 -o jsonpath=&quot;&#123;.status.phase&#125;&quot;</span><br></pre></td></tr></table></figure>
+
+<p>To test the command:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ sh /opt/course/2/pod1-status-command.shRunning</span><br></pre></td></tr></table></figure>
+
+<h2 id="Question-3-Job"><a href="#Question-3-Job" class="headerlink" title="Question 3 | Job"></a><strong>Question 3 | Job</strong></h2><p>Team Neptune needs a <em>Job</em> template located at <code>/opt/course/3/job.yaml</code>. This <em>Job</em> should run image <code>busybox:1.31.0</code> and execute <code>sleep 2 &amp;&amp; echo done</code>. It should be in namespace <code>neptune</code>, run a total of 3 times and should execute 2 runs in parallel.</p>
+<p>Start the <em>Job</em> and check its history. Each pod created by the <em>Job</em> should have the label <code>id: awesome-job</code>. The job should be named <code>neb-new-job</code> and the container <code>neb-new-job-container</code>.</p>
+<h3 id="Answer-2"><a href="#Answer-2" class="headerlink" title="Answer:"></a><strong>Answer:</strong></h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n neptun create job -h# check the export on the very top of this document so we can use $dok -n neptune create job neb-new-job --image=busybox:1.31.0 $do &gt; /opt/course/3/job.yaml -- sh -c &quot;sleep 2 &amp;&amp; echo done&quot;vim /opt/course/3/job.yaml</span><br></pre></td></tr></table></figure>
+
+<p>Make the required changes in the yaml:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># /opt/course/3/job.yamlapiVersion: batch/v1kind: Jobmetadata:  creationTimestamp: null  name: neb-new-job  namespace: neptune      # addspec:  completions: 3          # add  parallelism: 2          # add  template:    metadata:      creationTimestamp: null      labels:             # add        id: awesome-job   # add    spec:      containers:      - command:        - sh        - -c        - sleep 2 &amp;&amp; echo done        image: busybox:1.31.0        name: neb-new-job-container # update        resources: &#123;&#125;      restartPolicy: Neverstatus: &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Then to create it:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -f /opt/course/3/job.yaml create # namespace already set in yaml</span><br></pre></td></tr></table></figure>
+
+<p>Check <em>Job</em> and  <em>Pods</em> , you should see two running parallel at most but three in total:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n neptune get pod,job | grep neb-new-jobpod/neb-new-job-jhq2g              0/1     ContainerCreating   0          4spod/neb-new-job-vf6ts              0/1     ContainerCreating   0          4sjob.batch/neb-new-job   0/3           4s         5s➜ k -n neptune get pod,job | grep neb-new-jobpod/neb-new-job-gm8sz              0/1     ContainerCreating   0          0spod/neb-new-job-jhq2g              0/1     Completed           0          10spod/neb-new-job-vf6ts              1/1     Running             0          10sjob.batch/neb-new-job   1/3           10s        11s➜ k -n neptune get pod,job | grep neb-new-jobpod/neb-new-job-gm8sz              0/1     ContainerCreating   0          5spod/neb-new-job-jhq2g              0/1     Completed           0          15spod/neb-new-job-vf6ts              0/1     Completed           0          15sjob.batch/neb-new-job   2/3           15s        16s➜ k -n neptune get pod,job | grep neb-new-jobpod/neb-new-job-gm8sz              0/1     Completed          0          12spod/neb-new-job-jhq2g              0/1     Completed          0          22spod/neb-new-job-vf6ts              0/1     Completed          0          22sjob.batch/neb-new-job   3/3           21s        23s</span><br></pre></td></tr></table></figure>
+
+<p>Check history:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n neptune describe job neb-new-job...Events:  Type    Reason            Age    From            Message  ----    ------            ----   ----            -------  Normal  SuccessfulCreate  2m52s  job-controller  Created pod: neb-new-job-jhq2g  Normal  SuccessfulCreate  2m52s  job-controller  Created pod: neb-new-job-vf6ts  Normal  SuccessfulCreate  2m42s  job-controller  Created pod: neb-new-job-gm8sz</span><br></pre></td></tr></table></figure>
+
+<p>At the age column we can see that two <code>pods</code> run parallel and the third one after that. Just as it was required in the task.</p>
+<h2 id="Question-4-Helm-Management"><a href="#Question-4-Helm-Management" class="headerlink" title="Question 4 | Helm Management"></a><strong>Question 4 | Helm Management</strong></h2><p>Team Mercury asked you to perform some operations using Helm, all in <em>Namespace</em> <code>mercury</code>:</p>
+<ol>
+<li>Delete release <code>internal-issue-report-apiv1</code></li>
+<li>Upgrade release <code>internal-issue-report-apiv2</code> to any newer version of chart <code>bitnami/nginx</code> available</li>
+<li>Install a new release <code>internal-issue-report-apache</code> of chart <code>bitnami/apache</code>. The <em>Deployment</em> should have two replicas, set these via Helm-values during install</li>
+<li>There seems to be a broken release, stuck in <code>pending-install</code> state. Find it and delete it</li>
+</ol>
+<h3 id="Answer-3"><a href="#Answer-3" class="headerlink" title="Answer:"></a><strong>Answer:</strong></h3><p> <em>Helm Chart</em> : Kubernetes YAML template-files combined into a single package, <em>Values</em> allow customisation</p>
+<p> <em>Helm Release</em> : Installed instance of a <em>Chart</em></p>
+<p> <em>Helm Values</em> : Allow to customise the YAML template-files in a <em>Chart</em> when creating a <em>Release</em></p>
+<p><strong>1.</strong></p>
+<p>First we should delete the required release:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ helm -n mercury lsNAME                            NAMESPACE     STATUS          CHART           APP VERSIONinternal-issue-report-apiv1     mercury       deployed        nginx-9.5.0     1.21.1internal-issue-report-apiv2     mercury       deployed        nginx-9.5.0     1.21.1internal-issue-report-app       mercury       deployed        nginx-9.5.0     1.21.1➜ helm -n mercury uninstall internal-issue-report-apiv1release &quot;internal-issue-report-apiv1&quot; uninstalled➜ helm -n mercury lsNAME                            NAMESPACE     STATUS          CHART           APP VERSIONinternal-issue-report-apiv2     mercury       deployed        nginx-9.5.0     1.21.1internal-issue-report-app       mercury       deployed        nginx-9.5.0     1.21.1</span><br></pre></td></tr></table></figure>
+
+<p> <strong>2</strong> .</p>
+<p>Next we need to upgrade a release, for this we could first list the charts of the repo:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ helm repo listNAME    URLbitnami &lt;https://charts.bitnami.com/bitnami➜&gt; helm repo updateHang tight while we grab the latest from your chart repositories......Successfully got an update from the &quot;bitnami&quot; chart repositoryUpdate Complete. ⎈Happy Helming!⎈➜ helm search repo nginxNAME                  CHART VERSION   APP VERSION     DESCRIPTIONbitnami/nginx         9.5.2           1.21.1          Chart for the nginx server             ...</span><br></pre></td></tr></table></figure>
+
+<p>Here we see that a newer chart version <code>9.5.2</code> is available. But the task only requires us to upgrade to any newer chart version available, so we can simply run:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ helm -n mercury upgrade internal-issue-report-apiv2 bitnami/nginxRelease &quot;internal-issue-report-apiv2&quot; has been upgraded. Happy Helming!NAME: internal-issue-report-apiv2LAST DEPLOYED: Tue Aug 31 17:40:42 2021NAMESPACE: mercurySTATUS: deployedREVISION: 2TEST SUITE: None...➜ helm -n mercury lsNAME                            NAMESPACE     STATUS          CHART           APP VERSIONinternal-issue-report-apiv2     mercury       deployed        nginx-9.5.2     1.21.1internal-issue-report-app       mercury       deployed        nginx-9.5.0     1.21.1</span><br></pre></td></tr></table></figure>
+
+<p>Looking good!</p>
+<blockquote>
+<p>INFO: Also check out helm rollback for undoing a helm rollout/upgrade</p>
+</blockquote>
+<p><strong>3.</strong></p>
+<p>Now we’re asked to install a new release, with a customised values setting. For this we first list all possible value settings for the chart, we can do this via:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">helm show values bitnami/apache # will show a long list of all possible value-settingshelm show values bitnami/apache | yq e # parse yaml and show with colors</span><br></pre></td></tr></table></figure>
+
+<p>Huge list, if we search in it we should find the setting <code>replicaCount: 1</code> on top level. This means we can run:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ helm -n mercury install internal-issue-report-apache bitnami/apache --set replicaCount=2NAME: internal-issue-report-apacheLAST DEPLOYED: Tue Aug 31 17:57:23 2021NAMESPACE: mercurySTATUS: deployedREVISION: 1TEST SUITE: None...</span><br></pre></td></tr></table></figure>
+
+<p>If we would also need to set a value on a deeper level, for example <code>image.debug</code>, we could run:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">helm -n mercury install internal-issue-report-apache bitnami/apache \\  --set replicaCount=2 \\  --set image.debug=true</span><br></pre></td></tr></table></figure>
+
+<p>Install done, let’s verify what we did:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ helm -n mercury lsNAME                            NAMESPACE     STATUS          CHART           APP VERSIONinternal-issue-report-apache    mercury       deployed        apache-8.6.3    2.4.48...➜ k -n mercury get deploy internal-issue-report-apacheNAME                           READY   UP-TO-DATE   AVAILABLE   AGEinternal-issue-report-apache   2/2     2            2           96s</span><br></pre></td></tr></table></figure>
+
+<p>We see a healthy deployment with two replicas!</p>
+<p><strong>4.</strong></p>
+<p>By default releases in <code>pending-upgrade</code> state aren’t listed, but we can show all to find and delete the broken release:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ helm -n mercury ls -aNAME                            NAMESPACE     STATUS          CHART           APP VERSIONinternal-issue-report-apache    mercury       deployed        apache-8.6.3    2.4.48internal-issue-report-apiv2     mercury       deployed        nginx-9.5.2     1.21.1internal-issue-report-app       mercury       deployed        nginx-9.5.0     1.21.1internal-issue-report-daniel    mercury       pending-install nginx-9.5.0     1.21.1➜ helm -n mercury uninstall internal-issue-report-danielrelease &quot;internal-issue-report-daniel&quot; uninstalled</span><br></pre></td></tr></table></figure>
+
+<p>Thank you Helm for making our lifes easier! (Till something breaks)</p>
+<h2 id="Question-5-ServiceAccount-Secret"><a href="#Question-5-ServiceAccount-Secret" class="headerlink" title="Question 5 | ServiceAccount, Secret"></a><strong>Question 5 | ServiceAccount, Secret</strong></h2><p>Team Neptune has its own <em>ServiceAccount</em> named <code>neptune-sa-v2</code> in <em>Namespace</em> <code>neptune</code>. A coworker needs the token from the <em>Secret</em> that belongs to that  <em>ServiceAccount</em> . Write the base64 decoded token to file <code>/opt/course/5/token</code>.</p>
+<h3 id="Answer-4"><a href="#Answer-4" class="headerlink" title="Answer:"></a><strong>Answer:</strong></h3><blockquote>
+<p>Since K8s 1.24, Secrets won’t be created automatically for ServiceAccounts any longer. But it’s still possible to create a Secret manually and attach it to a ServiceAccount by setting the correct annotation on the Secret. This was done for this task.</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n neptune get sa # get overviewk -n neptune get secrets # shows all secrets of namespacek -n neptune get secrets -oyaml | grep annotations -A 1 # shows secrets with first annotation</span><br></pre></td></tr></table></figure>
+
+<p>If a <em>Secret</em> belongs to a  <em>ServiceAccont</em> , it’ll have the annotation <code>kubernetes.io/service-account.name</code>. Here the <em>Secret</em> we’re looking for is <code>neptune-secret-1</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n neptune get secret neptune-secret-1 -o yamlapiVersion: v1data:...  token: ZXlKaGJHY2lPaUpTVXpJMU5pSXNJbXRwWkNJNkltNWFaRmRxWkRKMmFHTnZRM0JxV0haT1IxZzFiM3BJY201SlowaEhOV3hUWmt3elFuRmFhVEZhZDJNaWZRLmV5SnBjM01pT2lKcmRXSmxjbTVsZEdWekwzTmxjblpwWTJWaFkyTnZkVzUwSWl3aWEzVmlaWEp1WlhSbGN5NXBieTl6WlhKMmFXTmxZV05qYjNWdWRDOXVZVzFsYzNCaFkyVWlPaUp1WlhCMGRXNWxJaXdpYTNWaVpYSnVaWFJsY3k1cGJ5OXpaWEoyYVdObFlXTmpiM1Z1ZEM5elpXTnlaWFF1Ym1GdFpTSTZJbTVsY0hSMWJtVXRjMkV0ZGpJdGRHOXJaVzR0Wm5FNU1tb2lMQ0pyZFdKbGNtNWxkR1Z6TG1sdkwzTmxjblpwWTJWaFkyTnZkVzUwTDNObGNuWnBZMlV0WVdOamIzVnVkQzV1WVcxbElqb2libVZ3ZEhWdVpTMXpZUzEyTWlJc0ltdDFZbVZ5Ym1WMFpYTXVhVzh2YzJWeWRtbGpaV0ZqWTI5MWJuUXZjMlZ5ZG1salpTMWhZMk52ZFc1MExuVnBaQ0k2SWpZMlltUmpOak0yTFRKbFl6TXROREpoWkMwNE9HRTFMV0ZoWXpGbFpqWmxPVFpsTlNJc0luTjFZaUk2SW5ONWMzUmxiVHB6WlhKMmFXTmxZV05qYjNWdWREcHVaWEIwZFc1bE9tNWxjSFIxYm1VdGMyRXRkaklpZlEuVllnYm9NNENUZDBwZENKNzh3alV3bXRhbGgtMnZzS2pBTnlQc2gtNmd1RXdPdFdFcTVGYnc1WkhQdHZBZHJMbFB6cE9IRWJBZTRlVU05NUJSR1diWUlkd2p1Tjk1SjBENFJORmtWVXQ0OHR3b2FrUlY3aC1hUHV3c1FYSGhaWnp5NHlpbUZIRzlVZm1zazVZcjRSVmNHNm4xMzd5LUZIMDhLOHpaaklQQXNLRHFOQlF0eGctbFp2d1ZNaTZ2aUlocnJ6QVFzME1CT1Y4Mk9KWUd5Mm8tV1FWYzBVVWFuQ2Y5NFkzZ1QwWVRpcVF2Y3pZTXM2bno5dXQtWGd3aXRyQlk2VGo5QmdQcHJBOWtfajVxRXhfTFVVWlVwUEFpRU43T3pka0pzSThjdHRoMTBseXBJMUFlRnI0M3Q2QUx5clFvQk0zOWFiRGZxM0Zrc1Itb2NfV013kind: Secret...</span><br></pre></td></tr></table></figure>
+
+<p>This shows the base64 encoded token. To get the encoded one we could pipe it manually through <code>base64 -d</code> or we simply do:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n neptune describe secret neptune-secret-1...Data====token:      eyJhbGciOiJSUzI1NiIsImtpZCI6Im5aZFdqZDJ2aGNvQ3BqWHZOR1g1b3pIcm5JZ0hHNWxTZkwzQnFaaTFad2MifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJuZXB0dW5lIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6Im5lcHR1bmUtc2EtdjItdG9rZW4tZnE5MmoiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoibmVwdHVuZS1zYS12MiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjY2YmRjNjM2LTJlYzMtNDJhZC04OGE1LWFhYzFlZjZlOTZlNSIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpuZXB0dW5lOm5lcHR1bmUtc2EtdjIifQ.VYgboM4CTd0pdCJ78wjUwmtalh-2vsKjANyPsh-6guEwOtWEq5Fbw5ZHPtvAdrLlPzpOHEbAe4eUM95BRGWbYIdwjuN95J0D4RNFkVUt48twoakRV7h-aPuwsQXHhZZzy4yimFHG9Ufmsk5Yr4RVcG6n137y-FH08K8zZjIPAsKDqNBQtxg-lZvwVMi6viIhrrzAQs0MBOV82OJYGy2o-WQVc0UUanCf94Y3gT0YTiqQvczYMs6nz9ut-XgwitrBY6Tj9BgPprA9k_j5qEx_LUUZUpPAiEN7OzdkJsI8ctth10lypI1AeFr43t6ALyrQoBM39abDfq3FksR-oc_WMwca.crt:     1066 bytesnamespace:  7 bytes</span><br></pre></td></tr></table></figure>
+
+<p>Copy the token (part under <code>token:</code>) and paste it using vim.</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">vim /opt/course/5/token</span><br></pre></td></tr></table></figure>
+
+<p>File <code>/opt/course/5/token</code> should contain the token:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># /opt/course/5/tokeneyJhbGciOiJSUzI1NiIsImtpZCI6Im5aZFdqZDJ2aGNvQ3BqWHZOR1g1b3pIcm5JZ0hHNWxTZkwzQnFaaTFad2MifQ.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJuZXB0dW5lIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZWNyZXQubmFtZSI6Im5lcHR1bmUtc2EtdjItdG9rZW4tZnE5MmoiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC5uYW1lIjoibmVwdHVuZS1zYS12MiIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VydmljZS1hY2NvdW50LnVpZCI6IjY2YmRjNjM2LTJlYzMtNDJhZC04OGE1LWFhYzFlZjZlOTZlNSIsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDpuZXB0dW5lOm5lcHR1bmUtc2EtdjIifQ.VYgboM4CTd0pdCJ78wjUwmtalh-2vsKjANyPsh-6guEwOtWEq5Fbw5ZHPtvAdrLlPzpOHEbAe4eUM95BRGWbYIdwjuN95J0D4RNFkVUt48twoakRV7h-aPuwsQXHhZZzy4yimFHG9Ufmsk5Yr4RVcG6n137y-FH08K8zZjIPAsKDqNBQtxg-lZvwVMi6viIhrrzAQs0MBOV82OJYGy2o-WQVc0UUanCf94Y3gT0YTiqQvczYMs6nz9ut-XgwitrBY6Tj9BgPprA9k_j5qEx_LUUZUpPAiEN7OzdkJsI8ctth10lypI1AeFr43t6ALyrQoBM39abDfq3FksR-oc_WMw</span><br></pre></td></tr></table></figure>
+
+<h2 id="Question-6-ReadinessProbe"><a href="#Question-6-ReadinessProbe" class="headerlink" title="Question 6 | ReadinessProbe"></a><strong>Question 6 | ReadinessProbe</strong></h2><p>Create a single <em>Pod</em> named <code>pod6</code> in <em>Namespace</em> <code>default</code> of image <code>busybox:1.31.0</code>. The <em>Pod</em> should have a readiness-probe executing <code>cat /tmp/ready</code>. It should initially wait 5 and periodically wait 10 seconds. This will set the container ready only if the file <code>/tmp/ready</code> exists.</p>
+<p>The <em>Pod</em> should run the command <code>touch /tmp/ready &amp;&amp; sleep 1d</code>, which will create the necessary file to be ready and then idles. Create the <em>Pod</em> and confirm it starts.</p>
+<h3 id="Answer-5"><a href="#Answer-5" class="headerlink" title="Answer:"></a><strong>Answer:</strong></h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k run pod6 --image=busybox:1.31.0 $do --command -- sh -c &quot;touch /tmp/ready &amp;&amp; sleep 1d&quot; &gt; 6.yamlvim 6.yaml</span><br></pre></td></tr></table></figure>
+
+<p>Search for a readiness-probe example on <a href="https://kubernetes.io/docs">https://kubernetes.io/docs</a>, then copy and alter the relevant section for the task:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># 6.yamlapiVersion: v1kind: Podmetadata:  creationTimestamp: null  labels:    run: pod6  name: pod6spec:  containers:  - command:    - sh    - -c    - touch /tmp/ready &amp;&amp; sleep 1d    image: busybox:1.31.0    name: pod6    resources: &#123;&#125;    readinessProbe:                             # add      exec:                                     # add        command:                                # add        - sh                                    # add        - -c                                    # add        - cat /tmp/ready                        # add      initialDelaySeconds: 5                    # add      periodSeconds: 10                         # add  dnsPolicy: ClusterFirst  restartPolicy: Alwaysstatus: &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Then:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -f 6.yaml create</span><br></pre></td></tr></table></figure>
+
+<p>Running <code>k get pod6</code> we should see the job being created and completed:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k get pod pod6NAME   READY   STATUS              RESTARTS   AGEpod6   0/1     ContainerCreating   0          2s➜ k get pod pod6NAME   READY   STATUS    RESTARTS   AGEpod6   0/1     Running   0          7s➜ k get pod pod6NAME   READY   STATUS    RESTARTS   AGEpod6   1/1     Running   0          15s</span><br></pre></td></tr></table></figure>
+
+<p>We see that the <em>Pod</em> is finally ready.</p>
+<h2 id="Question-7-Pods-Namespaces"><a href="#Question-7-Pods-Namespaces" class="headerlink" title="Question 7 | Pods, Namespaces"></a><strong>Question 7 | Pods, Namespaces</strong></h2><p>The board of Team Neptune decided to take over control of one e-commerce webserver from Team Saturn. The administrator who once setup this webserver is not part of the organisation any longer. All information you could get was that the e-commerce system is called <code>my-happy-shop</code>.</p>
+<p>Search for the correct <em>Pod</em> in <em>Namespace</em> <code>saturn</code> and move it to <em>Namespace</em> <code>neptune</code>. It doesn’t matter if you shut it down and spin it up again, it probably hasn’t any customers anyways.</p>
+<h3 id="Answer-6"><a href="#Answer-6" class="headerlink" title="Answer:"></a><strong>Answer:</strong></h3><p>Let’s see all those  <em>Pods</em> :</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n saturn get podNAME                READY   STATUS    RESTARTS   AGEwebserver-sat-001   1/1     Running   0          111mwebserver-sat-002   1/1     Running   0          111mwebserver-sat-003   1/1     Running   0          111mwebserver-sat-004   1/1     Running   0          111mwebserver-sat-005   1/1     Running   0          111mwebserver-sat-006   1/1     Running   0          111m</span><br></pre></td></tr></table></figure>
+
+<p>The <em>Pod</em> names don’t reveal any information. We assume the <em>Pod</em> we are searching has a <em>label</em> or <em>annotation</em> with the name <code>my-happy-shop</code>, so we search for it:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n saturn describe pod # describe all pods, then manually look for it# or do some filtering like thisk -n saturn get pod -o yaml | grep my-happy-shop -A10</span><br></pre></td></tr></table></figure>
+
+<p>We see the webserver we’re looking for is <code>webserver-sat-003</code></p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n saturn get pod webserver-sat-003 -o yaml &gt; 7_webserver-sat-003.yaml # exportvim 7_webserver-sat-003.yaml</span><br></pre></td></tr></table></figure>
+
+<p>Change the <em>Namespace</em> to <code>neptune</code>, also remove the <code>status:</code> section, the token <code>volume</code>, the token <code>volumeMount</code> and the <code>nodeName</code>, else the new <em>Pod</em> won’t start. The final file could look as clean like this:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># 7_webserver-sat-003.yamlapiVersion: v1kind: Podmetadata:  annotations:    description: this is the server for the E-Commerce System my-happy-shop  labels:    id: webserver-sat-003  name: webserver-sat-003  namespace: neptune # new namespace herespec:  containers:  - image: nginx:1.16.1-alpine    imagePullPolicy: IfNotPresent    name: webserver-sat  restartPolicy: Always</span><br></pre></td></tr></table></figure>
+
+<p>Then we execute:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n neptune create -f 7_webserver-sat-003.yaml</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n neptune get pod | grep webserverwebserver-sat-003               1/1     Running            0          22s</span><br></pre></td></tr></table></figure>
+
+<p>It seems the server is running in <em>Namespace</em> <code>neptune</code>, so we can do:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n saturn delete pod webserver-sat-003 --force --grace-period=0</span><br></pre></td></tr></table></figure>
+
+<p>Let’s confirm only one is running:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k get pod -A | grep webserver-sat-003neptune        webserver-sat-003         1/1     Running            0          6s</span><br></pre></td></tr></table></figure>
+
+<p>This should list only one pod called <code>webserver-sat-003</code> in <em>Namespace</em> <code>neptune</code>, status running.</p>
+<h2 id="Question-8-Deployment-Rollouts"><a href="#Question-8-Deployment-Rollouts" class="headerlink" title="Question 8 | Deployment, Rollouts"></a><strong>Question 8 | Deployment, Rollouts</strong></h2><p>There is an existing <em>Deployment</em> named <code>api-new-c32</code> in <em>Namespace</em> <code>neptune</code>. A developer did make an update to the <em>Deployment</em> but the updated version never came online. Check the <em>Deployment</em> history and find a revision that works, then rollback to it. Could you tell Team Neptune what the error was so it doesn’t happen again?</p>
+<h3 id="Answer-7"><a href="#Answer-7" class="headerlink" title="Answer:"></a><strong>Answer:</strong></h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n neptune get deploy # overviewk -n neptune rollout -hk -n neptune rollout history -h</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n neptune rollout history deploy api-new-c32deployment.extensions/api-new-c32REVISION  CHANGE-CAUSE1         &lt;none&gt;2         kubectl edit deployment api-new-c32 --namespace=neptune3         kubectl edit deployment api-new-c32 --namespace=neptune4         kubectl edit deployment api-new-c32 --namespace=neptune5         kubectl edit deployment api-new-c32 --namespace=neptune</span><br></pre></td></tr></table></figure>
+
+<p>We see 5 revisions, let’s check <em>Pod</em> and <em>Deployment</em> status:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n neptune get deploy,pod | grep api-new-c32deployment.extensions/api-new-c32    3/3     1            3           141mpod/api-new-c32-65d998785d-jtmqq    1/1     Running            0          141mpod/api-new-c32-686d6f6b65-mj2fp    1/1     Running            0          141mpod/api-new-c32-6dd45bdb68-2p462    1/1     Running            0          141mpod/api-new-c32-7d64747c87-zh648    0/1     ImagePullBackOff   0          141m</span><br></pre></td></tr></table></figure>
+
+<p>Let’s check the pod for errors:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n neptune describe pod api-new-c32-7d64747c87-zh648 | grep -i error  ...  Error: ImagePullBackOff</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n neptune describe pod api-new-c32-7d64747c87-zh648 | grep -i image    Image:          ngnix:1.16.3    Image ID:      Reason:       ImagePullBackOff  Warning  Failed  4m28s (x616 over 144m)  kubelet, gke-s3ef67020-28c5-45f7--default-pool-248abd4f-s010  Error: ImagePullBackOff</span><br></pre></td></tr></table></figure>
+
+<p>Someone seems to have added a new image with a spelling mistake in the name <code>ngnix:1.16.3</code>, that’s the reason we can tell Team Neptune!</p>
+<p>Now let’s revert to the previous version:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n neptune rollout undo deploy api-new-c32</span><br></pre></td></tr></table></figure>
+
+<p>Does this one work?</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n neptune get deploy api-new-c32NAME          READY   UP-TO-DATE   AVAILABLE   AGEapi-new-c32   3/3     3            3           146m</span><br></pre></td></tr></table></figure>
+
+<p>Yes! All up-to-date and available.</p>
+<p>Also a fast way to get an overview of the <em>ReplicaSets</em> of a <em>Deployment</em> and their images could be done with:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n neptune get rs -o wide | grep api-new-c32</span><br></pre></td></tr></table></figure>
+
+<h2 id="Question-9-Pod-gt-Deployment"><a href="#Question-9-Pod-gt-Deployment" class="headerlink" title="Question 9 | Pod -&gt; Deployment"></a><strong>Question 9 | Pod -&gt; Deployment</strong></h2><p>In <em>Namespace</em> <code>pluto</code> there is single <em>Pod</em> named <code>holy-api</code>. It has been working okay for a while now but Team Pluto needs it to be more reliable.</p>
+<p>Convert the <em>Pod</em> into a <em>Deployment</em> named <code>holy-api</code> with 3 replicas and delete the single <em>Pod</em> once done. The raw <em>Pod</em> template file is available at <code>/opt/course/9/holy-api-pod.yaml</code>.</p>
+<p>In addition, the new <em>Deployment</em> should set <code>allowPrivilegeEscalation: false</code> and <code>privileged: false</code> for the security context on container level.</p>
+<p>Please create the <em>Deployment</em> and save its yaml under <code>/opt/course/9/holy-api-deployment.yaml</code>.</p>
+<h3 id="Answer-8"><a href="#Answer-8" class="headerlink" title="Answer"></a><strong>Answer</strong></h3><p>There are multiple ways to do this, one is to copy an <em>Deployment</em> example from <a href="https://kubernetes.io/docs">https://kubernetes.io/docs</a> and then merge it with the existing <em>Pod</em> yaml. That’s what we will do now:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">cp /opt/course/9/holy-api-pod.yaml /opt/course/9/holy-api-deployment.yaml # make a copy!vim /opt/course/9/holy-api-deployment.yaml</span><br></pre></td></tr></table></figure>
+
+<p>Now copy/use a <em>Deployment</em> example yaml and put the <em>Pod’s</em> <strong>metadata:</strong> and <strong>spec:</strong> into the <em>Deployment’s</em> <strong>template:</strong> section:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># /opt/course/9/holy-api-deployment.yamlapiVersion: apps/v1kind: Deploymentmetadata:  name: holy-api        # name stays the same  namespace: pluto      # importantspec:  replicas: 3           # 3 replicas  selector:    matchLabels:      id: holy-api      # set the correct selector  template:    # =&gt; from here down its the same as the pods metadata: and spec: sections    metadata:      labels:        id: holy-api      name: holy-api    spec:      containers:      - env:        - name: CACHE_KEY_1          value: b&amp;MTCi0=[T66RXm!jO@        - name: CACHE_KEY_2          value: PCAILGej5Ld@Q%&#123;Q1=#        - name: CACHE_KEY_3          value: 2qz-]2OJlWDSTn_;RFQ        image: nginx:1.17.3-alpine        name: holy-api-container        securityContext:                   # add          allowPrivilegeEscalation: false  # add          privileged: false                # add        volumeMounts:        - mountPath: /cache1          name: cache-volume1        - mountPath: /cache2          name: cache-volume2        - mountPath: /cache3          name: cache-volume3      volumes:      - emptyDir: &#123;&#125;        name: cache-volume1      - emptyDir: &#123;&#125;        name: cache-volume2      - emptyDir: &#123;&#125;        name: cache-volume3</span><br></pre></td></tr></table></figure>
+
+<p>To indent multiple lines using <code>vim</code> you should set the shiftwidth using <code>:set shiftwidth=2</code>. Then mark multiple lines using <code>Shift v</code> and the up/down keys.</p>
+<p>To then indent the marked lines press <code>&gt;</code> or <code>&lt;</code> and to repeat the action press <code>.</code></p>
+<p>Next create the new  <em>Deployment</em> :</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -f /opt/course/9/holy-api-deployment.yaml create</span><br></pre></td></tr></table></figure>
+
+<p>and confirm it’s running:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n pluto get pod | grep holyNAME                        READY   STATUS    RESTARTS   AGEholy-api                    1/1     Running   0          19mholy-api-5dbfdb4569-8qr5x   1/1     Running   0          30sholy-api-5dbfdb4569-b5clh   1/1     Running   0          30sholy-api-5dbfdb4569-rj2gz   1/1     Running   0          30s</span><br></pre></td></tr></table></figure>
+
+<p>Finally delete the single  <em>Pod</em> :</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n pluto delete pod holy-api --force --grace-period=0</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n pluto get pod,deployment | grep holypod/holy-api-5dbfdb4569-8qr5x   1/1     Running   0          2m4spod/holy-api-5dbfdb4569-b5clh   1/1     Running   0          2m4spod/holy-api-5dbfdb4569-rj2gz   1/1     Running   0          2m4sdeployment.extensions/holy-api   3/3     3            3           2m4s</span><br></pre></td></tr></table></figure>
+
+<h2 id="Question-10-Service-Logs"><a href="#Question-10-Service-Logs" class="headerlink" title="Question 10 | Service, Logs"></a><strong>Question 10 | Service, Logs</strong></h2><p>Team Pluto needs a new cluster internal  <em>Service</em> . Create a ClusterIP <em>Service</em> named <code>project-plt-6cc-svc</code> in <em>Namespace</em> <code>pluto</code>. This <em>Service</em> should expose a single <em>Pod</em> named <code>project-plt-6cc-api</code> of image <code>nginx:1.17.3-alpine</code>, create that <em>Pod</em> as well. The <em>Pod</em> should be identified by label <code>project: plt-6cc-api</code>. The <em>Service</em> should use tcp port redirection of <code>3333:80</code>.</p>
+<p>Finally use for example <code>curl</code> from a temporary <code>nginx:alpine</code> <em>Pod</em> to get the response from the  <em>Service</em> . Write the response into <code>/opt/course/10/service_test.html</code>. Also check if the logs of <em>Pod</em> <code>project-plt-6cc-api</code> show the request and write those into <code>/opt/course/10/service_test.log</code>.</p>
+<h3 id="Answer-9"><a href="#Answer-9" class="headerlink" title="Answer"></a><strong>Answer</strong></h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n pluto run project-plt-6cc-api --image=nginx:1.17.3-alpine --labels project=plt-6cc-api</span><br></pre></td></tr></table></figure>
+
+<p>This will create the requested  <em>Pod</em> . In yaml it would look like this:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">apiVersion: v1kind: Podmetadata:  creationTimestamp: null  labels:    project: plt-6cc-api  name: project-plt-6cc-apispec:  containers:  - image: nginx:1.17.3-alpine    name: project-plt-6cc-api    resources: &#123;&#125;  dnsPolicy: ClusterFirst  restartPolicy: Alwaysstatus: &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Next we create the service:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n pluto expose pod -h # helpk -n pluto expose pod project-plt-6cc-api --name project-plt-6cc-svc --port 3333 --target-port 80</span><br></pre></td></tr></table></figure>
+
+<p>Expose will create a yaml where everything is already set for our case and no need to change anything:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">apiVersion: v1kind: Servicemetadata:  creationTimestamp: null  labels:    project: plt-6cc-api  name: project-plt-6cc-svc   # good  namespace: pluto            # greatspec:  ports:  - port: 3333                # awesome    protocol: TCP    targetPort: 80            # nice  selector:    project: plt-6cc-api      # beautifulstatus:  loadBalancer: &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>We could also use <code>create service</code> but then we would need to change the yaml afterwards:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n pluto create service -h # helpk -n pluto create service clusterip -h #helpk -n pluto create service clusterip project-plt-6cc-svc --tcp 3333:80 $do# now we would need to set the correct selector labels</span><br></pre></td></tr></table></figure>
+
+<p>Check the <em>Service</em> is running:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n pluto get pod,svc | grep 6ccpod/project-plt-6cc-api         1/1     Running   0          9m42sservice/project-plt-6cc-svc   ClusterIP   10.31.241.234   &lt;none&gt;        3333/TCP   2m24s</span><br></pre></td></tr></table></figure>
+
+<p>Does the <em>Service</em> has one  <em>Endpoint</em> ?</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n pluto describe svc project-plt-6cc-svcName:              project-plt-6cc-svcNamespace:         plutoLabels:            project=plt-6cc-apiAnnotations:       &lt;none&gt;Selector:          project=plt-6cc-apiType:              ClusterIPIP:                10.3.244.240Port:              &lt;unset&gt;  3333/TCPTargetPort:        80/TCPEndpoints:         10.28.2.32:80Session Affinity:  NoneEvents:            &lt;none&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Or even shorter:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n pluto get epNAME                  ENDPOINTS       AGEproject-plt-6cc-svc   10.28.2.32:80   84m</span><br></pre></td></tr></table></figure>
+
+<p>Yes, endpoint there! Finally we check the connection using a temporary  <em>Pod</em> :</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k run tmp --restart=Never --rm --image=nginx:alpine -i -- curl &lt;http://project-plt-6cc-svc.pluto:3333&gt;  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current                                 Dload  Upload   Total   Spent    Left  Speed100   612  100   612    0     0  32210      0 --:--:-- --:--:-- --:--:-- 32210&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to nginx!&lt;/title&gt;&lt;style&gt;    body &#123;        width: 35em;        margin: 0 auto;        font-family: Tahoma, Verdana, Arial, sans-serif;    &#125;&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;h1&gt;Welcome to nginx!&lt;/h1&gt;...</span><br></pre></td></tr></table></figure>
+
+<p>Great! Notice that we use the Kubernetes <em>Namespace</em> dns resolving (<code>project-plt-6cc-svc.pluto</code>) here. We could only use the <em>Service</em> name if we would also spin up the temporary <em>Pod</em> in <em>Namespace</em> <code>pluto</code> .</p>
+<p>And now really finally copy or pipe the html content into <code>/opt/course/10/service_test.html</code>.</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># /opt/course/10/service_test.html&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to nginx!&lt;/title&gt;&lt;style&gt;    body &#123;        width: 35em;        margin: 0 auto;        font-family: Tahoma, Verdana, Arial, sans-serif;    &#125;...</span><br></pre></td></tr></table></figure>
+
+<p>Also the requested logs:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n pluto logs project-plt-6cc-api &gt; /opt/course/10/service_test.log</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># /opt/course/10/service_test.log10.44.0.0 - - [22/Jan/2021:23:19:55 +0000] &quot;GET / HTTP/1.1&quot; 200 612 &quot;-&quot; &quot;curl/7.69.1&quot; &quot;-&quot;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Question-11-Working-with-Containers"><a href="#Question-11-Working-with-Containers" class="headerlink" title="Question 11 | Working with Containers"></a><strong>Question 11 | Working with Containers</strong></h2><p>During the last monthly meeting you mentioned your strong expertise in container technology. Now the Build&amp;Release team of department Sun is in need of your insight knowledge. There are files to build a container image located at <code>/opt/course/11/image</code>. The container will run a Golang application which outputs information to stdout. You’re asked to perform the following tasks:</p>
+<blockquote>
+<p>NOTE: Make sure to run all commands as user k8s, for docker use sudo docker</p>
+</blockquote>
+<ol>
+<li>Change the Dockerfile. The value of the environment variable <code>SUN_CIPHER_ID</code> should be set to the hardcoded value <code>5b9c1065-e39d-4a43-a04a-e59bcea3e03f</code></li>
+<li>Build the image using Docker, named <code>registry.killer.sh:5000/sun-cipher</code>, tagged as <code>latest</code> and <code>v1-docker</code>, push these to the registry</li>
+<li>Build the image using Podman, named <code>registry.killer.sh:5000/sun-cipher</code>, tagged as <code>v1-podman</code>, push it to the registry</li>
+<li>Run a container using Podman, which keeps running in the background, named <code>sun-cipher</code> using image <code>registry.killer.sh:5000/sun-cipher:v1-podman</code>. Run the container from <code>k8s@terminal</code> and not <code>root@terminal</code></li>
+<li>Write the logs your container <code>sun-cipher</code> produced into <code>/opt/course/11/logs</code>. Then write a list of all running Podman containers into <code>/opt/course/11/containers</code></li>
+</ol>
+<h3 id="Answer-10"><a href="#Answer-10" class="headerlink" title="Answer"></a><strong>Answer</strong></h3><p> <em>Dockerfile</em> : list of commands from which an <em>Image</em> can be build</p>
+<p> <em>Image</em> : binary file which includes all data/requirements to be run as a <em>Container</em></p>
+<p> <em>Container</em> : running instance of an <em>Image</em></p>
+<p> <em>Registry</em> : place where we can push/pull <em>Images</em> to/from</p>
+<p><strong>1.</strong></p>
+<p>First we need to change the Dockerfile to:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># build container stage 1FROM docker.io/library/golang:1.15.15-alpine3.14WORKDIR /srcCOPY . .RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o bin/app .# app container stage 2FROM docker.io/library/alpine:3.12.4COPY --from=0 /src/bin/app app# CHANGE NEXT LINEENV SUN_CIPHER_ID=5b9c1065-e39d-4a43-a04a-e59bcea3e03fCMD [&quot;./app&quot;]</span><br></pre></td></tr></table></figure>
+
+<p><strong>2.</strong></p>
+<p>Then we build the image using Docker:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ cd /opt/course/11/image➜ sudo docker build -t registry.killer.sh:5000/sun-cipher:latest -t registry.killer.sh:5000/sun-cipher:v1-docker ....Successfully built 409fde3c5bf9Successfully tagged registry.killer.sh:5000/sun-cipher:latestSuccessfully tagged registry.killer.sh:5000/sun-cipher:v1-docker➜ sudo docker image lsREPOSITORY                           TAG         IMAGE ID       CREATED              SIZEregistry.killer.sh:5000/sun-cipher   latest      409fde3c5bf9   24 seconds ago       7.76MBregistry.killer.sh:5000/sun-cipher   v1-docker   409fde3c5bf9   24 seconds ago       7.76MB...➜ sudo docker push registry.killer.sh:5000/sun-cipher:latestThe push refers to repository [registry.killer.sh:5000/sun-cipher]c947fb5eba52: Pushed33e8713114f8: Pushedlatest: digest: sha256:d216b4136a5b232b738698e826e7d12fccba9921d163b63777be23572250f23d size: 739➜ sudo docker push registry.killer.sh:5000/sun-cipher:v1-dockerThe push refers to repository [registry.killer.sh:5000/sun-cipher]c947fb5eba52: Layer already exists33e8713114f8: Layer already existsv1-docker: digest: sha256:d216b4136a5b232b738698e826e7d12fccba9921d163b63777be23572250f23d size: 739</span><br></pre></td></tr></table></figure>
+
+<p>There we go, built and pushed.</p>
+<p><strong>3.</strong></p>
+<p>Next we build the image using Podman. Here it’s only required to create one tag. The usage of Podman is very similar (for most cases even identical) to Docker:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ cd /opt/course/11/image➜ podman build -t registry.killer.sh:5000/sun-cipher:v1-podman ....--&gt; 38adc53bd92Successfully tagged registry.killer.sh:5000/sun-cipher:v1-podman38adc53bd92881d91981c4b537f4f1b64f8de1de1b32eacc8479883170cee537➜ podman image lsREPOSITORY                          TAG         IMAGE ID      CREATED        SIZEregistry.killer.sh:5000/sun-cipher  v1-podman   38adc53bd928  2 minutes ago  8.03 MB...➜ podman push registry.killer.sh:5000/sun-cipher:v1-podmanGetting image source signaturesCopying blob 4d0d60db9eb6 doneCopying blob 33e8713114f8 doneCopying config bfa1a225f8 doneWriting manifest to image destinationStoring signatures</span><br></pre></td></tr></table></figure>
+
+<p>Built and pushed using Podman.</p>
+<p><strong>4.</strong></p>
+<p>We’ll create a container from the perviously created image, using Podman, which keeps running in the background:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ podman run -d --name sun-cipher registry.killer.sh:5000/sun-cipher:v1-podmanf8199cba792f9fd2d1bd4decc9b7a9c0acfb975d95eda35f5f583c9efbf95589</span><br></pre></td></tr></table></figure>
+
+<p><strong>5.</strong></p>
+<p>Finally we need to collect some information into files:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ podman psCONTAINER ID  IMAGE                                         COMMAND     ...f8199cba792f  registry.killer.sh:5000/sun-cipher:v1-podman  ./app       ...➜ podman ps &gt; /opt/course/11/containers➜ podman logs sun-cipher2077/03/13 06:50:34 random number for 5b9c1065-e39d-4a43-a04a-e59bcea3e03f is 80812077/03/13 06:50:34 random number for 5b9c1065-e39d-4a43-a04a-e59bcea3e03f is 78872077/03/13 06:50:34 random number for 5b9c1065-e39d-4a43-a04a-e59bcea3e03f is 18472077/03/13 06:50:34 random number for 5b9c1065-e39d-4a43-a04a-e59bcea3e03f is 40592077/03/13 06:50:34 random number for 5b9c1065-e39d-4a43-a04a-e59bcea3e03f is 20812077/03/13 06:50:34 random number for 5b9c1065-e39d-4a43-a04a-e59bcea3e03f is 13182077/03/13 06:50:34 random number for 5b9c1065-e39d-4a43-a04a-e59bcea3e03f is 44252077/03/13 06:50:34 random number for 5b9c1065-e39d-4a43-a04a-e59bcea3e03f is 25402077/03/13 06:50:34 random number for 5b9c1065-e39d-4a43-a04a-e59bcea3e03f is 4562077/03/13 06:50:34 random number for 5b9c1065-e39d-4a43-a04a-e59bcea3e03f is 33002077/03/13 06:50:34 random number for 5b9c1065-e39d-4a43-a04a-e59bcea3e03f is 6942077/03/13 06:50:34 random number for 5b9c1065-e39d-4a43-a04a-e59bcea3e03f is 85112077/03/13 06:50:44 random number for 5b9c1065-e39d-4a43-a04a-e59bcea3e03f is 81622077/03/13 06:50:54 random number for 5b9c1065-e39d-4a43-a04a-e59bcea3e03f is 5089➜ podman logs sun-cipher &gt; /opt/course/11/logs</span><br></pre></td></tr></table></figure>
+
+<p>This is looking not too bad at all. Our container skills are back in town!</p>
+<h2 id="Question-12-Storage-PV-PVC-Pod-volume"><a href="#Question-12-Storage-PV-PVC-Pod-volume" class="headerlink" title="Question 12 | Storage, PV, PVC, Pod volume"></a><strong>Question 12 | Storage, PV, PVC, Pod volume</strong></h2><p>Create a new <em>PersistentVolume</em> named <code>earth-project-earthflower-pv</code>. It should have a capacity of  <em>2Gi</em> , accessMode  <em>ReadWriteOnce</em> , hostPath <code>/Volumes/Data</code> and no storageClassName defined.</p>
+<p>Next create a new <em>PersistentVolumeClaim</em> in <em>Namespace</em> <code>earth</code> named <code>earth-project-earthflower-pvc</code> . It should request <em>2Gi</em> storage, accessMode <em>ReadWriteOnce</em> and should not define a storageClassName. The <em>PVC</em> should bound to the <em>PV</em> correctly.</p>
+<p>Finally create a new <em>Deployment</em> <code>project-earthflower</code> in <em>Namespace</em> <code>earth</code> which mounts that volume at <code>/tmp/project-data</code>. The <em>Pods</em> of that <em>Deployment</em> should be of image <code>httpd:2.4.41-alpine</code>.</p>
+<h3 id="Answer-11"><a href="#Answer-11" class="headerlink" title="Answer"></a><strong>Answer</strong></h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">vim 12_pv.yaml</span><br></pre></td></tr></table></figure>
+
+<p>Find an example from <a href="https://kubernetes.io/docs">https://kubernetes.io/docs</a> and alter it:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># 12_pv.yamlkind: PersistentVolumeapiVersion: v1metadata: name: earth-project-earthflower-pvspec: capacity:  storage: 2Gi accessModes:  - ReadWriteOnce hostPath:  path: &quot;/Volumes/Data&quot;</span><br></pre></td></tr></table></figure>
+
+<p>Then create it:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -f 12_pv.yaml create</span><br></pre></td></tr></table></figure>
+
+<p>Next the  <em>PersistentVolumeClaim</em> :</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">vim 12_pvc.yaml</span><br></pre></td></tr></table></figure>
+
+<p>Find an example from <a href="https://kubernetes.io/docs">https://kubernetes.io/docs</a> and alter it:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># 12_pvc.yamlkind: PersistentVolumeClaimapiVersion: v1metadata:  name: earth-project-earthflower-pvc  namespace: earthspec:  accessModes:    - ReadWriteOnce  resources:    requests:     storage: 2Gi</span><br></pre></td></tr></table></figure>
+
+<p>Then create:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -f 12_pvc.yaml create</span><br></pre></td></tr></table></figure>
+
+<p>And check that both have the status Bound:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n earth get pv,pvcNAME                                 CAPACITY   ACCESS MODES   ...  STATUS   CLAIMpersistentvolume/...earthflower-pv   2Gi        RWO            ...  Bound    ...er-pvcNAME                                       STATUS   VOLUME                         CAPACITYpersistentvolumeclaim/...earthflower-pvc   Bound    earth-project-earthflower-pv   2Gi</span><br></pre></td></tr></table></figure>
+
+<p>Next we create a <em>Deployment</em> and mount that volume:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n earth create deploy project-earthflower --image=httpd:2.4.41-alpine $do &gt; 12_dep.yamlvim 12_dep.yaml</span><br></pre></td></tr></table></figure>
+
+<p>Alter the yaml to mount the volume:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># 12_dep.yamlapiVersion: apps/v1kind: Deploymentmetadata:  creationTimestamp: null  labels:    app: project-earthflower  name: project-earthflower  namespace: earthspec:  replicas: 1  selector:    matchLabels:      app: project-earthflower  strategy: &#123;&#125;  template:    metadata:      creationTimestamp: null      labels:        app: project-earthflower    spec:      volumes:                                      # add      - name: data                                  # add        persistentVolumeClaim:                      # add          claimName: earth-project-earthflower-pvc  # add      containers:      - image: httpd:2.4.41-alpine        name: container        volumeMounts:                               # add        - name: data                                # add          mountPath: /tmp/project-data              # add</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -f 12_dep.yaml create</span><br></pre></td></tr></table></figure>
+
+<p>We can confirm it’s mounting correctly:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n earth describe pod project-earthflower-d6887f7c5-pn5wv | grep -A2 Mounts:    Mounts:      /tmp/project-data from data (rw) # there it is      /var/run/secrets/kubernetes.io/serviceaccount from default-token-n2sjj (ro)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Question-13-Storage-StorageClass-PVC"><a href="#Question-13-Storage-StorageClass-PVC" class="headerlink" title="Question 13 | Storage, StorageClass, PVC"></a><strong>Question 13 | Storage, StorageClass, PVC</strong></h2><p>Team Moonpie, which has the <em>Namespace</em> <code>moon</code>, needs more storage. Create a new <em>PersistentVolumeClaim</em> named <code>moon-pvc-126</code> in that namespace. This claim should use a new <em>StorageClass</em> <code>moon-retain</code> with the <em>provisioner</em> set to <code>moon-retainer</code> and the <em>reclaimPolicy</em> set to  <em>Retain</em> . The claim should request storage of  <em>3Gi</em> , an <em>accessMode</em> of <em>ReadWriteOnce</em> and should use the new  <em>StorageClass</em> .</p>
+<p>The provisioner <code>moon-retainer</code> will be created by another team, so it’s expected that the <em>PVC</em> will not boot yet. Confirm this by writing the log message from the <em>PVC</em> into file <code>/opt/course/13/pvc-126-reason</code>.</p>
+<h3 id="Answer-12"><a href="#Answer-12" class="headerlink" title="Answer"></a><strong>Answer</strong></h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">vim 13_sc.yaml</span><br></pre></td></tr></table></figure>
+
+<p>Head to <a href="https://kubernetes.io/docs">https://kubernetes.io/docs</a>, search for “storageclass” and alter the example code to this:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># 13_sc.yamlapiVersion: storage.k8s.io/v1kind: StorageClassmetadata:  name: moon-retainprovisioner: moon-retainerreclaimPolicy: Retain</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k create -f 13_sc.yaml</span><br></pre></td></tr></table></figure>
+
+<p>Now the same for the  <em>PersistentVolumeClaim</em> , head to the docs, copy an example and transform it into:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">vim 13_pvc.yaml</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># 13_pvc.yamlapiVersion: v1kind: PersistentVolumeClaimmetadata:  name: moon-pvc-126            # name as requested  namespace: moon               # importantspec:  accessModes:    - ReadWriteOnce             # RWO  resources:    requests:      storage: 3Gi              # size  storageClassName: moon-retain # uses our new storage class</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -f 13_pvc.yaml create</span><br></pre></td></tr></table></figure>
+
+<p>Next we check the status of the <em>PVC</em> :</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n moon get pvcNAME           STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGEmoon-pvc-126   Pending                                      moon-retain    2m57s</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n moon describe pvc moon-pvc-126Name:          moon-pvc-126...Status:        Pending...Events:...waiting for a volume to be created, either by external provisioner &quot;moon-retainer&quot; or manually created by system administrator</span><br></pre></td></tr></table></figure>
+
+<p>This confirms that the <em>PVC</em> waits for the provisioner <code>moon-retainer</code> to be created. Finally we copy or write the event message into the requested location:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># /opt/course/13/pvc-126-reasonwaiting for a volume to be created, either by external provisioner &quot;moon-retainer&quot; or manually created by system administrator</span><br></pre></td></tr></table></figure>
+
+<h2 id="Question-14-Secret-Secret-Volume-Secret-Env"><a href="#Question-14-Secret-Secret-Volume-Secret-Env" class="headerlink" title="Question 14 | Secret, Secret-Volume, Secret-Env"></a><strong>Question 14 | Secret, Secret-Volume, Secret-Env</strong></h2><p>You need to make changes on an existing <em>Pod</em> in <em>Namespace</em> <code>moon</code> called <code>secret-handler</code>. Create a new <em>Secret</em> <code>secret1</code> which contains <code>user=test</code> and <code>pass=pwd</code>. The  <em>Secret</em> ‘s content should be available in <em>Pod</em> <code>secret-handler</code> as environment variables <code>SECRET1_USER</code> and <code>SECRET1_PASS</code>. The yaml for <em>Pod</em> <code>secret-handler</code> is available at <code>/opt/course/14/secret-handler.yaml</code>.</p>
+<p>There is existing yaml for another <em>Secret</em> at <code>/opt/course/14/secret2.yaml</code>, create this <em>Secret</em> and mount it inside the same <em>Pod</em> at <code>/tmp/secret2</code>. Your changes should be saved under <code>/opt/course/14/secret-handler-new.yaml</code>. Both <em>Secrets</em> should only be available in <em>Namespace</em> <code>moon</code>.</p>
+<h3 id="Answer-13"><a href="#Answer-13" class="headerlink" title="Answer"></a><strong>Answer</strong></h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n moon get pod # show podsk -n moon create secret -h # helpk -n moon create secret generic -h # helpk -n moon create secret generic secret1 --from-literal user=test --from-literal pass=pwd</span><br></pre></td></tr></table></figure>
+
+<p>The last command would generate this yaml:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">apiVersion: v1data:  pass: cHdk  user: dGVzdA==kind: Secretmetadata:  creationTimestamp: null  name: secret1  namespace: moon</span><br></pre></td></tr></table></figure>
+
+<p>Next we create the second <em>Secret</em> from the given location, making sure it’ll be created in <em>Namespace</em> <code>moon</code>:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n moon -f /opt/course/14/secret2.yaml create</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n moon get secretNAME                  TYPE                                  DATA   AGEdefault-token-rvzcf   kubernetes.io/service-account-token   3      66msecret1               Opaque                                2      4m3ssecret2               Opaque                                1      8s</span><br></pre></td></tr></table></figure>
+
+<p>We will now edit the <em>Pod</em> yaml:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">cp /opt/course/14/secret-handler.yaml /opt/course/14/secret-handler-new.yamlvim /opt/course/14/secret-handler-new.yaml</span><br></pre></td></tr></table></figure>
+
+<p>Add the following to the yaml:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># /opt/course/14/secret-handler-new.yamlapiVersion: v1kind: Podmetadata:  labels:    id: secret-handler    uuid: 1428721e-8d1c-4c09-b5d6-afd79200c56a    red_ident: 9cf7a7c0-fdb2-4c35-9c13-c2a0bb52b4a9    type: automatic  name: secret-handler  namespace: moonspec:  volumes:  - name: cache-volume1    emptyDir: &#123;&#125;  - name: cache-volume2    emptyDir: &#123;&#125;  - name: cache-volume3    emptyDir: &#123;&#125;  - name: secret2-volume              # add    secret:                           # add      secretName: secret2             # add  containers:  - name: secret-handler    image: bash:5.0.11    args: [&#x27;bash&#x27;, &#x27;-c&#x27;, &#x27;sleep 2d&#x27;]    volumeMounts:    - mountPath: /cache1      name: cache-volume1    - mountPath: /cache2      name: cache-volume2    - mountPath: /cache3      name: cache-volume3    - name: secret2-volume            # add      mountPath: /tmp/secret2         # add    env:    - name: SECRET_KEY_1      value: &quot;&gt;8$kH#kj..i8&#125;HImQd&#123;&quot;    - name: SECRET_KEY_2      value: &quot;IO=a4L/XkRdvN8jM=Y+&quot;    - name: SECRET_KEY_3      value: &quot;-7PA0_Z]&gt;&#123;pwa43r)__&quot;    - name: SECRET1_USER              # add      valueFrom:                      # add        secretKeyRef:                 # add          name: secret1               # add          key: user                   # add    - name: SECRET1_PASS              # add      valueFrom:                      # add        secretKeyRef:                 # add          name: secret1               # add          key: pass                   # add</span><br></pre></td></tr></table></figure>
+
+<p>There is also the possibility to import all keys from a <em>Secret</em> as env variables at once, though the env variable names will then be the same as in the  <em>Secret</em> , which doesn’t work for the requirements here:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">containers:  - name: secret-handler...    envFrom:    - secretRef:        # also works for configMapRef        name: secret1</span><br></pre></td></tr></table></figure>
+
+<p>Then we apply the changes:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -f /opt/course/14/secret-handler.yaml delete --force --grace-period=0k -f /opt/course/14/secret-handler-new.yaml create</span><br></pre></td></tr></table></figure>
+
+<p>Instead of running delete and create we can also use recreate:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -f /opt/course/14/secret-handler-new.yaml replace --force --grace-period=0</span><br></pre></td></tr></table></figure>
+
+<p>It was not requested directly, but you should always confirm it’s working:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n moon exec secret-handler -- env | grep SECRET1SECRET1_USER=testSECRET1_PASS=pwd➜ k -n moon exec secret-handler -- find /tmp/secret2/tmp/secret2/tmp/secret2/..data/tmp/secret2/key/tmp/secret2/..2019_09_11_09_03_08.147048594/tmp/secret2/..2019_09_11_09_03_08.147048594/key➜ k -n moon exec secret-handler -- cat /tmp/secret2/key12345678</span><br></pre></td></tr></table></figure>
+
+<h2 id="Question-15-ConfigMap-Configmap-Volume"><a href="#Question-15-ConfigMap-Configmap-Volume" class="headerlink" title="Question 15 | ConfigMap, Configmap-Volume"></a><strong>Question 15 | ConfigMap, Configmap-Volume</strong></h2><p>Team Moonpie has a nginx server <em>Deployment</em> called <code>web-moon</code> in <em>Namespace</em> <code>moon</code>. Someone started configuring it but it was never completed. To complete please create a <em>ConfigMap</em> called <code>configmap-web-moon-html</code> containing the content of file <code>/opt/course/15/web-moon.html</code> under the data key-name <code>index.html</code>.</p>
+<p>The <em>Deployment</em> <code>web-moon</code> is already configured to work with this <em>ConfigMap</em> and serve its content. Test the nginx configuration for example using <code>curl</code> from a temporary <code>nginx:alpine</code>  <em>Pod</em> .</p>
+<h3 id="Answer-14"><a href="#Answer-14" class="headerlink" title="Answer"></a><strong>Answer</strong></h3><p>Let’s check the existing  <em>Pods</em> :</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n moon get podNAME                        READY   STATUS              RESTARTS   AGEsecret-handler              1/1     Running             0          55mweb-moon-847496c686-2rzj4   0/1     ContainerCreating   0          33sweb-moon-847496c686-9nwwj   0/1     ContainerCreating   0          33sweb-moon-847496c686-cxdbx   0/1     ContainerCreating   0          33sweb-moon-847496c686-hvqlw   0/1     ContainerCreating   0          33sweb-moon-847496c686-tj7ct   0/1     ContainerCreating   0          33s</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n moon describe pod web-moon-847496c686-2rzj4...Warning  FailedMount  31s (x7 over 63s)  kubelet, gke-test-default-pool-ce83a51a-p6s4  MountVolume.SetUp failed for volume &quot;html-volume&quot; : configmaps &quot;configmap-web-moon-html&quot; not found</span><br></pre></td></tr></table></figure>
+
+<p>Good so far, now let’s create the missing  <em>ConfigMap</em> :</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n moon create configmap -h # helpk -n moon create configmap configmap-web-moon-html --from-file=index.html=/opt/course/15/web-moon.html # important to set the index.html key</span><br></pre></td></tr></table></figure>
+
+<p>This should create a <em>ConfigMap</em> with yaml like:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">apiVersion: v1data:  index.html: |     # notice the key index.html, this will be the filename when mounted    &lt;!DOCTYPE html&gt;    &lt;html lang=&quot;en&quot;&gt;    &lt;head&gt;        &lt;meta charset=&quot;UTF-8&quot;&gt;        &lt;title&gt;Web Moon Webpage&lt;/title&gt;    &lt;/head&gt;    &lt;body&gt;    This is some great content.    &lt;/body&gt;    &lt;/html&gt;kind: ConfigMapmetadata:  creationTimestamp: null  name: configmap-web-moon-html  namespace: moon</span><br></pre></td></tr></table></figure>
+
+<p>After waiting a bit or deleting/recreating (<code>k -n moon rollout restart deploy web-moon</code>) the <em>Pods</em> we should see:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n moon get podNAME                        READY   STATUS    RESTARTS   AGEsecret-handler              1/1     Running   0          59mweb-moon-847496c686-2rzj4   1/1     Running   0          4m28sweb-moon-847496c686-9nwwj   1/1     Running   0          4m28sweb-moon-847496c686-cxdbx   1/1     Running   0          4m28sweb-moon-847496c686-hvqlw   1/1     Running   0          4m28sweb-moon-847496c686-tj7ct   1/1     Running   0          4m28s</span><br></pre></td></tr></table></figure>
+
+<p>Looking much better. Finally we check if the nginx returns the correct content:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n moon get pod -o wide # get pod cluster IPs</span><br></pre></td></tr></table></figure>
+
+<p>Then use one IP to test the configuration:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k run tmp --restart=Never --rm -i --image=nginx:alpine -- curl 10.44.0.78  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current                                 Dload  Upload   Total   Spent    Left  Speed100   161  100   161    0     0  80500      0 --:--:-- --:--:-- --:--:--  157k&lt;!DOCTYPE html&gt;&lt;html lang=&quot;en&quot;&gt;&lt;head&gt;    &lt;meta charset=&quot;UTF-8&quot;&gt;    &lt;title&gt;Web Moon Webpage&lt;/title&gt;&lt;/head&gt;&lt;body&gt;This is some great content.&lt;/body&gt;</span><br></pre></td></tr></table></figure>
+
+<p>For debugging or further checks we could find out more about the <em>Pods</em> volume mounts:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n moon describe pod web-moon-c77655cc-dc8v4 | grep -A2 Mounts:    Mounts:      /usr/share/nginx/html from html-volume (rw)      /var/run/secrets/kubernetes.io/serviceaccount from default-token-rvzcf (ro)</span><br></pre></td></tr></table></figure>
+
+<p>And check the mounted folder content:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n moon exec web-moon-c77655cc-dc8v4 find /usr/share/nginx/html/usr/share/nginx/html/usr/share/nginx/html/..2019_09_11_10_05_56.336284411/usr/share/nginx/html/..2019_09_11_10_05_56.336284411/index.html/usr/share/nginx/html/..data/usr/share/nginx/html/index.html</span><br></pre></td></tr></table></figure>
+
+<p>Here it was important that the file will have the name <code>index.html</code> and not the original one <code>web-moon.html</code> which is controlled through the <em>ConfigMap</em> data key.</p>
+<h2 id="Question-16-Logging-sidecar"><a href="#Question-16-Logging-sidecar" class="headerlink" title="Question 16 | Logging sidecar"></a><strong>Question 16 | Logging sidecar</strong></h2><p>The Tech Lead of Mercury2D decided it’s time for more logging, to finally fight all these missing data incidents. There is an existing container named <code>cleaner-con</code> in <em>Deployment</em> <code>cleaner</code> in <em>Namespace</em> <code>mercury</code>. This container mounts a volume and writes logs into a file called <code>cleaner.log</code>.</p>
+<p>The yaml for the existing <em>Deployment</em> is available at <code>/opt/course/16/cleaner.yaml</code>. Persist your changes at <code>/opt/course/16/cleaner-new.yaml</code> but also make sure the <em>Deployment</em> is running.</p>
+<p>Create a sidecar container named <code>logger-con</code>, image <code>busybox:1.31.0</code> , which mounts the same volume and writes the content of <code>cleaner.log</code> to stdout, you can use the <code>tail -f</code> command for this. This way it can be picked up by <code>kubectl logs</code>.</p>
+<p>Check if the logs of the new container reveal something about the missing data incidents.</p>
+<h3 id="Answer-15"><a href="#Answer-15" class="headerlink" title="Answer"></a><strong>Answer</strong></h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">cp /opt/course/16/cleaner.yaml /opt/course/16/cleaner-new.yamlvim /opt/course/16/cleaner-new.yaml</span><br></pre></td></tr></table></figure>
+
+<p>Add a sidecar container which outputs the log file to stdout:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># /opt/course/16/cleaner-new.yamlapiVersion: apps/v1kind: Deploymentmetadata:  creationTimestamp: null  name: cleaner  namespace: mercuryspec:  replicas: 2  selector:    matchLabels:      id: cleaner  template:    metadata:      labels:        id: cleaner    spec:      volumes:      - name: logs        emptyDir: &#123;&#125;      initContainers:      - name: init        image: bash:5.0.11        command: [&#x27;bash&#x27;, &#x27;-c&#x27;, &#x27;echo init &gt; /var/log/cleaner/cleaner.log&#x27;]        volumeMounts:        - name: logs          mountPath: /var/log/cleaner      containers:      - name: cleaner-con        image: bash:5.0.11        args: [&#x27;bash&#x27;, &#x27;-c&#x27;, &#x27;while true; do echo `date`: &quot;remove random file&quot; &gt;&gt; /var/log/cleaner/cleaner.log; sleep 1; done&#x27;]        volumeMounts:        - name: logs          mountPath: /var/log/cleaner      - name: logger-con                                                # add        image: busybox:1.31.0                                           # add        command: [&quot;sh&quot;, &quot;-c&quot;, &quot;tail -f /var/log/cleaner/cleaner.log&quot;]   # add        volumeMounts:                                                   # add        - name: logs                                                    # add          mountPath: /var/log/cleaner                                   # add</span><br></pre></td></tr></table></figure>
+
+<p>Then apply the changes and check the logs of the sidecar:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -f /opt/course/16/cleaner-new.yaml apply</span><br></pre></td></tr></table></figure>
+
+<p>This will cause a deployment rollout of which we can get more details:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n mercury rollout history deploy cleanerk -n mercury rollout history deploy cleaner --revision 1k -n mercury rollout history deploy cleaner --revision 2</span><br></pre></td></tr></table></figure>
+
+<p>Check <em>Pod</em> statuses:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n mercury get podNAME                       READY   STATUS        RESTARTS   AGEcleaner-86b7758668-9pw6t   2/2     Running       0          6scleaner-86b7758668-qgh4v   0/2     Init:0/1      0          1s➜ k -n mercury get podNAME                       READY   STATUS        RESTARTS   AGEcleaner-86b7758668-9pw6t   2/2     Running       0          14scleaner-86b7758668-qgh4v   2/2     Running       0          9s</span><br></pre></td></tr></table></figure>
+
+<p>Finally check the logs of the logging sidecar container:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n mercury logs cleaner-576967576c-cqtgx -c logger-coninitWed Sep 11 10:45:44 UTC 2099: remove random fileWed Sep 11 10:45:45 UTC 2099: remove random file...</span><br></pre></td></tr></table></figure>
+
+<p>Mystery solved, something is removing files at random ;) It’s important to understand how containers can communicate with each other using volumes.</p>
+<h2 id="Question-17-InitContainer"><a href="#Question-17-InitContainer" class="headerlink" title="Question 17 | InitContainer"></a><strong>Question 17 | InitContainer</strong></h2><p>Last lunch you told your coworker from department Mars Inc how amazing <em>InitContainer</em>s are. Now he would like to see one in action. There is a <em>Deployment</em> yaml at <code>/opt/course/17/test-init-container.yaml</code>. This <em>Deployment</em> spins up a single <em>Pod</em> of image <code>nginx:1.17.3-alpine</code> and serves files from a mounted volume, which is empty right now.</p>
+<p>Create an <em>InitContainer</em> named <code>init-con</code> which also mounts that volume and creates a file <code>index.html</code> with content <code>check this out!</code> in the root of the mounted volume. For this test we ignore that it doesn’t contain valid html.</p>
+<p>The <em>InitContainer</em> should be using image <code>busybox:1.31.0</code>. Test your implementation for example using <code>curl</code> from a temporary <code>nginx:alpine</code>  <em>Pod</em> .</p>
+<h3 id="Answer-16"><a href="#Answer-16" class="headerlink" title="Answer"></a><strong>Answer</strong></h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">cp /opt/course/17/test-init-container.yaml ~/17_test-init-container.yamlvim 17_test-init-container.yaml</span><br></pre></td></tr></table></figure>
+
+<p>Add the  <em>InitContainer</em> :</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># 17_test-init-container.yamlapiVersion: apps/v1kind: Deploymentmetadata:  name: test-init-container  namespace: marsspec:  replicas: 1  selector:    matchLabels:      id: test-init-container  template:    metadata:      labels:        id: test-init-container    spec:      volumes:      - name: web-content        emptyDir: &#123;&#125;      initContainers:                 # initContainer start      - name: init-con        image: busybox:1.31.0        command: [&#x27;sh&#x27;, &#x27;-c&#x27;, &#x27;echo &quot;check this out!&quot; &gt; /tmp/web-content/index.html&#x27;]        volumeMounts:        - name: web-content          mountPath: /tmp/web-content # initContainer end      containers:      - image: nginx:1.17.3-alpine        name: nginx        volumeMounts:        - name: web-content          mountPath: /usr/share/nginx/html        ports:        - containerPort: 80</span><br></pre></td></tr></table></figure>
+
+<p>Then we create the  <em>Deployment</em> :</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -f 17_test-init-container.yaml create</span><br></pre></td></tr></table></figure>
+
+<p>Finally we test the configuration:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n mars get pod -o wide # to get the cluster IP</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k run tmp --restart=Never --rm -i --image=nginx:alpine -- curl 10.0.0.67  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current                                 Dload  Upload   Total   Spent    Left  Speedcheck this out!</span><br></pre></td></tr></table></figure>
+
+<p>Beautiful.</p>
+<h2 id="Question-18-Service-misconfiguration"><a href="#Question-18-Service-misconfiguration" class="headerlink" title="Question 18 | Service misconfiguration"></a><strong>Question 18 | Service misconfiguration</strong></h2><p>There seems to be an issue in <em>Namespace</em> <code>mars</code> where the ClusterIP service <code>manager-api-svc</code> should make the <em>Pods</em> of <em>Deployment</em> <code>manager-api-deployment</code> available inside the cluster.</p>
+<p>You can test this with <code>curl manager-api-svc.mars:4444</code> from a temporary <code>nginx:alpine</code>  <em>Pod</em> . Check for the misconfiguration and apply a fix.</p>
+<h3 id="Answer-17"><a href="#Answer-17" class="headerlink" title="Answer"></a><strong>Answer</strong></h3><p>First let’s get an overview:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n mars get allNAME                                         READY   STATUS    RESTARTS   AGEpod/manager-api-deployment-dbcc6657d-bg2hh   1/1     Running   0          98mpod/manager-api-deployment-dbcc6657d-f5fv4   1/1     Running   0          98mpod/manager-api-deployment-dbcc6657d-httjv   1/1     Running   0          98mpod/manager-api-deployment-dbcc6657d-k98xn   1/1     Running   0          98mpod/test-init-container-5db7c99857-htx6b     1/1     Running   0          2m19sNAME                      TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGEservice/manager-api-svc   ClusterIP   10.15.241.159   &lt;none&gt;        4444/TCP   99mNAME                                     READY   UP-TO-DATE   AVAILABLE   AGEdeployment.apps/manager-api-deployment   4/4     4            4           98mdeployment.apps/test-init-container      1/1     1            1           2m19s...</span><br></pre></td></tr></table></figure>
+
+<p>Everything seems to be running, but we can’t seem to get a connection:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n mars run tmp --restart=Never --rm -i --image=nginx:alpine -- curl -m 5 manager-api-svc:4444If you don&#x27;t see a command prompt, try pressing enter.  0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0curl: (28) Connection timed out after 1000 millisecondspod &quot;tmp&quot; deletedpod mars/tmp terminated (Error)</span><br></pre></td></tr></table></figure>
+
+<p>Ok, let’s try to connect to one pod directly:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n mars get pod -o wide # get cluster IP</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n mars run tmp --restart=Never --rm -i --image=nginx:alpine -- curl -m 5 10.0.1.14 % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to nginx!&lt;/title&gt;...</span><br></pre></td></tr></table></figure>
+
+<p>The <em>Pods</em> itself seem to work. Let’s investigate the <em>Service</em> a bit:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n mars describe service manager-api-svcName:              manager-api-svcNamespace:         marsLabels:            app=manager-api-svc...Endpoints:         &lt;none&gt;...</span><br></pre></td></tr></table></figure>
+
+<p>Endpoint inspection is also possible using:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n mars get ep</span><br></pre></td></tr></table></figure>
+
+<p>No endpoints - No good. We check the <em>Service</em> yaml:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n mars edit service manager-api-svc</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># k -n mars edit service manager-api-svcapiVersion: v1kind: Servicemetadata:...  labels:    app: manager-api-svc  name: manager-api-svc  namespace: mars...spec:  clusterIP: 10.3.244.121  ports:  - name: 4444-80    port: 4444    protocol: TCP    targetPort: 80  selector:    #id: manager-api-deployment # wrong selector, needs to point to pod!    id: manager-api-pod  sessionAffinity: None  type: ClusterIP</span><br></pre></td></tr></table></figure>
+
+<p>Though <em>Pods</em> are usually never created without a <em>Deployment</em> or  <em>ReplicaSet</em> , <em>Services</em> always select for <em>Pods</em> directly. This gives great flexibility because <em>Pods</em> could be created through various customized ways. After saving the new selector we check the <em>Service</em> again for endpoints:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n mars get epNAME              ENDPOINTS                                               AGEmanager-api-svc   10.0.0.30:80,10.0.1.30:80,10.0.1.31:80 + 1 more...      41m</span><br></pre></td></tr></table></figure>
+
+<p>Endpoints - Good! Now we try connecting again:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n mars run tmp --restart=Never --rm -i --image=nginx:alpine -- curl -m 5 manager-api-svc:4444  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current                                 Dload  Upload   Total   Spent    Left  Speed100   612  100   612    0     0    99k      0 --:--:-- --:--:-- --:--:--   99k&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to nginx!&lt;/title&gt;...</span><br></pre></td></tr></table></figure>
+
+<p>And we fixed it. Good to know is how to be able to use Kubernetes DNS resolution from a different  <em>Namespace</em> . Not necessary, but we could spin up the temporary <em>Pod</em> in default  <em>Namespace</em> :</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k run tmp --restart=Never --rm -i --image=nginx:alpine -- curl -m 5 manager-api-svc:4444  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current                                 Dload  Upload   Total   Spent    Left  Speed  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0curl: (6) Could not resolve host: manager-api-svcpod &quot;tmp&quot; deletedpod default/tmp terminated (Error)➜ k run tmp --restart=Never --rm -i --image=nginx:alpine -- curl -m 5 manager-api-svc.mars:4444  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current                                 Dload  Upload   Total   Spent    Left  Speed100   612  100   612    0     0  68000      0 --:--:-- --:--:-- --:--:-- 68000&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to nginx!&lt;/title&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Short <code>manager-api-svc.mars</code> or long <code>manager-api-svc.mars.svc.cluster.local</code> work.</p>
+<h2 id="Question-19-Service-ClusterIP-gt-NodePort"><a href="#Question-19-Service-ClusterIP-gt-NodePort" class="headerlink" title="Question 19 | Service ClusterIP-&gt;NodePort"></a><strong>Question 19 | Service ClusterIP-&gt;NodePort</strong></h2><p>In <em>Namespace</em> <code>jupiter</code> you’ll find an apache <em>Deployment</em> (with one replica) named <code>jupiter-crew-deploy</code> and a ClusterIP <em>Service</em> called <code>jupiter-crew-svc</code> which exposes it. Change this service to a NodePort one to make it available on all nodes on port 30100.</p>
+<p>Test the NodePort <em>Service</em> using the internal IP of all available nodes and the port 30100 using <code>curl</code>, you can reach the internal node IPs directly from your main terminal. On which nodes is the <em>Service</em> reachable? On which node is the <em>Pod</em> running?</p>
+<h3 id="Answer-18"><a href="#Answer-18" class="headerlink" title="Answer"></a><strong>Answer</strong></h3><p>First we get an overview:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n jupiter get allNAME                                      READY   STATUS    RESTARTS   AGEpod/jupiter-crew-deploy-8cdf99bc9-klwqt   1/1     Running   0          34mNAME                       TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGEservice/jupiter-crew-svc   ClusterIP   10.100.254.66   &lt;none&gt;        8080/TCP   34m...</span><br></pre></td></tr></table></figure>
+
+<p>(Optional) Next we check if the ClusterIP <em>Service</em> actually works:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n jupiter run tmp --restart=Never --rm -i --image=nginx:alpine -- curl -m 5 jupiter-crew-svc:8080  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current                                 Dload  Upload   Total   Spent    Left  Speed100    45  100    45    0     0   5000      0 --:--:-- --:--:-- --:--:--  5000&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>The <em>Service</em> is working great. Next we change the <em>Service</em> type to NodePort and set the port:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n jupiter edit service jupiter-crew-svc</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># k -n jupiter edit service jupiter-crew-svcapiVersion: v1kind: Servicemetadata:  name: jupiter-crew-svc  namespace: jupiter...spec:  clusterIP: 10.3.245.70  ports:  - name: 8080-80    port: 8080    protocol: TCP    targetPort: 80    nodePort: 30100 # add the nodePort  selector:    id: jupiter-crew  sessionAffinity: None  #type: ClusterIP  type: NodePort    # change typestatus:  loadBalancer: &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>We check if the <em>Service</em> type was updated:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n jupiter get svcNAME               TYPE       CLUSTER-IP    EXTERNAL-IP   PORT(S)          AGEjupiter-crew-svc   NodePort   10.3.245.70   &lt;none&gt;        8080:30100/TCP   3m52s</span><br></pre></td></tr></table></figure>
+
+<p>(Optional) And we confirm that the service is still reachable internally:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n jupiter run tmp --restart=Never --rm -i --image=nginx:alpine -- curl -m 5 jupiter-crew-svc:8080  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current                                 Dload  Upload   Total   Spent    Left  Speed&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Nice. A NodePort <em>Service</em> kind of lies on top of a ClusterIP one, making the ClusterIP <em>Service</em> reachable on the Node IPs (internal and external). Next we get the <em>internal</em> IPs of all nodes to check the connectivity:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k get nodes -o wideNAME                    STATUS   ROLES          AGE   VERSION   INTERNAL-IP      ...cluster1-controlplane1  Ready    control-plane  18h   v1.29.0   192.168.100.11   ...cluster1-node1          Ready    &lt;none&gt;         18h   v1.29.0   192.168.100.12   ...</span><br></pre></td></tr></table></figure>
+
+<p>On which nodes is the <em>Service</em> reachable?</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ curl 192.168.100.11:30100&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;➜ curl 192.168.100.12:30100&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>On both, even the controlplane. On which node is the <em>Pod</em> running?</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n jupiter get pod jupiter-crew-deploy-8cdf99bc9-klwqt -o yaml | grep nodeName    nodeName: cluster1-node1➜ k -n jupiter get pod -o wide # or even shorter</span><br></pre></td></tr></table></figure>
+
+<p>In our case on <code>cluster1-node1</code>, but could be any other worker if more available. Here we hopefully gained some insight into how a NodePort <em>Service</em> works. Although the <em>Pod</em> is just running on one specific node, the <em>Service</em> makes it available through port 30100 on the internal and external IP addresses of all nodes. This is at least the common/default behaviour but can depend on cluster configuration.</p>
+<h2 id="Question-20-NetworkPolicy"><a href="#Question-20-NetworkPolicy" class="headerlink" title="Question 20 | NetworkPolicy"></a><strong>Question 20 | NetworkPolicy</strong></h2><p>In <em>Namespace</em> <code>venus</code> you’ll find two <em>Deployments</em> named <code>api</code> and <code>frontend</code>. Both <em>Deployments</em> are exposed inside the cluster using  <em>Services</em> . Create a <em>NetworkPolicy</em> named <code>np1</code> which restricts outgoing tcp connections from <em>Deployment</em> <code>frontend</code> and only allows those going to <em>Deployment</em> <code>api</code>. Make sure the <em>NetworkPolicy</em> still allows outgoing traffic on UDP/TCP ports 53 for DNS resolution.</p>
+<p>Test using: <code>wget www.google.com</code> and <code>wget api:2222</code> from a <em>Pod</em> of <em>Deployment</em> <code>frontend</code>.</p>
+<h3 id="Answer-19"><a href="#Answer-19" class="headerlink" title="Answer"></a><strong>Answer</strong></h3><blockquote>
+<p>INFO: For learning NetworkPolicies check out <a href="https://editor.cilium.io/">https://editor.cilium.io</a>. But you’re not allowed to use it during the exam.</p>
+</blockquote>
+<p>First we get an overview:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n venus get allNAME                            READY   STATUS    RESTARTS   AGEpod/api-5979b95578-gktxp        1/1     Running   0          57spod/api-5979b95578-lhcl5        1/1     Running   0          57spod/frontend-789cbdc677-c9v8h   1/1     Running   0          57spod/frontend-789cbdc677-npk2m   1/1     Running   0          57spod/frontend-789cbdc677-pl67g   1/1     Running   0          57spod/frontend-789cbdc677-rjt5r   1/1     Running   0          57spod/frontend-789cbdc677-xgf5n   1/1     Running   0          57sNAME               TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGEservice/api        ClusterIP   10.3.255.137   &lt;none&gt;        2222/TCP   37sservice/frontend   ClusterIP   10.3.255.135   &lt;none&gt;        80/TCP     57s...</span><br></pre></td></tr></table></figure>
+
+<p>(Optional) This is not necessary but we could check if the <em>Services</em> are working inside the cluster:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n venus run tmp --restart=Never --rm -i --image=busybox -i -- wget -O- frontend:80Connecting to frontend:80 (10.3.245.9:80)&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;title&gt;Welcome to nginx!&lt;/title&gt;...➜ k -n venus run tmp --restart=Never --rm --image=busybox -i -- wget -O- api:2222Connecting to api:2222 (10.3.250.233:2222)&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<p>Then we use any <code>frontend</code> <em>Pod</em> and check if it can reach external names and the <code>api</code>  <em>Service</em> :</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n venus exec frontend-789cbdc677-c9v8h -- wget -O- www.google.comConnecting to www.google.com (216.58.205.227:80)-                    100% |********************************| 12955  0:00:00 ETA&lt;!doctype html&gt;&lt;html itemscope=&quot;&quot; itemtype=&quot;&lt;http://schema.org/WebPage&gt;&quot; lang=&quot;en&quot;&gt;&lt;head&gt;...➜ k -n venus exec frontend-789cbdc677-c9v8h -- wget -O- api:2222&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;Connecting to api:2222 (10.3.255.137:2222)-                    100% |********************************|    45  0:00:00 ETA...</span><br></pre></td></tr></table></figure>
+
+<p>We see <em>Pods</em> of <code>frontend</code> can reach the <code>api</code> and external names.</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">vim 20_np1.yaml</span><br></pre></td></tr></table></figure>
+
+<p>Now we head to <a href="https://kubernetes.io/docs">https://kubernetes.io/docs</a>, search for  <em>NetworkPolicy</em> , copy the example code and adjust it to:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># 20_np1.yamlapiVersion: networking.k8s.io/v1kind: NetworkPolicymetadata:  name: np1  namespace: venusspec:  podSelector:    matchLabels:      id: frontend          # label of the pods this policy should be applied on  policyTypes:  - Egress                  # we only want to control egress  egress:  - to:                     # 1st egress rule    - podSelector:            # allow egress only to pods with api label        matchLabels:          id: api  - ports:                  # 2nd egress rule    - port: 53                # allow DNS UDP      protocol: UDP    - port: 53                # allow DNS TCP      protocol: TCP</span><br></pre></td></tr></table></figure>
+
+<p>Notice that we specify two egress rules in the yaml above. If we specify multiple egress rules then these are connected using a logical OR. So in the example above we do:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">allow outgoing traffic if  (destination pod has label id:api) OR ((port is 53 UDP) OR (port is 53 TCP))</span><br></pre></td></tr></table></figure>
+
+<p>Let’s have a look at example code which wouldn’t work in our case:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># this example does not work in our case...  egress:  - to:                     # 1st AND ONLY egress rule    - podSelector:            # allow egress only to pods with api label        matchLabels:          id: api    ports:                  # STILL THE SAME RULE but just an additional selector    - port: 53                # allow DNS UDP      protocol: UDP    - port: 53                # allow DNS TCP      protocol: TCP</span><br></pre></td></tr></table></figure>
+
+<p>In the yaml above we only specify one egress rule with two selectors. It can be translated into:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">allow outgoing traffic if  (destination pod has label id:api) AND ((port is 53 UDP) OR (port is 53 TCP))</span><br></pre></td></tr></table></figure>
+
+<p>Apply the correct policy:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -f 20_np1.yaml create</span><br></pre></td></tr></table></figure>
+
+<p>And try again, external is not working any longer:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n venus exec frontend-789cbdc677-c9v8h -- wget -O- www.google.deConnecting to www.google.de:2222 (216.58.207.67:80)^C➜ k -n venus exec frontend-789cbdc677-c9v8h -- wget -O- -T 5 www.google.de:80Connecting to www.google.com (172.217.203.104:80)wget: download timed outcommand terminated with exit code 1</span><br></pre></td></tr></table></figure>
+
+<p>Internal connection to <code>api</code> work as before:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n venus exec frontend-789cbdc677-c9v8h -- wget -O- api:2222&lt;html&gt;&lt;body&gt;&lt;h1&gt;It works!&lt;/h1&gt;&lt;/body&gt;&lt;/html&gt;Connecting to api:2222 (10.3.255.137:2222)-                    100% |********************************|    45  0:00:00 ETA</span><br></pre></td></tr></table></figure>
+
+<h2 id="Question-21-Requests-and-Limits-ServiceAccount"><a href="#Question-21-Requests-and-Limits-ServiceAccount" class="headerlink" title="Question 21 | Requests and Limits, ServiceAccount"></a><strong>Question 21 | Requests and Limits, ServiceAccount</strong></h2><p>Team Neptune needs 3 <em>Pods</em> of image <code>httpd:2.4-alpine</code>, create a <em>Deployment</em> named <code>neptune-10ab</code> for this. The containers should be named <code>neptune-pod-10ab</code>. Each container should have a memory request of <em>20Mi</em> and a memory limit of  <em>50Mi</em> .</p>
+<p>Team Neptune has it’s own <em>ServiceAccount</em> <code>neptune-sa-v2</code> under which the <em>Pods</em> should run. The <em>Deployment</em> should be in <em>Namespace</em> <code>neptune</code>.</p>
+<h3 id="Answer-20"><a href="#Answer-20" class="headerlink" title="Answer:"></a><strong>Answer:</strong></h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n neptune create deployment -h # helpk -n neptune create deploy -h # deploy is short for deployment# check the export on the very top of this document so we can use $dok -n neptune create deploy neptune-10ab --image=httpd:2.4-alpine $do &gt; 21.yamlvim 21.yaml</span><br></pre></td></tr></table></figure>
+
+<p>Now make the required changes using vim:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"># 21.yamlapiVersion: apps/v1kind: Deploymentmetadata:  creationTimestamp: null  labels:    app: neptune-10ab  name: neptune-10ab  namespace: neptunespec:  replicas: 3                   # change  selector:    matchLabels:      app: neptune-10ab  strategy: &#123;&#125;  template:    metadata:      creationTimestamp: null      labels:        app: neptune-10ab    spec:      serviceAccountName: neptune-sa-v2 # add      containers:      - image: httpd:2.4-alpine        name: neptune-pod-10ab  # change        resources:              # add          limits:               # add            memory: 50Mi        # add          requests:             # add            memory: 20Mi        # addstatus: &#123;&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Then create the yaml:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k create -f 21.yaml # namespace already set in yaml</span><br></pre></td></tr></table></figure>
+
+<p>To verify all <em>Pods</em> are running we do:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n neptune get pod | grep neptune-10abneptune-10ab-7d4b8d45b-4nzj5   1/1     Running            0          57sneptune-10ab-7d4b8d45b-lzwrf   1/1     Running            0          17sneptune-10ab-7d4b8d45b-z5hcc   1/1     Running            0          17s</span><br></pre></td></tr></table></figure>
+
+<h2 id="Question-22-Labels-Annotations"><a href="#Question-22-Labels-Annotations" class="headerlink" title="Question 22 | Labels, Annotations"></a><strong>Question 22 | Labels, Annotations</strong></h2><p>Team Sunny needs to identify some of their <em>Pods</em> in namespace <code>sun</code>. They ask you to add a new label <code>protected: true</code> to all <em>Pods</em> with an existing label <code>type: worker</code> or <code>type: runner</code>. Also add an annotation <code>protected: do not delete this pod</code> to all <em>Pods</em> having the new label <code>protected: true</code>.</p>
+<h3 id="Answer-21"><a href="#Answer-21" class="headerlink" title="Answer"></a><strong>Answer</strong></h3><figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n sun get pod --show-labelsNAME           READY   STATUS    RESTARTS   AGE   LABELS0509649a       1/1     Running   0          25s   type=runner,type_old=messenger0509649b       1/1     Running   0          24s   type=worker1428721e       1/1     Running   0          23s   type=worker1428721f       1/1     Running   0          22s   type=worker43b9a          1/1     Running   0          22s   type=test4c09           1/1     Running   0          21s   type=worker4c35           1/1     Running   0          20s   type=worker4fe4           1/1     Running   0          19s   type=worker5555a          1/1     Running   0          19s   type=messenger86cda          1/1     Running   0          18s   type=runner8d1c           1/1     Running   0          17s   type=messengera004a          1/1     Running   0          16s   type=runnera94128196      1/1     Running   0          15s   type=runner,type_old=messengerafd79200c56a   1/1     Running   0          15s   type=workerb667           1/1     Running   0          14s   type=workerfdb2           1/1     Running   0          13s   type=worker</span><br></pre></td></tr></table></figure>
+
+<p>If we would only like to get pods with certain labels we can run:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n sun get pod -l type=runner # only pods with label runner</span><br></pre></td></tr></table></figure>
+
+<p>We can use this label filtering also when using other commands, like setting new labels:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k label -h # helpk -n sun label pod -l type=runner protected=true # run for label runnerk -n sun label pod -l type=worker protected=true # run for label worker</span><br></pre></td></tr></table></figure>
+
+<p>Or we could run:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n sun label pod -l &quot;type in (worker,runner)&quot; protected=true</span><br></pre></td></tr></table></figure>
+
+<p>Let’s check the result:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">➜ k -n sun get pod --show-labelsNAME           ...   AGE   LABELS0509649a       ...          56s   protected=true,type=runner,type_old=messenger0509649b       ...          55s   protected=true,type=worker1428721e       ...          54s   protected=true,type=worker1428721f       ...          53s   protected=true,type=worker43b9a          ...          53s   type=test4c09           ...          52s   protected=true,type=worker4c35           ...          51s   protected=true,type=worker4fe4           ...          50s   protected=true,type=worker5555a          ...          50s   type=messenger86cda          ...          49s   protected=true,type=runner8d1c           ...          48s   type=messengera004a          ...          47s   protected=true,type=runnera94128196      ...          46s   protected=true,type=runner,type_old=messengerafd79200c56a   ...          46s   protected=true,type=workerb667           ...          45s   protected=true,type=workerfdb2           ...          44s   protected=true,type=worker</span><br></pre></td></tr></table></figure>
+
+<p>Looking good. Finally we set the annotation using the newly assigned label <code>protected: true</code>:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n sun annotate pod -l protected=true protected=&quot;do not delete this pod&quot;</span><br></pre></td></tr></table></figure>
+
+<p>Not requested in the task but for your own control you could run:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">k -n sun get pod -l protected=true -o yaml | grep -A 8 metadata:</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>ckad</category>
+      </categories>
+      <tags>
+        <tag>kubernetes</tag>
+        <tag>ckad</tag>
       </tags>
   </entry>
 </search>
