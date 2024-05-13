@@ -1,0 +1,595 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>Ljohn&#39;s Blog</title>
+  <icon>https://www.ljohn.cn/icon.png</icon>
+  <subtitle>IT民工</subtitle>
+  <link href="https://www.ljohn.cn/atom.xml" rel="self"/>
+  
+  <link href="https://www.ljohn.cn/"/>
+  <updated>2024-03-25T04:19:34.760Z</updated>
+  <id>https://www.ljohn.cn/</id>
+  
+  <author>
+    <name>Ljohn</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>CKAD模拟题2024</title>
+    <link href="https://www.ljohn.cn/posts/61bd4278/"/>
+    <id>https://www.ljohn.cn/posts/61bd4278/</id>
+    <published>2024-03-24T20:14:41.000Z</published>
+    <updated>2024-03-25T04:19:34.760Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;Question-1-Namespaces&quot;&gt;&lt;a href=&quot;#Question-1-Namespaces&quot; class=&quot;headerlink&quot; title=&quot;Question 1 | Namespaces&quot;&gt;&lt;/a&gt;&lt;strong&gt;Question 1 |</summary>
+        
+      
+    
+    
+    
+    <category term="ckad" scheme="https://www.ljohn.cn/categories/ckad/"/>
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="ckad" scheme="https://www.ljohn.cn/tags/ckad/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>2024CKAD考试心得</title>
+    <link href="https://www.ljohn.cn/posts/6fd8cc9b/"/>
+    <id>https://www.ljohn.cn/posts/6fd8cc9b/</id>
+    <published>2024-03-24T18:35:21.000Z</published>
+    <updated>2024-03-25T04:19:06.252Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;简述&quot;&gt;&lt;a href=&quot;#简述&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="ckad" scheme="https://www.ljohn.cn/categories/ckad/"/>
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="ckad" scheme="https://www.ljohn.cn/tags/ckad/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>容器宿主机故障检测及节点自愈</title>
+    <link href="https://www.ljohn.cn/posts/6ede5602/"/>
+    <id>https://www.ljohn.cn/posts/6ede5602/</id>
+    <published>2024-03-14T09:46:38.749Z</published>
+    <updated>2024-03-14T07:48:33.940Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;在 Kubernetes 集群运行时，节点有时会因为组件问题、内核死锁、资源不足等原因不可用。Kubelet 默认对节点的</summary>
+        
+      
+    
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/categories/kubernetes/"/>
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="k8s" scheme="https://www.ljohn.cn/tags/k8s/"/>
+    
+    <category term="npd" scheme="https://www.ljohn.cn/tags/npd/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Ubuntu内核管理</title>
+    <link href="https://www.ljohn.cn/posts/b97fcc87/"/>
+    <id>https://www.ljohn.cn/posts/b97fcc87/</id>
+    <published>2024-03-14T09:46:38.717Z</published>
+    <updated>2024-03-14T07:48:33.820Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/categories/linux/"/>
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
+    
+    <category term="ubuntu" scheme="https://www.ljohn.cn/tags/ubuntu/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CKS真题2023</title>
+    <link href="https://www.ljohn.cn/posts/afd2cd6e/"/>
+    <id>https://www.ljohn.cn/posts/afd2cd6e/</id>
+    <published>2024-03-14T09:46:38.673Z</published>
+    <updated>2024-03-14T07:48:33.690Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;考试心得&quot;&gt;&lt;a href=&quot;#考试心得&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="cks" scheme="https://www.ljohn.cn/categories/cks/"/>
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="cks" scheme="https://www.ljohn.cn/tags/cks/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>calico-node异常重启</title>
+    <link href="https://www.ljohn.cn/posts/d62f787/"/>
+    <id>https://www.ljohn.cn/posts/d62f787/</id>
+    <published>2024-03-14T09:46:38.633Z</published>
+    <updated>2024-03-14T07:48:33.410Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;环境信息&quot;&gt;&lt;a href=&quot;#环境信息&quot; class=&quot;headerlink&quot; title=&quot;环境信息&quot;&gt;&lt;/a&gt;环境信息&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;os 版本： centos7.9&lt;/li&gt;
+&lt;li&gt;kernel</summary>
+        
+      
+    
+    
+    
+    <category term="calico" scheme="https://www.ljohn.cn/categories/calico/"/>
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="k8s" scheme="https://www.ljohn.cn/tags/k8s/"/>
+    
+    <category term="calico" scheme="https://www.ljohn.cn/tags/calico/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux 使用crash分析vmcore dump文件</title>
+    <link href="https://www.ljohn.cn/posts/76d974f3/"/>
+    <id>https://www.ljohn.cn/posts/76d974f3/</id>
+    <published>2024-03-14T09:46:38.561Z</published>
+    <updated>2024-03-14T07:48:33.280Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;vmcore是什么？&quot;&gt;&lt;a href=&quot;#vmcore是什么？&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/categories/linux/"/>
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
+    
+    <category term="内核" scheme="https://www.ljohn.cn/tags/%E5%86%85%E6%A0%B8/"/>
+    
+    <category term="vmcore" scheme="https://www.ljohn.cn/tags/vmcore/"/>
+    
+    <category term="crash" scheme="https://www.ljohn.cn/tags/crash/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>docker报错打开太多文件（too many open files）</title>
+    <link href="https://www.ljohn.cn/posts/743c406f/"/>
+    <id>https://www.ljohn.cn/posts/743c406f/</id>
+    <published>2024-03-14T09:46:38.517Z</published>
+    <updated>2024-03-14T07:48:33.140Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;p&gt;在Linux系统内默认对所有进程打开的文件数量有限制（也可以称为文件句柄，包含打开的文件，套接字，网络连接等都算是一个文件句柄）&lt;/p&gt;
+&lt;h2 id=&quot;查看当前系统限制最大文件打开数量&quot;&gt;&lt;a href=&quot;#查看当前系统限制最大文件打开数量&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/categories/linux/"/>
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
+    
+    <category term="k8s" scheme="https://www.ljohn.cn/tags/k8s/"/>
+    
+    <category term="docker" scheme="https://www.ljohn.cn/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>kubelet状态更新和自驱逐参数优化</title>
+    <link href="https://www.ljohn.cn/posts/7f9c3178/"/>
+    <id>https://www.ljohn.cn/posts/7f9c3178/</id>
+    <published>2024-03-14T09:46:38.517Z</published>
+    <updated>2024-03-14T07:48:33.130Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;环境信息&quot;&gt;&lt;a href=&quot;#环境信息&quot; class=&quot;headerlink&quot; title=&quot;环境信息&quot;&gt;&lt;/a&gt;环境信息&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;kubelet：</summary>
+        
+      
+    
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/categories/kubernetes/"/>
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="k8s" scheme="https://www.ljohn.cn/tags/k8s/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>pod容器内ping延迟大问题</title>
+    <link href="https://www.ljohn.cn/posts/da179f53/"/>
+    <id>https://www.ljohn.cn/posts/da179f53/</id>
+    <published>2024-03-14T09:46:38.433Z</published>
+    <updated>2024-03-14T07:48:32.930Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/categories/kubernetes/"/>
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="k8s" scheme="https://www.ljohn.cn/tags/k8s/"/>
+    
+    <category term="容器" scheme="https://www.ljohn.cn/tags/%E5%AE%B9%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CentOS7安装基于BPF的bcc-tools系统性能工具库</title>
+    <link href="https://www.ljohn.cn/posts/f49f425d/"/>
+    <id>https://www.ljohn.cn/posts/f49f425d/</id>
+    <published>2024-03-14T09:46:38.425Z</published>
+    <updated>2024-03-14T07:48:32.860Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;准备&quot;&gt;&lt;a href=&quot;#准备&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/categories/linux/"/>
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
+    
+    <category term="bcc" scheme="https://www.ljohn.cn/tags/bcc/"/>
+    
+    <category term="bpf" scheme="https://www.ljohn.cn/tags/bpf/"/>
+    
+    <category term="系统" scheme="https://www.ljohn.cn/tags/%E7%B3%BB%E7%BB%9F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CKAD模拟题:2-CronJob</title>
+    <link href="https://www.ljohn.cn/posts/d95d044a/"/>
+    <id>https://www.ljohn.cn/posts/d95d044a/</id>
+    <published>2024-03-14T09:46:38.417Z</published>
+    <updated>2024-03-14T07:48:32.850Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;题目要求&quot;&gt;&lt;a href=&quot;#题目要求&quot; class=&quot;headerlink&quot; title=&quot;题目要求&quot;&gt;&lt;/a&gt;题目要求&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;在清单文件 /ckad/CKAD00016/periodic.yaml 中定义此</summary>
+        
+      
+    
+    
+    
+    <category term="ckad" scheme="https://www.ljohn.cn/categories/ckad/"/>
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="ckad" scheme="https://www.ljohn.cn/tags/ckad/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CKAD模拟题:7-金丝雀部署</title>
+    <link href="https://www.ljohn.cn/posts/8380b7d5/"/>
+    <id>https://www.ljohn.cn/posts/8380b7d5/</id>
+    <published>2024-03-14T09:46:38.417Z</published>
+    <updated>2024-03-14T07:48:32.850Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;题目要求&quot;&gt;&lt;a href=&quot;#题目要求&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="ckad" scheme="https://www.ljohn.cn/categories/ckad/"/>
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="ckad" scheme="https://www.ljohn.cn/tags/ckad/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kubernetets CPU绑核配置</title>
+    <link href="https://www.ljohn.cn/posts/19c6e9f2/"/>
+    <id>https://www.ljohn.cn/posts/19c6e9f2/</id>
+    <published>2024-03-14T09:46:38.417Z</published>
+    <updated>2024-03-14T07:48:32.850Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;CPU绑核配置&quot;&gt;&lt;a href=&quot;#CPU绑核配置&quot; class=&quot;headerlink&quot; title=&quot;CPU绑核配置&quot;&gt;&lt;/a&gt;CPU绑核配置&lt;/h1&gt;&lt;p&gt;默认情况下，kubelet 使用 &lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/categories/kubernetes/"/>
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="k8s" scheme="https://www.ljohn.cn/tags/k8s/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>kubelet统计磁盘inode耗时导致负载升高问题</title>
+    <link href="https://www.ljohn.cn/posts/b0f608c0/"/>
+    <id>https://www.ljohn.cn/posts/b0f608c0/</id>
+    <published>2024-03-14T09:46:38.417Z</published>
+    <updated>2024-03-14T07:48:32.850Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot; title=&quot;问题描述&quot;&gt;&lt;/a&gt;问题描述&lt;/h1&gt;&lt;p&gt;1、磁盘容量告警&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/posts/b0f608c0/1685575843966.png&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/categories/kubernetes/"/>
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="k8s" scheme="https://www.ljohn.cn/tags/k8s/"/>
+    
+    <category term="容器" scheme="https://www.ljohn.cn/tags/%E5%AE%B9%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CKAD模拟题:28-Jobs</title>
+    <link href="https://www.ljohn.cn/posts/36fb4e14/"/>
+    <id>https://www.ljohn.cn/posts/36fb4e14/</id>
+    <published>2024-03-08T23:38:06.000Z</published>
+    <updated>2024-03-14T07:48:33.950Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;题目要求&quot;&gt;&lt;a href=&quot;#题目要求&quot; class=&quot;headerlink&quot; title=&quot;题目要求&quot;&gt;&lt;/a&gt;题目要求&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;用执行命令**’date; echo Hello from the Kubernetes</summary>
+        
+      
+    
+    
+    
+    <category term="ckad" scheme="https://www.ljohn.cn/categories/ckad/"/>
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="ckad" scheme="https://www.ljohn.cn/tags/ckad/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CKAD模拟题:27-Secret 秘钥</title>
+    <link href="https://www.ljohn.cn/posts/3f10f995/"/>
+    <id>https://www.ljohn.cn/posts/3f10f995/</id>
+    <published>2024-03-08T23:37:51.000Z</published>
+    <updated>2024-03-14T07:48:33.940Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;题目要求&quot;&gt;&lt;a href=&quot;#题目要求&quot; class=&quot;headerlink&quot; title=&quot;题目要求&quot;&gt;&lt;/a&gt;题目要求&lt;/h2&gt;&lt;p&gt;在 &lt;strong&gt;test&lt;/strong&gt; 命名空间，创建一个名为 &lt;strong&gt;mysecret&lt;/strong&gt;</summary>
+        
+      
+    
+    
+    
+    <category term="ckad" scheme="https://www.ljohn.cn/categories/ckad/"/>
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="ckad" scheme="https://www.ljohn.cn/tags/ckad/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CKAD模拟题:26-SecurityContext 安全上下文</title>
+    <link href="https://www.ljohn.cn/posts/88c9ee56/"/>
+    <id>https://www.ljohn.cn/posts/88c9ee56/</id>
+    <published>2024-03-08T23:37:35.000Z</published>
+    <updated>2024-03-14T07:48:33.410Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;题目要求&quot;&gt;&lt;a href=&quot;#题目要求&quot; class=&quot;headerlink&quot; title=&quot;题目要求&quot;&gt;&lt;/a&gt;题目要求&lt;/h2&gt;&lt;p&gt;在 &lt;strong&gt;test&lt;/strong&gt; 命名空间，有一个名为 &lt;strong&gt;secnginx&lt;/strong&gt;</summary>
+        
+      
+    
+    
+    
+    <category term="ckad" scheme="https://www.ljohn.cn/categories/ckad/"/>
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="ckad" scheme="https://www.ljohn.cn/tags/ckad/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CKAD模拟题:25-资源配额Quota</title>
+    <link href="https://www.ljohn.cn/posts/89e8fc71/"/>
+    <id>https://www.ljohn.cn/posts/89e8fc71/</id>
+    <published>2024-03-08T23:37:13.000Z</published>
+    <updated>2024-03-14T07:48:33.110Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;题目要求&quot;&gt;&lt;a href=&quot;#题目要求&quot; class=&quot;headerlink&quot; title=&quot;题目要求&quot;&gt;&lt;/a&gt;题目要求&lt;/h2&gt;&lt;p&gt;在 &lt;strong&gt;qutt&lt;/strong&gt; 命名空间，创建一个名为 &lt;strong&gt;myquota&lt;/strong&gt;</summary>
+        
+      
+    
+    
+    
+    <category term="ckad" scheme="https://www.ljohn.cn/categories/ckad/"/>
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="ckad" scheme="https://www.ljohn.cn/tags/ckad/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>CKAD模拟题:24-sidecar 边车容器</title>
+    <link href="https://www.ljohn.cn/posts/8ad8a03/"/>
+    <id>https://www.ljohn.cn/posts/8ad8a03/</id>
+    <published>2024-03-08T23:36:49.000Z</published>
+    <updated>2024-03-14T07:48:33.040Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;题目要求&quot;&gt;&lt;a href=&quot;#题目要求&quot; class=&quot;headerlink&quot; title=&quot;题目要求&quot;&gt;&lt;/a&gt;题目要求&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;在 &lt;strong&gt;default&lt;/strong&gt; 命名空间创建一个 deployment 名为</summary>
+        
+      
+    
+    
+    
+    <category term="ckad" scheme="https://www.ljohn.cn/categories/ckad/"/>
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="ckad" scheme="https://www.ljohn.cn/tags/ckad/"/>
+    
+  </entry>
+  
+</feed>
