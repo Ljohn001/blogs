@@ -13,6 +13,7 @@ menu:
     友情链接: /link/ || fa fa-link
     宝藏链接: /favorite/ || fa fa-link
   自述: /about/ || fas fa-heart
+  RSS: https://www.ljohn.cn/atom.xml
 
 nav:
   logo: # image
@@ -43,6 +44,10 @@ copy:
 social:
   fab fa-github: https://github.com/ljohn001 || Github
   fas fa-envelope: mailto:ljohnmail@foxmail.com|| Email
+  fas fa-rss: https://www.ljohn.cn/atom.xml
+
+# RSS 订阅
+rss: /atom.xml
 
 # search (搜索)
 # see https://butterfly.js.org/posts/ceeb73f/#搜索系統
@@ -920,6 +925,8 @@ inject:
     # 页脚养鱼 参考：https://hujiyi.github.io/2021/11/17/footer-fish/
     - <script src="/js/jquery.min.js"></script>
     - <script src="/js/fishes.js"></script>
+# RSS订阅 
+
 
 # CDN
 # Don't modify the following settings unless you know how they work
