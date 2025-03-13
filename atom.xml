@@ -6,7 +6,7 @@
   <link href="https://www.ljohn.cn/atom.xml" rel="self"/>
   
   <link href="https://www.ljohn.cn/"/>
-  <updated>2024-03-25T04:19:34.760Z</updated>
+  <updated>2025-03-13T13:25:26.126Z</updated>
   <id>https://www.ljohn.cn/</id>
   
   <author>
@@ -15,6 +15,95 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>顺利成为Kubestronaut成员</title>
+    <link href="https://www.ljohn.cn/posts/66cd6d39/"/>
+    <id>https://www.ljohn.cn/posts/66cd6d39/</id>
+    <published>2025-03-13T12:51:26.086Z</published>
+    <updated>2025-03-13T13:25:26.126Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;3年内成功通过CNCF旗下云原生相关的5个证书，并顺利获得kubestronaut</summary>
+        
+      
+    
+    
+    
+    <category term="kubestronaut" scheme="https://www.ljohn.cn/categories/kubestronaut/"/>
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="cncf" scheme="https://www.ljohn.cn/tags/cncf/"/>
+    
+    <category term="kcsa" scheme="https://www.ljohn.cn/tags/kcsa/"/>
+    
+    <category term="kubestronaut" scheme="https://www.ljohn.cn/tags/kubestronaut/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>UDEMY-KCSA练习错题集</title>
+    <link href="https://www.ljohn.cn/posts/25154b6c/"/>
+    <id>https://www.ljohn.cn/posts/25154b6c/</id>
+    <published>2025-03-13T12:48:52.759Z</published>
+    <updated>2025-03-13T12:53:09.057Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h1&gt;&lt;p&gt;该套题目是UDEMY上的一套题目《&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="kcsa" scheme="https://www.ljohn.cn/categories/kcsa/"/>
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="cncf" scheme="https://www.ljohn.cn/tags/cncf/"/>
+    
+    <category term="kcsa" scheme="https://www.ljohn.cn/tags/kcsa/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>KCSA错题集</title>
+    <link href="https://www.ljohn.cn/posts/b6e3b579/"/>
+    <id>https://www.ljohn.cn/posts/b6e3b579/</id>
+    <published>2025-03-13T12:36:37.831Z</published>
+    <updated>2025-03-13T12:41:43.968Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h3 id=&quot;前言&quot;&gt;&lt;a href=&quot;#前言&quot; class=&quot;headerlink&quot; title=&quot;前言&quot;&gt;&lt;/a&gt;前言&lt;/h3&gt;&lt;p&gt;以下是学习KCSA练习题的错题集，很多题比较常见和容易理解出错，具体参考该项目：&lt;a</summary>
+        
+      
+    
+    
+    
+    <category term="kcsa" scheme="https://www.ljohn.cn/categories/kcsa/"/>
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="cncf" scheme="https://www.ljohn.cn/tags/cncf/"/>
+    
+    <category term="kcsa" scheme="https://www.ljohn.cn/tags/kcsa/"/>
+    
+  </entry>
   
   <entry>
     <title>CKAD模拟题2024</title>
@@ -496,88 +585,6 @@
         
         
     <summary type="html">&lt;h2 id=&quot;题目要求&quot;&gt;&lt;a href=&quot;#题目要求&quot; class=&quot;headerlink&quot; title=&quot;题目要求&quot;&gt;&lt;/a&gt;题目要求&lt;/h2&gt;&lt;p&gt;在 &lt;strong&gt;test&lt;/strong&gt; 命名空间，创建一个名为 &lt;strong&gt;mysecret&lt;/strong&gt;</summary>
-        
-      
-    
-    
-    
-    <category term="ckad" scheme="https://www.ljohn.cn/categories/ckad/"/>
-    
-    
-    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
-    
-    <category term="ckad" scheme="https://www.ljohn.cn/tags/ckad/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CKAD模拟题:26-SecurityContext 安全上下文</title>
-    <link href="https://www.ljohn.cn/posts/88c9ee56/"/>
-    <id>https://www.ljohn.cn/posts/88c9ee56/</id>
-    <published>2024-03-08T23:37:35.000Z</published>
-    <updated>2024-03-14T07:48:33.410Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;题目要求&quot;&gt;&lt;a href=&quot;#题目要求&quot; class=&quot;headerlink&quot; title=&quot;题目要求&quot;&gt;&lt;/a&gt;题目要求&lt;/h2&gt;&lt;p&gt;在 &lt;strong&gt;test&lt;/strong&gt; 命名空间，有一个名为 &lt;strong&gt;secnginx&lt;/strong&gt;</summary>
-        
-      
-    
-    
-    
-    <category term="ckad" scheme="https://www.ljohn.cn/categories/ckad/"/>
-    
-    
-    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
-    
-    <category term="ckad" scheme="https://www.ljohn.cn/tags/ckad/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CKAD模拟题:25-资源配额Quota</title>
-    <link href="https://www.ljohn.cn/posts/89e8fc71/"/>
-    <id>https://www.ljohn.cn/posts/89e8fc71/</id>
-    <published>2024-03-08T23:37:13.000Z</published>
-    <updated>2024-03-14T07:48:33.110Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;题目要求&quot;&gt;&lt;a href=&quot;#题目要求&quot; class=&quot;headerlink&quot; title=&quot;题目要求&quot;&gt;&lt;/a&gt;题目要求&lt;/h2&gt;&lt;p&gt;在 &lt;strong&gt;qutt&lt;/strong&gt; 命名空间，创建一个名为 &lt;strong&gt;myquota&lt;/strong&gt;</summary>
-        
-      
-    
-    
-    
-    <category term="ckad" scheme="https://www.ljohn.cn/categories/ckad/"/>
-    
-    
-    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
-    
-    <category term="ckad" scheme="https://www.ljohn.cn/tags/ckad/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CKAD模拟题:24-sidecar 边车容器</title>
-    <link href="https://www.ljohn.cn/posts/8ad8a03/"/>
-    <id>https://www.ljohn.cn/posts/8ad8a03/</id>
-    <published>2024-03-08T23:36:49.000Z</published>
-    <updated>2024-03-14T07:48:33.040Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;题目要求&quot;&gt;&lt;a href=&quot;#题目要求&quot; class=&quot;headerlink&quot; title=&quot;题目要求&quot;&gt;&lt;/a&gt;题目要求&lt;/h2&gt;&lt;ul&gt;
-&lt;li&gt;&lt;p&gt;在 &lt;strong&gt;default&lt;/strong&gt; 命名空间创建一个 deployment 名为</summary>
         
       
     

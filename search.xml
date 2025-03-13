@@ -994,37 +994,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Ubuntu内核管理</title>
-    <url>/posts/b97fcc87/</url>
-    <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>由于公司目前开始全面开始推进ubuntu系统的使用，使用时发现内核更新太过频繁，对于ubuntu桌面版本内核升级可能会提升用户体验和安全性，但对于ubuntu server服务器，我们一般会采用固定版本。默认情况下ubuntu不管是桌面版还是server版本，执行 <code>apt update</code>会升级下载所有需要升级的包（包括内核包）。版本固定方便统一维护，如果某个版本的内核存在bug，可以安排统一更新。</p>
-<h1 id="升级和卸载内核"><a href="#升级和卸载内核" class="headerlink" title="升级和卸载内核"></a>升级和卸载内核</h1><p>1、升级内核</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看当前内核</span><br><span class="line">uname -r</span><br><span class="line"># 升级软件包</span><br><span class="line">sudo apt update</span><br><span class="line"># 查看可用内核</span><br><span class="line">apt-cache search linux-image</span><br><span class="line"># 选择合适的内核进行安装</span><br><span class="line">sudo apt-get install linux-image-XXXX-generic</span><br><span class="line"></span><br><span class="line">or </span><br><span class="line">之前执行过 sudo apt update 更新过，执行如下</span><br><span class="line">dpkg --list | grep linux-image</span><br><span class="line"></span><br><span class="line">or </span><br><span class="line">另外，可以自行下载制定内核进行安装，下载地址如下：</span><br><span class="line">http://kernel.ubuntu.com/~kernel-ppa/mainline/ </span><br><span class="line">sudo dpkg -i *.deb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>2、卸载内核</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看内核安装情况：</span><br><span class="line">dpkg --list | grep linux-image</span><br><span class="line">dpkg --list | grep linux-headers</span><br><span class="line"># 手动指定卸载内核：</span><br><span class="line">sudo apt purge linux-image-xx</span><br><span class="line">sudo apt purge linux-headers-xx</span><br><span class="line">sudo apt autoremove</span><br><span class="line"></span><br><span class="line"># 这里也可以选择卸载所有不在使用的内核版本(5.4.187为当前在使用版本)</span><br><span class="line">sudo apt-get autoremove --purge $(dpkg -l &#x27;linux-*&#x27; | awk &#x27;/^ii/&#123;print $2&#125;&#x27; | grep -E &#x27;linux-(image|headers|modules|modules-extra)-[0-9]+&#x27; | grep -v &quot;5.4.187&quot; | awk &#x27;&#123;print $1&#125;&#x27;)</span><br><span class="line"></span><br><span class="line"># 执行更新grub</span><br><span class="line">sudo update-grub </span><br></pre></td></tr></table></figure>
-
-<p>3、修改默认启动的内核版本</p>
-<p>如果已经更新了内核，主机上就会存在多个已安装版本，默认情况下重启会自动选择最新的，这个时候如何选择某个版本下次重启生效</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看已经在启动列表的内核</span><br><span class="line">cat /boot/grub/grub.cfg | grep &quot;menuentry &#x27;Ubuntu,&quot; | awk -F &#x27;--class&#x27; &#x27;&#123;print $1&#125;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 5.10.87-051087-generic&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 5.10.87-051087-generic (recovery mode)&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 5.4.187-0504187-generic&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 5.4.187-0504187-generic (recovery mode)&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 4.15.0-163-generic&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 4.15.0-163-generic (recovery mode)&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 4.15.0-162-generic&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 4.15.0-162-generic (recovery mode)&#x27;</span><br><span class="line"># 修改/etc/default/grub 找到 GRUB_DEFAULT 行，并将其值设置为所选择的内核版本的完整名称或索引号。</span><br><span class="line">vi /etc/default/grub</span><br><span class="line">GRUB_DEFAULT=&#x27;Ubuntu, with Linux 4.15.0-162-generic&#x27;</span><br><span class="line"># 更新grub，重启主机生效</span><br><span class="line">update-grub</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="关闭内核自动更新"><a href="#关闭内核自动更新" class="headerlink" title="关闭内核自动更新"></a>关闭内核自动更新</h1><p>1、固定某个版本的内核</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 固定hold某个软件包，以后执行update就不会升级和下载内核</span><br><span class="line">sudo apt-mark hold linux-image-generic linux-headers-generic</span><br><span class="line"># 查看hold状态包</span><br><span class="line">sudo dpkg --get-selections | grep hold </span><br><span class="line"># 如果要重新启用内核更新</span><br><span class="line">sudo apt-mark unhold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
-
-<p>2、或，如下方式关闭软件包自动更新配置</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 修改如下配置，其中的值改成 &quot;0&quot;</span><br><span class="line">/etc/apt/apt.conf.d/10periodic</span><br><span class="line">/etc/apt/apt.conf.d/20auto-upgrades</span><br><span class="line"></span><br><span class="line">cat /etc/apt/apt.conf.d/20auto-upgrades</span><br><span class="line">APT::Periodic::Update-Package-Lists &quot;0&quot;;</span><br><span class="line">APT::Periodic::Unattended-Upgrade &quot;0&quot;;</span><br><span class="line"></span><br><span class="line">cat /etc/apt/apt.conf.d/10periodic</span><br><span class="line">APT::Periodic::Update-Package-Lists &quot;0&quot;;</span><br><span class="line">APT::Periodic::Download-Upgradeable-Packages &quot;0&quot;;</span><br><span class="line">APT::Periodic::AutocleanInterval &quot;0&quot;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.cnblogs.com/open-skill/p/8295234.html">https://www.cnblogs.com/open-skill/p/8295234.html</a></p>
-<p><a href="https://linux.cn/article-6245-1.html">https://linux.cn/article-6245-1.html</a></p>
-]]></content>
-      <categories>
-        <category>linux</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>ubuntu</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Linux 使用crash分析vmcore dump文件</title>
     <url>/posts/76d974f3/</url>
     <content><![CDATA[<h2 id="vmcore是什么？"><a href="#vmcore是什么？" class="headerlink" title="vmcore是什么？"></a>vmcore是什么？</h2><p>vmcore是指操作系统在遇到致命错误（比如内核崩溃）时所生成的内存转储文件。这个文件包含了操作系统在崩溃前的内存状态，因此可以用于诊断崩溃的原因。</p>
@@ -1105,6 +1074,37 @@
         <tag>内核</tag>
         <tag>vmcore</tag>
         <tag>crash</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Ubuntu内核管理</title>
+    <url>/posts/b97fcc87/</url>
+    <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>由于公司目前开始全面开始推进ubuntu系统的使用，使用时发现内核更新太过频繁，对于ubuntu桌面版本内核升级可能会提升用户体验和安全性，但对于ubuntu server服务器，我们一般会采用固定版本。默认情况下ubuntu不管是桌面版还是server版本，执行 <code>apt update</code>会升级下载所有需要升级的包（包括内核包）。版本固定方便统一维护，如果某个版本的内核存在bug，可以安排统一更新。</p>
+<h1 id="升级和卸载内核"><a href="#升级和卸载内核" class="headerlink" title="升级和卸载内核"></a>升级和卸载内核</h1><p>1、升级内核</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看当前内核</span><br><span class="line">uname -r</span><br><span class="line"># 升级软件包</span><br><span class="line">sudo apt update</span><br><span class="line"># 查看可用内核</span><br><span class="line">apt-cache search linux-image</span><br><span class="line"># 选择合适的内核进行安装</span><br><span class="line">sudo apt-get install linux-image-XXXX-generic</span><br><span class="line"></span><br><span class="line">or </span><br><span class="line">之前执行过 sudo apt update 更新过，执行如下</span><br><span class="line">dpkg --list | grep linux-image</span><br><span class="line"></span><br><span class="line">or </span><br><span class="line">另外，可以自行下载制定内核进行安装，下载地址如下：</span><br><span class="line">http://kernel.ubuntu.com/~kernel-ppa/mainline/ </span><br><span class="line">sudo dpkg -i *.deb</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>2、卸载内核</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看内核安装情况：</span><br><span class="line">dpkg --list | grep linux-image</span><br><span class="line">dpkg --list | grep linux-headers</span><br><span class="line"># 手动指定卸载内核：</span><br><span class="line">sudo apt purge linux-image-xx</span><br><span class="line">sudo apt purge linux-headers-xx</span><br><span class="line">sudo apt autoremove</span><br><span class="line"></span><br><span class="line"># 这里也可以选择卸载所有不在使用的内核版本(5.4.187为当前在使用版本)</span><br><span class="line">sudo apt-get autoremove --purge $(dpkg -l &#x27;linux-*&#x27; | awk &#x27;/^ii/&#123;print $2&#125;&#x27; | grep -E &#x27;linux-(image|headers|modules|modules-extra)-[0-9]+&#x27; | grep -v &quot;5.4.187&quot; | awk &#x27;&#123;print $1&#125;&#x27;)</span><br><span class="line"></span><br><span class="line"># 执行更新grub</span><br><span class="line">sudo update-grub </span><br></pre></td></tr></table></figure>
+
+<p>3、修改默认启动的内核版本</p>
+<p>如果已经更新了内核，主机上就会存在多个已安装版本，默认情况下重启会自动选择最新的，这个时候如何选择某个版本下次重启生效</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 查看已经在启动列表的内核</span><br><span class="line">cat /boot/grub/grub.cfg | grep &quot;menuentry &#x27;Ubuntu,&quot; | awk -F &#x27;--class&#x27; &#x27;&#123;print $1&#125;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 5.10.87-051087-generic&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 5.10.87-051087-generic (recovery mode)&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 5.4.187-0504187-generic&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 5.4.187-0504187-generic (recovery mode)&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 4.15.0-163-generic&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 4.15.0-163-generic (recovery mode)&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 4.15.0-162-generic&#x27;</span><br><span class="line">        menuentry &#x27;Ubuntu, with Linux 4.15.0-162-generic (recovery mode)&#x27;</span><br><span class="line"># 修改/etc/default/grub 找到 GRUB_DEFAULT 行，并将其值设置为所选择的内核版本的完整名称或索引号。</span><br><span class="line">vi /etc/default/grub</span><br><span class="line">GRUB_DEFAULT=&#x27;Ubuntu, with Linux 4.15.0-162-generic&#x27;</span><br><span class="line"># 更新grub，重启主机生效</span><br><span class="line">update-grub</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="关闭内核自动更新"><a href="#关闭内核自动更新" class="headerlink" title="关闭内核自动更新"></a>关闭内核自动更新</h1><p>1、固定某个版本的内核</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 固定hold某个软件包，以后执行update就不会升级和下载内核</span><br><span class="line">sudo apt-mark hold linux-image-generic linux-headers-generic</span><br><span class="line"># 查看hold状态包</span><br><span class="line">sudo dpkg --get-selections | grep hold </span><br><span class="line"># 如果要重新启用内核更新</span><br><span class="line">sudo apt-mark unhold linux-image-generic linux-headers-generic</span><br></pre></td></tr></table></figure>
+
+<p>2、或，如下方式关闭软件包自动更新配置</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"># 修改如下配置，其中的值改成 &quot;0&quot;</span><br><span class="line">/etc/apt/apt.conf.d/10periodic</span><br><span class="line">/etc/apt/apt.conf.d/20auto-upgrades</span><br><span class="line"></span><br><span class="line">cat /etc/apt/apt.conf.d/20auto-upgrades</span><br><span class="line">APT::Periodic::Update-Package-Lists &quot;0&quot;;</span><br><span class="line">APT::Periodic::Unattended-Upgrade &quot;0&quot;;</span><br><span class="line"></span><br><span class="line">cat /etc/apt/apt.conf.d/10periodic</span><br><span class="line">APT::Periodic::Update-Package-Lists &quot;0&quot;;</span><br><span class="line">APT::Periodic::Download-Upgradeable-Packages &quot;0&quot;;</span><br><span class="line">APT::Periodic::AutocleanInterval &quot;0&quot;;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.cnblogs.com/open-skill/p/8295234.html">https://www.cnblogs.com/open-skill/p/8295234.html</a></p>
+<p><a href="https://linux.cn/article-6245-1.html">https://linux.cn/article-6245-1.html</a></p>
+]]></content>
+      <categories>
+        <category>linux</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>ubuntu</tag>
       </tags>
   </entry>
   <entry>
@@ -1397,6 +1397,39 @@
       </tags>
   </entry>
   <entry>
+    <title>容器宿主机故障检测及节点自愈</title>
+    <url>/posts/6ede5602/</url>
+    <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在 Kubernetes 集群运行时，节点有时会因为组件问题、内核死锁、资源不足等原因不可用。Kubelet 默认对节点的 PIDPressure、MemoryPressure、DiskPressure 等资源状态进行监控，但是存在当 Kubelet 上报状态时节点已处于不可用状态的情况，甚至 Kubelet 可能已开始驱逐 Pod。在此类场景下，原生 Kubernetes 对节点健康的检测机制是不完善的，为了提前发现节点的问题，需要添加更加细致化的指标来描述节点的健康状态并且采取相应的恢复策略，实现智能运维，以节省开发和减轻运维人员的负担。</p>
+<h2 id="NPD-故障检测"><a href="#NPD-故障检测" class="headerlink" title="NPD 故障检测"></a>NPD 故障检测</h2><p>NPD（<a href="https://github.com/kubernetes/node-problem-detector">node-problem-detector</a>）是 Kubernetes 社区开源的集群节点的健康检测组件。NPD 提供了通过正则匹配系统日志或文件来发现节点异常的功能。用户可以通过运维经验，配置可能产生异常问题日志的正则表达式，选择不同的上报方式。NPD 会解析用户的配置文件，当有日志能匹配到用户配置的正则表达式时，可以通过 NodeCondition、Event 或 Promethues Metric 等方式将检测到的异常状态上报。除了日志匹配功能，NPD 还接受用户自行编写的自定义检测插件，用户可以开发自己的脚本或可执行文件集成到 NPD 的插件中，让 NPD 定期执行检测程序。</p>
+<h2 id="Draino自动驱逐排空节点"><a href="#Draino自动驱逐排空节点" class="headerlink" title="Draino自动驱逐排空节点"></a>Draino自动驱逐排空节点</h2><p><a href="https://github.com/planetlabs/draino">Draino</a> 基于标签和 node conditions 自动排干 Kubernetes 节点。匹配了所有指定标签和任意指定 node condition 的节点会立即被禁用（cordon），并在等待 <code>drain-buffer</code> 时间后排干（drain）节点上的 pod。</p>
+<p>Draino 通常是与 <a href="https://github.com/kubernetes/node-problem-detector">Node Problem Detector</a> 及 <a href="https://links.jianshu.com/go?to=https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler">Cluster Autoscaler</a> 一起使用。NPD 通过监控节点日志或者执行某一脚本来探测节点健康状态，当 NPD 探测到某个节点上存在异常时，就会给该节点设置一个 node condition。Cluster Autoscaler 可以配置为删除未充分利用的节点。这两者搭配上 Draino 可以实现一些场景下的自动故障补救：</p>
+<ol>
+<li>NPD 探测到节点存在一个永久问题，并且给该节点设置相应的 node condition。</li>
+<li>Draino 发现了这个 node condition，它会马上禁用该节点，从而避免有新的 pod 调度到这个故障节点，并开启定时任务来排干这个节点。</li>
+<li>一旦该故障节点被排干，Cluster Autoscaler 会认为该节点未充分利用，Autoscaler 等待一段时间后将该节点缩容掉。</li>
+</ol>
+<h1 id="NPD部署"><a href="#NPD部署" class="headerlink" title="NPD部署"></a>NPD部署</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># helm安装，这里参照官网</span></span><br><span class="line">helm repo add deliveryhero https://charts.deliveryhero.io/</span><br><span class="line">helm install --generate-name deliveryhero/node-problem-detector -n kube-system</span><br><span class="line"><span class="comment"># 查看demonset是否运行正常</span></span><br><span class="line">kubectl -n kube-system get pod | grep node-problem-detector</span><br><span class="line">node-problem-detector-bkbrl                  1/1     Running            0          23h</span><br><span class="line">node-problem-detector-prfqb                  1/1     Running            0          29h</span><br><span class="line">node-problem-detector-tdk47                  1/1     Running            0          22h</span><br><span class="line">node-problem-detector-xj86c                  1/1     Running            0          2d5h</span><br><span class="line">node-problem-detector-xm8ff                  1/1     Running            0          3d20h</span><br><span class="line"><span class="comment"># 这里也可以下载到本地自定修改一些配置，自定义增加一些检测的指标，不在这里赘述。</span></span><br><span class="line"><span class="comment"># 测试内核事件</span></span><br><span class="line"><span class="comment"># sudo sh -c &quot;echo &#x27;kernel: <span class="doctag">BUG:</span> unable to handle kernel NULL pointer dereference at TESTING&#x27; &gt;&gt; /dev/kmsg&quot;</span></span><br><span class="line"><span class="comment"># sudo sh -c &quot;echo &#x27;kernel: INFO: task docker:20744 blocked for more than 120 seconds.&#x27; &gt;&gt; /dev/kmsg&quot;</span></span><br><span class="line">kubectl describe node 10.4.83.25</span><br><span class="line">Conditions:</span><br><span class="line">  Type                 Status    LastHeartbeatTime                 LastTransitionTime                Reason                       Message</span><br><span class="line">  ----                 ------    -----------------                 ------------------                ------                       -------</span><br><span class="line">  KernelDeadlock       True      Tue, 25 Apr 2023 14:29:05 +0800   Tue, 25 Apr 2023 04:15:45 +0800   DockerHung                   kernel: INFO: task docker:20744 blocked <span class="keyword">for</span> more than 120 seconds.</span><br><span class="line"></span><br><span class="line">Events:</span><br><span class="line">  Type     Reason      Age   From            Message</span><br><span class="line">  ----     ------      ----  ----            -------</span><br><span class="line">  Warning  KernelOops  7s    kernel-monitor  kernel: BUG: unable to handle kernel NULL pointer dereference at TESTING</span><br><span class="line">  Warning  TaskHung    2s     kernel-monitor  kernel: INFO: task docker:20744 blocked <span class="keyword">for</span> more than 120 seconds.</span><br><span class="line">  Warning  DockerHung  2s     kernel-monitor  Node condition KernelDeadlock is now: True, reason: DockerHung, message: <span class="string">&quot;kernel: INFO: task docker:20744 blocked for more than 120 seconds.&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h1 id="Draino部署及配置"><a href="#Draino部署及配置" class="headerlink" title="Draino部署及配置"></a>Draino部署及配置</h1><h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 给节点添加label，这样节点就可以被draino自动排干</span></span><br><span class="line"><span class="string">kubectl</span> <span class="string">label</span> <span class="string">node</span> <span class="number">10.192</span><span class="number">.177</span><span class="number">.34</span> <span class="string">draino=node</span></span><br><span class="line"><span class="comment"># 部署deployment 配置</span></span><br><span class="line"><span class="string">cat</span> <span class="string">draino-deployment.yaml</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ServiceAccount</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span> &#123;<span class="attr">component:</span> <span class="string">draino</span>&#125;</span><br><span class="line">  <span class="attr">name:</span> <span class="string">draino</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">kube-system</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ClusterRole</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span> &#123;<span class="attr">component:</span> <span class="string">draino</span>&#125;</span><br><span class="line">  <span class="attr">name:</span> <span class="string">draino</span></span><br><span class="line"><span class="attr">rules:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">apiGroups:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&#x27;*&#x27;</span></span><br><span class="line">  <span class="attr">resources:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&#x27;*&#x27;</span></span><br><span class="line">  <span class="attr">verbs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&#x27;*&#x27;</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ClusterRoleBinding</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span> &#123;<span class="attr">component:</span> <span class="string">draino</span>&#125;</span><br><span class="line">  <span class="attr">name:</span> <span class="string">draino</span></span><br><span class="line"><span class="attr">roleRef:</span> &#123;<span class="attr">apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span>, <span class="attr">kind:</span> <span class="string">ClusterRole</span>, <span class="attr">name:</span> <span class="string">draino</span>&#125;</span><br><span class="line"><span class="attr">subjects:</span></span><br><span class="line"><span class="bullet">-</span> &#123;<span class="attr">kind:</span> <span class="string">ServiceAccount</span>, <span class="attr">name:</span> <span class="string">draino</span>, <span class="attr">namespace:</span> <span class="string">kube-system</span>&#125;</span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span> &#123;<span class="attr">component:</span> <span class="string">draino</span>&#125;</span><br><span class="line">  <span class="attr">name:</span> <span class="string">draino</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">kube-system</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="comment"># Draino does not currently support locking/master election, so you should</span></span><br><span class="line">  <span class="comment"># only run one draino at a time. Draino won&#x27;t start draining nodes immediately</span></span><br><span class="line">  <span class="comment"># so it&#x27;s usually safe for multiple drainos to exist for a brief period of</span></span><br><span class="line">  <span class="comment"># time.</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span> &#123;<span class="attr">component:</span> <span class="string">draino</span>&#125;</span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span> &#123;<span class="attr">component:</span> <span class="string">draino</span>&#125;</span><br><span class="line">      <span class="attr">name:</span> <span class="string">draino</span></span><br><span class="line">      <span class="attr">namespace:</span> <span class="string">kube-system</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">imagePullSecrets:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">pull-docker-image-secret</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="comment"># You&#x27;ll want to change these labels and conditions to suit your deployment.</span></span><br><span class="line">      <span class="comment">#- command: [/draino, --debug, --dry-run, --node-label=draino-enabled=true, BadCondition, ReallyBadCondition, KernelDeadlock, ReadonlyFilesystem]</span></span><br><span class="line">      <span class="comment"># --node-label-expr=&quot;metadata[&#x27;labels&#x27;][&#x27;draino&#x27;] in [&#x27;master&#x27;,&#x27;node&#x27;]&quot; --evict-unreplicated-pods --evict-emptydir-pods --evict-daemonset-pods KernelDeadlock ReadonlyFilesystem</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">command:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">/draino</span></span><br><span class="line">        <span class="bullet">-</span>  <span class="string">--debug</span></span><br><span class="line">        <span class="comment">#-  --node-label=draino-enabled=true</span></span><br><span class="line">        <span class="comment">#- --dry-run</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">--node-label-expr=metadata[&#x27;labels&#x27;][&#x27;draino&#x27;]</span> <span class="string">in</span> [<span class="string">&#x27;master&#x27;</span>,<span class="string">&#x27;node&#x27;</span>]</span><br><span class="line">        <span class="bullet">-</span> <span class="string">--max-grace-period=8m0s</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">--eviction-headroom=30s</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">--drain-buffer=10m0s</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">--namespace=kube-system</span></span><br><span class="line">          <span class="comment">#- --evict-unreplicated-pods</span></span><br><span class="line">          <span class="comment">#- --evict-daemonset-pods</span></span><br><span class="line">          <span class="comment">#- --evict-emptydir-pods</span></span><br><span class="line">          <span class="comment"># - KernelDeadlock</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">ReadonlyFilesystem</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">registry.ljohn.cn/kgcr/draino:9d39b53</span></span><br><span class="line">        <span class="attr">livenessProbe:</span></span><br><span class="line">          <span class="attr">httpGet:</span> &#123;<span class="attr">path:</span> <span class="string">/healthz</span>, <span class="attr">port:</span> <span class="number">10002</span>&#125;</span><br><span class="line">          <span class="attr">initialDelaySeconds:</span> <span class="number">30</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">draino</span></span><br><span class="line">      <span class="attr">serviceAccountName:</span> <span class="string">draino</span></span><br><span class="line"><span class="comment"># 查看服务及日志</span></span><br><span class="line"><span class="string">kubectl</span> <span class="string">-n</span> <span class="string">kube-system</span> <span class="string">get</span> <span class="string">pod</span> <span class="string">|</span> <span class="string">grep</span> <span class="string">drain</span></span><br><span class="line"><span class="string">draino-5775bc9466-zvp4f</span>                      <span class="number">1</span><span class="string">/1</span>     <span class="string">Running</span>            <span class="number">0</span>          <span class="string">10m</span></span><br><span class="line"><span class="string">kubectl</span> <span class="string">-n</span> <span class="string">kube-system</span> <span class="string">logs</span> <span class="string">-f</span> <span class="string">draino-5775bc9466-zvp4f</span></span><br><span class="line"><span class="number">2023-04-23T06:44:30.918Z</span>        <span class="string">INFO</span>    <span class="string">draino/draino.go:134</span>    <span class="string">web</span> <span class="string">server</span> <span class="string">is</span> <span class="string">running</span>   &#123;<span class="attr">&quot;listen&quot;:</span> <span class="string">&quot;:10002&quot;</span>&#125;</span><br><span class="line"><span class="number">2023-04-23T06:44:30.922Z</span>        <span class="string">DEBUG</span>   <span class="string">draino/draino.go:197</span>    <span class="string">label</span> <span class="string">expression</span>        &#123;<span class="attr">&quot;expr&quot;:</span> <span class="string">&quot;metadata[&#x27;labels&#x27;][&#x27;draino&#x27;] in [&#x27;master&#x27;,&#x27;node&#x27;]&quot;</span>&#125;</span><br><span class="line"><span class="string">I0423</span> <span class="number">06</span><span class="string">:44:30.922508</span>       <span class="number">1</span> <span class="string">leaderelection.go:235]</span> <span class="string">attempting</span> <span class="string">to</span> <span class="string">acquire</span> <span class="string">leader</span> <span class="string">lease</span>  <span class="string">kube-system/draino...</span></span><br><span class="line"><span class="string">I0423</span> <span class="number">06</span><span class="string">:44:48.346548</span>       <span class="number">1</span> <span class="string">leaderelection.go:245]</span> <span class="string">successfully</span> <span class="string">acquired</span> <span class="string">lease</span> <span class="string">kube-system/draino</span></span><br><span class="line"><span class="number">2023-04-23T06:44:48.346Z</span>        <span class="string">INFO</span>    <span class="string">draino/draino.go:236</span>    <span class="string">node</span> <span class="string">watcher</span> <span class="string">is</span> <span class="string">running</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="测试验证"><a href="#测试验证" class="headerlink" title="测试验证"></a>测试验证</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看节点上服务 nettools-deploy</span></span><br><span class="line">kubectl get pod  -owide  | grep 10.192.177.34</span><br><span class="line">nettools-deploy-57c9465d74-29vqj   1/1     Running   1 (13d ago)   13d     10.194.82.131   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">nettools-deploy-57c9465d74-jt7dg   1/1     Running   0             6h50m   10.194.82.144   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">nettools-deploy-57c9465d74-kclmj   1/1     Running   0             5h30m   10.194.82.154   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">nettools-deploy-57c9465d74-l7n24   1/1     Running   1 (13d ago)   13d     10.194.82.130   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">nettools-deploy-57c9465d74-mz6mk   1/1     Running   0             5h30m   10.194.82.155   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">npd-node-problem-detector-7bllt    1/1     Running   0             26h     10.194.82.134   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line"><span class="comment"># 主动给节点输入kernel异常,文件系统只读</span></span><br><span class="line">sudo sh -c <span class="string">&quot;echo &#x27;Remounting filesystem read-only&#x27; &gt;&gt; /dev/kmsg&quot;</span></span><br><span class="line"><span class="comment"># 查看node事件</span></span><br><span class="line">kubectl describe node 10.192.177.34</span><br><span class="line">...</span><br><span class="line">Conditions:</span><br><span class="line">  Type                    Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message</span><br><span class="line">  ----                    ------  -----------------                 ------------------                ------                       -------</span><br><span class="line">  CorruptDockerOverlay2   False   Mon, 24 Apr 2023 16:56:15 +0800   Sun, 23 Apr 2023 14:32:51 +0800   NoCorruptDockerOverlay2      docker overlay2 is functioning properly</span><br><span class="line">  KernelDeadlock          False   Mon, 24 Apr 2023 16:56:15 +0800   Sun, 23 Apr 2023 14:32:51 +0800   KernelHasNoDeadlock          kernel has no deadlock</span><br><span class="line">  ReadonlyFilesystem      True    Mon, 24 Apr 2023 16:56:15 +0800   Mon, 24 Apr 2023 16:56:15 +0800   FilesystemIsReadOnly         Remounting filesystem read-only</span><br><span class="line">  NetworkUnavailable      False   Tue, 11 Apr 2023 15:22:53 +0800   Tue, 11 Apr 2023 15:22:53 +0800   CalicoIsUp                   Calico is running on this node</span><br><span class="line">  MemoryPressure          False   Mon, 24 Apr 2023 16:58:06 +0800   Tue, 11 Apr 2023 15:22:48 +0800   KubeletHasSufficientMemory   kubelet has sufficient memory available</span><br><span class="line">  DiskPressure            False   Mon, 24 Apr 2023 16:58:06 +0800   Tue, 11 Apr 2023 15:22:48 +0800   KubeletHasNoDiskPressure     kubelet has no disk pressure</span><br><span class="line">  PIDPressure             False   Mon, 24 Apr 2023 16:58:06 +0800   Tue, 11 Apr 2023 15:22:48 +0800   KubeletHasSufficientPID      kubelet has sufficient PID available</span><br><span class="line">  Ready                   True    Mon, 24 Apr 2023 16:58:06 +0800   Tue, 11 Apr 2023 15:22:48 +0800   KubeletReady                 kubelet is posting ready status. AppArmor enabled                                    DrainScheduled          False   Mon, 24 Apr 2023 16:57:04 +0800   Mon, 24 Apr 2023 16:56:15 +0800   Draino                       Drain activity scheduled 2023-04-24T16:56:26+08:00 | Completed: 2023-04-24T16:57:04</span><br><span class="line">+08:00</span><br><span class="line">...</span><br><span class="line">Events:</span><br><span class="line">  Type     Reason              Age                     From            Message</span><br><span class="line">  ----     ------              ----                    ----            -------</span><br><span class="line">  Warning  CordonStarting      2m29s                   draino          Cordoning node</span><br><span class="line">  Warning  CordonSucceeded     2m29s                   draino          Cordoned node</span><br><span class="line">  Warning  DrainScheduled      2m29s                   draino          Will drain node after 2023-04-24T16:56:26.540741556+08:00</span><br><span class="line">  Normal   NodeNotSchedulable  2m28s (x2 over 6d23h)   kubelet         Node 10.192.177.34 status is now: NodeNotSchedulable</span><br><span class="line">  Warning  DrainStarting       2m18s                   draino          Draining node</span><br><span class="line">  Warning  DrainSucceeded      100s                    draino          Drained node</span><br><span class="line"></span><br><span class="line"><span class="comment"># 最后查看节点已经被关闭调度，并且主机上pod，除了demonset的pod均已经被驱逐,刚部署的nettools-deploy也被调度到其他节点。</span></span><br><span class="line">kubectl get node 10.192.177.34</span><br><span class="line">NAME            STATUS                     ROLES   AGE   VERSION</span><br><span class="line">10.192.177.34   Ready,SchedulingDisabled   node    13d   v1.22.14</span><br><span class="line">kubectl get pod -owide -A | grep 10.192.177.34</span><br><span class="line">default                        npd-node-problem-detector-7bllt             1/1     Running     0              26h     10.194.82.134   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-system                    calico-node-7dwv8                           1/1     Running     1 (13d ago)    13d     10.192.177.34   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-system                    node-local-dns-rdj24                        1/1     Running     1 (13d ago)    13d     10.192.177.34   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kubesphere-monitoring-system   node-exporter-c8xkv                         2/2     Running     0              2d23h   10.192.177.34   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kubesphere-system              node-shell-jzvcp                            1/1     Running     0              5d7h    10.192.177.34   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://github.com/planetlabs/draino">draino</a></p>
+<p><a href="https://github.com/kubernetes/node-problem-detector">node-problem-detector</a></p>
+<p><a href="https://www.jianshu.com/p/eeba98425307">https://www.jianshu.com/p/eeba98425307</a></p>
+<p><a href="https://www.jianshu.com/p/cc6a45cf3208">https://www.jianshu.com/p/cc6a45cf3208</a></p>
+]]></content>
+      <categories>
+        <category>kubernetes</category>
+      </categories>
+      <tags>
+        <tag>linux</tag>
+        <tag>kubernetes</tag>
+        <tag>k8s</tag>
+        <tag>npd</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>记一次ingress重启导致异常分析</title>
     <url>/posts/de1f3bdf/</url>
     <content><![CDATA[<h1 id="环境信息"><a href="#环境信息" class="headerlink" title="环境信息"></a>环境信息</h1><ul>
@@ -1437,6 +1470,27 @@
       </tags>
   </entry>
   <entry>
+    <title>顺利成为Kubestronaut成员</title>
+    <url>/posts/66cd6d39/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>3年内成功通过CNCF旗下云原生相关的5个证书，并顺利获得kubestronaut 的领航员的一个称谓，其实我对于证书不是很感冒，证书也证明不了能力，最多只能证明你曾经学习过。</p>
+<p>大概在3年以前，公司针对认证证书有一定优惠补助，另外加之当时逢黑色星期五优惠力度很大，所有购买了CKA认证考试，没有怎么学一周就通过了，因为个人对于kubernetes是有一定的运维和管理基础的，2022年3月10日完成了第一个证书。那个时候的证书有效期还是3年的，截止2025年的3.10日，我完成了最后一个KCSA考试，并获得了kubestronaut ，当时收到邮件获得该证书我很是意外和惊喜。</p>
+<p><img src="/posts/66cd6d39/1741871200815.png" alt="1741871200815"></p>
+<p>这个时间非常极限，我一度以为CNCF官方不会承认我的这个5个证书是在同一个有效期内，无法得到kubestronaut。</p>
+<h1 id="为何要做这件事？"><a href="#为何要做这件事？" class="headerlink" title="为何要做这件事？"></a>为何要做这件事？</h1><p>起因是由于公司鼓励大家学习提升自身并能够用于工作中，提升整理的技术水平，这是我做这件事情最开始的一个动机。</p>
+<p>后来促使我继续参加如下4门考试主要因为我个人对于技术的渴望和追求吧，不然我也想不到有什么更合适的理由了。因为人家造个车都借车（我说的是雷总）几百台，就为了体验不同的产品背后的逻辑，还考了赛车照，肯定不是为了证明自己多牛逼。这里不敢大言不惭和雷布斯比较，我只是觉得如果你认真的对待任何一项技术，相信你的时间也不会白浪费吧。这里不是希望大家在考证书这件事情上浪费时间，但我相信坚持，相信3w小时定律。</p>
+<h1 id="后面有什么规划？"><a href="#后面有什么规划？" class="headerlink" title="后面有什么规划？"></a>后面有什么规划？</h1><p>后面其实规划很简单，就是继续在云原生的道路上继续前行，学习AI相关的技术，探索新的机遇。另外个人还是希望自己继续不忘初心，继续扎实做事，低调做人，行稳才能致远。</p>
+]]></content>
+      <categories>
+        <category>kubestronaut</category>
+      </categories>
+      <tags>
+        <tag>kubernetes</tag>
+        <tag>cncf</tag>
+        <tag>kcsa</tag>
+        <tag>kubestronaut</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>CKAD模拟题:23-PV/PVC的使用</title>
     <url>/posts/81f11c7/</url>
     <content><![CDATA[<h2 id="题目要求"><a href="#题目要求" class="headerlink" title="题目要求"></a>题目要求</h2><ol>
@@ -1456,39 +1510,6 @@
       <tags>
         <tag>kubernetes</tag>
         <tag>ckad</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>容器宿主机故障检测及节点自愈</title>
-    <url>/posts/6ede5602/</url>
-    <content><![CDATA[<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>在 Kubernetes 集群运行时，节点有时会因为组件问题、内核死锁、资源不足等原因不可用。Kubelet 默认对节点的 PIDPressure、MemoryPressure、DiskPressure 等资源状态进行监控，但是存在当 Kubelet 上报状态时节点已处于不可用状态的情况，甚至 Kubelet 可能已开始驱逐 Pod。在此类场景下，原生 Kubernetes 对节点健康的检测机制是不完善的，为了提前发现节点的问题，需要添加更加细致化的指标来描述节点的健康状态并且采取相应的恢复策略，实现智能运维，以节省开发和减轻运维人员的负担。</p>
-<h2 id="NPD-故障检测"><a href="#NPD-故障检测" class="headerlink" title="NPD 故障检测"></a>NPD 故障检测</h2><p>NPD（<a href="https://github.com/kubernetes/node-problem-detector">node-problem-detector</a>）是 Kubernetes 社区开源的集群节点的健康检测组件。NPD 提供了通过正则匹配系统日志或文件来发现节点异常的功能。用户可以通过运维经验，配置可能产生异常问题日志的正则表达式，选择不同的上报方式。NPD 会解析用户的配置文件，当有日志能匹配到用户配置的正则表达式时，可以通过 NodeCondition、Event 或 Promethues Metric 等方式将检测到的异常状态上报。除了日志匹配功能，NPD 还接受用户自行编写的自定义检测插件，用户可以开发自己的脚本或可执行文件集成到 NPD 的插件中，让 NPD 定期执行检测程序。</p>
-<h2 id="Draino自动驱逐排空节点"><a href="#Draino自动驱逐排空节点" class="headerlink" title="Draino自动驱逐排空节点"></a>Draino自动驱逐排空节点</h2><p><a href="https://github.com/planetlabs/draino">Draino</a> 基于标签和 node conditions 自动排干 Kubernetes 节点。匹配了所有指定标签和任意指定 node condition 的节点会立即被禁用（cordon），并在等待 <code>drain-buffer</code> 时间后排干（drain）节点上的 pod。</p>
-<p>Draino 通常是与 <a href="https://github.com/kubernetes/node-problem-detector">Node Problem Detector</a> 及 <a href="https://links.jianshu.com/go?to=https://github.com/kubernetes/autoscaler/tree/master/cluster-autoscaler">Cluster Autoscaler</a> 一起使用。NPD 通过监控节点日志或者执行某一脚本来探测节点健康状态，当 NPD 探测到某个节点上存在异常时，就会给该节点设置一个 node condition。Cluster Autoscaler 可以配置为删除未充分利用的节点。这两者搭配上 Draino 可以实现一些场景下的自动故障补救：</p>
-<ol>
-<li>NPD 探测到节点存在一个永久问题，并且给该节点设置相应的 node condition。</li>
-<li>Draino 发现了这个 node condition，它会马上禁用该节点，从而避免有新的 pod 调度到这个故障节点，并开启定时任务来排干这个节点。</li>
-<li>一旦该故障节点被排干，Cluster Autoscaler 会认为该节点未充分利用，Autoscaler 等待一段时间后将该节点缩容掉。</li>
-</ol>
-<h1 id="NPD部署"><a href="#NPD部署" class="headerlink" title="NPD部署"></a>NPD部署</h1><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># helm安装，这里参照官网</span></span><br><span class="line">helm repo add deliveryhero https://charts.deliveryhero.io/</span><br><span class="line">helm install --generate-name deliveryhero/node-problem-detector -n kube-system</span><br><span class="line"><span class="comment"># 查看demonset是否运行正常</span></span><br><span class="line">kubectl -n kube-system get pod | grep node-problem-detector</span><br><span class="line">node-problem-detector-bkbrl                  1/1     Running            0          23h</span><br><span class="line">node-problem-detector-prfqb                  1/1     Running            0          29h</span><br><span class="line">node-problem-detector-tdk47                  1/1     Running            0          22h</span><br><span class="line">node-problem-detector-xj86c                  1/1     Running            0          2d5h</span><br><span class="line">node-problem-detector-xm8ff                  1/1     Running            0          3d20h</span><br><span class="line"><span class="comment"># 这里也可以下载到本地自定修改一些配置，自定义增加一些检测的指标，不在这里赘述。</span></span><br><span class="line"><span class="comment"># 测试内核事件</span></span><br><span class="line"><span class="comment"># sudo sh -c &quot;echo &#x27;kernel: <span class="doctag">BUG:</span> unable to handle kernel NULL pointer dereference at TESTING&#x27; &gt;&gt; /dev/kmsg&quot;</span></span><br><span class="line"><span class="comment"># sudo sh -c &quot;echo &#x27;kernel: INFO: task docker:20744 blocked for more than 120 seconds.&#x27; &gt;&gt; /dev/kmsg&quot;</span></span><br><span class="line">kubectl describe node 10.4.83.25</span><br><span class="line">Conditions:</span><br><span class="line">  Type                 Status    LastHeartbeatTime                 LastTransitionTime                Reason                       Message</span><br><span class="line">  ----                 ------    -----------------                 ------------------                ------                       -------</span><br><span class="line">  KernelDeadlock       True      Tue, 25 Apr 2023 14:29:05 +0800   Tue, 25 Apr 2023 04:15:45 +0800   DockerHung                   kernel: INFO: task docker:20744 blocked <span class="keyword">for</span> more than 120 seconds.</span><br><span class="line"></span><br><span class="line">Events:</span><br><span class="line">  Type     Reason      Age   From            Message</span><br><span class="line">  ----     ------      ----  ----            -------</span><br><span class="line">  Warning  KernelOops  7s    kernel-monitor  kernel: BUG: unable to handle kernel NULL pointer dereference at TESTING</span><br><span class="line">  Warning  TaskHung    2s     kernel-monitor  kernel: INFO: task docker:20744 blocked <span class="keyword">for</span> more than 120 seconds.</span><br><span class="line">  Warning  DockerHung  2s     kernel-monitor  Node condition KernelDeadlock is now: True, reason: DockerHung, message: <span class="string">&quot;kernel: INFO: task docker:20744 blocked for more than 120 seconds.&quot;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h1 id="Draino部署及配置"><a href="#Draino部署及配置" class="headerlink" title="Draino部署及配置"></a>Draino部署及配置</h1><h2 id="部署"><a href="#部署" class="headerlink" title="部署"></a>部署</h2><figure class="highlight yaml"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 给节点添加label，这样节点就可以被draino自动排干</span></span><br><span class="line"><span class="string">kubectl</span> <span class="string">label</span> <span class="string">node</span> <span class="number">10.192</span><span class="number">.177</span><span class="number">.34</span> <span class="string">draino=node</span></span><br><span class="line"><span class="comment"># 部署deployment 配置</span></span><br><span class="line"><span class="string">cat</span> <span class="string">draino-deployment.yaml</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ServiceAccount</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span> &#123;<span class="attr">component:</span> <span class="string">draino</span>&#125;</span><br><span class="line">  <span class="attr">name:</span> <span class="string">draino</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">kube-system</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ClusterRole</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span> &#123;<span class="attr">component:</span> <span class="string">draino</span>&#125;</span><br><span class="line">  <span class="attr">name:</span> <span class="string">draino</span></span><br><span class="line"><span class="attr">rules:</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">apiGroups:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&#x27;*&#x27;</span></span><br><span class="line">  <span class="attr">resources:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&#x27;*&#x27;</span></span><br><span class="line">  <span class="attr">verbs:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">&#x27;*&#x27;</span></span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">rbac.authorization.k8s.io/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">ClusterRoleBinding</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span> &#123;<span class="attr">component:</span> <span class="string">draino</span>&#125;</span><br><span class="line">  <span class="attr">name:</span> <span class="string">draino</span></span><br><span class="line"><span class="attr">roleRef:</span> &#123;<span class="attr">apiGroup:</span> <span class="string">rbac.authorization.k8s.io</span>, <span class="attr">kind:</span> <span class="string">ClusterRole</span>, <span class="attr">name:</span> <span class="string">draino</span>&#125;</span><br><span class="line"><span class="attr">subjects:</span></span><br><span class="line"><span class="bullet">-</span> &#123;<span class="attr">kind:</span> <span class="string">ServiceAccount</span>, <span class="attr">name:</span> <span class="string">draino</span>, <span class="attr">namespace:</span> <span class="string">kube-system</span>&#125;</span><br><span class="line"><span class="meta">---</span></span><br><span class="line"><span class="attr">apiVersion:</span> <span class="string">apps/v1</span></span><br><span class="line"><span class="attr">kind:</span> <span class="string">Deployment</span></span><br><span class="line"><span class="attr">metadata:</span></span><br><span class="line">  <span class="attr">labels:</span> &#123;<span class="attr">component:</span> <span class="string">draino</span>&#125;</span><br><span class="line">  <span class="attr">name:</span> <span class="string">draino</span></span><br><span class="line">  <span class="attr">namespace:</span> <span class="string">kube-system</span></span><br><span class="line"><span class="attr">spec:</span></span><br><span class="line">  <span class="comment"># Draino does not currently support locking/master election, so you should</span></span><br><span class="line">  <span class="comment"># only run one draino at a time. Draino won&#x27;t start draining nodes immediately</span></span><br><span class="line">  <span class="comment"># so it&#x27;s usually safe for multiple drainos to exist for a brief period of</span></span><br><span class="line">  <span class="comment"># time.</span></span><br><span class="line">  <span class="attr">replicas:</span> <span class="number">1</span></span><br><span class="line">  <span class="attr">selector:</span></span><br><span class="line">    <span class="attr">matchLabels:</span> &#123;<span class="attr">component:</span> <span class="string">draino</span>&#125;</span><br><span class="line">  <span class="attr">template:</span></span><br><span class="line">    <span class="attr">metadata:</span></span><br><span class="line">      <span class="attr">labels:</span> &#123;<span class="attr">component:</span> <span class="string">draino</span>&#125;</span><br><span class="line">      <span class="attr">name:</span> <span class="string">draino</span></span><br><span class="line">      <span class="attr">namespace:</span> <span class="string">kube-system</span></span><br><span class="line">    <span class="attr">spec:</span></span><br><span class="line">      <span class="attr">imagePullSecrets:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">pull-docker-image-secret</span></span><br><span class="line">      <span class="attr">containers:</span></span><br><span class="line">      <span class="comment"># You&#x27;ll want to change these labels and conditions to suit your deployment.</span></span><br><span class="line">      <span class="comment">#- command: [/draino, --debug, --dry-run, --node-label=draino-enabled=true, BadCondition, ReallyBadCondition, KernelDeadlock, ReadonlyFilesystem]</span></span><br><span class="line">      <span class="comment"># --node-label-expr=&quot;metadata[&#x27;labels&#x27;][&#x27;draino&#x27;] in [&#x27;master&#x27;,&#x27;node&#x27;]&quot; --evict-unreplicated-pods --evict-emptydir-pods --evict-daemonset-pods KernelDeadlock ReadonlyFilesystem</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">command:</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">/draino</span></span><br><span class="line">        <span class="bullet">-</span>  <span class="string">--debug</span></span><br><span class="line">        <span class="comment">#-  --node-label=draino-enabled=true</span></span><br><span class="line">        <span class="comment">#- --dry-run</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">--node-label-expr=metadata[&#x27;labels&#x27;][&#x27;draino&#x27;]</span> <span class="string">in</span> [<span class="string">&#x27;master&#x27;</span>,<span class="string">&#x27;node&#x27;</span>]</span><br><span class="line">        <span class="bullet">-</span> <span class="string">--max-grace-period=8m0s</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">--eviction-headroom=30s</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">--drain-buffer=10m0s</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">--namespace=kube-system</span></span><br><span class="line">          <span class="comment">#- --evict-unreplicated-pods</span></span><br><span class="line">          <span class="comment">#- --evict-daemonset-pods</span></span><br><span class="line">          <span class="comment">#- --evict-emptydir-pods</span></span><br><span class="line">          <span class="comment"># - KernelDeadlock</span></span><br><span class="line">        <span class="bullet">-</span> <span class="string">ReadonlyFilesystem</span></span><br><span class="line">        <span class="attr">image:</span> <span class="string">registry.ljohn.cn/kgcr/draino:9d39b53</span></span><br><span class="line">        <span class="attr">livenessProbe:</span></span><br><span class="line">          <span class="attr">httpGet:</span> &#123;<span class="attr">path:</span> <span class="string">/healthz</span>, <span class="attr">port:</span> <span class="number">10002</span>&#125;</span><br><span class="line">          <span class="attr">initialDelaySeconds:</span> <span class="number">30</span></span><br><span class="line">        <span class="attr">name:</span> <span class="string">draino</span></span><br><span class="line">      <span class="attr">serviceAccountName:</span> <span class="string">draino</span></span><br><span class="line"><span class="comment"># 查看服务及日志</span></span><br><span class="line"><span class="string">kubectl</span> <span class="string">-n</span> <span class="string">kube-system</span> <span class="string">get</span> <span class="string">pod</span> <span class="string">|</span> <span class="string">grep</span> <span class="string">drain</span></span><br><span class="line"><span class="string">draino-5775bc9466-zvp4f</span>                      <span class="number">1</span><span class="string">/1</span>     <span class="string">Running</span>            <span class="number">0</span>          <span class="string">10m</span></span><br><span class="line"><span class="string">kubectl</span> <span class="string">-n</span> <span class="string">kube-system</span> <span class="string">logs</span> <span class="string">-f</span> <span class="string">draino-5775bc9466-zvp4f</span></span><br><span class="line"><span class="number">2023-04-23T06:44:30.918Z</span>        <span class="string">INFO</span>    <span class="string">draino/draino.go:134</span>    <span class="string">web</span> <span class="string">server</span> <span class="string">is</span> <span class="string">running</span>   &#123;<span class="attr">&quot;listen&quot;:</span> <span class="string">&quot;:10002&quot;</span>&#125;</span><br><span class="line"><span class="number">2023-04-23T06:44:30.922Z</span>        <span class="string">DEBUG</span>   <span class="string">draino/draino.go:197</span>    <span class="string">label</span> <span class="string">expression</span>        &#123;<span class="attr">&quot;expr&quot;:</span> <span class="string">&quot;metadata[&#x27;labels&#x27;][&#x27;draino&#x27;] in [&#x27;master&#x27;,&#x27;node&#x27;]&quot;</span>&#125;</span><br><span class="line"><span class="string">I0423</span> <span class="number">06</span><span class="string">:44:30.922508</span>       <span class="number">1</span> <span class="string">leaderelection.go:235]</span> <span class="string">attempting</span> <span class="string">to</span> <span class="string">acquire</span> <span class="string">leader</span> <span class="string">lease</span>  <span class="string">kube-system/draino...</span></span><br><span class="line"><span class="string">I0423</span> <span class="number">06</span><span class="string">:44:48.346548</span>       <span class="number">1</span> <span class="string">leaderelection.go:245]</span> <span class="string">successfully</span> <span class="string">acquired</span> <span class="string">lease</span> <span class="string">kube-system/draino</span></span><br><span class="line"><span class="number">2023-04-23T06:44:48.346Z</span>        <span class="string">INFO</span>    <span class="string">draino/draino.go:236</span>    <span class="string">node</span> <span class="string">watcher</span> <span class="string">is</span> <span class="string">running</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h2 id="测试验证"><a href="#测试验证" class="headerlink" title="测试验证"></a>测试验证</h2><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 查看节点上服务 nettools-deploy</span></span><br><span class="line">kubectl get pod  -owide  | grep 10.192.177.34</span><br><span class="line">nettools-deploy-57c9465d74-29vqj   1/1     Running   1 (13d ago)   13d     10.194.82.131   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">nettools-deploy-57c9465d74-jt7dg   1/1     Running   0             6h50m   10.194.82.144   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">nettools-deploy-57c9465d74-kclmj   1/1     Running   0             5h30m   10.194.82.154   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">nettools-deploy-57c9465d74-l7n24   1/1     Running   1 (13d ago)   13d     10.194.82.130   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">nettools-deploy-57c9465d74-mz6mk   1/1     Running   0             5h30m   10.194.82.155   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">npd-node-problem-detector-7bllt    1/1     Running   0             26h     10.194.82.134   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line"><span class="comment"># 主动给节点输入kernel异常,文件系统只读</span></span><br><span class="line">sudo sh -c <span class="string">&quot;echo &#x27;Remounting filesystem read-only&#x27; &gt;&gt; /dev/kmsg&quot;</span></span><br><span class="line"><span class="comment"># 查看node事件</span></span><br><span class="line">kubectl describe node 10.192.177.34</span><br><span class="line">...</span><br><span class="line">Conditions:</span><br><span class="line">  Type                    Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message</span><br><span class="line">  ----                    ------  -----------------                 ------------------                ------                       -------</span><br><span class="line">  CorruptDockerOverlay2   False   Mon, 24 Apr 2023 16:56:15 +0800   Sun, 23 Apr 2023 14:32:51 +0800   NoCorruptDockerOverlay2      docker overlay2 is functioning properly</span><br><span class="line">  KernelDeadlock          False   Mon, 24 Apr 2023 16:56:15 +0800   Sun, 23 Apr 2023 14:32:51 +0800   KernelHasNoDeadlock          kernel has no deadlock</span><br><span class="line">  ReadonlyFilesystem      True    Mon, 24 Apr 2023 16:56:15 +0800   Mon, 24 Apr 2023 16:56:15 +0800   FilesystemIsReadOnly         Remounting filesystem read-only</span><br><span class="line">  NetworkUnavailable      False   Tue, 11 Apr 2023 15:22:53 +0800   Tue, 11 Apr 2023 15:22:53 +0800   CalicoIsUp                   Calico is running on this node</span><br><span class="line">  MemoryPressure          False   Mon, 24 Apr 2023 16:58:06 +0800   Tue, 11 Apr 2023 15:22:48 +0800   KubeletHasSufficientMemory   kubelet has sufficient memory available</span><br><span class="line">  DiskPressure            False   Mon, 24 Apr 2023 16:58:06 +0800   Tue, 11 Apr 2023 15:22:48 +0800   KubeletHasNoDiskPressure     kubelet has no disk pressure</span><br><span class="line">  PIDPressure             False   Mon, 24 Apr 2023 16:58:06 +0800   Tue, 11 Apr 2023 15:22:48 +0800   KubeletHasSufficientPID      kubelet has sufficient PID available</span><br><span class="line">  Ready                   True    Mon, 24 Apr 2023 16:58:06 +0800   Tue, 11 Apr 2023 15:22:48 +0800   KubeletReady                 kubelet is posting ready status. AppArmor enabled                                    DrainScheduled          False   Mon, 24 Apr 2023 16:57:04 +0800   Mon, 24 Apr 2023 16:56:15 +0800   Draino                       Drain activity scheduled 2023-04-24T16:56:26+08:00 | Completed: 2023-04-24T16:57:04</span><br><span class="line">+08:00</span><br><span class="line">...</span><br><span class="line">Events:</span><br><span class="line">  Type     Reason              Age                     From            Message</span><br><span class="line">  ----     ------              ----                    ----            -------</span><br><span class="line">  Warning  CordonStarting      2m29s                   draino          Cordoning node</span><br><span class="line">  Warning  CordonSucceeded     2m29s                   draino          Cordoned node</span><br><span class="line">  Warning  DrainScheduled      2m29s                   draino          Will drain node after 2023-04-24T16:56:26.540741556+08:00</span><br><span class="line">  Normal   NodeNotSchedulable  2m28s (x2 over 6d23h)   kubelet         Node 10.192.177.34 status is now: NodeNotSchedulable</span><br><span class="line">  Warning  DrainStarting       2m18s                   draino          Draining node</span><br><span class="line">  Warning  DrainSucceeded      100s                    draino          Drained node</span><br><span class="line"></span><br><span class="line"><span class="comment"># 最后查看节点已经被关闭调度，并且主机上pod，除了demonset的pod均已经被驱逐,刚部署的nettools-deploy也被调度到其他节点。</span></span><br><span class="line">kubectl get node 10.192.177.34</span><br><span class="line">NAME            STATUS                     ROLES   AGE   VERSION</span><br><span class="line">10.192.177.34   Ready,SchedulingDisabled   node    13d   v1.22.14</span><br><span class="line">kubectl get pod -owide -A | grep 10.192.177.34</span><br><span class="line">default                        npd-node-problem-detector-7bllt             1/1     Running     0              26h     10.194.82.134   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-system                    calico-node-7dwv8                           1/1     Running     1 (13d ago)    13d     10.192.177.34   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kube-system                    node-local-dns-rdj24                        1/1     Running     1 (13d ago)    13d     10.192.177.34   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kubesphere-monitoring-system   node-exporter-c8xkv                         2/2     Running     0              2d23h   10.192.177.34   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br><span class="line">kubesphere-system              node-shell-jzvcp                            1/1     Running     0              5d7h    10.192.177.34   10.192.177.34   &lt;none&gt;           &lt;none&gt;</span><br></pre></td></tr></table></figure>
-
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://github.com/planetlabs/draino">draino</a></p>
-<p><a href="https://github.com/kubernetes/node-problem-detector">node-problem-detector</a></p>
-<p><a href="https://www.jianshu.com/p/eeba98425307">https://www.jianshu.com/p/eeba98425307</a></p>
-<p><a href="https://www.jianshu.com/p/cc6a45cf3208">https://www.jianshu.com/p/cc6a45cf3208</a></p>
-]]></content>
-      <categories>
-        <category>kubernetes</category>
-      </categories>
-      <tags>
-        <tag>linux</tag>
-        <tag>kubernetes</tag>
-        <tag>k8s</tag>
-        <tag>npd</tag>
       </tags>
   </entry>
   <entry>
@@ -1782,6 +1803,228 @@
         <tag>Go</tag>
         <tag>Golang</tag>
         <tag>Go学习</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>KCSA错题集</title>
+    <url>/posts/b6e3b579/</url>
+    <content><![CDATA[<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>以下是学习KCSA练习题的错题集，很多题比较常见和容易理解出错，具体参考该项目：<a href="https://kubernetes-security-kcsa-mock.vercel.app/">https://kubernetes-security-kcsa-mock.vercel.app/</a></p>
+<p>STRIDE 是一种常见的威胁建模框架，通常用于识别和应对系统中的安全风险。它由 <strong>微软</strong> 提出，涵盖了六类常见的威胁，每个字母代表一种不同类型的安全威胁。在 <strong>云原生安全</strong> 的上下文中，STRIDE 仍然适用，尤其是在容器化、微服务和分布式系统的设计和部署中。</p>
+<p><strong>STRIDE</strong> 框架的每个字母含义如下：</p>
+<ol>
+<li><strong>S</strong> -  <strong>Spoofing</strong> （欺骗）：指攻击者冒充合法用户或系统，从而绕过身份验证或授权机制。<br>在云原生环境中，欺骗攻击可能会涉及伪造服务身份或通过滥用服务账户获取不应拥有的权限。</li>
+<li><strong>T</strong> -  <strong>Tampering</strong> （篡改）：指未授权的攻击者修改数据或系统配置。<br>在云原生环境中，篡改攻击可能发生在容器、微服务通信或者数据存储层，攻击者通过修改配置文件或数据来破坏服务的完整性。</li>
+<li><strong>R</strong> -  <strong>Repudiation</strong> （否认）：指攻击者否认自己的行为，例如删除日志或修改日志文件，导致无法追踪攻击行为。<br>在云原生环境中，服务或应用日志的缺乏审计或日志篡改可能导致安全事件的不可追踪。</li>
+<li><strong>I</strong> -  <strong>Information Disclosure</strong> （信息泄露）：指泄露敏感信息，导致机密数据被未经授权的用户访问。<br>在云原生安全中，信息泄露可以通过错误的配置导致的暴露的环境变量、配置文件、数据库连接字符串等敏感信息。</li>
+<li><strong>D</strong> -  <strong>Denial of Service (DoS)</strong> （拒绝服务）：指通过使系统或网络无法响应合法请求来使系统瘫痪。<br>在云原生环境中，DoS 攻击可能会通过资源耗尽（如 CPU 或内存）或网络攻击（如流量泛滥）使应用不可用。</li>
+<li><strong>E</strong> -  <strong>Elevation of Privilege</strong> （权限提升）：指攻击者通过漏洞或错误配置提升自己的权限，获得比预期更高的访问权限。<br>在云原生环境中，攻击者可能会利用漏洞或误配置来从非管理员账户提升到管理员权限，从而操控整个系统或服务。</li>
+</ol>
+<h3 id="What-is-the-purpose-of-the-‘namespaceSelector’-in-a-NetworkPolicy"><a href="#What-is-the-purpose-of-the-‘namespaceSelector’-in-a-NetworkPolicy" class="headerlink" title="What is the purpose of the ‘namespaceSelector’ in a NetworkPolicy?"></a>What is the purpose of the ‘namespaceSelector’ in a NetworkPolicy?</h3><p>Your answer: To select Pods in specific namespaces for ingress or egress rules</p>
+<p>Correct answer: To select namespaces where the policy is applied</p>
+<p>Explanation: The namespaceSelector applies the policy to all pods in the selected namespaces.</p>
+<h3 id="In-the-context-of-STRIDE-what-does-‘Repudiation’-refer-to"><a href="#In-the-context-of-STRIDE-what-does-‘Repudiation’-refer-to" class="headerlink" title="In the context of STRIDE, what does ‘Repudiation’ refer to?"></a>In the context of STRIDE, what does ‘Repudiation’ refer to?</h3><p>Your answer: Unauthorized access</p>
+<p>Correct answer: Denial of an action or event</p>
+<p>Explanation: Repudiation involves the ability to deny that an action occurred.</p>
+<h3 id="Which-annotation-is-used-in-a-Pod-manifest-to-specify-an-AppArmor-profile-for-a-container-named-‘nginx’"><a href="#Which-annotation-is-used-in-a-Pod-manifest-to-specify-an-AppArmor-profile-for-a-container-named-‘nginx’" class="headerlink" title="Which annotation is used in a Pod manifest to specify an AppArmor profile for a container named ‘nginx’?"></a>Which annotation is used in a Pod manifest to specify an AppArmor profile for a container named ‘nginx’?</h3><p>Your answer: <a href="http://apparmor.security.beta.kubernetes.io/nginx:">apparmor.security.beta.kubernetes.io/nginx:</a> ‘localhost/nginx-profile’</p>
+<p>Correct answer: <a href="http://container.apparmor.security.beta.kubernetes.io/nginx:">container.apparmor.security.beta.kubernetes.io/nginx:</a> ‘localhost/nginx-profile’</p>
+<p>Explanation: The correct annotation is ‘<a href="http://container.apparmor.security.beta.kubernetes.io/nginx:">container.apparmor.security.beta.kubernetes.io/nginx:</a> “localhost/nginx-profile”‘.</p>
+<h3 id="What-could-happen-if-you-disable-anonymous-authentication-on-the-kubelet"><a href="#What-could-happen-if-you-disable-anonymous-authentication-on-the-kubelet" class="headerlink" title="What could happen if you disable anonymous authentication on the kubelet?"></a>What could happen if you disable anonymous authentication on the kubelet?</h3><p>Your answer: No effect; kubelet does not support anonymous access</p>
+<p>Correct answer: Increased security by requiring authentication</p>
+<p>Explanation: Disabling anonymous authentication ensures that only authenticated requests are accepted by the kubelet.</p>
+<h3 id="Which-of-the-following-statements-are-true-about-gVisor-and-Firecracker-Select-all-that-apply"><a href="#Which-of-the-following-statements-are-true-about-gVisor-and-Firecracker-Select-all-that-apply" class="headerlink" title="Which of the following statements are true about gVisor and Firecracker? (Select all that apply)"></a>Which of the following statements are true about gVisor and Firecracker? (Select all that apply)</h3><p>Your answer: gVisor is a user-space kernel providing sandboxing, Firecracker is a container runtime interface, Firecracker uses lightweight microVMs with KVM</p>
+<p>Correct answer: gVisor is a user-space kernel providing sandboxing, Firecracker uses lightweight microVMs with KVM, gVisor offers better performance than traditional VMs</p>
+<p>Explanation: gVisor provides sandboxing; Firecracker uses microVMs; gVisor offers better performance than traditional VMs.</p>
+<h3 id="Which-of-the-following-practices-can-help-prevent-container-breakouts-Select-all-that-apply"><a href="#Which-of-the-following-practices-can-help-prevent-container-breakouts-Select-all-that-apply" class="headerlink" title="Which of the following practices can help prevent container breakouts? (Select all that apply)"></a>Which of the following practices can help prevent container breakouts? (Select all that apply)</h3><p>Your answer: Using minimal base images, Applying the principle of least privilege</p>
+<p>Correct answer: Using minimal base images, Applying the principle of least privilege, Regularly updating container runtimes</p>
+<h3 id="Which-Kubernetes-object-is-used-to-define-a-set-of-network-access-rules-for-pods"><a href="#Which-Kubernetes-object-is-used-to-define-a-set-of-network-access-rules-for-pods" class="headerlink" title="Which Kubernetes object is used to define a set of network access rules for pods?"></a>Which Kubernetes object is used to define a set of network access rules for pods?</h3><p>Your answer: Service</p>
+<p>Correct answer: NetworkPolicy</p>
+<h3 id="Which-of-the-following-practices-can-help-prevent-container-breakouts-Select-all-that-apply-1"><a href="#Which-of-the-following-practices-can-help-prevent-container-breakouts-Select-all-that-apply-1" class="headerlink" title="Which of the following practices can help prevent container breakouts? (Select all that apply)"></a>Which of the following practices can help prevent container breakouts? (Select all that apply)</h3><p>Your answer: Using minimal base images, Applying the principle of least privilege</p>
+<p>Correct answer: Using minimal base images, Applying the principle of least privilege, Regularly updating container runtimes</p>
+<h3 id="Which-field-in-the-Pod-spec-can-you-use-to-disable-privilege-escalation-for-all-containers-in-the-Pod"><a href="#Which-field-in-the-Pod-spec-can-you-use-to-disable-privilege-escalation-for-all-containers-in-the-Pod" class="headerlink" title="Which field in the Pod spec can you use to disable privilege escalation for all containers in the Pod?"></a>Which field in the Pod spec can you use to disable privilege escalation for all containers in the Pod?</h3><p>Your answer: securityContext.allowPrivilegeEscalation: false</p>
+<p>Correct answer: podSecurityContext.allowPrivilegeEscalation: false</p>
+<p>Explanation: The correct field to disable privilege escalation for all containers in a Pod is ‘spec.containers.securityContext.allowPrivilegeEscalation: false’. This must be set individually for each container within the Pod, as there is no global ‘allowPrivilegeEscalation’ setting at the Pod level.</p>
+<h3 id="What-could-be-a-possible-reason-for-failing-to-pull-the-latest-version-of-an-image-from-‘k8s-gcr-io‘"><a href="#What-could-be-a-possible-reason-for-failing-to-pull-the-latest-version-of-an-image-from-‘k8s-gcr-io‘" class="headerlink" title="What could be a possible reason for failing to pull the latest version of an image from ‘k8s.gcr.io‘?"></a>What could be a possible reason for failing to pull the latest version of an image from ‘<a href="http://k8s.gcr.io/">k8s.gcr.io</a>‘?</h3><p>Your answer: The image registry is deprecated</p>
+<p>Correct answer: Incorrect image tag or name</p>
+<h3 id="Which-folders-on-a-client-machine-are-sensitive-when-accessing-Kubernetes-clusters-Select-all-that-apply"><a href="#Which-folders-on-a-client-machine-are-sensitive-when-accessing-Kubernetes-clusters-Select-all-that-apply" class="headerlink" title="Which folders on a client machine are sensitive when accessing Kubernetes clusters? (Select all that apply)"></a>Which folders on a client machine are sensitive when accessing Kubernetes clusters? (Select all that apply)</h3><p>Your answer: ~/.kube/config</p>
+<p>Correct answer: ~/.kube/config, ~/.ssh/</p>
+<h3 id="How-can-you-improve-kubelet-security-Select-all-that-apply"><a href="#How-can-you-improve-kubelet-security-Select-all-that-apply" class="headerlink" title="How can you improve kubelet security? (Select all that apply)"></a>How can you improve kubelet security? (Select all that apply)</h3><p>Your answer: Disable anonymous access, Use TLS certificates</p>
+<p>Correct answer: Enable authentication and authorization, Disable anonymous access, Use TLS certificates</p>
+<h3 id="What-is-the-effect-of-applying-a-NetworkPolicy-that-selects-no-pods"><a href="#What-is-the-effect-of-applying-a-NetworkPolicy-that-selects-no-pods" class="headerlink" title="What is the effect of applying a NetworkPolicy that selects no pods?"></a>What is the effect of applying a NetworkPolicy that selects no pods?</h3><p>Your answer: It allows all traffic by default</p>
+<p>Correct answer: It has no effect on the cluster</p>
+<p>Explanation: A NetworkPolicy that selects no pods does nothing</p>
+<h2 id="Which-category-of-STRIDE-is-primarily-concerned-with-integrity"><a href="#Which-category-of-STRIDE-is-primarily-concerned-with-integrity" class="headerlink" title="Which category of STRIDE is primarily concerned with integrity?"></a>Which category of STRIDE is primarily concerned with integrity?</h2><p>STRIDE 的哪个类别主要关注完整性？</p>
+<p>A:Spoofing</p>
+<p>Tampering</p>
+<p>Repudiation</p>
+<p>Information Disclosure</p>
+<p>Denial of Service</p>
+<h2 id="Which-Kubernetes-resource-is-used-to-assign-permissions-within-a-namespace-to-a-user-or-group"><a href="#Which-Kubernetes-resource-is-used-to-assign-permissions-within-a-namespace-to-a-user-or-group" class="headerlink" title="Which Kubernetes resource is used to assign permissions within a namespace to a user or group?"></a>Which Kubernetes resource is used to assign permissions within a namespace to a user or group?</h2><p>Your answer: Role</p>
+<p>Correct answer: RoleBinding</p>
+<p>Explanation: A RoleBinding grants the permissions defined in a Role within a namespace.</p>
+<h2 id="What-is-the-outcome-of-setting-‘imagePullPolicy-Never’-in-a-pod-spec"><a href="#What-is-the-outcome-of-setting-‘imagePullPolicy-Never’-in-a-pod-spec" class="headerlink" title="What is the outcome of setting ‘imagePullPolicy: Never’ in a pod spec?"></a>What is the outcome of setting ‘imagePullPolicy: Never’ in a pod spec?</h2><p>Your answer: The pod will ignore image updates in the registry</p>
+<p>Correct answer: The pod will fail to start if the image is not present locally</p>
+<p>Explanation: Setting ‘imagePullPolicy: Never’ prevents pulling images; the image must exist locally.</p>
+<h2 id="Which-Kubernetes-resource-is-used-to-request-persistent-storage-for-a-Pod"><a href="#Which-Kubernetes-resource-is-used-to-request-persistent-storage-for-a-Pod" class="headerlink" title="Which Kubernetes resource is used to request persistent storage for a Pod?"></a>Which Kubernetes resource is used to request persistent storage for a Pod?</h2><p>Your answer: PersistentVolume</p>
+<p>Correct answer: PersistentVolumeClaim</p>
+<p>Explanation: A PersistentVolumeClaim requests storage resources provided by a PersistentVolume.</p>
+<h2 id="Which-compliance-standard-is-particularly-relevant-for-organisations-in-healthcare-handling-Protected-Health-Information-PHI"><a href="#Which-compliance-standard-is-particularly-relevant-for-organisations-in-healthcare-handling-Protected-Health-Information-PHI" class="headerlink" title="Which compliance standard is particularly relevant for organisations in healthcare handling Protected Health Information (PHI)?"></a>Which compliance standard is particularly relevant for organisations in healthcare handling Protected Health Information (PHI)?</h2><p>Your answer: HIPAA</p>
+<p>Correct answer: HIPAA</p>
+<p>Explanation: HIPAA contains security and privacy rules pertinent to PHI and is relevant when deploying healthcare solutions on Kubernetes.</p>
+<h2 id="Which-of-the-following-are-common-CNI-plugins-that-support-Network-Policies-Select-all-that-apply"><a href="#Which-of-the-following-are-common-CNI-plugins-that-support-Network-Policies-Select-all-that-apply" class="headerlink" title="Which of the following are common CNI plugins that support Network Policies? (Select all that apply)"></a>Which of the following are common CNI plugins that support Network Policies? (Select all that apply)</h2><p>Your answer: Calico, Flannel, Weave Net, Cilium</p>
+<p>Correct answer: Calico, Weave Net, AWS VPC CNI, Cilium</p>
+<p>Explanation: Calico, Weave Net, Cilium, and AWS VPC CNI are CNI plugins that support Network Policies. Flannel does not support them by default. As of August 2023, AWS VPC CNI supports network policies but requires them to be enabled and does not support them for Fargate or Windows containers.</p>
+<h2 id="Which-field-in-the-NetworkPolicy-spec-defines-allowed-egress-destinations"><a href="#Which-field-in-the-NetworkPolicy-spec-defines-allowed-egress-destinations" class="headerlink" title="Which field in the NetworkPolicy spec defines allowed egress destinations?"></a>Which field in the NetworkPolicy spec defines allowed egress destinations?</h2><p>Your answer: to</p>
+<p>Correct answer: egress</p>
+<p>Explanation: The ‘egress’ field defines allowed egress rules.</p>
+<h2 id="Which-of-the-following-are-common-security-contexts-applied-at-the-Pod-level-Select-all-that-apply"><a href="#Which-of-the-following-are-common-security-contexts-applied-at-the-Pod-level-Select-all-that-apply" class="headerlink" title="Which of the following are common security contexts applied at the Pod level? (Select all that apply)"></a>Which of the following are common security contexts applied at the Pod level? (Select all that apply)</h2><p>Your answer: runAsUser, capabilities, privileged</p>
+<p>Correct answer: runAsUser, fsGroup, seLinuxOptions</p>
+<p>Explanation: These fields are commonly set at the Pod level for security.</p>
+<h2 id="What-is-the-MITRE-ATT-amp-CK-framework-and-how-is-it-used-in-cybersecurity"><a href="#What-is-the-MITRE-ATT-amp-CK-framework-and-how-is-it-used-in-cybersecurity" class="headerlink" title="What is the MITRE ATT&amp;CK framework, and how is it used in cybersecurity?"></a>What is the MITRE ATT&amp;CK framework, and how is it used in cybersecurity?</h2><p>Your answer:</p>
+<p>Correct answer: A knowledge base of adversary tactics and techniques used in cyberattacks</p>
+<p>Explanation: The MITRE ATT&amp;CK framework is a comprehensive knowledge base that catalogs adversary tactics, techniques, and procedures (TTPs) observed in real-world cyberattacks. It is widely used by cybersecurity professionals to understand attacker behavior, improve threat detection, and enhance defense strategies. Other options are incorrect because they describe unrelated tools or concepts.</p>
+<h2 id="How-can-you-update-the-image-of-a-deployment-without-altering-other-configurations"><a href="#How-can-you-update-the-image-of-a-deployment-without-altering-other-configurations" class="headerlink" title="How can you update the image of a deployment without altering other configurations?"></a>How can you update the image of a deployment without altering other configurations?</h2><p>Your answer: Delete and recreate the deployment</p>
+<p>Correct answer: Use ‘kubectl set image’ command</p>
+<p>Explanation: This command updates the image without altering other configurations.</p>
+<h2 id="Which-of-the-following-is-a-built-in-Kubernetes-authentication-method-that-is-NOT-recommended-for-production-use"><a href="#Which-of-the-following-is-a-built-in-Kubernetes-authentication-method-that-is-NOT-recommended-for-production-use" class="headerlink" title="Which of the following is a built-in Kubernetes authentication method that is NOT recommended for production use?"></a>Which of the following is a built-in Kubernetes authentication method that is NOT recommended for production use?</h2><p>Your answer: OpenID Connect (OIDC)</p>
+<p>Correct answer: Static Token File</p>
+<p>Explanation: Static Token File authentication is not recommended for production.</p>
+<h2 id="Which-Kubernetes-resource-is-used-to-request-certificate-signing-via-the-Kubernetes-API"><a href="#Which-Kubernetes-resource-is-used-to-request-certificate-signing-via-the-Kubernetes-API" class="headerlink" title="Which Kubernetes resource is used to request certificate signing via the Kubernetes API?"></a>Which Kubernetes resource is used to request certificate signing via the Kubernetes API?</h2><p>Your answer: Certificate</p>
+<p>Correct answer: CertificateSigningRequest</p>
+<p>Explanation: CertificateSigningRequest is used to request certificate signing.</p>
+<h2 id="Which-command-lists-all-installed-packages-on-a-Debian-based-system-using-apt"><a href="#Which-command-lists-all-installed-packages-on-a-Debian-based-system-using-apt" class="headerlink" title="Which command lists all installed packages on a Debian-based system using apt?"></a>Which command lists all installed packages on a Debian-based system using apt?</h2><p>Your answer: dpkg -l</p>
+<p>Correct answer: apt list –installed</p>
+<p>Explanation: The command ‘apt list –installed’ lists all packages installed via apt.</p>
+<h2 id="Which-field-in-the-Pod-spec-can-you-use-to-disable-privilege-escalation-for-all-containers-in-the-Pod-1"><a href="#Which-field-in-the-Pod-spec-can-you-use-to-disable-privilege-escalation-for-all-containers-in-the-Pod-1" class="headerlink" title="Which field in the Pod spec can you use to disable privilege escalation for all containers in the Pod?"></a>Which field in the Pod spec can you use to disable privilege escalation for all containers in the Pod?</h2><p>Your answer: spec.containers.securityContext.allowPrivilegeEscalation: false</p>
+<p>Correct answer: podSecurityContext.allowPrivilegeEscalation: false</p>
+<p>Explanation: The correct field to disable privilege escalation for all containers in a Pod is ‘spec.containers.securityContext.allowPrivilegeEscalation: false’. This must be set individually for each container within the Pod, as there is no global ‘allowPrivilegeEscalation’ setting at the Pod level.</p>
+<h2 id="Which-command-can-you-use-to-check-the-version-of-the-kube-apiserver"><a href="#Which-command-can-you-use-to-check-the-version-of-the-kube-apiserver" class="headerlink" title="Which command can you use to check the version of the kube-apiserver?"></a>Which command can you use to check the version of the kube-apiserver?</h2><p>Your answer: ‘kube-apiserver –version’</p>
+<p>Correct answer: ‘kubectl version’</p>
+<p>Explanation: This command displays client and server Kubernetes versions.</p>
+<h2 id="What-is-the-primary-purpose-of-a-Cloud-Workload-Protection-Platform-CWPP"><a href="#What-is-the-primary-purpose-of-a-Cloud-Workload-Protection-Platform-CWPP" class="headerlink" title="What is the primary purpose of a Cloud Workload Protection Platform (CWPP)?"></a>What is the primary purpose of a Cloud Workload Protection Platform (CWPP)?</h2><p>Your answer: Provide identity and access management</p>
+<p>Correct answer: Secure workloads across various environments</p>
+<p>Explanation: CWPPs are designed to protect workloads in any environment.</p>
+<h2 id="Which-of-the-following-are-advantages-of-using-a-Service-Mesh-Select-all-that-apply"><a href="#Which-of-the-following-are-advantages-of-using-a-Service-Mesh-Select-all-that-apply" class="headerlink" title="Which of the following are advantages of using a Service Mesh? (Select all that apply)"></a>Which of the following are advantages of using a Service Mesh? (Select all that apply)</h2><p>Your answer: Observability, Enhanced security with mutual TLS, Simplifies application code</p>
+<p>Correct answer: Observability, Enhanced security with mutual TLS</p>
+<p>Explanation: A Service Mesh improves observability and enhances security (for example, via mutual TLS).</p>
+<h2 id="What-was-the-precursor-to-the-Pod-Security-Standards-PSS-in-Kubernetes"><a href="#What-was-the-precursor-to-the-Pod-Security-Standards-PSS-in-Kubernetes" class="headerlink" title="What was the precursor to the Pod Security Standards (PSS) in Kubernetes?"></a>What was the precursor to the Pod Security Standards (PSS) in Kubernetes?</h2><p>Your answer: Pod Security Admission (PSA)</p>
+<p>Correct answer: PodSecurityPolicy (PSP)</p>
+<p>Explanation: PSP was the precursor to PSS; it was deprecated and replaced by Pod Security Standards and the PodSecurity admission controller.</p>
+<h2 id="Which-security-context-setting-ensures-a-container-runs-as-a-non-root-user"><a href="#Which-security-context-setting-ensures-a-container-runs-as-a-non-root-user" class="headerlink" title="Which security context setting ensures a container runs as a non-root user?"></a>Which security context setting ensures a container runs as a non-root user?</h2><p>Your answer: readOnlyRootFilesystem: true</p>
+<p>Correct answer: runAsNonRoot: true</p>
+<p>Explanation: Setting ‘runAsNonRoot: true’ ensures the container is not run as root.</p>
+<h2 id="Which-field-in-the-Pod-spec-is-used-to-specify-the-container-runtime-class"><a href="#Which-field-in-the-Pod-spec-is-used-to-specify-the-container-runtime-class" class="headerlink" title="Which field in the Pod spec is used to specify the container runtime class?"></a>Which field in the Pod spec is used to specify the container runtime class?</h2><p>Your answer: runtimeClass</p>
+<p>Correct answer: runtimeClassName</p>
+<p>Explanation: The ‘runtimeClassName’ field specifies which RuntimeClass to use.</p>
+<h2 id="Which-NIST-Special-Publication-provides-guidelines-on-security-and-privacy-controls-for-federal-information-systems"><a href="#Which-NIST-Special-Publication-provides-guidelines-on-security-and-privacy-controls-for-federal-information-systems" class="headerlink" title="Which NIST Special Publication provides guidelines on security and privacy controls for federal information systems?"></a>Which NIST Special Publication provides guidelines on security and privacy controls for federal information systems?</h2><p>Your answer: NIST SP 800-190</p>
+<p>Correct answer: NIST SP 800-53 Rev. 5</p>
+<h2 id="To-enable-audit-logging-in-Kubernetes-which-flag-must-be-added-to-the-API-server-configuration"><a href="#To-enable-audit-logging-in-Kubernetes-which-flag-must-be-added-to-the-API-server-configuration" class="headerlink" title="To enable audit logging in Kubernetes, which flag must be added to the API server configuration?"></a>To enable audit logging in Kubernetes, which flag must be added to the API server configuration?</h2><p>Your answer: –audit-policy-file</p>
+<p>Correct answer: –audit-log-path</p>
+<p>Explanation: The ‘–audit-log-path’ flag enables audit logging by specifying the log file path.</p>
+<h2 id="In-a-Pod-spec-how-do-you-specify-that-it-should-use-the-gVisor-runtime-class"><a href="#In-a-Pod-spec-how-do-you-specify-that-it-should-use-the-gVisor-runtime-class" class="headerlink" title="In a Pod spec, how do you specify that it should use the gVisor runtime class?"></a>In a Pod spec, how do you specify that it should use the gVisor runtime class?</h2><p>Your answer: Annotate the Pod with ‘runtimeClass: gvisor’</p>
+<p>Correct answer: Set ‘runtimeClassName: “gvisor”‘ at the Pod spec level</p>
+<p>Explanation: The ‘runtimeClassName’ field at the Pod spec level specifies which RuntimeClass to use.</p>
+<h2 id="Which-of-the-following-is-a-common-mitigation-for-‘Spoofing’-threats"><a href="#Which-of-the-following-is-a-common-mitigation-for-‘Spoofing’-threats" class="headerlink" title="Which of the following is a common mitigation for ‘Spoofing’ threats?"></a>Which of the following is a common mitigation for ‘Spoofing’ threats?</h2><p>Your answer: Using encryption for data at rest</p>
+<p>Correct answer: Implementing proper authentication mechanisms</p>
+<p>Explanation: Proper authentication helps verify identity and mitigate spoofing.</p>
+<h2 id="Which-Kubernetes-feature-allows-for-encryption-of-Secrets-at-rest"><a href="#Which-Kubernetes-feature-allows-for-encryption-of-Secrets-at-rest" class="headerlink" title="Which Kubernetes feature allows for encryption of Secrets at rest?"></a>Which Kubernetes feature allows for encryption of Secrets at rest?</h2><p>Your answer: Using third-party encryption tools</p>
+<p>Correct answer: Using etcd encryption provider</p>
+<p>Explanation: Enabling etcd encryption at rest encrypts Secrets stored in etcd.</p>
+<h2 id="Which-command-would-you-use-to-label-a-namespace-‘production’-with-‘env-prod’"><a href="#Which-command-would-you-use-to-label-a-namespace-‘production’-with-‘env-prod’" class="headerlink" title="Which command would you use to label a namespace ‘production’ with ‘env=prod’?"></a>Which command would you use to label a namespace ‘production’ with ‘env=prod’?</h2><p>Your answer: kubectl label namespaces env=prod production</p>
+<p>Correct answer: kubectl label namespace production env=prod</p>
+<p>Explanation: The correct command is ‘kubectl label namespace production env=prod’.</p>
+<h2 id="Which-command-can-be-used-to-set-the-default-namespace-for-kubectl-commands"><a href="#Which-command-can-be-used-to-set-the-default-namespace-for-kubectl-commands" class="headerlink" title="Which command can be used to set the default namespace for kubectl commands?"></a>Which command can be used to set the default namespace for kubectl commands?</h2><p>Your answer:</p>
+<p>Correct answer: kubectl config set-context –current –namespace=<code>&lt;namespace&gt;</code></p>
+<p>Explanation: This command sets the default namespace in the current context.</p>
+<h2 id="How-do-Network-Policies-work-in-Kubernetes"><a href="#How-do-Network-Policies-work-in-Kubernetes" class="headerlink" title="How do Network Policies work in Kubernetes?"></a>How do Network Policies work in Kubernetes?</h2><p>Your answer: By default, they block all traffic between pods</p>
+<p>Correct answer: They use iptables rules to control pod communication</p>
+<p>Explanation: Network Policies are implemented via iptables rules by the network plugin.</p>
+<h2 id="In-Kubernetes-how-can-you-apply-an-AppArmor-profile-to-all-containers-within-a-Pod"><a href="#In-Kubernetes-how-can-you-apply-an-AppArmor-profile-to-all-containers-within-a-Pod" class="headerlink" title="In Kubernetes, how can you apply an AppArmor profile to all containers within a Pod?"></a>In Kubernetes, how can you apply an AppArmor profile to all containers within a Pod?</h2><p>Your answer: Annotate each container with the AppArmor profile</p>
+<p>Correct answer: Annotate each container with the AppArmor profile, Use the ‘appArmorProfile’ field in the container spec</p>
+<h2 id="Which-mitigation-technique-is-suitable-for-‘Information-Disclosure’-threats"><a href="#Which-mitigation-technique-is-suitable-for-‘Information-Disclosure’-threats" class="headerlink" title="Which mitigation technique is suitable for ‘Information Disclosure’ threats?"></a>Which mitigation technique is suitable for ‘Information Disclosure’ threats?</h2><p>Your answer: Using prepared SQL statements</p>
+<p>Correct answer: Encrypting data at rest and in transit</p>
+<p>Explanation: Encryption helps protect data confidentiality.</p>
+<h2 id="Which-of-the-following-restrictions-does-the-‘baseline’-Pod-Security-Standard-enforce-Select-all-that-apply"><a href="#Which-of-the-following-restrictions-does-the-‘baseline’-Pod-Security-Standard-enforce-Select-all-that-apply" class="headerlink" title="Which of the following restrictions does the ‘baseline’ Pod Security Standard enforce? (Select all that apply)"></a>Which of the following restrictions does the ‘baseline’ Pod Security Standard enforce? (Select all that apply)</h2><p>Your answer: Disallows privileged containers, Blocks host networking and ports, Requires running as non-root</p>
+<p>Correct answer: Disallows privileged containers, Blocks host networking and ports</p>
+<h2 id="Which-of-the-following-are-common-CNI-plugins-that-support-Network-Policies-Select-all-that-apply-1"><a href="#Which-of-the-following-are-common-CNI-plugins-that-support-Network-Policies-Select-all-that-apply-1" class="headerlink" title="Which of the following are common CNI plugins that support Network Policies? (Select all that apply)"></a>Which of the following are common CNI plugins that support Network Policies? (Select all that apply)</h2><p>Your answer: Flannel, Calico, Weave Net, AWS VPC CNI, Cilium</p>
+<p>Correct answer: Calico, Weave Net, AWS VPC CNI, Cilium</p>
+<h2 id="Which-object-defines-how-to-build-and-deploy-an-application-from-source-code-in-Kubernetes"><a href="#Which-object-defines-how-to-build-and-deploy-an-application-from-source-code-in-Kubernetes" class="headerlink" title="Which object defines how to build and deploy an application from source code in Kubernetes?"></a>Which object defines how to build and deploy an application from source code in Kubernetes?</h2><p>Your answer: Deployment</p>
+<p>Correct answer: BuildConfig</p>
+<p>Explanation: While not a native Kubernetes object, BuildConfig is used in OpenShift for this purpose.</p>
+<h2 id="Which-authentication-mechanisms-are-used-by-kubeadm-Select-all-that-apply"><a href="#Which-authentication-mechanisms-are-used-by-kubeadm-Select-all-that-apply" class="headerlink" title="Which authentication mechanisms are used by kubeadm? (Select all that apply)"></a>Which authentication mechanisms are used by kubeadm? (Select all that apply)</h2><p>Your answer: TLS certificates, Token-based authentication, OAuth tokens</p>
+<p>Correct answer: TLS certificates, Token-based authentication</p>
+<p>Explanation: kubeadm uses TLS certificates and token-based authentication mechanisms.</p>
+<h2 id="Which-of-the-following-tools-can-be-used-for-static-analysis-of-Kubernetes-manifests-for-security-issues"><a href="#Which-of-the-following-tools-can-be-used-for-static-analysis-of-Kubernetes-manifests-for-security-issues" class="headerlink" title="Which of the following tools can be used for static analysis of Kubernetes manifests for security issues?"></a>Which of the following tools can be used for static analysis of Kubernetes manifests for security issues?</h2><p>Your answer: kubectl describe</p>
+<p>Correct answer: kubesec</p>
+<p>Explanation: Kubesec is used for static analysis of manifests for security issues.</p>
+<h2 id="How-can-you-view-the-resources-consumed-by-a-pod"><a href="#How-can-you-view-the-resources-consumed-by-a-pod" class="headerlink" title="How can you view the resources consumed by a pod?"></a>How can you view the resources consumed by a pod?</h2><p>Your answer: ‘kubectl describe pod <code>&lt;pod-name&gt;</code>‘</p>
+<p>Correct answer: ‘kubectl top pod <code>&lt;pod-name&gt;</code>‘</p>
+<p>Explanation: The ‘kubectl top’ command shows resource usage for pods or nodes.</p>
+<h2 id="Which-field-in-the-Pod-spec-allows-you-to-specify-Linux-capabilities-for-a-container"><a href="#Which-field-in-the-Pod-spec-allows-you-to-specify-Linux-capabilities-for-a-container" class="headerlink" title="Which field in the Pod spec allows you to specify Linux capabilities for a container?"></a>Which field in the Pod spec allows you to specify Linux capabilities for a container?</h2><p>Your answer: securityContext.capabilities</p>
+<p>Correct answer: container.securityContext.capabilities</p>
+<p>Explanation: It is specified under the container’s securityContext.</p>
+<h2 id="Which-Kubernetes-resource-can-be-used-to-manage-policies-with-Open-Policy-Agent-OPA"><a href="#Which-Kubernetes-resource-can-be-used-to-manage-policies-with-Open-Policy-Agent-OPA" class="headerlink" title="Which Kubernetes resource can be used to manage policies with Open Policy Agent (OPA)?"></a>Which Kubernetes resource can be used to manage policies with Open Policy Agent (OPA)?</h2><p>Your answer: MutatingWebhookConfiguration</p>
+<p>Correct answer: ValidatingWebhookConfiguration</p>
+<p>Explanation: ValidatingWebhookConfiguration is used to integrate OPA for policy management.</p>
+<h2 id="How-do-you-specify-in-an-audit-policy-to-log-events-for-all-resources-in-a-specific-namespace"><a href="#How-do-you-specify-in-an-audit-policy-to-log-events-for-all-resources-in-a-specific-namespace" class="headerlink" title="How do you specify in an audit policy to log events for all resources in a specific namespace?"></a>How do you specify in an audit policy to log events for all resources in a specific namespace?</h2><p>Your answer: Specify ‘namespaceSelector: {matchNames: [“<code>&lt;namespace&gt;</code>“]}’</p>
+<p>Correct answer: Use ‘namespaces: [“<code>&lt;namespace&gt;</code>“]’ under the rule’s ‘namespaces’ field</p>
+<p>Explanation: The ‘namespaces’ field in the rule specifies which namespaces the rule applies to.</p>
+<h2 id="Which-Kubernetes-admission-controller-runs-first-during-the-admission-control-process"><a href="#Which-Kubernetes-admission-controller-runs-first-during-the-admission-control-process" class="headerlink" title="Which Kubernetes admission controller runs first during the admission control process?"></a>Which Kubernetes admission controller runs first during the admission control process?</h2><p>Your answer: ValidatingAdmissionWebhook</p>
+<p>Correct answer: MutatingAdmissionWebhook</p>
+<p>Explanation: The MutatingAdmissionWebhook runs first in the Kubernetes admission control process. This is because mutating admission controllers are designed to modify the incoming request before it is validated by validating admission controllers. Other options, such as ValidatingAdmissionWebhook, ResourceQuota, NamespaceLifecycle, and AlwaysPullImages, either run later in the process or serve different purposes</p>
+<h2 id="Select-all-that-apply-Which-Kubernetes-object-s-allow-you-to-define-a-set-of-rules-for-validating-or-mutating-admission-requests"><a href="#Select-all-that-apply-Which-Kubernetes-object-s-allow-you-to-define-a-set-of-rules-for-validating-or-mutating-admission-requests" class="headerlink" title="Select all that apply: Which Kubernetes object(s) allow you to define a set of rules for validating or mutating admission requests?"></a>Select all that apply: Which Kubernetes object(s) allow you to define a set of rules for validating or mutating admission requests?</h2><p>Your answer: AdmissionController, CustomResourceDefinition</p>
+<p>Correct answer: ValidatingWebhookConfiguration, MutatingWebhookConfiguration</p>
+<p>Explanation: <code>ValidatingWebhookConfiguration</code> and <code>MutatingWebhookConfiguration</code> are used to integrate admission webhooks that validate or mutate admission requests. Option 2 (<code>AdmissionController</code>) is a general term for the mechanism but not a specific Kubernetes object. Option 3 (<code>CustomResourceDefinition</code>) is used to define custom resources, and Option 4 (<code>WebhookPolicy</code>) is not a valid Kubernetes object.</p>
+<h2 id="Which-of-the-following-is-a-reason-to-use-‘distroless’-images"><a href="#Which-of-the-following-is-a-reason-to-use-‘distroless’-images" class="headerlink" title="Which of the following is a reason to use ‘distroless’ images?"></a>Which of the following is a reason to use ‘distroless’ images?</h2><p>Your answer: They have a larger attack surface</p>
+<p>Correct answer: They are minimal images that reduce vulnerabilities</p>
+<p>Explanation: Distroless images are minimal and reduce the attack surface by excluding unnecessary packages.</p>
+<h2 id="Which-NetworkPolicy-policyTypes-value-is-used-to-create-a-default-deny-egress-policy"><a href="#Which-NetworkPolicy-policyTypes-value-is-used-to-create-a-default-deny-egress-policy" class="headerlink" title="Which NetworkPolicy policyTypes value is used to create a default deny egress policy?"></a>Which NetworkPolicy policyTypes value is used to create a default deny egress policy?</h2><p>Your answer: DenyAll</p>
+<p>Correct answer: Egress</p>
+<p>Explanation: Setting policyTypes to Egress with no egress rules creates a default deny egress policy.</p>
+<h2 id="In-managed-Kubernetes-services-who-manages-the-etcd-cluster"><a href="#In-managed-Kubernetes-services-who-manages-the-etcd-cluster" class="headerlink" title="In managed Kubernetes services, who manages the etcd cluster?"></a>In managed Kubernetes services, who manages the etcd cluster?</h2><p>Your answer: A third-party vendor manages etcd</p>
+<p>Correct answer: The cloud provider manages etcd</p>
+<p>Explanation: In managed services, etcd is managed by the provider.</p>
+<h2 id="What-is-the-default-network-policy-behavior-if-no-policies-are-applied"><a href="#What-is-the-default-network-policy-behavior-if-no-policies-are-applied" class="headerlink" title="What is the default network policy behavior if no policies are applied?"></a>What is the default network policy behavior if no policies are applied?</h2><p>Your answer: All egress traffic is denied; ingress is allowed</p>
+<p>Correct answer: All ingress and egress traffic is allowed</p>
+<p>Explanation: By default, Kubernetes allows all traffic if no Network Policies are applied.</p>
+<h2 id="Which-API-server-flag-enables-the-ImagePolicyWebhook-admission-controller"><a href="#Which-API-server-flag-enables-the-ImagePolicyWebhook-admission-controller" class="headerlink" title="Which API server flag enables the ImagePolicyWebhook admission controller?"></a>Which API server flag enables the ImagePolicyWebhook admission controller?</h2><p>Your answer: –admission-control=ImagePolicyWebhook</p>
+<p>Correct answer: –enable-admission-plugins=ImagePolicyWebhook</p>
+<p>Explanation: The ‘–enable-admission-plugins=ImagePolicyWebhook’ flag enables the ImagePolicyWebhook admission controller.</p>
+<h2 id="Which-tool-can-be-used-for-real-time-compliance-monitoring-and-alerting-in-Kubernetes-clusters"><a href="#Which-tool-can-be-used-for-real-time-compliance-monitoring-and-alerting-in-Kubernetes-clusters" class="headerlink" title="Which tool can be used for real-time compliance monitoring and alerting in Kubernetes clusters?"></a>Which tool can be used for real-time compliance monitoring and alerting in Kubernetes clusters?</h2><p>Your answer: Kubernetes Dashboard</p>
+<p>Correct answer: Sysdig Secure</p>
+<p>Explanation: Sysdig Secure, like other tools, offers real-time compliance monitoring, anomaly detection, and security enforcement in Kubernetes</p>
+<h2 id="Which-Kubernetes-resource-is-used-to-define-permissions-within-a-namespace"><a href="#Which-Kubernetes-resource-is-used-to-define-permissions-within-a-namespace" class="headerlink" title="Which Kubernetes resource is used to define permissions within a namespace?"></a>Which Kubernetes resource is used to define permissions within a namespace?</h2><p>Your answer: RoleBinding</p>
+<p>Correct answer: Role</p>
+<p>Explanation: A Role defines permissions within a namespace.</p>
+<h2 id="Which-combination-of-capabilities-allows-a-compromised（被入侵）-pod-to-access-and-modify-the-host-Select-all-that-apply"><a href="#Which-combination-of-capabilities-allows-a-compromised（被入侵）-pod-to-access-and-modify-the-host-Select-all-that-apply" class="headerlink" title="Which combination of capabilities allows a compromised（被入侵） pod to access and modify the host? (Select all that apply)"></a>Which combination of capabilities allows a compromised（被入侵） pod to access and modify the host? (Select all that apply)</h2><p>Your answer: Running in privileged mode, Using host networking</p>
+<p>Correct answer: Running in privileged mode, Mounting the host filesystem, Using host networking</p>
+<p>Explanation: These capabilities allow a pod to access and modify the host.</p>
+<h2 id="Which-field-in-the-Pod-spec-allows-you-to-specify-Linux-capabilities-for-a-container-1"><a href="#Which-field-in-the-Pod-spec-allows-you-to-specify-Linux-capabilities-for-a-container-1" class="headerlink" title="Which field in the Pod spec allows you to specify Linux capabilities for a container?"></a>Which field in the Pod spec allows you to specify Linux capabilities for a container?</h2><p>Your answer: podSecurityContext.capabilities</p>
+<p>Correct answer: container.securityContext.capabilities</p>
+<p>Explanation: It is specified under the container’s securityContext.</p>
+<h2 id="Which-command-enables-audit-logging-by-specifying-the-audit-policy-file-in-the-API-server-configuration"><a href="#Which-command-enables-audit-logging-by-specifying-the-audit-policy-file-in-the-API-server-configuration" class="headerlink" title="Which command enables audit logging by specifying the audit policy file in the API server configuration?"></a>Which command enables audit logging by specifying the audit policy file in the API server configuration?</h2><p>Your answer: –audit-log-path</p>
+<p>Correct answer: –audit-policy-file</p>
+<p>Explanation: The ‘–audit-policy-file’ flag is used to point to the audit policy file.</p>
+<h2 id="What-does-the-‘kubectl-config-use-context’-command-do"><a href="#What-does-the-‘kubectl-config-use-context’-command-do" class="headerlink" title="What does the ‘kubectl config use-context’ command do?"></a>What does the ‘kubectl config use-context’ command do?</h2><p>Your answer: Changes the current kubeconfig file</p>
+<p>Correct answer: Sets the current context in kubeconfig</p>
+<p>Explanation: This command switches the active context in your kubeconfig.</p>
+<h2 id="Which-admission-controller-should-be-used-to-enforce-Pod-Security-Standards-in-Kubernetes-1-25-and-above"><a href="#Which-admission-controller-should-be-used-to-enforce-Pod-Security-Standards-in-Kubernetes-1-25-and-above" class="headerlink" title="Which admission controller should be used to enforce Pod Security Standards in Kubernetes 1.25 and above?"></a>Which admission controller should be used to enforce Pod Security Standards in Kubernetes 1.25 and above?</h2><p>Your answer: PodSecurityPolicy</p>
+<p>Correct answer: Pod Security Admission Controller</p>
+<p>Explanation: The Pod Security Admission Controller is the recommended method in Kubernetes 1.25+.</p>
+<h2 id="What-measures-can-you-take-to-prevent-a-container-from-running-as-the-root-user-in-Kubernetes"><a href="#What-measures-can-you-take-to-prevent-a-container-from-running-as-the-root-user-in-Kubernetes" class="headerlink" title="What measures can you take to prevent a container from running as the root user in Kubernetes?"></a>What measures can you take to prevent a container from running as the root user in Kubernetes?</h2><p>Your answer: Modify the container image to exclude root user privileges</p>
+<p>Correct answer: Use a Pod Security Policy or Pod Security Admission to enforce non-root user requirements</p>
+<h2 id="In-managed-Kubernetes-services-who-manages-the-etcd-cluster-1"><a href="#In-managed-Kubernetes-services-who-manages-the-etcd-cluster-1" class="headerlink" title="In managed Kubernetes services, who manages the etcd cluster?"></a><strong>In managed Kubernetes services, who manages the etcd cluster?</strong></h2><p>在托管的 Kubernetes 服务中，谁管理 etcd 集群？</p>
+<p>Correct answer: The cloud provider manages etcd</p>
+<h2 id="Which-field-in-the-NetworkPolicy-spec-defines-allowed-egress-destinations-1"><a href="#Which-field-in-the-NetworkPolicy-spec-defines-allowed-egress-destinations-1" class="headerlink" title="Which field in the NetworkPolicy spec defines allowed egress destinations?"></a><strong>Which field in the NetworkPolicy spec defines allowed egress destinations?</strong></h2><p>Correct answer: egress</p>
+<h2 id="Does-the-underlying-cloud-infrastructure-affect-Kubernetes-cluster-security"><a href="#Does-the-underlying-cloud-infrastructure-affect-Kubernetes-cluster-security" class="headerlink" title="Does the underlying cloud infrastructure affect Kubernetes cluster security?"></a><strong>Does the underlying cloud infrastructure affect Kubernetes cluster security?</strong></h2><p>底层云基础设施是否影响 Kubernetes 集群安全？</p>
+<p>Correct answer: Yes, because infrastructure vulnerabilities can compromise the cluster</p>
+]]></content>
+      <categories>
+        <category>kcsa</category>
+      </categories>
+      <tags>
+        <tag>kubernetes</tag>
+        <tag>cncf</tag>
+        <tag>kcsa</tag>
       </tags>
   </entry>
   <entry>
@@ -2306,6 +2549,475 @@
         <tag>kubernetes</tag>
         <tag>k8s</tag>
         <tag>security</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>UDEMY-KCSA练习错题集</title>
+    <url>/posts/25154b6c/</url>
+    <content><![CDATA[<h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>该套题目是UDEMY上的一套题目《<a href="https://www.udemy.com/course/kcsa-kubernetes-cloud-native-security-associate-exam-prep"><strong>KCSA: Kubernetes &amp; Cloud Native Security Associate EXAM-PREP</strong></a>》，我是通过淘宝购买优惠券，然后兑换购买了KCSA的练习题，总共120道题目，60到练习的，60到考试题目，不限次数的练习。</p>
+<p><img src="/posts/25154b6c/1741870387196.png" alt="1741870387196"></p>
+<h1 id="安全词汇"><a href="#安全词汇" class="headerlink" title="安全词汇"></a>安全词汇</h1><p>principle：原则</p>
+<p>measure： 措施，方法</p>
+<p>comprehensive： 综合，全面的</p>
+<p>important： 重要的</p>
+<p>compliance：合规</p>
+<h1 id="What-is-the-primary-benefit-of-using-immutable（不可变的）-infrastructure-in-application-code-security"><a href="#What-is-the-primary-benefit-of-using-immutable（不可变的）-infrastructure-in-application-code-security" class="headerlink" title="What is the primary benefit of using immutable（不可变的） infrastructure in application code security?"></a>What is the primary benefit of using immutable（不可变的） infrastructure in application code security?</h1><p><strong>您的答案不正确</strong></p>
+<p><strong>Storing configurations locally and securely</strong></p>
+<p><strong>Allowing frequent manual changes</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>Preventing configuration drift（防止配置漂移）</strong></p>
+<p><strong>Regularly rebooting infrastructure components</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Preventing configuration drift</strong> - Immutable infrastructure ensures that once an environment is deployed, it cannot be altered. This prevents configuration drift, where environments evolve from their original setup, often leading to security issues.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Allowing frequent manual changes</strong> - This undermines the immutability principle and increases the risk of misconfiguration.</p>
+<p><strong>Storing configurations locally and securely</strong> - While important, this is not the primary benefit of immutable infrastructure.</p>
+<p><strong>Regularly rebooting infrastructure components</strong> - Rebooting does not address security issues related to configuration drift.</p>
+<h1 id="What-is-a-comprehensive-（全面）security-measure-for-container-runtime-environments"><a href="#What-is-a-comprehensive-（全面）security-measure-for-container-runtime-environments" class="headerlink" title="What is a comprehensive （全面）security measure for container runtime environments?"></a>What is a comprehensive （全面）security measure for container runtime environments?</h1><p><strong>正确答案</strong></p>
+<p><strong>Using SELinux or AppArmor to restrict container privileges</strong></p>
+<p><strong>Granting containers access to host-level namespaces</strong></p>
+<p><strong>Allowing containers to access runtime APIs</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Configuring Seccomp profiles to limit system calls for containers</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Using SELinux or AppArmor to restrict container privileges</strong> - These tools enforce mandatory access controls to limit container actions, reducing the risk of privilege escalation and protecting the host.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Granting containers access to host-level namespaces</strong> - Weakens isolation and increases the risk of privilege escalation attacks.</p>
+<p><strong>Configuring Seccomp profiles to limit system calls for containers</strong> - A useful measure, but it focuses only on restricting system calls, not comprehensive privilege control.</p>
+<p><strong>Allowing containers to access runtime APIs</strong> - Increases attack vectors and creates potential vulnerabilities in the runtime environment.</p>
+<h1 id="How-does-AppArmor-enhance-security-for-containers-running-in-a-Kubernetes-environment"><a href="#How-does-AppArmor-enhance-security-for-containers-running-in-a-Kubernetes-environment" class="headerlink" title="How does AppArmor enhance security for containers running in a Kubernetes environment?"></a>How does AppArmor enhance security for containers running in a Kubernetes environment?</h1><p><strong>By adjusting（调整） user rights to grant additional privileges to container processes</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>By defining a set of mandatory（强制） access control rules that restrict what processes within a container can do</strong></p>
+<p><strong>By enforcing strict Pod Security Standards (PSS) and applying network policies to limit communication between pods</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>By filtering a process’s system calls</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>By defining a set of mandatory access control rules that restrict what processes within a container can do</strong> - AppArmor uses mandatory access control (MAC) to restrict container actions.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>By filtering a process’s system calls</strong> - This describes seccomp, not AppArmor.</p>
+<p><strong>By enforcing strict Pod Security Standards (PSS)</strong> - AppArmor does not enforce Pod Security Standards.</p>
+<p><strong>By adjusting user rights to grant additional privileges</strong> - AppArmor restricts privileges rather than granting them.</p>
+<h1 id="How-can-the-kubectl-apply-command-contribute-to-improving-Kubernetes-security"><a href="#How-can-the-kubectl-apply-command-contribute-to-improving-Kubernetes-security" class="headerlink" title="How can the kubectl apply command contribute to improving Kubernetes security?"></a>How can the <code>kubectl apply</code> command contribute to improving Kubernetes security?</h1><p><strong>您的答案不正确</strong></p>
+<p><strong>To delete misconfigured or insecure resources from the cluster</strong></p>
+<p><strong>To roll back unauthorized changes to Kubernetes resources</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>To apply updated RBAC roles and policies from configuration files</strong></p>
+<p><strong>To generate encrypted secrets for Kubernetes resources</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>To apply updated RBAC roles and policies</strong> - <code>kubectl apply</code> creates or updates resources, including RBAC roles and bindings, ensuring proper access control.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>To roll back unauthorized changes to Kubernetes resources</strong> - Rolling back changes is not the role of <code>kubectl apply</code>; this requires versioning tools like <code>kubectl rollout undo</code>.</p>
+<p><strong>To generate encrypted secrets for Kubernetes resources</strong> - Secrets are created via YAML or <code>kubectl create secret</code>, not directly encrypted using <code>kubectl apply</code>.</p>
+<p><strong>To delete misconfigured or insecure resources from the cluster</strong> - Deleting resources requires <code>kubectl delete</code>, not <code>kubectl apply</code>.</p>
+<h1 id="How-can-a-ReplicaSet-contribute-to-the-security-of-a-Kubernetes-application"><a href="#How-can-a-ReplicaSet-contribute-to-the-security-of-a-Kubernetes-application" class="headerlink" title="How can a ReplicaSet contribute to the security of a Kubernetes application?"></a>How can a ReplicaSet contribute to the security of a Kubernetes application?</h1><p><strong>DaemonSet</strong></p>
+<p><strong>您的答案正确</strong></p>
+<p><strong>By ensuring a certain number of pod replicas are running to slow down resource exhaustion due to denial-of-service attacks</strong></p>
+<p><strong>Deployment</strong></p>
+<p><strong>Service</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>By ensuring a certain number of pod replicas are running to slow down resource exhaustion due to denial-of-service attacks</strong> - ReplicaSets maintain pod availability, mitigating the impact of resource exhaustion attacks by ensuring new pods replace failed ones.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>By encrypting all traffic between replicated pods</strong> - Traffic encryption is handled by tools like service meshes, not ReplicaSets.</p>
+<p><strong>By isolating pods within unique namespaces</strong> - Namespace isolation is unrelated to the ReplicaSet’s role.</p>
+<p><strong>By managing pod-level RBAC policies</strong> - RBAC policies manage access, not pod replication, which is the responsibility of ReplicaSets.</p>
+<h1 id="What-is-an-easy-way-to-find-regularly-appearing-Vulnerabilities-found-in-Kubernetes"><a href="#What-is-an-easy-way-to-find-regularly-appearing-Vulnerabilities-found-in-Kubernetes" class="headerlink" title="What is an easy way to find regularly appearing Vulnerabilities found in Kubernetes?"></a>What is an easy way to find regularly appearing Vulnerabilities found in Kubernetes?</h1><p><strong>您的答案不正确</strong></p>
+<p><strong>Install the KubeSec helm chart in your cluster</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>Go to the Official CVE Feed in the Kubernetes documentation</strong></p>
+<p><strong>Go to <code>/var/lib/kubernetes/vulnerabilities</code> on any of the master nodes of your cluster</strong></p>
+<p><strong>Use the <code>kubectl list vulnerabilities</code> command</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Go to the Official CVE Feed in the Kubernetes documentation</strong> - The CVE feed provides regularly updated information about vulnerabilities in Kubernetes.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Use the <code>kubectl list vulnerabilities</code> command</strong> - There is no such command.</p>
+<p><strong>Install the KubeSec helm chart in your cluster</strong> - While KubeSec helps with security, it doesn’t provide a list of vulnerabilities.</p>
+<p><strong>Go to <code>/var/lib/kubernetes/vulnerabilities</code> on any of the master nodes of your cluster</strong> - This directory path does not contain a vulnerability feed.</p>
+<h1 id="Why-is-audit-logging-important-in-Kubernetes-security"><a href="#Why-is-audit-logging-important-in-Kubernetes-security" class="headerlink" title="Why is audit logging important in Kubernetes security?"></a>Why is audit logging important in Kubernetes security?</h1><p><strong>您的答案不正确</strong></p>
+<p><strong>To facilitate auditing meetings at regular intervals for cluster admins, which is a best practice</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>To track and log user actions within the cluster</strong></p>
+<p><strong>To have a log of all audits that have been done on the cluster</strong></p>
+<p><strong>To allow users access to logs so that they can troubleshoot their application</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>To track and log user actions within the cluster</strong> - Audit logging captures actions and changes, enhancing accountability and security.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>To allow users access to logs so that they can troubleshoot their application</strong> - Audit logs are primarily for security, not troubleshooting.</p>
+<p><strong>To facilitate auditing meetings at regular intervals for cluster admins</strong> - Audits are ongoing, not just for meetings.</p>
+<p><strong>To have a log of all audits that have been done on the cluster</strong> - The focus is on logging user actions, not audits.</p>
+<h1 id="How-does-the-Kubernetes-Scheduler-contribute-to-cluster-security"><a href="#How-does-the-Kubernetes-Scheduler-contribute-to-cluster-security" class="headerlink" title="How does the Kubernetes Scheduler contribute to cluster security?"></a>How does the Kubernetes Scheduler contribute to cluster security?</h1><p><strong>By monitoring for unauthorized access attempts and blocking them</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>By scheduling pods on nodes according to Node Affinity rules, Node Anti-Affinity rules, Node taints, Node tolerations and resource constraints</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>By scheduling pods on nodes with the least number of vulnerabilities and enforcing runtime security policies</strong></p>
+<p><strong>By enforcing resource quotas and blocking malicious pods</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>By scheduling pods on nodes according to Node Affinity rules, Node Anti-Affinity rules, Node taints, Node tolerations and resource constraints</strong> - The Kubernetes Scheduler assigns pods to nodes based on these factors, helping ensure the security and stability of the cluster by scheduling workloads appropriately.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>By scheduling pods on nodes with the least number of vulnerabilities and enforcing runtime security policies</strong> - The Scheduler does not enforce vulnerability checks or runtime security policies.</p>
+<p><strong>By enforcing resource quotas and blocking malicious pods</strong> - Resource quotas are enforced by the API Server and resource controllers, not the Scheduler. And scheduler does not block malicious pods from running.</p>
+<p><strong>By monitoring for unauthorized access attempts and blocking them</strong> - Monitoring access attempts is handled by security tools, not the Scheduler.</p>
+<h1 id="What-is-the-purpose-of-the-kubernetes-io-enforce-mountable-secrets-annotation-in-Kubernetes"><a href="#What-is-the-purpose-of-the-kubernetes-io-enforce-mountable-secrets-annotation-in-Kubernetes" class="headerlink" title="What is the purpose of the kubernetes.io/enforce-mountable-secrets annotation in Kubernetes?"></a>What is the purpose of the <code>kubernetes.io/enforce-mountable-secrets</code> annotation in Kubernetes?</h1><p><strong>To prevent secrets from being mounted into a pod to reduce the risk of secret exposure</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>To specify that secrets should be mounted into a pod only if they meet certain criteria defined by the annotation（指定仅当 secret 满足注释定义的某些条件时才将其挂载到 pod 中）</strong></p>
+<p><strong>To ensure that secrets are encrypted when mounted into a pod, enhancing data security</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>To enforce that secrets can only be mounted into a pod as environment variables and not as files</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>To specify that secrets should be mounted into a pod only if they meet certain criteria defined by the annotation</strong> - The <code>kubernetes.io/enforce-mountable-secrets</code> annotation limits how and when secrets can be mounted into pods based on criteria.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>To ensure that secrets are encrypted when mounted into a pod</strong> - Secrets are encrypted by default, and this annotation doesn’t manage encryption.</p>
+<p><strong>To enforce that secrets can only be mounted into a pod as environment variables</strong> - This annotation doesn’t enforce such restrictions.</p>
+<p><strong>To prevent secrets from being mounted into a pod</strong> - This annotation enforces conditions, not outright prevention.</p>
+<h1 id="What-is-an-important-practice-in-Client-Security-when-working-with-Kubernetes"><a href="#What-is-an-important-practice-in-Client-Security-when-working-with-Kubernetes" class="headerlink" title="What is an important practice in Client Security when working with Kubernetes?"></a>What is an important practice in Client Security when working with Kubernetes?</h1><p><strong>正确答案</strong></p>
+<p><strong>Securing your kubeconfig file</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Using Kubernetes Secrets instead of Configmaps for confidential data</strong></p>
+<p><strong>Keeping the cluster’s nodes up-to-date</strong></p>
+<p><strong>Scanning images in your container registry for vulnerabilities</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Securing your kubeconfig file</strong> - The kubeconfig file contains sensitive information about access to your Kubernetes cluster and should be protected.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Scanning images in your container registry for vulnerabilities</strong> - This is important for image security but not directly related to client security.</p>
+<p><strong>Keeping the cluster’s nodes up-to-date</strong> - Node updates are essential for cluster security but are not specifically related to client security.</p>
+<p><strong>Using Kubernetes Secrets instead of Configmaps for confidential data</strong> - This is important but pertains to data security, not client security.</p>
+<h1 id="How-can-you-bolster-container-runtime-security-within-a-Kubernetes-cluster"><a href="#How-can-you-bolster-container-runtime-security-within-a-Kubernetes-cluster" class="headerlink" title="How can you bolster container runtime security within a Kubernetes cluster?"></a>How can you bolster container runtime security within a Kubernetes cluster?</h1><p><strong>Regularly rotating encryption keys to reduce risk of unauthorized access</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Enabling <code>Secure execution</code> mode in the Container Runtime</strong></p>
+<p><strong>Enabling debug mode to facilitate troubleshooting</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>Implementing intrusion detection systems for threat detection</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Implementing intrusion detection systems for threat detection</strong> - Intrusion detection systems monitor container activities to detect and alert on suspicious behaviors, enhancing runtime security.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Enabling debug mode to facilitate troubleshooting</strong> - Debug mode can expose sensitive information and should not be enabled in production environments.</p>
+<p><strong>Regularly rotating encryption keys to reduce risk of unauthorized access</strong> - Important for security but less directly related to container runtime security.</p>
+<p><strong>Enabling <code>Secure execution</code> mode in the Container Runtime</strong> - “Secure execution” mode does not exist across container runtimes. Although there are some secure execution environments called “sandbox”.</p>
+<h1 id="Which-strategy-helps-minimize-the-damage（损害）-potential（潜在）-if-an-application-component-is-compromised（受损的）"><a href="#Which-strategy-helps-minimize-the-damage（损害）-potential（潜在）-if-an-application-component-is-compromised（受损的）" class="headerlink" title="Which strategy helps minimize the damage（损害） potential（潜在） if an application component is compromised（受损的）?"></a>Which strategy helps minimize the damage（损害） potential（潜在） if an application component is compromised（受损的）?</h1><p><strong>Disabling access controls</strong></p>
+<p><strong>Only giving access to users that you are very familiar with</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Consolidating all components into fewer services</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>Implementing a least privilege model</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Implementing a least privilege model</strong> - This strategy restricts access rights for users and components to the minimum necessary, reducing the potential damage if a component is compromised.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Only giving access to users that you are very familiar with</strong> - Familiarity does not ensure security; access controls should be defined by roles and responsibilities.</p>
+<p><strong>Disabling access controls</strong> - This exposes the application to greater risk by allowing unrestricted access.</p>
+<p><strong>Consolidating all components into fewer services</strong> - While it may simplify architecture, it can increase risk by creating single points of failure and complicating security management.</p>
+<h1 id="Why-is-it-not-smart-to-store-Kubernetes-secrets-in-configmaps"><a href="#Why-is-it-not-smart-to-store-Kubernetes-secrets-in-configmaps" class="headerlink" title="Why is it not smart to store Kubernetes secrets in configmaps?"></a>Why is it not smart to store Kubernetes secrets in configmaps?</h1><p><strong>正确答案</strong></p>
+<p><strong>Kubernetes won’t recognize or handle the sensitive data stored in configmaps as sensitive</strong></p>
+<p><strong>There are no drawback to using configmaps to store secrets</strong></p>
+<p><strong>Data in Configmaps are available to pods by populating a pod’s volume, making them insecure</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Data in Configmaps are unencrypted, while secrets are encrypted using Base64 and therefore more secure</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Kubernetes won’t recognize or handle the sensitive data stored in configmaps as sensitive</strong> - ConfigMaps are intended for non-sensitive data, and Kubernetes does not treat their contents with the same security as Secrets.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Data in Configmaps are unencrypted, while secrets are encrypted using Base64 and therefore more secure</strong> - Base64 encoding is not encryption; the main issue is how Kubernetes treats ConfigMaps versus Secrets.</p>
+<p><strong>There are no drawbacks to using configmaps to store secrets</strong> - ConfigMaps are not secure for storing sensitive data.</p>
+<p><strong>Data in Configmaps are available to pods by populating a pod’s volume, making them insecure</strong> - This is a general usage feature but not the key reason for not storing secrets in ConfigMaps.</p>
+<h1 id="Which-configuration-enhances（增强）-the-security-of-the-Kubernetes-API-Server-against-（拒绝反对）unauthorized-access"><a href="#Which-configuration-enhances（增强）-the-security-of-the-Kubernetes-API-Server-against-（拒绝反对）unauthorized-access" class="headerlink" title="Which configuration enhances（增强） the security of the Kubernetes API Server against （拒绝反对）unauthorized access?"></a>Which configuration enhances（增强） the security of the Kubernetes API Server against （拒绝反对）unauthorized access?</h1><p><strong>正确答案</strong></p>
+<p><strong>Implementing Role-Based Access Control (RBAC) with least privilege</strong></p>
+<p><strong>Configuring permissive network policies to simplify access management</strong></p>
+<p><strong>Enabling all API Server features to ensure compatibility</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Setting up broad access controls to minimize connectivity issues</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Implementing Role-Based Access Control (RBAC) with least privilege</strong> - RBAC ensures that users and components have only the permissions they need, minimizing the risk of unauthorized access to the Kubernetes API Server.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Configuring permissive network policies to simplify access management</strong> - Permissive policies increase exposure and reduce security.</p>
+<p><strong>Enabling all API Server features to ensure compatibility</strong> - Enabling unnecessary features may increase the attack surface.</p>
+<p><strong>Setting up broad access controls to minimize connectivity issues</strong> - Broad access controls may allow unauthorized access, compromising security.</p>
+<h1 id="How-can-understanding-trust-boundaries-help-improve-security-in-a-Kubernetes-cluster"><a href="#How-can-understanding-trust-boundaries-help-improve-security-in-a-Kubernetes-cluster" class="headerlink" title="How can understanding trust boundaries help improve security in a Kubernetes cluster?"></a>How can understanding trust boundaries help improve security in a Kubernetes cluster?</h1><p><strong>您的答案不正确</strong></p>
+<p><strong>By preventing communication between components for enhanced security</strong></p>
+<p><strong>By enabling security policies to reduce malicious activities</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>By identifying and segmenting（划分） different parts of the cluster to limit the impact of a security breach</strong></p>
+<p><strong>By merging namespaces into larger namespace to simplify management</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>By identifying and segmenting different parts of the cluster to limit the impact of a security breach</strong> - Understanding trust boundaries helps contain security breaches within certain parts of the cluster.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>By preventing communication between components</strong> - Trust boundaries don’t prevent necessary communication but segment it securely.</p>
+<p><strong>By merging namespaces into larger namespaces</strong> - This would reduce security, not improve it.</p>
+<p><strong>By enabling security policies to reduce malicious activities</strong> - While true, this is not specific to the role of trust boundaries.</p>
+<h1 id="What-are-some-possible-settings-that-a-security-context-can-define-for-a-Pod-or-a-container"><a href="#What-are-some-possible-settings-that-a-security-context-can-define-for-a-Pod-or-a-container" class="headerlink" title="What are some possible settings that a security context can define for a Pod or a container?"></a>What are some possible settings that a security context can define for a Pod or a container?</h1><p><strong>正确答案</strong></p>
+<p><strong>User ID, Group ID and Privilege</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Linux privileges, Secret Management</strong></p>
+<p>Linux privileges is correct, Secret Management is not correct</p>
+<p><strong>AppArmor, Linux Namespace</strong></p>
+<p>AppArmor is correct, linux namespace are a feature of the Linux kernel</p>
+<p><strong>Seccomp, confidentiality</strong></p>
+<p>Seccomp is correct, confidentiality is not a setting</p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>User ID, Group ID and Privilege</strong> - Security contexts define the user and group ID under which a pod or container runs and can manage privilege escalation.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>AppArmor, Linux Namespace</strong> - These are security tools, but not the core elements of a security context definition.</p>
+<p><strong>Seccomp, confidentiality</strong> - Seccomp is part of security settings, but confidentiality is not directly controlled by security contexts.</p>
+<p><strong>Linux privileges, Secret Management</strong> - Security context manages user and group IDs, but not secret management.</p>
+<h1 id="What-role-does-Public-Key-Infrastructure-PKI-play-in-securing-a-Kubernetes-cluster"><a href="#What-role-does-Public-Key-Infrastructure-PKI-play-in-securing-a-Kubernetes-cluster" class="headerlink" title="What role does Public Key Infrastructure (PKI) play in securing a Kubernetes cluster?"></a>What role does Public Key Infrastructure (PKI) play in securing a Kubernetes cluster?</h1><p><strong>It simplifies the process of key management by automating key rotation</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>It allows for the use of self-signed certificates for internal services</strong></p>
+<p><strong>It replaces the need for authentication tokens</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>It enables secure communication through the issuance（颁发） and management of certificates</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>It enables secure communication through the issuance and management of certificates</strong> - PKI helps in securing communication within the Kubernetes cluster by managing certificates for encryption and identity verification.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>It replaces the need for authentication tokens</strong> - PKI works alongside tokens, not as a replacement.</p>
+<p><strong>It simplifies the process of key management by automating key rotation</strong> - PKI doesn’t inherently automate key rotation, though it facilitates key management.</p>
+<p><strong>It allows for the use of self-signed certificates for internal services</strong> - Self-signed certificates can be used but aren’t a primary function of PKI.</p>
+<p><strong>问题 17</strong></p>
+<h1 id="Which-authentication-method-is-a-recommended-enhancement-for-Kubernetes-API-server"><a href="#Which-authentication-method-is-a-recommended-enhancement-for-Kubernetes-API-server" class="headerlink" title="Which authentication method is a recommended enhancement for Kubernetes API server?"></a>Which authentication method is a recommended enhancement for Kubernetes API server?</h1><p><strong>Implementing SHA-1 authentication</strong></p>
+<p><strong>Implementing A/B authentication</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>Implementing OAuth2 tokens</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Making the cluster private</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Implementing OAuth2 tokens</strong> - OAuth2 tokens provide a modern, secure method for API server authentication.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Implementing A/B authentication</strong> - This is not a recognized authentication method for Kubernetes.</p>
+<p><strong>Implementing SHA-1 authentication</strong> - SHA-1 is outdated and insecure.</p>
+<p><strong>Making the cluster private</strong> - This improves network security but does not directly enhance authentication.</p>
+<h1 id="How-can-the-OWASP-Kubernetes-Top-Ten-guide-be-utilized-to-improve-security-in-a-Kubernetes-environment"><a href="#How-can-the-OWASP-Kubernetes-Top-Ten-guide-be-utilized-to-improve-security-in-a-Kubernetes-environment" class="headerlink" title="How can the OWASP Kubernetes Top Ten guide be utilized to improve security in a Kubernetes environment?"></a>How can the OWASP Kubernetes Top Ten guide be utilized to improve security in a Kubernetes environment?</h1><p><strong>您的答案不正确</strong></p>
+<p><strong>By verifying all software components, including third-party libraries, before deployment to maintain supply chain compliance</strong></p>
+<p><strong>By applying threat modeling frameworks to identify potential attack vectors and implement mitigation strategies</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>By identifying and mitigating（减缓） common security risks and vulnerabilities specific to Kubernetes</strong></p>
+<p><strong>By ensuring Kubernetes aligns with compliance frameworks through strict access controls and audit logging</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>By identifying and mitigating common security risks and vulnerabilities specific to Kubernetes</strong> - The OWASP Kubernetes Top Ten guide helps mitigate common security risks in Kubernetes environments.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>By applying threat modeling frameworks</strong> - While important, this isn’t specific to the OWASP guide’s purpose.</p>
+<p><strong>By verifying all software components</strong> - This is more related to supply chain security, not the focus of OWASP Kubernetes Top Ten.</p>
+<p><strong>By ensuring Kubernetes aligns with compliance frameworks</strong> - The OWASP guide is about security vulnerabilities, not compliance alignment.</p>
+<h1 id="What-are-four-common-container-runtimes"><a href="#What-are-four-common-container-runtimes" class="headerlink" title="What are four common container runtimes?"></a>What are four common container runtimes?</h1><p><strong>Containerd, CRI-O, Docker Engine, gRPC</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>Containerd, CRI-O, Docker Engine, Mirantis</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Containerd, CRI-O, Docker Engine, Vitess</strong></p>
+<p><strong>OCI, CRI-O, Docker Engine, Envoy</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Containerd, CRI-O, Docker Engine, Mirantis</strong> - These are well-known container runtimes used in Kubernetes environments.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>OCI, CRI-O, Docker Engine, Envoy</strong> - OCI is a standard, and Envoy is a service proxy, not a container runtime.</p>
+<p><strong>Containerd, CRI-O, Docker Engine, gRPC</strong> - gRPC is a communication protocol, not a container runtime.</p>
+<p><strong>Containerd, CRI-O, Docker Engine, Vitess</strong> - Vitess is a database solution, not a container runtime.</p>
+<h1 id="What-security-function-does-the-Container-Runtime-Interface-CRI-enable-in-Kubernetes"><a href="#What-security-function-does-the-Container-Runtime-Interface-CRI-enable-in-Kubernetes" class="headerlink" title="What security function does the Container Runtime Interface (CRI) enable in Kubernetes?"></a>What security function does the Container Runtime Interface (CRI) enable in Kubernetes?</h1><p><strong>正确答案</strong></p>
+<p><strong>Facilitating（促进） container isolation by supporting security policies like Seccomp and AppArmor through the runtime</strong></p>
+<p><strong>Managing network policies between container runtimes</strong></p>
+<p><strong>Providing direct control over container runtime security settings via the API Server</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Enabling encrypted communication between the kubelet and container runtime</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Facilitating container isolation by supporting security policies like Seccomp and AppArmor through the runtime</strong> – The CRI allows the kubelet to communicate with container runtimes and apply isolation policies such as Seccomp and AppArmor, which help control system call access and resource restrictions, enhancing container security.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Enabling encrypted communication between the kubelet and container runtime</strong> – While the CRI manages communication between the kubelet and container runtime, encryption is handled by other layers like TLS, not by the CRI itself.</p>
+<p><strong>Managing network policies between container runtimes</strong> – CRI is responsible for container management and lifecycle operations, not network policies, which are handled by network plugins or policies in Kubernetes.</p>
+<p><strong>Providing direct control over container runtime security settings via the API Server</strong> – The CRI does not provide direct security management through the API Server. Security settings are managed through security contexts or Pod Security Admission, not directly through CRI.</p>
+<h1 id="What-is-the-purpose-of-the-kube-bench-tool-in-Kubernetes-security"><a href="#What-is-the-purpose-of-the-kube-bench-tool-in-Kubernetes-security" class="headerlink" title="What is the purpose of the kube-bench tool in Kubernetes security?"></a>What is the purpose of the kube-bench tool in Kubernetes security?</h1><p>To manage Kubernetes secrets</p>
+<p>您的答案不正确<br>To benchmark Kubernetes cluster performance</p>
+<p>To monitor network traffic in the cluster</p>
+<p>正确答案<br>To check Kubernetes clusters against CIS benchmarks</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>To check Kubernetes clusters against CIS benchmarks - kube-bench assesses cluster configurations against CIS security benchmarks.</p>
+<p>WRONG ANSWERS:</p>
+<p>To benchmark Kubernetes cluster performance - kube-bench focuses on security, not performance.</p>
+<p>To monitor network traffic in the cluster - This is handled by monitoring tools like Prometheus or network analyzers.</p>
+<p>To manage Kubernetes secrets - Secrets are managed using kubectl and Kubernetes APIs, not kube-bench.</p>
+<h1 id="Which-Kubernetes-object-is-used-to-expose-a-set-of-pods-as-a-network-service"><a href="#Which-Kubernetes-object-is-used-to-expose-a-set-of-pods-as-a-network-service" class="headerlink" title="Which Kubernetes object is used to expose a set of pods as a network service?"></a>Which Kubernetes object is used to expose a set of pods as a network service?</h1><p>Deployment</p>
+<p>您的答案不正确<br>Ingress</p>
+<p>ConfigMap</p>
+<p>正确答案<br>Service</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>Service - A Service in Kubernetes defines a logical set of pods and a policy for accessing them, providing a stable endpoint for clients.</p>
+<p>WRONG ANSWERS:</p>
+<p>ConfigMap - Used to store non-sensitive configuration data.</p>
+<p>Ingress - Manages external HTTP/S access to services.</p>
+<p>Deployment - Manages the deployment and scaling of pods but does not expose them as a network service.</p>
+<h1 id="How-can-you-ensure-that-a-container-runs-with-non-root-user-privileges-in-Kubernetes"><a href="#How-can-you-ensure-that-a-container-runs-with-non-root-user-privileges-in-Kubernetes" class="headerlink" title="How can you ensure that a container runs with non-root user privileges in Kubernetes?"></a>How can you ensure that a container runs with non-root user privileges in Kubernetes?</h1><p>正确答案<br>By modifying the ‘runAsUser’ field in the Pod security context YAML configuration</p>
+<p>By mounting a PersistentVolume to the pod by modifying the pod’s YAML configuration</p>
+<p>By adding a Service Account and using it in the pod’s YAML configuration</p>
+<p>您的答案不正确<br>By adding a label <a href="http://policies.kubernetes.io/runAsRoot:">policies.kubernetes.io/runAsRoot:</a> false  to the pod</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>By modifying the ‘runAsUser’ field in the Pod security context YAML configuration - Setting ‘runAsUser’ ensures the container runs as a non-root user.</p>
+<p>WRONG ANSWERS:</p>
+<p>By adding a Service Account and using it in the pod’s YAML configuration - Service Accounts manage API access, not container user privileges.</p>
+<p>By mounting a PersistentVolume to the pod by modifying the pod’s YAML configuration - This handles storage, not user privileges.</p>
+<p>By adding a label <a href="http://policies.kubernetes.io/runAsRoot:">policies.kubernetes.io/runAsRoot:</a> false to the pod - Labels don’t enforce security context settings.</p>
+<h1 id="Which-framework-is-commonly-used-to-standardize-cloud-security-controls"><a href="#Which-framework-is-commonly-used-to-standardize-cloud-security-controls" class="headerlink" title="Which framework is commonly used to standardize cloud security controls?"></a>Which framework is commonly used to standardize cloud security controls?</h1><p><strong>您的答案不正确</strong></p>
+<p><strong>PCI-DSS</strong></p>
+<p><strong>GDPR</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>ISO 27001</strong></p>
+<p><strong>OWASP Top 10</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>ISO 27001</strong> - ISO 27001 is a widely recognized framework for standardizing cloud security controls. It provides a comprehensive set of guidelines for establishing, implementing, maintaining, and continually improving an information security management system.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>PCI-DSS</strong> - Targets payment card industry data security, not general cloud security controls.</p>
+<p><strong>OWASP Top 10</strong> - Lists common web application vulnerabilities but does not provide a standard framework for cloud security.</p>
+<p><strong>GDPR</strong> - Focuses on data protection and privacy regulations in the EU, not on standardizing security controls.</p>
+<h1 id="How-can-you-ensure-that-a-container-runs-with-non-root-user-privileges-in-Kubernetes-1"><a href="#How-can-you-ensure-that-a-container-runs-with-non-root-user-privileges-in-Kubernetes-1" class="headerlink" title="How can you ensure that a container runs with non-root user privileges in Kubernetes?"></a>How can you ensure that a container runs with non-root user privileges in Kubernetes?</h1><p>正确答案<br>By modifying the ‘runAsUser’ field in the Pod security context YAML configuration</p>
+<p>By mounting a PersistentVolume to the pod by modifying the pod’s YAML configuration</p>
+<p>By adding a Service Account and using it in the pod’s YAML configuration</p>
+<p>您的答案不正确<br>By adding a label <a href="http://policies.kubernetes.io/runAsRoot:">policies.kubernetes.io/runAsRoot:</a> false  to the pod</p>
+<h1 id="What-is-a-crucial-security-measure-for-managing-container-images"><a href="#What-is-a-crucial-security-measure-for-managing-container-images" class="headerlink" title="What is a crucial security measure for managing container images?"></a>What is a crucial security measure for managing container images?</h1><p>Allowing all users to pull images</p>
+<p>正确答案<br>Storing images in a private repository</p>
+<p>您的答案不正确<br>Allowing all users to push images</p>
+<p>Using images from public, recognized registries</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>Storing images in a private repository - Using a private repository allows you to control access to container images, enhancing security by preventing unauthorized use and reducing the risk of compromised images.</p>
+<p>WRONG ANSWERS:</p>
+<p>Using images from public, recognized registries - Public registries are accessible to everyone and may contain untrusted images.</p>
+<p>Allowing all users to push images - This can introduce security risks by allowing potentially malicious images to be added.</p>
+<p>Allowing all users to pull images - Unrestricted access may expose sensitive images to unauthorized users.</p>
+<h1 id="Which-tool-helps-to-ensure-the-integrity-of-container-images"><a href="#Which-tool-helps-to-ensure-the-integrity-of-container-images" class="headerlink" title="Which tool helps to ensure the integrity of container images?"></a>Which tool helps to ensure the integrity of container images?</h1><p>Thanos</p>
+<p>Kyverno</p>
+<p>您的答案不正确<br>Shielder</p>
+<p>正确答案<br>Notary</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>Notary - Notary ensures the integrity of container images through signing and verification, confirming that images are from trusted sources and have not been tampered with.</p>
+<p>WRONG ANSWERS:</p>
+<p>Shielder - Not a standard tool for ensuring container image integrity.</p>
+<p>Thanos - Used for scaling Prometheus data, not for image integrity.</p>
+<p>Kyverno - A policy engine for Kubernetes, but not specifically focused on image integrity.</p>
+<h1 id="How-did-a-user-with-full-CRUD-rights-on-a-namespace-allow-a-privileged-pod-to-run-even-when-it-is-being-disallowed-by-the-Pod-Security-Admission-controller"><a href="#How-did-a-user-with-full-CRUD-rights-on-a-namespace-allow-a-privileged-pod-to-run-even-when-it-is-being-disallowed-by-the-Pod-Security-Admission-controller" class="headerlink" title="How did a user with full CRUD rights on a namespace allow a privileged pod to run even when it is being disallowed by the Pod Security Admission controller?"></a>How did a user with full CRUD rights on a namespace allow a privileged pod to run even when it is being disallowed by the Pod Security Admission controller?</h1><p>The pod already has the necessary rights to run privileged containers since the user has full CRUD rights</p>
+<p>您的答案不正确<br>The user got client certificates from another namespace with higher credentials</p>
+<p>The user added a label on the pod</p>
+<p>正确答案<br>The user removed a label on the namespace</p>
+<p>总体解释<br>CORRECT ANSWER:<br>The user removed a label on the namespace - Removing the Pod Security Admission label can bypass the restrictions set by the Pod Security Admission controller, allowing the privileged pod to run.</p>
+<p>WRONG ANSWERS:<br>The user got client certificates from another namespace with higher credentials - Client certificates do not directly affect Pod Security Admission policies or permissions for running privileged pods.</p>
+<p>The pod already has the necessary rights to run privileged containers since the user has full CRUD rights - CRUD rights on a namespace do not override Pod Security Admission policies.</p>
+<p>The user added a label on the pod - Labels on pods do not bypass namespace-level security policies enforced by the Pod Security Admission controller.</p>
+<h1 id="How-do-you-disallow-privileged-pods-from-running-in-a-namespace-when-using-Pod-Security-Standards"><a href="#How-do-you-disallow-privileged-pods-from-running-in-a-namespace-when-using-Pod-Security-Standards" class="headerlink" title="How do you disallow privileged pods from running in a namespace when using Pod Security Standards?"></a>How do you disallow privileged pods from running in a namespace when using Pod Security Standards?</h1><p>正确答案<br>Add <a href="http://pod-security.kubernetes.io/enforce:">pod-security.kubernetes.io/enforce:</a> baseline label to the namespace</p>
+<p>Change the Security Context of the pods</p>
+<p>Add a LimitRange resource to the namespace</p>
+<p>您的答案不正确<br>Add <a href="http://pod-security.kubernetes.io/privileged:">pod-security.kubernetes.io/privileged:</a> false label to the namespace</p>
+<p>总体解释<br>CORRECT ANSWER:<br>Add <a href="http://pod-security.kubernetes.io/enforce:">pod-security.kubernetes.io/enforce:</a> baseline label to the namespace - This label enforces the Baseline Pod Security Standard, which disallows privileged pods in the namespace.</p>
+<p>WRONG ANSWERS:<br>Add <a href="http://pod-security.kubernetes.io/privileged:">pod-security.kubernetes.io/privileged:</a> false label to the namespace - This label does not exist and would not be effective for controlling privileged pod access.</p>
+<p>Change the Security Context of the pods - Modifying the Security Context affects individual pods, not the entire namespace.</p>
+<p>Add a LimitRange resource to the namespace - LimitRange controls resource limits and requests, not pod security standards.</p>
+<h1 id="What-Kubernetes-object-can-be-used-to-control-which-nodes-a-pod-can-be-scheduled-on"><a href="#What-Kubernetes-object-can-be-used-to-control-which-nodes-a-pod-can-be-scheduled-on" class="headerlink" title="What Kubernetes object can be used to control which nodes a pod can be scheduled on?"></a>What Kubernetes object can be used to control which nodes a pod can be scheduled on?</h1><p>Affinity</p>
+<p>您的答案不正确<br>NodeSelector</p>
+<p>Taint</p>
+<p>正确答案<br>All of the other answers</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>All of the other answers - NodeSelector, Taints/Tolerations, and Affinity rules are all used to control which nodes a pod can be scheduled on.</p>
+<p>WRONG ANSWERS:</p>
+<p>NodeSelector - Correct but only one method; ‘All of the other answers’ includes this and more.</p>
+<p>Taint - Correct but only part of the solution.</p>
+<p>Affinity - Correct but not the only method.</p>
+<h1 id="What-command-checks-the-enforced-Pod-Security-Standard-level-in-a-Kubernetes-namespace"><a href="#What-command-checks-the-enforced-Pod-Security-Standard-level-in-a-Kubernetes-namespace" class="headerlink" title="What command checks the enforced Pod Security Standard level in a Kubernetes namespace?"></a>What command checks the enforced Pod Security Standard level in a Kubernetes namespace?</h1><p>您的答案不正确<br>kubectl get podsecuritypolicies -n <code>&lt;namespace&gt;</code></p>
+<p>正确答案<br>kubectl get ns –show-labels -n <code>&lt;namespace&gt;</code></p>
+<p>kubectl get roles -n <code>&lt;namespace&gt;</code></p>
+<p>kubectl get networkpolicies -n <code>&lt;namespace&gt;</code></p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>kubectl get ns –show-labels -n <code>&lt;namespace&gt;</code> - This command lists namespaces with their associated labels, including Pod Security Admission labels like <a href="http://pod-security.kubernetes.io/enforce">pod-security.kubernetes.io/enforce</a>.</p>
+<p>WRONG ANSWERS:</p>
+<p>kubectl get roles -n <code>&lt;namespace&gt;</code> - This command is used to list roles in the cluster, not to view Pod Security labels.</p>
+<p>kubectl get networkpolicies -n <code>&lt;namespace&gt;</code> - This command is used to view network policies, not Pod Security Standards labels.</p>
+<p>kubectl get podsecuritypolicies -n <code>&lt;namespace&gt;</code> - While this command is related to Pod Security Policies, PSPs are deprecated and replaced by Pod Security Admission (PSA), which uses namespace labels.</p>
+<h1 id="What-is-trojan-classified-as-in-the-STRIDE-threat-model"><a href="#What-is-trojan-classified-as-in-the-STRIDE-threat-model" class="headerlink" title="What is trojan classified as in the STRIDE threat model?"></a>What is trojan classified as in the STRIDE threat model?</h1><p>Repudiation</p>
+<p>Elevation of Privilege</p>
+<p>正确答案<br>Spoofing</p>
+<p>您的答案不正确<br>Tampering</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>Spoofing - In the STRIDE threat model, a trojan is classified under Spoofing because it disguises itself as legitimate software to deceive users or systems.</p>
+<p>WRONG ANSWERS:</p>
+<p>Tampering - Tampering involves unauthorized modification of data, which is not the primary characteristic of a trojan.</p>
+<p>Repudiation - Repudiation refers to the denial of actions or transactions, which does not apply to trojans.</p>
+<p>Elevation of Privilege - While trojans may lead to elevated privileges, their main tactic is deception, aligning them with Spoofing.</p>
+<h1 id="Which-one-of-these-statements-are-true-about-Kubernetes-configmaps"><a href="#Which-one-of-these-statements-are-true-about-Kubernetes-configmaps" class="headerlink" title="Which one of these statements are true about Kubernetes configmaps?"></a>Which one of these statements are true about Kubernetes configmaps?</h1><p>您的答案不正确<br>ConfigMaps can only be accessed by the Kubernetes API server, ensuring that the data is secure</p>
+<p>正确答案<br>ConfigMaps store data in plain text, which can be easily read by anyone with access to the ConfigMap, leading to potential security breaches</p>
+<p>ConfigMaps are designed to store sensitive information securely and are preferred over Secrets for this purpose</p>
+<p>ConfigMaps automatically encrypt the data they store, so passwords are safe from unauthorized access</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>ConfigMaps store data in plain text, which can be easily read by anyone with access to the ConfigMap, leading to potential security breaches - ConfigMaps store configuration data in plain text. If sensitive information like passwords is stored in a ConfigMap, anyone with access to it can read the data, posing a security risk.</p>
+<p>WRONG ANSWERS:</p>
+<p>ConfigMaps automatically encrypt the data they store, so passwords are safe from unauthorized access - ConfigMaps do not provide encryption; they store data in plain text without any built-in security mechanisms.</p>
+<p>ConfigMaps can only be accessed by the Kubernetes API server, ensuring that the data is secure - ConfigMaps can be accessed by any user or pod with the appropriate permissions, not just the API server.</p>
+<p>ConfigMaps are designed to store sensitive information securely and are preferred over Secrets for this purpose - Secrets are intended for sensitive information, as they store data in a base64-encoded format and can be encrypted at rest, making them more secure than ConfigMaps.</p>
+<h1 id="Your-single-node-API-Server-is-running-on-one-control-plane-and-is-hit-by-a-DDOS-attack-how-does-running-more-nodes-on-the-control-plane-help"><a href="#Your-single-node-API-Server-is-running-on-one-control-plane-and-is-hit-by-a-DDOS-attack-how-does-running-more-nodes-on-the-control-plane-help" class="headerlink" title="Your single node API Server is running on one control plane and is hit by a DDOS attack, how does running more nodes on the control plane help?"></a>Your single node API Server is running on one control plane and is hit by a DDOS attack, how does running more nodes on the control plane help?</h1><p>Automatically blocks all DDoS traffic once multiple API Servers detect unusual activity</p>
+<p>您的答案不正确<br>More nodes on the control plane makes the API Server momentarily responsive, which supports preventative measures</p>
+<p>正确答案<br>Distributes the attack load, increases resiliency and reduces likelihood of a single point of failure</p>
+<p>Isolates the attack to one API Server, and since there are more API Servers it prevents the attack from spreading</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>Distributes the attack load, increases resiliency and reduces likelihood of a single point of failure - Running more nodes on the control plane helps distribute the load from a DDoS attack across multiple API Servers, enhancing resiliency and reducing the risk of a single point of failure.</p>
+<p>WRONG ANSWERS:</p>
+<p>Isolates the attack to one API Server, and since there are more API Servers it prevents the attack from spreading - Adding more API Servers does not isolate the attack to one server; the attack traffic is still directed at the control plane.</p>
+<p>Automatically blocks all DDoS traffic once multiple API Servers detect unusual activity - Kubernetes does not automatically block DDoS traffic; additional security measures are required to detect and mitigate such attacks.</p>
+<p>More nodes on the control plane makes the API Server momentarily responsive, which supports preventative measures - Adding nodes increases capacity but does not make the API Server momentarily responsive to support preventative measures during an ongoing attack.</p>
+<h1 id="Which-cloud-infrastructure-security-feature-ensures-encrypted-data-transfer-between-services"><a href="#Which-cloud-infrastructure-security-feature-ensures-encrypted-data-transfer-between-services" class="headerlink" title="Which cloud infrastructure security feature ensures encrypted data transfer between services?"></a>Which cloud infrastructure security feature ensures encrypted data transfer between services?</h1><p>您的答案不正确<br>Identity and Access Management (IAM)</p>
+<p>Data Loss Prevention (DLP)</p>
+<p>正确答案<br>Transport Layer Security (TLS)</p>
+<p>Key Management Service (KMS)</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>Transport Layer Security (TLS) - TLS ensures encrypted data transfer between services in the cloud by encrypting data in transit, protecting it from interception and tampering.</p>
+<p>WRONG ANSWERS:</p>
+<p>Identity and Access Management (IAM) - IAM manages user identities and permissions but does not encrypt data transfer.</p>
+<p>Data Loss Prevention (DLP) - DLP focuses on preventing data leaks, not on encrypting data between services.</p>
+<p>Key Management Service (KMS) - KMS manages encryption keys but does not directly handle data encryption during transfer.</p>
+<h1 id="What-controllers-except-kube-controller-are-also-a-built-in-part-of-kubernetes"><a href="#What-controllers-except-kube-controller-are-also-a-built-in-part-of-kubernetes" class="headerlink" title="What controllers except kube-controller are also a built-in part of kubernetes?"></a>What controllers except kube-controller are also a built-in part of kubernetes?</h1><p>ReplicaSet controller, pod controller, cronjob controller</p>
+<p>Replicaset controller, pod controller, daemonset controller</p>
+<p>您的答案不正确<br>Ingress controller, pod controller, DaemonSet controller</p>
+<p>正确答案<br>DaemonSet Controller, Deployment Controller, StatefulSet Controller</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>DaemonSet Controller, Deployment Controller, StatefulSet Controller - These are built-in Kubernetes controllers that manage DaemonSets, Deployments, and StatefulSets, handling the creation and maintenance of these resources.</p>
+<p>WRONG ANSWERS:</p>
+<p>ReplicaSet controller, pod controller, cronjob controller - While the ReplicaSet and CronJob controllers are built-in, there is no dedicated “pod controller” in Kubernetes.</p>
+<p>Ingress controller, pod controller, DaemonSet controller - The Ingress controller is not built-in; it typically requires third-party implementations. There is also no “pod controller”.</p>
+<p>ReplicaSet controller, pod controller, DaemonSet controller - Although ReplicaSet and DaemonSet controllers are built-in, Kubernetes does not include a separate “pod controller”.</p>
+<h1 id="Which-control-framework-focuses-on-managing-and-mitigating-risks-in-a-cloud-environment"><a href="#Which-control-framework-focuses-on-managing-and-mitigating-risks-in-a-cloud-environment" class="headerlink" title="Which control framework focuses on managing and mitigating risks in a cloud environment?"></a>Which control framework focuses on managing and mitigating risks in a cloud environment?</h1><p>CIS Controls</p>
+<p>您的答案不正确<br>SOC 2</p>
+<p>正确答案<br>NIST Cybersecurity Framework</p>
+<p>HIPAA</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>NIST Cybersecurity Framework - The NIST Cybersecurity Framework provides guidelines and best practices for organizations to manage and mitigate cybersecurity risks, including those in cloud environments. It offers a comprehensive approach to identify, protect, detect, respond to, and recover from cyber threats.</p>
+<p>WRONG ANSWERS:</p>
+<p>HIPAA - HIPAA focuses on protecting the privacy and security of health information in the healthcare industry, not on general risk management in cloud environments.</p>
+<p>SOC 2 - SOC 2 provides criteria for evaluating the security, availability, and confidentiality of service providers but does not specifically focus on managing and mitigating risks in cloud environments.</p>
+<p>CIS Controls - The CIS Controls offer specific actionable recommendations to stop today’s most pervasive and dangerous cyber attacks but are not a comprehensive framework for risk management.</p>
+<h1 id="What-security-principle-does-“The-4C’s-of-Cloud-Native-Security”-modify"><a href="#What-security-principle-does-“The-4C’s-of-Cloud-Native-Security”-modify" class="headerlink" title="What security principle does “The 4C’s of Cloud Native Security” modify?"></a>What security principle does “The 4C’s of Cloud Native Security” modify?</h1><p>Open Design</p>
+<p>Least Privilege</p>
+<p>您的答案不正确<br>Zero Trust</p>
+<p>正确答案<br>Defense in Depth</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>Defense in Depth - The 4Cs of Cloud Native Security emphasize applying multiple layers of security controls to protect cloud-native applications, which aligns with the Defense in Depth principle. This principle involves implementing various security measures to safeguard against potential threats.</p>
+<p>WRONG ANSWERS:</p>
+<p>Least Privilege - Focuses on giving the minimum permissions necessary for users or systems, which is about access control rather than layering multiple security measures.</p>
+<p>Zero Trust - A security model that assumes no inherent trust and requires verification for every access request, but it’s a broader concept that isn’t specifically about layering security controls.</p>
+<p>Open Design - Promotes transparency and openness in security design, but does not specifically address the concept of multiple layers of security like Defense in Depth.</p>
+]]></content>
+      <categories>
+        <category>kcsa</category>
+      </categories>
+      <tags>
+        <tag>kubernetes</tag>
+        <tag>cncf</tag>
+        <tag>kcsa</tag>
       </tags>
   </entry>
   <entry>

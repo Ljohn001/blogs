@@ -1,0 +1,653 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"><title>UDEMY-KCSA练习错题集 | Ljohn's Blog</title><meta name="author" content="Ljohn"><meta name="copyright" content="Ljohn"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言该套题目是UDEMY上的一套题目《KCSA: Kubernetes &amp; Cloud Native Security Associate EXAM-PREP》，我是通过淘宝购买优惠券，然后兑换购买了KCSA的练习题，总共120道题目，60到练习的，60到考试题目，不限次数的练习。  安全词汇principle：原则 measure： 措施，方法 comprehensive： 综合，全面的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UDEMY-KCSA练习错题集">
+<meta property="og:url" content="https://www.ljohn.cn/posts/25154b6c/">
+<meta property="og:site_name" content="Ljohn&#39;s Blog">
+<meta property="og:description" content="前言该套题目是UDEMY上的一套题目《KCSA: Kubernetes &amp; Cloud Native Security Associate EXAM-PREP》，我是通过淘宝购买优惠券，然后兑换购买了KCSA的练习题，总共120道题目，60到练习的，60到考试题目，不限次数的练习。  安全词汇principle：原则 measure： 措施，方法 comprehensive： 综合，全面的">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.ljohn.cn/img/head.png">
+<meta property="article:published_time" content="2025-03-13T12:48:52.759Z">
+<meta property="article:modified_time" content="2025-03-13T12:53:09.057Z">
+<meta property="article:author" content="Ljohn">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="cncf">
+<meta property="article:tag" content="kcsa">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.ljohn.cn/img/head.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://www.ljohn.cn/posts/25154b6c/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="/pluginsSrc/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="/pluginsSrc/@fancyapps/ui/dist/fancybox.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    justifiedGallery: {
+      js: '/pluginsSrc/flickr-justified-gallery/dist/fjGallery.min.js',
+      css: '/pluginsSrc/flickr-justified-gallery/dist/fjGallery.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  }
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'UDEMY-KCSA练习错题集',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2025-03-13 20:53:09'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+    win.getCSS = url => new Promise((resolve, reject) => {
+      const link = document.createElement('link')
+      link.rel = 'stylesheet'
+      link.href = url
+      link.onload = () => resolve()
+      link.onerror = () => reject()
+      document.head.appendChild(link)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Ljohn's Blog" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/head.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);" rel="external nofollow noreferrer"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener external nofollow noreferrer" href="https://run.ljohn.cn"><span> 跑步</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);" rel="external nofollow noreferrer"><i class="fa-fw fa fa-graduation-cap"></i><span> 外链</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/favorite/"><i class="fa-fw fa fa-link"></i><span> 宝藏链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 自述</span></a></div><div class="menus_item"><a class="site-page" href="https://www.ljohn.cn/atom.xml"><span> RSS</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="not-top-img" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="Ljohn's Blog"><span class="site-name">Ljohn's Blog</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);" rel="external nofollow noreferrer"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);" rel="external nofollow noreferrer"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page" target="_blank" rel="noopener external nofollow noreferrer" href="https://run.ljohn.cn"><span> 跑步</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);" rel="external nofollow noreferrer"><i class="fa-fw fa fa-graduation-cap"></i><span> 外链</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/link/"><i class="fa-fw fa fa-link"></i><span> 友情链接</span></a></li><li><a class="site-page child" href="/favorite/"><i class="fa-fw fa fa-link"></i><span> 宝藏链接</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 自述</span></a></div><div class="menus_item"><a class="site-page" href="https://www.ljohn.cn/atom.xml"><span> RSS</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);" rel="external nofollow noreferrer"><i class="fas fa-bars fa-fw"></i></a></div></div></nav></header><main class="layout" id="content-inner"><div id="post"><div id="post-info"><h1 class="post-title">UDEMY-KCSA练习错题集</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-03-13T12:48:52.759Z" title="发表于 2025-03-13 20:48:52">2025-03-13</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-03-13T12:53:09.057Z" title="更新于 2025-03-13 20:53:09">2025-03-13</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/kcsa/">kcsa</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="UDEMY-KCSA练习错题集"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div><article class="post-content" id="article-container"><h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>该套题目是UDEMY上的一套题目《<a target="_blank" rel="noopener external nofollow noreferrer" href="https://www.udemy.com/course/kcsa-kubernetes-cloud-native-security-associate-exam-prep"><strong>KCSA: Kubernetes &amp; Cloud Native Security Associate EXAM-PREP</strong></a>》，我是通过淘宝购买优惠券，然后兑换购买了KCSA的练习题，总共120道题目，60到练习的，60到考试题目，不限次数的练习。</p>
+<p><img src="/posts/25154b6c/1741870387196.png" alt="1741870387196"></p>
+<h1 id="安全词汇"><a href="#安全词汇" class="headerlink" title="安全词汇"></a>安全词汇</h1><p>principle：原则</p>
+<p>measure： 措施，方法</p>
+<p>comprehensive： 综合，全面的</p>
+<p>important： 重要的</p>
+<p>compliance：合规</p>
+<h1 id="What-is-the-primary-benefit-of-using-immutable（不可变的）-infrastructure-in-application-code-security"><a href="#What-is-the-primary-benefit-of-using-immutable（不可变的）-infrastructure-in-application-code-security" class="headerlink" title="What is the primary benefit of using immutable（不可变的） infrastructure in application code security?"></a>What is the primary benefit of using immutable（不可变的） infrastructure in application code security?</h1><p><strong>您的答案不正确</strong></p>
+<p><strong>Storing configurations locally and securely</strong></p>
+<p><strong>Allowing frequent manual changes</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>Preventing configuration drift（防止配置漂移）</strong></p>
+<p><strong>Regularly rebooting infrastructure components</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Preventing configuration drift</strong> - Immutable infrastructure ensures that once an environment is deployed, it cannot be altered. This prevents configuration drift, where environments evolve from their original setup, often leading to security issues.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Allowing frequent manual changes</strong> - This undermines the immutability principle and increases the risk of misconfiguration.</p>
+<p><strong>Storing configurations locally and securely</strong> - While important, this is not the primary benefit of immutable infrastructure.</p>
+<p><strong>Regularly rebooting infrastructure components</strong> - Rebooting does not address security issues related to configuration drift.</p>
+<h1 id="What-is-a-comprehensive-（全面）security-measure-for-container-runtime-environments"><a href="#What-is-a-comprehensive-（全面）security-measure-for-container-runtime-environments" class="headerlink" title="What is a comprehensive （全面）security measure for container runtime environments?"></a>What is a comprehensive （全面）security measure for container runtime environments?</h1><p><strong>正确答案</strong></p>
+<p><strong>Using SELinux or AppArmor to restrict container privileges</strong></p>
+<p><strong>Granting containers access to host-level namespaces</strong></p>
+<p><strong>Allowing containers to access runtime APIs</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Configuring Seccomp profiles to limit system calls for containers</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Using SELinux or AppArmor to restrict container privileges</strong> - These tools enforce mandatory access controls to limit container actions, reducing the risk of privilege escalation and protecting the host.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Granting containers access to host-level namespaces</strong> - Weakens isolation and increases the risk of privilege escalation attacks.</p>
+<p><strong>Configuring Seccomp profiles to limit system calls for containers</strong> - A useful measure, but it focuses only on restricting system calls, not comprehensive privilege control.</p>
+<p><strong>Allowing containers to access runtime APIs</strong> - Increases attack vectors and creates potential vulnerabilities in the runtime environment.</p>
+<h1 id="How-does-AppArmor-enhance-security-for-containers-running-in-a-Kubernetes-environment"><a href="#How-does-AppArmor-enhance-security-for-containers-running-in-a-Kubernetes-environment" class="headerlink" title="How does AppArmor enhance security for containers running in a Kubernetes environment?"></a>How does AppArmor enhance security for containers running in a Kubernetes environment?</h1><p><strong>By adjusting（调整） user rights to grant additional privileges to container processes</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>By defining a set of mandatory（强制） access control rules that restrict what processes within a container can do</strong></p>
+<p><strong>By enforcing strict Pod Security Standards (PSS) and applying network policies to limit communication between pods</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>By filtering a process’s system calls</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>By defining a set of mandatory access control rules that restrict what processes within a container can do</strong> - AppArmor uses mandatory access control (MAC) to restrict container actions.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>By filtering a process’s system calls</strong> - This describes seccomp, not AppArmor.</p>
+<p><strong>By enforcing strict Pod Security Standards (PSS)</strong> - AppArmor does not enforce Pod Security Standards.</p>
+<p><strong>By adjusting user rights to grant additional privileges</strong> - AppArmor restricts privileges rather than granting them.</p>
+<h1 id="How-can-the-kubectl-apply-command-contribute-to-improving-Kubernetes-security"><a href="#How-can-the-kubectl-apply-command-contribute-to-improving-Kubernetes-security" class="headerlink" title="How can the kubectl apply command contribute to improving Kubernetes security?"></a>How can the <code>kubectl apply</code> command contribute to improving Kubernetes security?</h1><p><strong>您的答案不正确</strong></p>
+<p><strong>To delete misconfigured or insecure resources from the cluster</strong></p>
+<p><strong>To roll back unauthorized changes to Kubernetes resources</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>To apply updated RBAC roles and policies from configuration files</strong></p>
+<p><strong>To generate encrypted secrets for Kubernetes resources</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>To apply updated RBAC roles and policies</strong> - <code>kubectl apply</code> creates or updates resources, including RBAC roles and bindings, ensuring proper access control.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>To roll back unauthorized changes to Kubernetes resources</strong> - Rolling back changes is not the role of <code>kubectl apply</code>; this requires versioning tools like <code>kubectl rollout undo</code>.</p>
+<p><strong>To generate encrypted secrets for Kubernetes resources</strong> - Secrets are created via YAML or <code>kubectl create secret</code>, not directly encrypted using <code>kubectl apply</code>.</p>
+<p><strong>To delete misconfigured or insecure resources from the cluster</strong> - Deleting resources requires <code>kubectl delete</code>, not <code>kubectl apply</code>.</p>
+<h1 id="How-can-a-ReplicaSet-contribute-to-the-security-of-a-Kubernetes-application"><a href="#How-can-a-ReplicaSet-contribute-to-the-security-of-a-Kubernetes-application" class="headerlink" title="How can a ReplicaSet contribute to the security of a Kubernetes application?"></a>How can a ReplicaSet contribute to the security of a Kubernetes application?</h1><p><strong>DaemonSet</strong></p>
+<p><strong>您的答案正确</strong></p>
+<p><strong>By ensuring a certain number of pod replicas are running to slow down resource exhaustion due to denial-of-service attacks</strong></p>
+<p><strong>Deployment</strong></p>
+<p><strong>Service</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>By ensuring a certain number of pod replicas are running to slow down resource exhaustion due to denial-of-service attacks</strong> - ReplicaSets maintain pod availability, mitigating the impact of resource exhaustion attacks by ensuring new pods replace failed ones.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>By encrypting all traffic between replicated pods</strong> - Traffic encryption is handled by tools like service meshes, not ReplicaSets.</p>
+<p><strong>By isolating pods within unique namespaces</strong> - Namespace isolation is unrelated to the ReplicaSet’s role.</p>
+<p><strong>By managing pod-level RBAC policies</strong> - RBAC policies manage access, not pod replication, which is the responsibility of ReplicaSets.</p>
+<h1 id="What-is-an-easy-way-to-find-regularly-appearing-Vulnerabilities-found-in-Kubernetes"><a href="#What-is-an-easy-way-to-find-regularly-appearing-Vulnerabilities-found-in-Kubernetes" class="headerlink" title="What is an easy way to find regularly appearing Vulnerabilities found in Kubernetes?"></a>What is an easy way to find regularly appearing Vulnerabilities found in Kubernetes?</h1><p><strong>您的答案不正确</strong></p>
+<p><strong>Install the KubeSec helm chart in your cluster</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>Go to the Official CVE Feed in the Kubernetes documentation</strong></p>
+<p><strong>Go to <code>/var/lib/kubernetes/vulnerabilities</code> on any of the master nodes of your cluster</strong></p>
+<p><strong>Use the <code>kubectl list vulnerabilities</code> command</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Go to the Official CVE Feed in the Kubernetes documentation</strong> - The CVE feed provides regularly updated information about vulnerabilities in Kubernetes.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Use the <code>kubectl list vulnerabilities</code> command</strong> - There is no such command.</p>
+<p><strong>Install the KubeSec helm chart in your cluster</strong> - While KubeSec helps with security, it doesn’t provide a list of vulnerabilities.</p>
+<p><strong>Go to <code>/var/lib/kubernetes/vulnerabilities</code> on any of the master nodes of your cluster</strong> - This directory path does not contain a vulnerability feed.</p>
+<h1 id="Why-is-audit-logging-important-in-Kubernetes-security"><a href="#Why-is-audit-logging-important-in-Kubernetes-security" class="headerlink" title="Why is audit logging important in Kubernetes security?"></a>Why is audit logging important in Kubernetes security?</h1><p><strong>您的答案不正确</strong></p>
+<p><strong>To facilitate auditing meetings at regular intervals for cluster admins, which is a best practice</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>To track and log user actions within the cluster</strong></p>
+<p><strong>To have a log of all audits that have been done on the cluster</strong></p>
+<p><strong>To allow users access to logs so that they can troubleshoot their application</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>To track and log user actions within the cluster</strong> - Audit logging captures actions and changes, enhancing accountability and security.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>To allow users access to logs so that they can troubleshoot their application</strong> - Audit logs are primarily for security, not troubleshooting.</p>
+<p><strong>To facilitate auditing meetings at regular intervals for cluster admins</strong> - Audits are ongoing, not just for meetings.</p>
+<p><strong>To have a log of all audits that have been done on the cluster</strong> - The focus is on logging user actions, not audits.</p>
+<h1 id="How-does-the-Kubernetes-Scheduler-contribute-to-cluster-security"><a href="#How-does-the-Kubernetes-Scheduler-contribute-to-cluster-security" class="headerlink" title="How does the Kubernetes Scheduler contribute to cluster security?"></a>How does the Kubernetes Scheduler contribute to cluster security?</h1><p><strong>By monitoring for unauthorized access attempts and blocking them</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>By scheduling pods on nodes according to Node Affinity rules, Node Anti-Affinity rules, Node taints, Node tolerations and resource constraints</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>By scheduling pods on nodes with the least number of vulnerabilities and enforcing runtime security policies</strong></p>
+<p><strong>By enforcing resource quotas and blocking malicious pods</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>By scheduling pods on nodes according to Node Affinity rules, Node Anti-Affinity rules, Node taints, Node tolerations and resource constraints</strong> - The Kubernetes Scheduler assigns pods to nodes based on these factors, helping ensure the security and stability of the cluster by scheduling workloads appropriately.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>By scheduling pods on nodes with the least number of vulnerabilities and enforcing runtime security policies</strong> - The Scheduler does not enforce vulnerability checks or runtime security policies.</p>
+<p><strong>By enforcing resource quotas and blocking malicious pods</strong> - Resource quotas are enforced by the API Server and resource controllers, not the Scheduler. And scheduler does not block malicious pods from running.</p>
+<p><strong>By monitoring for unauthorized access attempts and blocking them</strong> - Monitoring access attempts is handled by security tools, not the Scheduler.</p>
+<h1 id="What-is-the-purpose-of-the-kubernetes-io-enforce-mountable-secrets-annotation-in-Kubernetes"><a href="#What-is-the-purpose-of-the-kubernetes-io-enforce-mountable-secrets-annotation-in-Kubernetes" class="headerlink" title="What is the purpose of the kubernetes.io/enforce-mountable-secrets annotation in Kubernetes?"></a>What is the purpose of the <code>kubernetes.io/enforce-mountable-secrets</code> annotation in Kubernetes?</h1><p><strong>To prevent secrets from being mounted into a pod to reduce the risk of secret exposure</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>To specify that secrets should be mounted into a pod only if they meet certain criteria defined by the annotation（指定仅当 secret 满足注释定义的某些条件时才将其挂载到 pod 中）</strong></p>
+<p><strong>To ensure that secrets are encrypted when mounted into a pod, enhancing data security</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>To enforce that secrets can only be mounted into a pod as environment variables and not as files</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>To specify that secrets should be mounted into a pod only if they meet certain criteria defined by the annotation</strong> - The <code>kubernetes.io/enforce-mountable-secrets</code> annotation limits how and when secrets can be mounted into pods based on criteria.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>To ensure that secrets are encrypted when mounted into a pod</strong> - Secrets are encrypted by default, and this annotation doesn’t manage encryption.</p>
+<p><strong>To enforce that secrets can only be mounted into a pod as environment variables</strong> - This annotation doesn’t enforce such restrictions.</p>
+<p><strong>To prevent secrets from being mounted into a pod</strong> - This annotation enforces conditions, not outright prevention.</p>
+<h1 id="What-is-an-important-practice-in-Client-Security-when-working-with-Kubernetes"><a href="#What-is-an-important-practice-in-Client-Security-when-working-with-Kubernetes" class="headerlink" title="What is an important practice in Client Security when working with Kubernetes?"></a>What is an important practice in Client Security when working with Kubernetes?</h1><p><strong>正确答案</strong></p>
+<p><strong>Securing your kubeconfig file</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Using Kubernetes Secrets instead of Configmaps for confidential data</strong></p>
+<p><strong>Keeping the cluster’s nodes up-to-date</strong></p>
+<p><strong>Scanning images in your container registry for vulnerabilities</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Securing your kubeconfig file</strong> - The kubeconfig file contains sensitive information about access to your Kubernetes cluster and should be protected.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Scanning images in your container registry for vulnerabilities</strong> - This is important for image security but not directly related to client security.</p>
+<p><strong>Keeping the cluster’s nodes up-to-date</strong> - Node updates are essential for cluster security but are not specifically related to client security.</p>
+<p><strong>Using Kubernetes Secrets instead of Configmaps for confidential data</strong> - This is important but pertains to data security, not client security.</p>
+<h1 id="How-can-you-bolster-container-runtime-security-within-a-Kubernetes-cluster"><a href="#How-can-you-bolster-container-runtime-security-within-a-Kubernetes-cluster" class="headerlink" title="How can you bolster container runtime security within a Kubernetes cluster?"></a>How can you bolster container runtime security within a Kubernetes cluster?</h1><p><strong>Regularly rotating encryption keys to reduce risk of unauthorized access</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Enabling <code>Secure execution</code> mode in the Container Runtime</strong></p>
+<p><strong>Enabling debug mode to facilitate troubleshooting</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>Implementing intrusion detection systems for threat detection</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Implementing intrusion detection systems for threat detection</strong> - Intrusion detection systems monitor container activities to detect and alert on suspicious behaviors, enhancing runtime security.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Enabling debug mode to facilitate troubleshooting</strong> - Debug mode can expose sensitive information and should not be enabled in production environments.</p>
+<p><strong>Regularly rotating encryption keys to reduce risk of unauthorized access</strong> - Important for security but less directly related to container runtime security.</p>
+<p><strong>Enabling <code>Secure execution</code> mode in the Container Runtime</strong> - “Secure execution” mode does not exist across container runtimes. Although there are some secure execution environments called “sandbox”.</p>
+<h1 id="Which-strategy-helps-minimize-the-damage（损害）-potential（潜在）-if-an-application-component-is-compromised（受损的）"><a href="#Which-strategy-helps-minimize-the-damage（损害）-potential（潜在）-if-an-application-component-is-compromised（受损的）" class="headerlink" title="Which strategy helps minimize the damage（损害） potential（潜在） if an application component is compromised（受损的）?"></a>Which strategy helps minimize the damage（损害） potential（潜在） if an application component is compromised（受损的）?</h1><p><strong>Disabling access controls</strong></p>
+<p><strong>Only giving access to users that you are very familiar with</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Consolidating all components into fewer services</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>Implementing a least privilege model</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Implementing a least privilege model</strong> - This strategy restricts access rights for users and components to the minimum necessary, reducing the potential damage if a component is compromised.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Only giving access to users that you are very familiar with</strong> - Familiarity does not ensure security; access controls should be defined by roles and responsibilities.</p>
+<p><strong>Disabling access controls</strong> - This exposes the application to greater risk by allowing unrestricted access.</p>
+<p><strong>Consolidating all components into fewer services</strong> - While it may simplify architecture, it can increase risk by creating single points of failure and complicating security management.</p>
+<h1 id="Why-is-it-not-smart-to-store-Kubernetes-secrets-in-configmaps"><a href="#Why-is-it-not-smart-to-store-Kubernetes-secrets-in-configmaps" class="headerlink" title="Why is it not smart to store Kubernetes secrets in configmaps?"></a>Why is it not smart to store Kubernetes secrets in configmaps?</h1><p><strong>正确答案</strong></p>
+<p><strong>Kubernetes won’t recognize or handle the sensitive data stored in configmaps as sensitive</strong></p>
+<p><strong>There are no drawback to using configmaps to store secrets</strong></p>
+<p><strong>Data in Configmaps are available to pods by populating a pod’s volume, making them insecure</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Data in Configmaps are unencrypted, while secrets are encrypted using Base64 and therefore more secure</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Kubernetes won’t recognize or handle the sensitive data stored in configmaps as sensitive</strong> - ConfigMaps are intended for non-sensitive data, and Kubernetes does not treat their contents with the same security as Secrets.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Data in Configmaps are unencrypted, while secrets are encrypted using Base64 and therefore more secure</strong> - Base64 encoding is not encryption; the main issue is how Kubernetes treats ConfigMaps versus Secrets.</p>
+<p><strong>There are no drawbacks to using configmaps to store secrets</strong> - ConfigMaps are not secure for storing sensitive data.</p>
+<p><strong>Data in Configmaps are available to pods by populating a pod’s volume, making them insecure</strong> - This is a general usage feature but not the key reason for not storing secrets in ConfigMaps.</p>
+<h1 id="Which-configuration-enhances（增强）-the-security-of-the-Kubernetes-API-Server-against-（拒绝反对）unauthorized-access"><a href="#Which-configuration-enhances（增强）-the-security-of-the-Kubernetes-API-Server-against-（拒绝反对）unauthorized-access" class="headerlink" title="Which configuration enhances（增强） the security of the Kubernetes API Server against （拒绝反对）unauthorized access?"></a>Which configuration enhances（增强） the security of the Kubernetes API Server against （拒绝反对）unauthorized access?</h1><p><strong>正确答案</strong></p>
+<p><strong>Implementing Role-Based Access Control (RBAC) with least privilege</strong></p>
+<p><strong>Configuring permissive network policies to simplify access management</strong></p>
+<p><strong>Enabling all API Server features to ensure compatibility</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Setting up broad access controls to minimize connectivity issues</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Implementing Role-Based Access Control (RBAC) with least privilege</strong> - RBAC ensures that users and components have only the permissions they need, minimizing the risk of unauthorized access to the Kubernetes API Server.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Configuring permissive network policies to simplify access management</strong> - Permissive policies increase exposure and reduce security.</p>
+<p><strong>Enabling all API Server features to ensure compatibility</strong> - Enabling unnecessary features may increase the attack surface.</p>
+<p><strong>Setting up broad access controls to minimize connectivity issues</strong> - Broad access controls may allow unauthorized access, compromising security.</p>
+<h1 id="How-can-understanding-trust-boundaries-help-improve-security-in-a-Kubernetes-cluster"><a href="#How-can-understanding-trust-boundaries-help-improve-security-in-a-Kubernetes-cluster" class="headerlink" title="How can understanding trust boundaries help improve security in a Kubernetes cluster?"></a>How can understanding trust boundaries help improve security in a Kubernetes cluster?</h1><p><strong>您的答案不正确</strong></p>
+<p><strong>By preventing communication between components for enhanced security</strong></p>
+<p><strong>By enabling security policies to reduce malicious activities</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>By identifying and segmenting（划分） different parts of the cluster to limit the impact of a security breach</strong></p>
+<p><strong>By merging namespaces into larger namespace to simplify management</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>By identifying and segmenting different parts of the cluster to limit the impact of a security breach</strong> - Understanding trust boundaries helps contain security breaches within certain parts of the cluster.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>By preventing communication between components</strong> - Trust boundaries don’t prevent necessary communication but segment it securely.</p>
+<p><strong>By merging namespaces into larger namespaces</strong> - This would reduce security, not improve it.</p>
+<p><strong>By enabling security policies to reduce malicious activities</strong> - While true, this is not specific to the role of trust boundaries.</p>
+<h1 id="What-are-some-possible-settings-that-a-security-context-can-define-for-a-Pod-or-a-container"><a href="#What-are-some-possible-settings-that-a-security-context-can-define-for-a-Pod-or-a-container" class="headerlink" title="What are some possible settings that a security context can define for a Pod or a container?"></a>What are some possible settings that a security context can define for a Pod or a container?</h1><p><strong>正确答案</strong></p>
+<p><strong>User ID, Group ID and Privilege</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Linux privileges, Secret Management</strong></p>
+<p>Linux privileges is correct, Secret Management is not correct</p>
+<p><strong>AppArmor, Linux Namespace</strong></p>
+<p>AppArmor is correct, linux namespace are a feature of the Linux kernel</p>
+<p><strong>Seccomp, confidentiality</strong></p>
+<p>Seccomp is correct, confidentiality is not a setting</p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>User ID, Group ID and Privilege</strong> - Security contexts define the user and group ID under which a pod or container runs and can manage privilege escalation.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>AppArmor, Linux Namespace</strong> - These are security tools, but not the core elements of a security context definition.</p>
+<p><strong>Seccomp, confidentiality</strong> - Seccomp is part of security settings, but confidentiality is not directly controlled by security contexts.</p>
+<p><strong>Linux privileges, Secret Management</strong> - Security context manages user and group IDs, but not secret management.</p>
+<h1 id="What-role-does-Public-Key-Infrastructure-PKI-play-in-securing-a-Kubernetes-cluster"><a href="#What-role-does-Public-Key-Infrastructure-PKI-play-in-securing-a-Kubernetes-cluster" class="headerlink" title="What role does Public Key Infrastructure (PKI) play in securing a Kubernetes cluster?"></a>What role does Public Key Infrastructure (PKI) play in securing a Kubernetes cluster?</h1><p><strong>It simplifies the process of key management by automating key rotation</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>It allows for the use of self-signed certificates for internal services</strong></p>
+<p><strong>It replaces the need for authentication tokens</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>It enables secure communication through the issuance（颁发） and management of certificates</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>It enables secure communication through the issuance and management of certificates</strong> - PKI helps in securing communication within the Kubernetes cluster by managing certificates for encryption and identity verification.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>It replaces the need for authentication tokens</strong> - PKI works alongside tokens, not as a replacement.</p>
+<p><strong>It simplifies the process of key management by automating key rotation</strong> - PKI doesn’t inherently automate key rotation, though it facilitates key management.</p>
+<p><strong>It allows for the use of self-signed certificates for internal services</strong> - Self-signed certificates can be used but aren’t a primary function of PKI.</p>
+<p><strong>问题 17</strong></p>
+<h1 id="Which-authentication-method-is-a-recommended-enhancement-for-Kubernetes-API-server"><a href="#Which-authentication-method-is-a-recommended-enhancement-for-Kubernetes-API-server" class="headerlink" title="Which authentication method is a recommended enhancement for Kubernetes API server?"></a>Which authentication method is a recommended enhancement for Kubernetes API server?</h1><p><strong>Implementing SHA-1 authentication</strong></p>
+<p><strong>Implementing A/B authentication</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>Implementing OAuth2 tokens</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Making the cluster private</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Implementing OAuth2 tokens</strong> - OAuth2 tokens provide a modern, secure method for API server authentication.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Implementing A/B authentication</strong> - This is not a recognized authentication method for Kubernetes.</p>
+<p><strong>Implementing SHA-1 authentication</strong> - SHA-1 is outdated and insecure.</p>
+<p><strong>Making the cluster private</strong> - This improves network security but does not directly enhance authentication.</p>
+<h1 id="How-can-the-OWASP-Kubernetes-Top-Ten-guide-be-utilized-to-improve-security-in-a-Kubernetes-environment"><a href="#How-can-the-OWASP-Kubernetes-Top-Ten-guide-be-utilized-to-improve-security-in-a-Kubernetes-environment" class="headerlink" title="How can the OWASP Kubernetes Top Ten guide be utilized to improve security in a Kubernetes environment?"></a>How can the OWASP Kubernetes Top Ten guide be utilized to improve security in a Kubernetes environment?</h1><p><strong>您的答案不正确</strong></p>
+<p><strong>By verifying all software components, including third-party libraries, before deployment to maintain supply chain compliance</strong></p>
+<p><strong>By applying threat modeling frameworks to identify potential attack vectors and implement mitigation strategies</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>By identifying and mitigating（减缓） common security risks and vulnerabilities specific to Kubernetes</strong></p>
+<p><strong>By ensuring Kubernetes aligns with compliance frameworks through strict access controls and audit logging</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>By identifying and mitigating common security risks and vulnerabilities specific to Kubernetes</strong> - The OWASP Kubernetes Top Ten guide helps mitigate common security risks in Kubernetes environments.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>By applying threat modeling frameworks</strong> - While important, this isn’t specific to the OWASP guide’s purpose.</p>
+<p><strong>By verifying all software components</strong> - This is more related to supply chain security, not the focus of OWASP Kubernetes Top Ten.</p>
+<p><strong>By ensuring Kubernetes aligns with compliance frameworks</strong> - The OWASP guide is about security vulnerabilities, not compliance alignment.</p>
+<h1 id="What-are-four-common-container-runtimes"><a href="#What-are-four-common-container-runtimes" class="headerlink" title="What are four common container runtimes?"></a>What are four common container runtimes?</h1><p><strong>Containerd, CRI-O, Docker Engine, gRPC</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>Containerd, CRI-O, Docker Engine, Mirantis</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Containerd, CRI-O, Docker Engine, Vitess</strong></p>
+<p><strong>OCI, CRI-O, Docker Engine, Envoy</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Containerd, CRI-O, Docker Engine, Mirantis</strong> - These are well-known container runtimes used in Kubernetes environments.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>OCI, CRI-O, Docker Engine, Envoy</strong> - OCI is a standard, and Envoy is a service proxy, not a container runtime.</p>
+<p><strong>Containerd, CRI-O, Docker Engine, gRPC</strong> - gRPC is a communication protocol, not a container runtime.</p>
+<p><strong>Containerd, CRI-O, Docker Engine, Vitess</strong> - Vitess is a database solution, not a container runtime.</p>
+<h1 id="What-security-function-does-the-Container-Runtime-Interface-CRI-enable-in-Kubernetes"><a href="#What-security-function-does-the-Container-Runtime-Interface-CRI-enable-in-Kubernetes" class="headerlink" title="What security function does the Container Runtime Interface (CRI) enable in Kubernetes?"></a>What security function does the Container Runtime Interface (CRI) enable in Kubernetes?</h1><p><strong>正确答案</strong></p>
+<p><strong>Facilitating（促进） container isolation by supporting security policies like Seccomp and AppArmor through the runtime</strong></p>
+<p><strong>Managing network policies between container runtimes</strong></p>
+<p><strong>Providing direct control over container runtime security settings via the API Server</strong></p>
+<p><strong>您的答案不正确</strong></p>
+<p><strong>Enabling encrypted communication between the kubelet and container runtime</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>Facilitating container isolation by supporting security policies like Seccomp and AppArmor through the runtime</strong> – The CRI allows the kubelet to communicate with container runtimes and apply isolation policies such as Seccomp and AppArmor, which help control system call access and resource restrictions, enhancing container security.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>Enabling encrypted communication between the kubelet and container runtime</strong> – While the CRI manages communication between the kubelet and container runtime, encryption is handled by other layers like TLS, not by the CRI itself.</p>
+<p><strong>Managing network policies between container runtimes</strong> – CRI is responsible for container management and lifecycle operations, not network policies, which are handled by network plugins or policies in Kubernetes.</p>
+<p><strong>Providing direct control over container runtime security settings via the API Server</strong> – The CRI does not provide direct security management through the API Server. Security settings are managed through security contexts or Pod Security Admission, not directly through CRI.</p>
+<h1 id="What-is-the-purpose-of-the-kube-bench-tool-in-Kubernetes-security"><a href="#What-is-the-purpose-of-the-kube-bench-tool-in-Kubernetes-security" class="headerlink" title="What is the purpose of the kube-bench tool in Kubernetes security?"></a>What is the purpose of the kube-bench tool in Kubernetes security?</h1><p>To manage Kubernetes secrets</p>
+<p>您的答案不正确<br>To benchmark Kubernetes cluster performance</p>
+<p>To monitor network traffic in the cluster</p>
+<p>正确答案<br>To check Kubernetes clusters against CIS benchmarks</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>To check Kubernetes clusters against CIS benchmarks - kube-bench assesses cluster configurations against CIS security benchmarks.</p>
+<p>WRONG ANSWERS:</p>
+<p>To benchmark Kubernetes cluster performance - kube-bench focuses on security, not performance.</p>
+<p>To monitor network traffic in the cluster - This is handled by monitoring tools like Prometheus or network analyzers.</p>
+<p>To manage Kubernetes secrets - Secrets are managed using kubectl and Kubernetes APIs, not kube-bench.</p>
+<h1 id="Which-Kubernetes-object-is-used-to-expose-a-set-of-pods-as-a-network-service"><a href="#Which-Kubernetes-object-is-used-to-expose-a-set-of-pods-as-a-network-service" class="headerlink" title="Which Kubernetes object is used to expose a set of pods as a network service?"></a>Which Kubernetes object is used to expose a set of pods as a network service?</h1><p>Deployment</p>
+<p>您的答案不正确<br>Ingress</p>
+<p>ConfigMap</p>
+<p>正确答案<br>Service</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>Service - A Service in Kubernetes defines a logical set of pods and a policy for accessing them, providing a stable endpoint for clients.</p>
+<p>WRONG ANSWERS:</p>
+<p>ConfigMap - Used to store non-sensitive configuration data.</p>
+<p>Ingress - Manages external HTTP/S access to services.</p>
+<p>Deployment - Manages the deployment and scaling of pods but does not expose them as a network service.</p>
+<h1 id="How-can-you-ensure-that-a-container-runs-with-non-root-user-privileges-in-Kubernetes"><a href="#How-can-you-ensure-that-a-container-runs-with-non-root-user-privileges-in-Kubernetes" class="headerlink" title="How can you ensure that a container runs with non-root user privileges in Kubernetes?"></a>How can you ensure that a container runs with non-root user privileges in Kubernetes?</h1><p>正确答案<br>By modifying the ‘runAsUser’ field in the Pod security context YAML configuration</p>
+<p>By mounting a PersistentVolume to the pod by modifying the pod’s YAML configuration</p>
+<p>By adding a Service Account and using it in the pod’s YAML configuration</p>
+<p>您的答案不正确<br>By adding a label <a target="_blank" rel="noopener external nofollow noreferrer" href="http://policies.kubernetes.io/runAsRoot:">policies.kubernetes.io/runAsRoot:</a> false  to the pod</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>By modifying the ‘runAsUser’ field in the Pod security context YAML configuration - Setting ‘runAsUser’ ensures the container runs as a non-root user.</p>
+<p>WRONG ANSWERS:</p>
+<p>By adding a Service Account and using it in the pod’s YAML configuration - Service Accounts manage API access, not container user privileges.</p>
+<p>By mounting a PersistentVolume to the pod by modifying the pod’s YAML configuration - This handles storage, not user privileges.</p>
+<p>By adding a label <a target="_blank" rel="noopener external nofollow noreferrer" href="http://policies.kubernetes.io/runAsRoot:">policies.kubernetes.io/runAsRoot:</a> false to the pod - Labels don’t enforce security context settings.</p>
+<h1 id="Which-framework-is-commonly-used-to-standardize-cloud-security-controls"><a href="#Which-framework-is-commonly-used-to-standardize-cloud-security-controls" class="headerlink" title="Which framework is commonly used to standardize cloud security controls?"></a>Which framework is commonly used to standardize cloud security controls?</h1><p><strong>您的答案不正确</strong></p>
+<p><strong>PCI-DSS</strong></p>
+<p><strong>GDPR</strong></p>
+<p><strong>正确答案</strong></p>
+<p><strong>ISO 27001</strong></p>
+<p><strong>OWASP Top 10</strong></p>
+<p><strong>总体解释</strong></p>
+<p><strong>CORRECT ANSWER:</strong></p>
+<p><strong>ISO 27001</strong> - ISO 27001 is a widely recognized framework for standardizing cloud security controls. It provides a comprehensive set of guidelines for establishing, implementing, maintaining, and continually improving an information security management system.</p>
+<p><strong>WRONG ANSWERS:</strong></p>
+<p><strong>PCI-DSS</strong> - Targets payment card industry data security, not general cloud security controls.</p>
+<p><strong>OWASP Top 10</strong> - Lists common web application vulnerabilities but does not provide a standard framework for cloud security.</p>
+<p><strong>GDPR</strong> - Focuses on data protection and privacy regulations in the EU, not on standardizing security controls.</p>
+<h1 id="How-can-you-ensure-that-a-container-runs-with-non-root-user-privileges-in-Kubernetes-1"><a href="#How-can-you-ensure-that-a-container-runs-with-non-root-user-privileges-in-Kubernetes-1" class="headerlink" title="How can you ensure that a container runs with non-root user privileges in Kubernetes?"></a>How can you ensure that a container runs with non-root user privileges in Kubernetes?</h1><p>正确答案<br>By modifying the ‘runAsUser’ field in the Pod security context YAML configuration</p>
+<p>By mounting a PersistentVolume to the pod by modifying the pod’s YAML configuration</p>
+<p>By adding a Service Account and using it in the pod’s YAML configuration</p>
+<p>您的答案不正确<br>By adding a label <a target="_blank" rel="noopener external nofollow noreferrer" href="http://policies.kubernetes.io/runAsRoot:">policies.kubernetes.io/runAsRoot:</a> false  to the pod</p>
+<h1 id="What-is-a-crucial-security-measure-for-managing-container-images"><a href="#What-is-a-crucial-security-measure-for-managing-container-images" class="headerlink" title="What is a crucial security measure for managing container images?"></a>What is a crucial security measure for managing container images?</h1><p>Allowing all users to pull images</p>
+<p>正确答案<br>Storing images in a private repository</p>
+<p>您的答案不正确<br>Allowing all users to push images</p>
+<p>Using images from public, recognized registries</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>Storing images in a private repository - Using a private repository allows you to control access to container images, enhancing security by preventing unauthorized use and reducing the risk of compromised images.</p>
+<p>WRONG ANSWERS:</p>
+<p>Using images from public, recognized registries - Public registries are accessible to everyone and may contain untrusted images.</p>
+<p>Allowing all users to push images - This can introduce security risks by allowing potentially malicious images to be added.</p>
+<p>Allowing all users to pull images - Unrestricted access may expose sensitive images to unauthorized users.</p>
+<h1 id="Which-tool-helps-to-ensure-the-integrity-of-container-images"><a href="#Which-tool-helps-to-ensure-the-integrity-of-container-images" class="headerlink" title="Which tool helps to ensure the integrity of container images?"></a>Which tool helps to ensure the integrity of container images?</h1><p>Thanos</p>
+<p>Kyverno</p>
+<p>您的答案不正确<br>Shielder</p>
+<p>正确答案<br>Notary</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>Notary - Notary ensures the integrity of container images through signing and verification, confirming that images are from trusted sources and have not been tampered with.</p>
+<p>WRONG ANSWERS:</p>
+<p>Shielder - Not a standard tool for ensuring container image integrity.</p>
+<p>Thanos - Used for scaling Prometheus data, not for image integrity.</p>
+<p>Kyverno - A policy engine for Kubernetes, but not specifically focused on image integrity.</p>
+<h1 id="How-did-a-user-with-full-CRUD-rights-on-a-namespace-allow-a-privileged-pod-to-run-even-when-it-is-being-disallowed-by-the-Pod-Security-Admission-controller"><a href="#How-did-a-user-with-full-CRUD-rights-on-a-namespace-allow-a-privileged-pod-to-run-even-when-it-is-being-disallowed-by-the-Pod-Security-Admission-controller" class="headerlink" title="How did a user with full CRUD rights on a namespace allow a privileged pod to run even when it is being disallowed by the Pod Security Admission controller?"></a>How did a user with full CRUD rights on a namespace allow a privileged pod to run even when it is being disallowed by the Pod Security Admission controller?</h1><p>The pod already has the necessary rights to run privileged containers since the user has full CRUD rights</p>
+<p>您的答案不正确<br>The user got client certificates from another namespace with higher credentials</p>
+<p>The user added a label on the pod</p>
+<p>正确答案<br>The user removed a label on the namespace</p>
+<p>总体解释<br>CORRECT ANSWER:<br>The user removed a label on the namespace - Removing the Pod Security Admission label can bypass the restrictions set by the Pod Security Admission controller, allowing the privileged pod to run.</p>
+<p>WRONG ANSWERS:<br>The user got client certificates from another namespace with higher credentials - Client certificates do not directly affect Pod Security Admission policies or permissions for running privileged pods.</p>
+<p>The pod already has the necessary rights to run privileged containers since the user has full CRUD rights - CRUD rights on a namespace do not override Pod Security Admission policies.</p>
+<p>The user added a label on the pod - Labels on pods do not bypass namespace-level security policies enforced by the Pod Security Admission controller.</p>
+<h1 id="How-do-you-disallow-privileged-pods-from-running-in-a-namespace-when-using-Pod-Security-Standards"><a href="#How-do-you-disallow-privileged-pods-from-running-in-a-namespace-when-using-Pod-Security-Standards" class="headerlink" title="How do you disallow privileged pods from running in a namespace when using Pod Security Standards?"></a>How do you disallow privileged pods from running in a namespace when using Pod Security Standards?</h1><p>正确答案<br>Add <a target="_blank" rel="noopener external nofollow noreferrer" href="http://pod-security.kubernetes.io/enforce:">pod-security.kubernetes.io/enforce:</a> baseline label to the namespace</p>
+<p>Change the Security Context of the pods</p>
+<p>Add a LimitRange resource to the namespace</p>
+<p>您的答案不正确<br>Add <a target="_blank" rel="noopener external nofollow noreferrer" href="http://pod-security.kubernetes.io/privileged:">pod-security.kubernetes.io/privileged:</a> false label to the namespace</p>
+<p>总体解释<br>CORRECT ANSWER:<br>Add <a target="_blank" rel="noopener external nofollow noreferrer" href="http://pod-security.kubernetes.io/enforce:">pod-security.kubernetes.io/enforce:</a> baseline label to the namespace - This label enforces the Baseline Pod Security Standard, which disallows privileged pods in the namespace.</p>
+<p>WRONG ANSWERS:<br>Add <a target="_blank" rel="noopener external nofollow noreferrer" href="http://pod-security.kubernetes.io/privileged:">pod-security.kubernetes.io/privileged:</a> false label to the namespace - This label does not exist and would not be effective for controlling privileged pod access.</p>
+<p>Change the Security Context of the pods - Modifying the Security Context affects individual pods, not the entire namespace.</p>
+<p>Add a LimitRange resource to the namespace - LimitRange controls resource limits and requests, not pod security standards.</p>
+<h1 id="What-Kubernetes-object-can-be-used-to-control-which-nodes-a-pod-can-be-scheduled-on"><a href="#What-Kubernetes-object-can-be-used-to-control-which-nodes-a-pod-can-be-scheduled-on" class="headerlink" title="What Kubernetes object can be used to control which nodes a pod can be scheduled on?"></a>What Kubernetes object can be used to control which nodes a pod can be scheduled on?</h1><p>Affinity</p>
+<p>您的答案不正确<br>NodeSelector</p>
+<p>Taint</p>
+<p>正确答案<br>All of the other answers</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>All of the other answers - NodeSelector, Taints/Tolerations, and Affinity rules are all used to control which nodes a pod can be scheduled on.</p>
+<p>WRONG ANSWERS:</p>
+<p>NodeSelector - Correct but only one method; ‘All of the other answers’ includes this and more.</p>
+<p>Taint - Correct but only part of the solution.</p>
+<p>Affinity - Correct but not the only method.</p>
+<h1 id="What-command-checks-the-enforced-Pod-Security-Standard-level-in-a-Kubernetes-namespace"><a href="#What-command-checks-the-enforced-Pod-Security-Standard-level-in-a-Kubernetes-namespace" class="headerlink" title="What command checks the enforced Pod Security Standard level in a Kubernetes namespace?"></a>What command checks the enforced Pod Security Standard level in a Kubernetes namespace?</h1><p>您的答案不正确<br>kubectl get podsecuritypolicies -n <code>&lt;namespace&gt;</code></p>
+<p>正确答案<br>kubectl get ns –show-labels -n <code>&lt;namespace&gt;</code></p>
+<p>kubectl get roles -n <code>&lt;namespace&gt;</code></p>
+<p>kubectl get networkpolicies -n <code>&lt;namespace&gt;</code></p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>kubectl get ns –show-labels -n <code>&lt;namespace&gt;</code> - This command lists namespaces with their associated labels, including Pod Security Admission labels like <a target="_blank" rel="noopener external nofollow noreferrer" href="http://pod-security.kubernetes.io/enforce">pod-security.kubernetes.io/enforce</a>.</p>
+<p>WRONG ANSWERS:</p>
+<p>kubectl get roles -n <code>&lt;namespace&gt;</code> - This command is used to list roles in the cluster, not to view Pod Security labels.</p>
+<p>kubectl get networkpolicies -n <code>&lt;namespace&gt;</code> - This command is used to view network policies, not Pod Security Standards labels.</p>
+<p>kubectl get podsecuritypolicies -n <code>&lt;namespace&gt;</code> - While this command is related to Pod Security Policies, PSPs are deprecated and replaced by Pod Security Admission (PSA), which uses namespace labels.</p>
+<h1 id="What-is-trojan-classified-as-in-the-STRIDE-threat-model"><a href="#What-is-trojan-classified-as-in-the-STRIDE-threat-model" class="headerlink" title="What is trojan classified as in the STRIDE threat model?"></a>What is trojan classified as in the STRIDE threat model?</h1><p>Repudiation</p>
+<p>Elevation of Privilege</p>
+<p>正确答案<br>Spoofing</p>
+<p>您的答案不正确<br>Tampering</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>Spoofing - In the STRIDE threat model, a trojan is classified under Spoofing because it disguises itself as legitimate software to deceive users or systems.</p>
+<p>WRONG ANSWERS:</p>
+<p>Tampering - Tampering involves unauthorized modification of data, which is not the primary characteristic of a trojan.</p>
+<p>Repudiation - Repudiation refers to the denial of actions or transactions, which does not apply to trojans.</p>
+<p>Elevation of Privilege - While trojans may lead to elevated privileges, their main tactic is deception, aligning them with Spoofing.</p>
+<h1 id="Which-one-of-these-statements-are-true-about-Kubernetes-configmaps"><a href="#Which-one-of-these-statements-are-true-about-Kubernetes-configmaps" class="headerlink" title="Which one of these statements are true about Kubernetes configmaps?"></a>Which one of these statements are true about Kubernetes configmaps?</h1><p>您的答案不正确<br>ConfigMaps can only be accessed by the Kubernetes API server, ensuring that the data is secure</p>
+<p>正确答案<br>ConfigMaps store data in plain text, which can be easily read by anyone with access to the ConfigMap, leading to potential security breaches</p>
+<p>ConfigMaps are designed to store sensitive information securely and are preferred over Secrets for this purpose</p>
+<p>ConfigMaps automatically encrypt the data they store, so passwords are safe from unauthorized access</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>ConfigMaps store data in plain text, which can be easily read by anyone with access to the ConfigMap, leading to potential security breaches - ConfigMaps store configuration data in plain text. If sensitive information like passwords is stored in a ConfigMap, anyone with access to it can read the data, posing a security risk.</p>
+<p>WRONG ANSWERS:</p>
+<p>ConfigMaps automatically encrypt the data they store, so passwords are safe from unauthorized access - ConfigMaps do not provide encryption; they store data in plain text without any built-in security mechanisms.</p>
+<p>ConfigMaps can only be accessed by the Kubernetes API server, ensuring that the data is secure - ConfigMaps can be accessed by any user or pod with the appropriate permissions, not just the API server.</p>
+<p>ConfigMaps are designed to store sensitive information securely and are preferred over Secrets for this purpose - Secrets are intended for sensitive information, as they store data in a base64-encoded format and can be encrypted at rest, making them more secure than ConfigMaps.</p>
+<h1 id="Your-single-node-API-Server-is-running-on-one-control-plane-and-is-hit-by-a-DDOS-attack-how-does-running-more-nodes-on-the-control-plane-help"><a href="#Your-single-node-API-Server-is-running-on-one-control-plane-and-is-hit-by-a-DDOS-attack-how-does-running-more-nodes-on-the-control-plane-help" class="headerlink" title="Your single node API Server is running on one control plane and is hit by a DDOS attack, how does running more nodes on the control plane help?"></a>Your single node API Server is running on one control plane and is hit by a DDOS attack, how does running more nodes on the control plane help?</h1><p>Automatically blocks all DDoS traffic once multiple API Servers detect unusual activity</p>
+<p>您的答案不正确<br>More nodes on the control plane makes the API Server momentarily responsive, which supports preventative measures</p>
+<p>正确答案<br>Distributes the attack load, increases resiliency and reduces likelihood of a single point of failure</p>
+<p>Isolates the attack to one API Server, and since there are more API Servers it prevents the attack from spreading</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>Distributes the attack load, increases resiliency and reduces likelihood of a single point of failure - Running more nodes on the control plane helps distribute the load from a DDoS attack across multiple API Servers, enhancing resiliency and reducing the risk of a single point of failure.</p>
+<p>WRONG ANSWERS:</p>
+<p>Isolates the attack to one API Server, and since there are more API Servers it prevents the attack from spreading - Adding more API Servers does not isolate the attack to one server; the attack traffic is still directed at the control plane.</p>
+<p>Automatically blocks all DDoS traffic once multiple API Servers detect unusual activity - Kubernetes does not automatically block DDoS traffic; additional security measures are required to detect and mitigate such attacks.</p>
+<p>More nodes on the control plane makes the API Server momentarily responsive, which supports preventative measures - Adding nodes increases capacity but does not make the API Server momentarily responsive to support preventative measures during an ongoing attack.</p>
+<h1 id="Which-cloud-infrastructure-security-feature-ensures-encrypted-data-transfer-between-services"><a href="#Which-cloud-infrastructure-security-feature-ensures-encrypted-data-transfer-between-services" class="headerlink" title="Which cloud infrastructure security feature ensures encrypted data transfer between services?"></a>Which cloud infrastructure security feature ensures encrypted data transfer between services?</h1><p>您的答案不正确<br>Identity and Access Management (IAM)</p>
+<p>Data Loss Prevention (DLP)</p>
+<p>正确答案<br>Transport Layer Security (TLS)</p>
+<p>Key Management Service (KMS)</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>Transport Layer Security (TLS) - TLS ensures encrypted data transfer between services in the cloud by encrypting data in transit, protecting it from interception and tampering.</p>
+<p>WRONG ANSWERS:</p>
+<p>Identity and Access Management (IAM) - IAM manages user identities and permissions but does not encrypt data transfer.</p>
+<p>Data Loss Prevention (DLP) - DLP focuses on preventing data leaks, not on encrypting data between services.</p>
+<p>Key Management Service (KMS) - KMS manages encryption keys but does not directly handle data encryption during transfer.</p>
+<h1 id="What-controllers-except-kube-controller-are-also-a-built-in-part-of-kubernetes"><a href="#What-controllers-except-kube-controller-are-also-a-built-in-part-of-kubernetes" class="headerlink" title="What controllers except kube-controller are also a built-in part of kubernetes?"></a>What controllers except kube-controller are also a built-in part of kubernetes?</h1><p>ReplicaSet controller, pod controller, cronjob controller</p>
+<p>Replicaset controller, pod controller, daemonset controller</p>
+<p>您的答案不正确<br>Ingress controller, pod controller, DaemonSet controller</p>
+<p>正确答案<br>DaemonSet Controller, Deployment Controller, StatefulSet Controller</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>DaemonSet Controller, Deployment Controller, StatefulSet Controller - These are built-in Kubernetes controllers that manage DaemonSets, Deployments, and StatefulSets, handling the creation and maintenance of these resources.</p>
+<p>WRONG ANSWERS:</p>
+<p>ReplicaSet controller, pod controller, cronjob controller - While the ReplicaSet and CronJob controllers are built-in, there is no dedicated “pod controller” in Kubernetes.</p>
+<p>Ingress controller, pod controller, DaemonSet controller - The Ingress controller is not built-in; it typically requires third-party implementations. There is also no “pod controller”.</p>
+<p>ReplicaSet controller, pod controller, DaemonSet controller - Although ReplicaSet and DaemonSet controllers are built-in, Kubernetes does not include a separate “pod controller”.</p>
+<h1 id="Which-control-framework-focuses-on-managing-and-mitigating-risks-in-a-cloud-environment"><a href="#Which-control-framework-focuses-on-managing-and-mitigating-risks-in-a-cloud-environment" class="headerlink" title="Which control framework focuses on managing and mitigating risks in a cloud environment?"></a>Which control framework focuses on managing and mitigating risks in a cloud environment?</h1><p>CIS Controls</p>
+<p>您的答案不正确<br>SOC 2</p>
+<p>正确答案<br>NIST Cybersecurity Framework</p>
+<p>HIPAA</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>NIST Cybersecurity Framework - The NIST Cybersecurity Framework provides guidelines and best practices for organizations to manage and mitigate cybersecurity risks, including those in cloud environments. It offers a comprehensive approach to identify, protect, detect, respond to, and recover from cyber threats.</p>
+<p>WRONG ANSWERS:</p>
+<p>HIPAA - HIPAA focuses on protecting the privacy and security of health information in the healthcare industry, not on general risk management in cloud environments.</p>
+<p>SOC 2 - SOC 2 provides criteria for evaluating the security, availability, and confidentiality of service providers but does not specifically focus on managing and mitigating risks in cloud environments.</p>
+<p>CIS Controls - The CIS Controls offer specific actionable recommendations to stop today’s most pervasive and dangerous cyber attacks but are not a comprehensive framework for risk management.</p>
+<h1 id="What-security-principle-does-“The-4C’s-of-Cloud-Native-Security”-modify"><a href="#What-security-principle-does-“The-4C’s-of-Cloud-Native-Security”-modify" class="headerlink" title="What security principle does “The 4C’s of Cloud Native Security” modify?"></a>What security principle does “The 4C’s of Cloud Native Security” modify?</h1><p>Open Design</p>
+<p>Least Privilege</p>
+<p>您的答案不正确<br>Zero Trust</p>
+<p>正确答案<br>Defense in Depth</p>
+<p>总体解释<br>CORRECT ANSWER:</p>
+<p>Defense in Depth - The 4Cs of Cloud Native Security emphasize applying multiple layers of security controls to protect cloud-native applications, which aligns with the Defense in Depth principle. This principle involves implementing various security measures to safeguard against potential threats.</p>
+<p>WRONG ANSWERS:</p>
+<p>Least Privilege - Focuses on giving the minimum permissions necessary for users or systems, which is about access control rather than layering multiple security measures.</p>
+<p>Zero Trust - A security model that assumes no inherent trust and requires verification for every access request, but it’s a broader concept that isn’t specifically about layering security controls.</p>
+<p>Open Design - Promotes transparency and openness in security design, but does not specifically address the concept of multiple layers of security like Defense in Depth.</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="https://www.ljohn.cn">Ljohn</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="https://www.ljohn.cn/posts/25154b6c/">https://www.ljohn.cn/posts/25154b6c/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow noreferrer" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="https://www.ljohn.cn" target="_blank">Ljohn's Blog</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/kubernetes/">kubernetes</a><a class="post-meta__tags" href="/tags/cncf/">cncf</a><a class="post-meta__tags" href="/tags/kcsa/">kcsa</a></div><div class="post_share"><div class="social-share" data-image="/img/head.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="/pluginsSrc/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="/pluginsSrc/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/posts/66cd6d39/" title="顺利成为Kubestronaut成员"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">顺利成为Kubestronaut成员</div></div></a></div><div class="next-post pull-right"><a href="/posts/b6e3b579/" title="KCSA错题集"><div class="cover" style="background: var(--default-bg-color)"></div><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">KCSA错题集</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><div><a href="/posts/66cd6d39/" title="顺利成为Kubestronaut成员"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-13</div><div class="title">顺利成为Kubestronaut成员</div></div></a></div><div><a href="/posts/b6e3b579/" title="KCSA错题集"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2025-03-13</div><div class="title">KCSA错题集</div></div></a></div><div><a href="/posts/6fd8cc9b/" title="2024CKAD考试心得"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-25</div><div class="title">2024CKAD考试心得</div></div></a></div><div><a href="/posts/220f93d1/" title="CAKD模拟题:8-配置container 安全上下文"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-09</div><div class="title">CAKD模拟题:8-配置container 安全上下文</div></div></a></div><div><a href="/posts/e0d0388f/" title="CKAD模拟题:1-CronJob"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-24</div><div class="title">CKAD模拟题:1-CronJob</div></div></a></div><div><a href="/posts/53e4a736/" title="CKAD模拟题:10-RBAC 授权"><div class="cover" style="background: var(--default-bg-color)"></div><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2024-03-09</div><div class="title">CKAD模拟题:10-RBAC 授权</div></div></a></div></div></div><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="gitalk-container"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/head.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Ljohn</div><div class="author-info__description">知行合一，止于至善</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">53</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">27</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">8</div></a></div><a id="card-info-btn" target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/Ljohn001"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons is-center"><a class="social-icon" href="https://github.com/ljohn001" rel="external nofollow noreferrer" target="_blank" title="Github"><i class="fab fa-github"></i></a><a class="social-icon" href="mailto:ljohnmail@foxmail.com" rel="external nofollow noreferrer" target="_blank" title="Email"><i class="fas fa-envelope"></i></a><a class="social-icon" href="https://www.ljohn.cn/atom.xml" target="_blank" title=""><i class="fas fa-rss"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">欢迎来到Ljohn的个人博客，如果阅读过程中遇到了问题，请及时评论或者留言，看到了会在第一时间给出回复。</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%89%E5%85%A8%E8%AF%8D%E6%B1%87"><span class="toc-number">2.</span> <span class="toc-text">安全词汇</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#What-is-the-primary-benefit-of-using-immutable%EF%BC%88%E4%B8%8D%E5%8F%AF%E5%8F%98%E7%9A%84%EF%BC%89-infrastructure-in-application-code-security"><span class="toc-number">3.</span> <span class="toc-text">What is the primary benefit of using immutable（不可变的） infrastructure in application code security?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#What-is-a-comprehensive-%EF%BC%88%E5%85%A8%E9%9D%A2%EF%BC%89security-measure-for-container-runtime-environments"><span class="toc-number">4.</span> <span class="toc-text">What is a comprehensive （全面）security measure for container runtime environments?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#How-does-AppArmor-enhance-security-for-containers-running-in-a-Kubernetes-environment"><span class="toc-number">5.</span> <span class="toc-text">How does AppArmor enhance security for containers running in a Kubernetes environment?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#How-can-the-kubectl-apply-command-contribute-to-improving-Kubernetes-security"><span class="toc-number">6.</span> <span class="toc-text">How can the kubectl apply command contribute to improving Kubernetes security?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#How-can-a-ReplicaSet-contribute-to-the-security-of-a-Kubernetes-application"><span class="toc-number">7.</span> <span class="toc-text">How can a ReplicaSet contribute to the security of a Kubernetes application?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#What-is-an-easy-way-to-find-regularly-appearing-Vulnerabilities-found-in-Kubernetes"><span class="toc-number">8.</span> <span class="toc-text">What is an easy way to find regularly appearing Vulnerabilities found in Kubernetes?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Why-is-audit-logging-important-in-Kubernetes-security"><span class="toc-number">9.</span> <span class="toc-text">Why is audit logging important in Kubernetes security?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#How-does-the-Kubernetes-Scheduler-contribute-to-cluster-security"><span class="toc-number">10.</span> <span class="toc-text">How does the Kubernetes Scheduler contribute to cluster security?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#What-is-the-purpose-of-the-kubernetes-io-enforce-mountable-secrets-annotation-in-Kubernetes"><span class="toc-number">11.</span> <span class="toc-text">What is the purpose of the kubernetes.io&#x2F;enforce-mountable-secrets annotation in Kubernetes?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#What-is-an-important-practice-in-Client-Security-when-working-with-Kubernetes"><span class="toc-number">12.</span> <span class="toc-text">What is an important practice in Client Security when working with Kubernetes?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#How-can-you-bolster-container-runtime-security-within-a-Kubernetes-cluster"><span class="toc-number">13.</span> <span class="toc-text">How can you bolster container runtime security within a Kubernetes cluster?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Which-strategy-helps-minimize-the-damage%EF%BC%88%E6%8D%9F%E5%AE%B3%EF%BC%89-potential%EF%BC%88%E6%BD%9C%E5%9C%A8%EF%BC%89-if-an-application-component-is-compromised%EF%BC%88%E5%8F%97%E6%8D%9F%E7%9A%84%EF%BC%89"><span class="toc-number">14.</span> <span class="toc-text">Which strategy helps minimize the damage（损害） potential（潜在） if an application component is compromised（受损的）?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Why-is-it-not-smart-to-store-Kubernetes-secrets-in-configmaps"><span class="toc-number">15.</span> <span class="toc-text">Why is it not smart to store Kubernetes secrets in configmaps?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Which-configuration-enhances%EF%BC%88%E5%A2%9E%E5%BC%BA%EF%BC%89-the-security-of-the-Kubernetes-API-Server-against-%EF%BC%88%E6%8B%92%E7%BB%9D%E5%8F%8D%E5%AF%B9%EF%BC%89unauthorized-access"><span class="toc-number">16.</span> <span class="toc-text">Which configuration enhances（增强） the security of the Kubernetes API Server against （拒绝反对）unauthorized access?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#How-can-understanding-trust-boundaries-help-improve-security-in-a-Kubernetes-cluster"><span class="toc-number">17.</span> <span class="toc-text">How can understanding trust boundaries help improve security in a Kubernetes cluster?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#What-are-some-possible-settings-that-a-security-context-can-define-for-a-Pod-or-a-container"><span class="toc-number">18.</span> <span class="toc-text">What are some possible settings that a security context can define for a Pod or a container?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#What-role-does-Public-Key-Infrastructure-PKI-play-in-securing-a-Kubernetes-cluster"><span class="toc-number">19.</span> <span class="toc-text">What role does Public Key Infrastructure (PKI) play in securing a Kubernetes cluster?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Which-authentication-method-is-a-recommended-enhancement-for-Kubernetes-API-server"><span class="toc-number">20.</span> <span class="toc-text">Which authentication method is a recommended enhancement for Kubernetes API server?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#How-can-the-OWASP-Kubernetes-Top-Ten-guide-be-utilized-to-improve-security-in-a-Kubernetes-environment"><span class="toc-number">21.</span> <span class="toc-text">How can the OWASP Kubernetes Top Ten guide be utilized to improve security in a Kubernetes environment?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#What-are-four-common-container-runtimes"><span class="toc-number">22.</span> <span class="toc-text">What are four common container runtimes?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#What-security-function-does-the-Container-Runtime-Interface-CRI-enable-in-Kubernetes"><span class="toc-number">23.</span> <span class="toc-text">What security function does the Container Runtime Interface (CRI) enable in Kubernetes?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#What-is-the-purpose-of-the-kube-bench-tool-in-Kubernetes-security"><span class="toc-number">24.</span> <span class="toc-text">What is the purpose of the kube-bench tool in Kubernetes security?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Which-Kubernetes-object-is-used-to-expose-a-set-of-pods-as-a-network-service"><span class="toc-number">25.</span> <span class="toc-text">Which Kubernetes object is used to expose a set of pods as a network service?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#How-can-you-ensure-that-a-container-runs-with-non-root-user-privileges-in-Kubernetes"><span class="toc-number">26.</span> <span class="toc-text">How can you ensure that a container runs with non-root user privileges in Kubernetes?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Which-framework-is-commonly-used-to-standardize-cloud-security-controls"><span class="toc-number">27.</span> <span class="toc-text">Which framework is commonly used to standardize cloud security controls?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#How-can-you-ensure-that-a-container-runs-with-non-root-user-privileges-in-Kubernetes-1"><span class="toc-number">28.</span> <span class="toc-text">How can you ensure that a container runs with non-root user privileges in Kubernetes?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#What-is-a-crucial-security-measure-for-managing-container-images"><span class="toc-number">29.</span> <span class="toc-text">What is a crucial security measure for managing container images?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Which-tool-helps-to-ensure-the-integrity-of-container-images"><span class="toc-number">30.</span> <span class="toc-text">Which tool helps to ensure the integrity of container images?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#How-did-a-user-with-full-CRUD-rights-on-a-namespace-allow-a-privileged-pod-to-run-even-when-it-is-being-disallowed-by-the-Pod-Security-Admission-controller"><span class="toc-number">31.</span> <span class="toc-text">How did a user with full CRUD rights on a namespace allow a privileged pod to run even when it is being disallowed by the Pod Security Admission controller?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#How-do-you-disallow-privileged-pods-from-running-in-a-namespace-when-using-Pod-Security-Standards"><span class="toc-number">32.</span> <span class="toc-text">How do you disallow privileged pods from running in a namespace when using Pod Security Standards?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#What-Kubernetes-object-can-be-used-to-control-which-nodes-a-pod-can-be-scheduled-on"><span class="toc-number">33.</span> <span class="toc-text">What Kubernetes object can be used to control which nodes a pod can be scheduled on?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#What-command-checks-the-enforced-Pod-Security-Standard-level-in-a-Kubernetes-namespace"><span class="toc-number">34.</span> <span class="toc-text">What command checks the enforced Pod Security Standard level in a Kubernetes namespace?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#What-is-trojan-classified-as-in-the-STRIDE-threat-model"><span class="toc-number">35.</span> <span class="toc-text">What is trojan classified as in the STRIDE threat model?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Which-one-of-these-statements-are-true-about-Kubernetes-configmaps"><span class="toc-number">36.</span> <span class="toc-text">Which one of these statements are true about Kubernetes configmaps?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Your-single-node-API-Server-is-running-on-one-control-plane-and-is-hit-by-a-DDOS-attack-how-does-running-more-nodes-on-the-control-plane-help"><span class="toc-number">37.</span> <span class="toc-text">Your single node API Server is running on one control plane and is hit by a DDOS attack, how does running more nodes on the control plane help?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Which-cloud-infrastructure-security-feature-ensures-encrypted-data-transfer-between-services"><span class="toc-number">38.</span> <span class="toc-text">Which cloud infrastructure security feature ensures encrypted data transfer between services?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#What-controllers-except-kube-controller-are-also-a-built-in-part-of-kubernetes"><span class="toc-number">39.</span> <span class="toc-text">What controllers except kube-controller are also a built-in part of kubernetes?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Which-control-framework-focuses-on-managing-and-mitigating-risks-in-a-cloud-environment"><span class="toc-number">40.</span> <span class="toc-text">Which control framework focuses on managing and mitigating risks in a cloud environment?</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#What-security-principle-does-%E2%80%9CThe-4C%E2%80%99s-of-Cloud-Native-Security%E2%80%9D-modify"><span class="toc-number">41.</span> <span class="toc-text">What security principle does “The 4C’s of Cloud Native Security” modify?</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/66cd6d39/" title="顺利成为Kubestronaut成员">顺利成为Kubestronaut成员</a><time datetime="2025-03-13T12:51:26.086Z" title="发表于 2025-03-13 20:51:26">2025-03-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/25154b6c/" title="UDEMY-KCSA练习错题集">UDEMY-KCSA练习错题集</a><time datetime="2025-03-13T12:48:52.759Z" title="发表于 2025-03-13 20:48:52">2025-03-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/b6e3b579/" title="KCSA错题集">KCSA错题集</a><time datetime="2025-03-13T12:36:37.831Z" title="发表于 2025-03-13 20:36:37">2025-03-13</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/61bd4278/" title="CKAD模拟题2024">CKAD模拟题2024</a><time datetime="2024-03-24T20:14:41.000Z" title="发表于 2024-03-25 04:14:41">2024-03-25</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/posts/6fd8cc9b/" title="2024CKAD考试心得">2024CKAD考试心得</a><time datetime="2024-03-24T18:35:21.000Z" title="发表于 2024-03-25 02:35:21">2024-03-25</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2025 By Ljohn</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener external nofollow noreferrer" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener external nofollow noreferrer" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat_btn" type="button" title="聊天"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/pluginsSrc/@fancyapps/ui/dist/fancybox.umd.js"></script><script src="/js/search/local-search.js"></script><div class="js-pjax"><script>function loadGitalk () {
+  function initGitalk () {
+    var gitalk = new Gitalk(Object.assign({
+      clientID: '09095629e7d96304805d',
+      clientSecret: 'f7e635330c322cdc1478de533f9aa89c4f89d0d7',
+      repo: 'blogs',
+      owner: 'Ljohn001',
+      admin: ['Ljohn001'],
+      id: '3f0926a77b8d784173078acf284665c3',
+      updateCountCallback: commentCount
+    },null))
+
+    gitalk.render('gitalk-container')
+  }
+
+  if (typeof Gitalk === 'function') initGitalk()
+  else {
+    getCSS('/pluginsSrc/gitalk/dist/gitalk.css')
+    getScript('/pluginsSrc/gitalk/dist/gitalk.min.js').then(initGitalk)
+  }
+}
+
+function commentCount(n){
+  let isCommentCount = document.querySelector('#post-meta .gitalk-comment-count')
+  if (isCommentCount) {
+    isCommentCount.innerHTML= n
+  }
+}
+
+if ('Gitalk' === 'Gitalk' || !false) {
+  if (false) btf.loadComment(document.getElementById('gitalk-container'), loadGitalk)
+  else loadGitalk()
+} else {
+  function loadOtherComment () {
+    loadGitalk()
+  }
+}</script></div><script src="/js/jquery.min.js"></script><script src="/js/fishes.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
