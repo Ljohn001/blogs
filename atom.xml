@@ -216,37 +216,6 @@
   </entry>
   
   <entry>
-    <title>Linux 使用crash分析vmcore dump文件</title>
-    <link href="https://www.ljohn.cn/posts/76d974f3/"/>
-    <id>https://www.ljohn.cn/posts/76d974f3/</id>
-    <published>2024-03-14T07:48:33.000Z</published>
-    <updated>2024-03-14T07:48:33.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;vmcore是什么？&quot;&gt;&lt;a href=&quot;#vmcore是什么？&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="linux" scheme="https://www.ljohn.cn/categories/linux/"/>
-    
-    
-    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
-    
-    <category term="内核" scheme="https://www.ljohn.cn/tags/%E5%86%85%E6%A0%B8/"/>
-    
-    <category term="vmcore" scheme="https://www.ljohn.cn/tags/vmcore/"/>
-    
-    <category term="crash" scheme="https://www.ljohn.cn/tags/crash/"/>
-    
-  </entry>
-  
-  <entry>
     <title>Ubuntu内核管理</title>
     <link href="https://www.ljohn.cn/posts/b97fcc87/"/>
     <id>https://www.ljohn.cn/posts/b97fcc87/</id>
@@ -392,6 +361,37 @@
     <category term="k8s" scheme="https://www.ljohn.cn/tags/k8s/"/>
     
     <category term="npd" scheme="https://www.ljohn.cn/tags/npd/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Linux 使用crash分析vmcore dump文件</title>
+    <link href="https://www.ljohn.cn/posts/76d974f3/"/>
+    <id>https://www.ljohn.cn/posts/76d974f3/</id>
+    <published>2024-03-14T07:48:33.000Z</published>
+    <updated>2024-03-14T07:48:33.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;vmcore是什么？&quot;&gt;&lt;a href=&quot;#vmcore是什么？&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/categories/linux/"/>
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
+    
+    <category term="内核" scheme="https://www.ljohn.cn/tags/%E5%86%85%E6%A0%B8/"/>
+    
+    <category term="vmcore" scheme="https://www.ljohn.cn/tags/vmcore/"/>
+    
+    <category term="crash" scheme="https://www.ljohn.cn/tags/crash/"/>
     
   </entry>
   
