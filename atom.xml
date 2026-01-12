@@ -216,6 +216,33 @@
   </entry>
   
   <entry>
+    <title>Ubuntu内核管理</title>
+    <link href="https://www.ljohn.cn/posts/b97fcc87/"/>
+    <id>https://www.ljohn.cn/posts/b97fcc87/</id>
+    <published>2024-03-14T07:48:33.000Z</published>
+    <updated>2024-03-14T07:48:33.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/categories/linux/"/>
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
+    
+    <category term="ubuntu" scheme="https://www.ljohn.cn/tags/ubuntu/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Linux 使用crash分析vmcore dump文件</title>
     <link href="https://www.ljohn.cn/posts/76d974f3/"/>
     <id>https://www.ljohn.cn/posts/76d974f3/</id>
@@ -247,9 +274,9 @@
   </entry>
   
   <entry>
-    <title>Ubuntu内核管理</title>
-    <link href="https://www.ljohn.cn/posts/b97fcc87/"/>
-    <id>https://www.ljohn.cn/posts/b97fcc87/</id>
+    <title>docker报错打开太多文件（too many open files）</title>
+    <link href="https://www.ljohn.cn/posts/743c406f/"/>
+    <id>https://www.ljohn.cn/posts/743c406f/</id>
     <published>2024-03-14T07:48:33.000Z</published>
     <updated>2024-03-14T07:48:33.000Z</updated>
     
@@ -258,7 +285,8 @@
       
         
         
-    <summary type="html">&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot;</summary>
+    <summary type="html">&lt;p&gt;在Linux系统内默认对所有进程打开的文件数量有限制（也可以称为文件句柄，包含打开的文件，套接字，网络连接等都算是一个文件句柄）&lt;/p&gt;
+&lt;h2 id=&quot;查看当前系统限制最大文件打开数量&quot;&gt;&lt;a href=&quot;#查看当前系统限制最大文件打开数量&quot;</summary>
         
       
     
@@ -269,7 +297,9 @@
     
     <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
     
-    <category term="ubuntu" scheme="https://www.ljohn.cn/tags/ubuntu/"/>
+    <category term="k8s" scheme="https://www.ljohn.cn/tags/k8s/"/>
+    
+    <category term="docker" scheme="https://www.ljohn.cn/tags/docker/"/>
     
   </entry>
   
@@ -331,36 +361,6 @@
     <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
     
     <category term="k8s" scheme="https://www.ljohn.cn/tags/k8s/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>docker报错打开太多文件（too many open files）</title>
-    <link href="https://www.ljohn.cn/posts/743c406f/"/>
-    <id>https://www.ljohn.cn/posts/743c406f/</id>
-    <published>2024-03-14T07:48:33.000Z</published>
-    <updated>2024-03-14T07:48:33.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;p&gt;在Linux系统内默认对所有进程打开的文件数量有限制（也可以称为文件句柄，包含打开的文件，套接字，网络连接等都算是一个文件句柄）&lt;/p&gt;
-&lt;h2 id=&quot;查看当前系统限制最大文件打开数量&quot;&gt;&lt;a href=&quot;#查看当前系统限制最大文件打开数量&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="linux" scheme="https://www.ljohn.cn/categories/linux/"/>
-    
-    
-    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
-    
-    <category term="k8s" scheme="https://www.ljohn.cn/tags/k8s/"/>
-    
-    <category term="docker" scheme="https://www.ljohn.cn/tags/docker/"/>
     
   </entry>
   
