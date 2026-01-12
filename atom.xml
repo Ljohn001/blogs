@@ -6,7 +6,7 @@
   <link href="https://www.ljohn.cn/atom.xml" rel="self"/>
   
   <link href="https://www.ljohn.cn/"/>
-  <updated>2025-03-13T13:25:26.126Z</updated>
+  <updated>2026-01-12T15:09:36.971Z</updated>
   <id>https://www.ljohn.cn/</id>
   
   <author>
@@ -17,11 +17,40 @@
   <generator uri="https://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>PveSphere：让 Proxmox VE 多集群管理变得优雅简单</title>
+    <link href="https://www.ljohn.cn/posts/91d244ba/"/>
+    <id>https://www.ljohn.cn/posts/91d244ba/</id>
+    <published>2026-01-12T13:45:41.299Z</published>
+    <updated>2026-01-12T15:09:36.971Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;引言&quot;&gt;&lt;a href=&quot;#引言&quot; class=&quot;headerlink&quot; title=&quot;引言&quot;&gt;&lt;/a&gt;引言&lt;/h2&gt;&lt;p&gt;如果你正在使用 Proxmox VE（PVE）管理虚拟化基础设施，并且运维着不止一个集群，那么你一定深有体会：在多个 Web</summary>
+        
+      
+    
+    
+    
+    <category term="proxmox" scheme="https://www.ljohn.cn/categories/proxmox/"/>
+    
+    
+    <category term="proxmox" scheme="https://www.ljohn.cn/tags/proxmox/"/>
+    
+    <category term="pve" scheme="https://www.ljohn.cn/tags/pve/"/>
+    
+    <category term="pvesphere" scheme="https://www.ljohn.cn/tags/pvesphere/"/>
+    
+  </entry>
+  
+  <entry>
     <title>顺利成为Kubestronaut成员</title>
     <link href="https://www.ljohn.cn/posts/66cd6d39/"/>
     <id>https://www.ljohn.cn/posts/66cd6d39/</id>
-    <published>2025-03-13T12:51:26.086Z</published>
-    <updated>2025-03-13T13:25:26.126Z</updated>
+    <published>2025-03-14T00:23:13.000Z</published>
+    <updated>2025-03-14T00:23:13.000Z</updated>
     
     
       
@@ -51,8 +80,8 @@
     <title>UDEMY-KCSA练习错题集</title>
     <link href="https://www.ljohn.cn/posts/25154b6c/"/>
     <id>https://www.ljohn.cn/posts/25154b6c/</id>
-    <published>2025-03-13T12:48:52.759Z</published>
-    <updated>2025-03-13T12:53:09.057Z</updated>
+    <published>2025-03-13T12:53:09.000Z</published>
+    <updated>2025-03-13T12:53:09.000Z</updated>
     
     
       
@@ -80,8 +109,8 @@
     <title>KCSA错题集</title>
     <link href="https://www.ljohn.cn/posts/b6e3b579/"/>
     <id>https://www.ljohn.cn/posts/b6e3b579/</id>
-    <published>2025-03-13T12:36:37.831Z</published>
-    <updated>2025-03-13T12:41:43.968Z</updated>
+    <published>2025-03-13T12:41:43.000Z</published>
+    <updated>2025-03-13T12:41:43.000Z</updated>
     
     
       
@@ -110,7 +139,7 @@
     <link href="https://www.ljohn.cn/posts/61bd4278/"/>
     <id>https://www.ljohn.cn/posts/61bd4278/</id>
     <published>2024-03-24T20:14:41.000Z</published>
-    <updated>2024-03-25T04:19:34.760Z</updated>
+    <updated>2024-03-25T04:19:34.000Z</updated>
     
     
       
@@ -137,7 +166,7 @@
     <link href="https://www.ljohn.cn/posts/6fd8cc9b/"/>
     <id>https://www.ljohn.cn/posts/6fd8cc9b/</id>
     <published>2024-03-24T18:35:21.000Z</published>
-    <updated>2024-03-25T04:19:06.252Z</updated>
+    <updated>2024-03-25T04:19:06.000Z</updated>
     
     
       
@@ -160,69 +189,11 @@
   </entry>
   
   <entry>
-    <title>容器宿主机故障检测及节点自愈</title>
-    <link href="https://www.ljohn.cn/posts/6ede5602/"/>
-    <id>https://www.ljohn.cn/posts/6ede5602/</id>
-    <published>2024-03-14T09:46:38.749Z</published>
-    <updated>2024-03-14T07:48:33.940Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;在 Kubernetes 集群运行时，节点有时会因为组件问题、内核死锁、资源不足等原因不可用。Kubelet 默认对节点的</summary>
-        
-      
-    
-    
-    
-    <category term="kubernetes" scheme="https://www.ljohn.cn/categories/kubernetes/"/>
-    
-    
-    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
-    
-    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
-    
-    <category term="k8s" scheme="https://www.ljohn.cn/tags/k8s/"/>
-    
-    <category term="npd" scheme="https://www.ljohn.cn/tags/npd/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Ubuntu内核管理</title>
-    <link href="https://www.ljohn.cn/posts/b97fcc87/"/>
-    <id>https://www.ljohn.cn/posts/b97fcc87/</id>
-    <published>2024-03-14T09:46:38.717Z</published>
-    <updated>2024-03-14T07:48:33.820Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="linux" scheme="https://www.ljohn.cn/categories/linux/"/>
-    
-    
-    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
-    
-    <category term="ubuntu" scheme="https://www.ljohn.cn/tags/ubuntu/"/>
-    
-  </entry>
-  
-  <entry>
     <title>CKS真题2023</title>
     <link href="https://www.ljohn.cn/posts/afd2cd6e/"/>
     <id>https://www.ljohn.cn/posts/afd2cd6e/</id>
-    <published>2024-03-14T09:46:38.673Z</published>
-    <updated>2024-03-14T07:48:33.690Z</updated>
+    <published>2024-03-14T07:48:33.000Z</published>
+    <updated>2024-03-14T07:48:33.000Z</updated>
     
     
       
@@ -245,11 +216,42 @@
   </entry>
   
   <entry>
+    <title>Linux 使用crash分析vmcore dump文件</title>
+    <link href="https://www.ljohn.cn/posts/76d974f3/"/>
+    <id>https://www.ljohn.cn/posts/76d974f3/</id>
+    <published>2024-03-14T07:48:33.000Z</published>
+    <updated>2024-03-14T07:48:33.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h2 id=&quot;vmcore是什么？&quot;&gt;&lt;a href=&quot;#vmcore是什么？&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/categories/linux/"/>
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
+    
+    <category term="内核" scheme="https://www.ljohn.cn/tags/%E5%86%85%E6%A0%B8/"/>
+    
+    <category term="vmcore" scheme="https://www.ljohn.cn/tags/vmcore/"/>
+    
+    <category term="crash" scheme="https://www.ljohn.cn/tags/crash/"/>
+    
+  </entry>
+  
+  <entry>
     <title>calico-node异常重启</title>
     <link href="https://www.ljohn.cn/posts/d62f787/"/>
     <id>https://www.ljohn.cn/posts/d62f787/</id>
-    <published>2024-03-14T09:46:38.633Z</published>
-    <updated>2024-03-14T07:48:33.410Z</updated>
+    <published>2024-03-14T07:48:33.000Z</published>
+    <updated>2024-03-14T07:48:33.000Z</updated>
     
     
       
@@ -278,18 +280,18 @@
   </entry>
   
   <entry>
-    <title>Linux 使用crash分析vmcore dump文件</title>
-    <link href="https://www.ljohn.cn/posts/76d974f3/"/>
-    <id>https://www.ljohn.cn/posts/76d974f3/</id>
-    <published>2024-03-14T09:46:38.561Z</published>
-    <updated>2024-03-14T07:48:33.280Z</updated>
+    <title>Ubuntu内核管理</title>
+    <link href="https://www.ljohn.cn/posts/b97fcc87/"/>
+    <id>https://www.ljohn.cn/posts/b97fcc87/</id>
+    <published>2024-03-14T07:48:33.000Z</published>
+    <updated>2024-03-14T07:48:33.000Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h2 id=&quot;vmcore是什么？&quot;&gt;&lt;a href=&quot;#vmcore是什么？&quot; class=&quot;headerlink&quot;</summary>
+    <summary type="html">&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot;</summary>
         
       
     
@@ -300,11 +302,7 @@
     
     <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
     
-    <category term="内核" scheme="https://www.ljohn.cn/tags/%E5%86%85%E6%A0%B8/"/>
-    
-    <category term="vmcore" scheme="https://www.ljohn.cn/tags/vmcore/"/>
-    
-    <category term="crash" scheme="https://www.ljohn.cn/tags/crash/"/>
+    <category term="ubuntu" scheme="https://www.ljohn.cn/tags/ubuntu/"/>
     
   </entry>
   
@@ -312,8 +310,8 @@
     <title>docker报错打开太多文件（too many open files）</title>
     <link href="https://www.ljohn.cn/posts/743c406f/"/>
     <id>https://www.ljohn.cn/posts/743c406f/</id>
-    <published>2024-03-14T09:46:38.517Z</published>
-    <updated>2024-03-14T07:48:33.140Z</updated>
+    <published>2024-03-14T07:48:33.000Z</published>
+    <updated>2024-03-14T07:48:33.000Z</updated>
     
     
       
@@ -342,8 +340,8 @@
     <title>kubelet状态更新和自驱逐参数优化</title>
     <link href="https://www.ljohn.cn/posts/7f9c3178/"/>
     <id>https://www.ljohn.cn/posts/7f9c3178/</id>
-    <published>2024-03-14T09:46:38.517Z</published>
-    <updated>2024-03-14T07:48:33.130Z</updated>
+    <published>2024-03-14T07:48:33.000Z</published>
+    <updated>2024-03-14T07:48:33.000Z</updated>
     
     
       
@@ -367,18 +365,18 @@
   </entry>
   
   <entry>
-    <title>pod容器内ping延迟大问题</title>
-    <link href="https://www.ljohn.cn/posts/da179f53/"/>
-    <id>https://www.ljohn.cn/posts/da179f53/</id>
-    <published>2024-03-14T09:46:38.433Z</published>
-    <updated>2024-03-14T07:48:32.930Z</updated>
+    <title>容器宿主机故障检测及节点自愈</title>
+    <link href="https://www.ljohn.cn/posts/6ede5602/"/>
+    <id>https://www.ljohn.cn/posts/6ede5602/</id>
+    <published>2024-03-14T07:48:33.000Z</published>
+    <updated>2024-03-14T07:48:33.000Z</updated>
     
     
       
       
         
         
-    <summary type="html">&lt;h1 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot;</summary>
+    <summary type="html">&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot; title=&quot;背景&quot;&gt;&lt;/a&gt;背景&lt;/h1&gt;&lt;p&gt;在 Kubernetes 集群运行时，节点有时会因为组件问题、内核死锁、资源不足等原因不可用。Kubelet 默认对节点的</summary>
         
       
     
@@ -393,38 +391,7 @@
     
     <category term="k8s" scheme="https://www.ljohn.cn/tags/k8s/"/>
     
-    <category term="容器" scheme="https://www.ljohn.cn/tags/%E5%AE%B9%E5%99%A8/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CentOS7安装基于BPF的bcc-tools系统性能工具库</title>
-    <link href="https://www.ljohn.cn/posts/f49f425d/"/>
-    <id>https://www.ljohn.cn/posts/f49f425d/</id>
-    <published>2024-03-14T09:46:38.425Z</published>
-    <updated>2024-03-14T07:48:32.860Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;准备&quot;&gt;&lt;a href=&quot;#准备&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="linux" scheme="https://www.ljohn.cn/categories/linux/"/>
-    
-    
-    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
-    
-    <category term="bcc" scheme="https://www.ljohn.cn/tags/bcc/"/>
-    
-    <category term="bpf" scheme="https://www.ljohn.cn/tags/bpf/"/>
-    
-    <category term="系统" scheme="https://www.ljohn.cn/tags/%E7%B3%BB%E7%BB%9F/"/>
+    <category term="npd" scheme="https://www.ljohn.cn/tags/npd/"/>
     
   </entry>
   
@@ -432,8 +399,8 @@
     <title>CKAD模拟题:2-CronJob</title>
     <link href="https://www.ljohn.cn/posts/d95d044a/"/>
     <id>https://www.ljohn.cn/posts/d95d044a/</id>
-    <published>2024-03-14T09:46:38.417Z</published>
-    <updated>2024-03-14T07:48:32.850Z</updated>
+    <published>2024-03-14T07:48:32.000Z</published>
+    <updated>2024-03-14T07:48:32.000Z</updated>
     
     
       
@@ -460,8 +427,8 @@
     <title>CKAD模拟题:7-金丝雀部署</title>
     <link href="https://www.ljohn.cn/posts/8380b7d5/"/>
     <id>https://www.ljohn.cn/posts/8380b7d5/</id>
-    <published>2024-03-14T09:46:38.417Z</published>
-    <updated>2024-03-14T07:48:32.850Z</updated>
+    <published>2024-03-14T07:48:32.000Z</published>
+    <updated>2024-03-14T07:48:32.000Z</updated>
     
     
       
@@ -484,11 +451,42 @@
   </entry>
   
   <entry>
+    <title>CentOS7安装基于BPF的bcc-tools系统性能工具库</title>
+    <link href="https://www.ljohn.cn/posts/f49f425d/"/>
+    <id>https://www.ljohn.cn/posts/f49f425d/</id>
+    <published>2024-03-14T07:48:32.000Z</published>
+    <updated>2024-03-14T07:48:32.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;准备&quot;&gt;&lt;a href=&quot;#准备&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/categories/linux/"/>
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
+    
+    <category term="bcc" scheme="https://www.ljohn.cn/tags/bcc/"/>
+    
+    <category term="bpf" scheme="https://www.ljohn.cn/tags/bpf/"/>
+    
+    <category term="系统" scheme="https://www.ljohn.cn/tags/%E7%B3%BB%E7%BB%9F/"/>
+    
+  </entry>
+  
+  <entry>
     <title>Kubernetets CPU绑核配置</title>
     <link href="https://www.ljohn.cn/posts/19c6e9f2/"/>
     <id>https://www.ljohn.cn/posts/19c6e9f2/</id>
-    <published>2024-03-14T09:46:38.417Z</published>
-    <updated>2024-03-14T07:48:32.850Z</updated>
+    <published>2024-03-14T07:48:32.000Z</published>
+    <updated>2024-03-14T07:48:32.000Z</updated>
     
     
       
@@ -516,8 +514,8 @@
     <title>kubelet统计磁盘inode耗时导致负载升高问题</title>
     <link href="https://www.ljohn.cn/posts/b0f608c0/"/>
     <id>https://www.ljohn.cn/posts/b0f608c0/</id>
-    <published>2024-03-14T09:46:38.417Z</published>
-    <updated>2024-03-14T07:48:32.850Z</updated>
+    <published>2024-03-14T07:48:32.000Z</published>
+    <updated>2024-03-14T07:48:32.000Z</updated>
     
     
       
@@ -545,11 +543,42 @@
   </entry>
   
   <entry>
+    <title>pod容器内ping延迟大问题</title>
+    <link href="https://www.ljohn.cn/posts/da179f53/"/>
+    <id>https://www.ljohn.cn/posts/da179f53/</id>
+    <published>2024-03-14T07:48:32.000Z</published>
+    <updated>2024-03-14T07:48:32.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/categories/kubernetes/"/>
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="k8s" scheme="https://www.ljohn.cn/tags/k8s/"/>
+    
+    <category term="容器" scheme="https://www.ljohn.cn/tags/%E5%AE%B9%E5%99%A8/"/>
+    
+  </entry>
+  
+  <entry>
     <title>CKAD模拟题:28-Jobs</title>
     <link href="https://www.ljohn.cn/posts/36fb4e14/"/>
     <id>https://www.ljohn.cn/posts/36fb4e14/</id>
     <published>2024-03-08T23:38:06.000Z</published>
-    <updated>2024-03-14T07:48:33.950Z</updated>
+    <updated>2024-03-14T07:48:33.000Z</updated>
     
     
       
@@ -558,33 +587,6 @@
         
     <summary type="html">&lt;h2 id=&quot;题目要求&quot;&gt;&lt;a href=&quot;#题目要求&quot; class=&quot;headerlink&quot; title=&quot;题目要求&quot;&gt;&lt;/a&gt;题目要求&lt;/h2&gt;&lt;ol&gt;
 &lt;li&gt;用执行命令**’date; echo Hello from the Kubernetes</summary>
-        
-      
-    
-    
-    
-    <category term="ckad" scheme="https://www.ljohn.cn/categories/ckad/"/>
-    
-    
-    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
-    
-    <category term="ckad" scheme="https://www.ljohn.cn/tags/ckad/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>CKAD模拟题:27-Secret 秘钥</title>
-    <link href="https://www.ljohn.cn/posts/3f10f995/"/>
-    <id>https://www.ljohn.cn/posts/3f10f995/</id>
-    <published>2024-03-08T23:37:51.000Z</published>
-    <updated>2024-03-14T07:48:33.940Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;题目要求&quot;&gt;&lt;a href=&quot;#题目要求&quot; class=&quot;headerlink&quot; title=&quot;题目要求&quot;&gt;&lt;/a&gt;题目要求&lt;/h2&gt;&lt;p&gt;在 &lt;strong&gt;test&lt;/strong&gt; 命名空间，创建一个名为 &lt;strong&gt;mysecret&lt;/strong&gt;</summary>
         
       
     
