@@ -307,6 +307,34 @@
   </entry>
   
   <entry>
+    <title>kubelet状态更新和自驱逐参数优化</title>
+    <link href="https://www.ljohn.cn/posts/7f9c3178/"/>
+    <id>https://www.ljohn.cn/posts/7f9c3178/</id>
+    <published>2024-03-14T07:48:33.000Z</published>
+    <updated>2024-03-14T07:48:33.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;环境信息&quot;&gt;&lt;a href=&quot;#环境信息&quot; class=&quot;headerlink&quot; title=&quot;环境信息&quot;&gt;&lt;/a&gt;环境信息&lt;/h1&gt;&lt;ul&gt;
+&lt;li&gt;kubelet：</summary>
+        
+      
+    
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/categories/kubernetes/"/>
+    
+    
+    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
+    
+    <category term="k8s" scheme="https://www.ljohn.cn/tags/k8s/"/>
+    
+  </entry>
+  
+  <entry>
     <title>docker报错打开太多文件（too many open files）</title>
     <link href="https://www.ljohn.cn/posts/743c406f/"/>
     <id>https://www.ljohn.cn/posts/743c406f/</id>
@@ -333,34 +361,6 @@
     <category term="k8s" scheme="https://www.ljohn.cn/tags/k8s/"/>
     
     <category term="docker" scheme="https://www.ljohn.cn/tags/docker/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>kubelet状态更新和自驱逐参数优化</title>
-    <link href="https://www.ljohn.cn/posts/7f9c3178/"/>
-    <id>https://www.ljohn.cn/posts/7f9c3178/</id>
-    <published>2024-03-14T07:48:33.000Z</published>
-    <updated>2024-03-14T07:48:33.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h1 id=&quot;环境信息&quot;&gt;&lt;a href=&quot;#环境信息&quot; class=&quot;headerlink&quot; title=&quot;环境信息&quot;&gt;&lt;/a&gt;环境信息&lt;/h1&gt;&lt;ul&gt;
-&lt;li&gt;kubelet：</summary>
-        
-      
-    
-    
-    
-    <category term="kubernetes" scheme="https://www.ljohn.cn/categories/kubernetes/"/>
-    
-    
-    <category term="kubernetes" scheme="https://www.ljohn.cn/tags/kubernetes/"/>
-    
-    <category term="k8s" scheme="https://www.ljohn.cn/tags/k8s/"/>
     
   </entry>
   
@@ -511,9 +511,9 @@
   </entry>
   
   <entry>
-    <title>pod容器内ping延迟大问题</title>
-    <link href="https://www.ljohn.cn/posts/da179f53/"/>
-    <id>https://www.ljohn.cn/posts/da179f53/</id>
+    <title>kubelet统计磁盘inode耗时导致负载升高问题</title>
+    <link href="https://www.ljohn.cn/posts/b0f608c0/"/>
+    <id>https://www.ljohn.cn/posts/b0f608c0/</id>
     <published>2024-03-14T07:48:32.000Z</published>
     <updated>2024-03-14T07:48:32.000Z</updated>
     
@@ -522,7 +522,8 @@
       
         
         
-    <summary type="html">&lt;h1 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot;</summary>
+    <summary type="html">&lt;h1 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot; title=&quot;问题描述&quot;&gt;&lt;/a&gt;问题描述&lt;/h1&gt;&lt;p&gt;1、磁盘容量告警&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/posts/b0f608c0/1685575843966.png&quot;</summary>
         
       
     
@@ -542,9 +543,9 @@
   </entry>
   
   <entry>
-    <title>kubelet统计磁盘inode耗时导致负载升高问题</title>
-    <link href="https://www.ljohn.cn/posts/b0f608c0/"/>
-    <id>https://www.ljohn.cn/posts/b0f608c0/</id>
+    <title>pod容器内ping延迟大问题</title>
+    <link href="https://www.ljohn.cn/posts/da179f53/"/>
+    <id>https://www.ljohn.cn/posts/da179f53/</id>
     <published>2024-03-14T07:48:32.000Z</published>
     <updated>2024-03-14T07:48:32.000Z</updated>
     
@@ -553,8 +554,7 @@
       
         
         
-    <summary type="html">&lt;h1 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot; title=&quot;问题描述&quot;&gt;&lt;/a&gt;问题描述&lt;/h1&gt;&lt;p&gt;1、磁盘容量告警&lt;/p&gt;
-&lt;p&gt;&lt;img src=&quot;/posts/b0f608c0/1685575843966.png&quot;</summary>
+    <summary type="html">&lt;h1 id=&quot;问题描述&quot;&gt;&lt;a href=&quot;#问题描述&quot; class=&quot;headerlink&quot;</summary>
         
       
     
