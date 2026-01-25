@@ -121,11 +121,22 @@ make docker-compose-logs
 # 停止所有服务
 make docker-compose-down
 ```
+### All-in-One 单容器部署
+
+如果你只是想**快速体验**或以**单容器方式运行** PveSphere，可以直接使用预构建的 All-in-One 镜像（后端 + 前端打包在一个容器中）：
+
+```bash
+docker run -d \
+  --name=pvesphere \
+  --restart=always \
+  -p 8080:8080 \
+  pvesphere/pvesphere-aio:latest
+```
 
 ### 默认登录凭据
 
 首次启动后，使用以下凭据登录：
-- **邮箱**：`pvesphere@gmail.com`
+- **用户名**：`admin`
 - **密码**：`Ab123456`
 
 > ⚠️ 请在首次登录后立即更改默认密码。
