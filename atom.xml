@@ -6,7 +6,7 @@
   <link href="https://www.ljohn.cn/atom.xml" rel="self"/>
   
   <link href="https://www.ljohn.cn/"/>
-  <updated>2026-01-12T15:10:16.015Z</updated>
+  <updated>2026-01-23T05:51:06.605Z</updated>
   <id>https://www.ljohn.cn/</id>
   
   <author>
@@ -21,7 +21,7 @@
     <link href="https://www.ljohn.cn/posts/91d244ba/"/>
     <id>https://www.ljohn.cn/posts/91d244ba/</id>
     <published>2026-01-12T13:45:41.299Z</published>
-    <updated>2026-01-12T15:10:16.015Z</updated>
+    <updated>2026-01-23T05:51:06.605Z</updated>
     
     
       
@@ -216,9 +216,9 @@
   </entry>
   
   <entry>
-    <title>Ubuntu内核管理</title>
-    <link href="https://www.ljohn.cn/posts/b97fcc87/"/>
-    <id>https://www.ljohn.cn/posts/b97fcc87/</id>
+    <title>Linux 使用crash分析vmcore dump文件</title>
+    <link href="https://www.ljohn.cn/posts/76d974f3/"/>
+    <id>https://www.ljohn.cn/posts/76d974f3/</id>
     <published>2024-03-14T07:48:33.000Z</published>
     <updated>2024-03-14T07:48:33.000Z</updated>
     
@@ -227,7 +227,7 @@
       
         
         
-    <summary type="html">&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot;</summary>
+    <summary type="html">&lt;h2 id=&quot;vmcore是什么？&quot;&gt;&lt;a href=&quot;#vmcore是什么？&quot; class=&quot;headerlink&quot;</summary>
         
       
     
@@ -238,7 +238,11 @@
     
     <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
     
-    <category term="ubuntu" scheme="https://www.ljohn.cn/tags/ubuntu/"/>
+    <category term="内核" scheme="https://www.ljohn.cn/tags/%E5%86%85%E6%A0%B8/"/>
+    
+    <category term="vmcore" scheme="https://www.ljohn.cn/tags/vmcore/"/>
+    
+    <category term="crash" scheme="https://www.ljohn.cn/tags/crash/"/>
     
   </entry>
   
@@ -306,6 +310,33 @@
   </entry>
   
   <entry>
+    <title>Ubuntu内核管理</title>
+    <link href="https://www.ljohn.cn/posts/b97fcc87/"/>
+    <id>https://www.ljohn.cn/posts/b97fcc87/</id>
+    <published>2024-03-14T07:48:33.000Z</published>
+    <updated>2024-03-14T07:48:33.000Z</updated>
+    
+    
+      
+      
+        
+        
+    <summary type="html">&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; class=&quot;headerlink&quot;</summary>
+        
+      
+    
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/categories/linux/"/>
+    
+    
+    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
+    
+    <category term="ubuntu" scheme="https://www.ljohn.cn/tags/ubuntu/"/>
+    
+  </entry>
+  
+  <entry>
     <title>kubelet状态更新和自驱逐参数优化</title>
     <link href="https://www.ljohn.cn/posts/7f9c3178/"/>
     <id>https://www.ljohn.cn/posts/7f9c3178/</id>
@@ -361,37 +392,6 @@
     <category term="k8s" scheme="https://www.ljohn.cn/tags/k8s/"/>
     
     <category term="npd" scheme="https://www.ljohn.cn/tags/npd/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Linux 使用crash分析vmcore dump文件</title>
-    <link href="https://www.ljohn.cn/posts/76d974f3/"/>
-    <id>https://www.ljohn.cn/posts/76d974f3/</id>
-    <published>2024-03-14T07:48:33.000Z</published>
-    <updated>2024-03-14T07:48:33.000Z</updated>
-    
-    
-      
-      
-        
-        
-    <summary type="html">&lt;h2 id=&quot;vmcore是什么？&quot;&gt;&lt;a href=&quot;#vmcore是什么？&quot; class=&quot;headerlink&quot;</summary>
-        
-      
-    
-    
-    
-    <category term="linux" scheme="https://www.ljohn.cn/categories/linux/"/>
-    
-    
-    <category term="linux" scheme="https://www.ljohn.cn/tags/linux/"/>
-    
-    <category term="内核" scheme="https://www.ljohn.cn/tags/%E5%86%85%E6%A0%B8/"/>
-    
-    <category term="vmcore" scheme="https://www.ljohn.cn/tags/vmcore/"/>
-    
-    <category term="crash" scheme="https://www.ljohn.cn/tags/crash/"/>
     
   </entry>
   
